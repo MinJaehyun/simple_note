@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/view/HomePageBodyFrame.dart';
-import 'package:simple_note/view/drawer_widget.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/helper/hive_helper.dart';
+import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/widgets/HomePageBodyFrame.dart';
+import 'package:simple_note/view/screens/add_screen.dart';
+import 'package:simple_note/view/widgets/drawer_widget.dart';
 
-void main() {
+void main() async {
+  // note: hive 설정
+  await Hive.initFlutter();
+  Hive.registerAdapter(MemoModelAdapter());
+  await HiveHelper().openBox();
+
   runApp(const MyApp());
 }
 
@@ -23,6 +32,7 @@ class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> categories = ['모두', '직장', '감사 일기', '오래전 일기', '롤 마스터'];
+    List<MemoModel> memoData = [];
 
     return SafeArea(
       child: Scaffold(
@@ -31,7 +41,7 @@ class MyPage extends StatelessWidget {
         // note: home page body frame
         body: HomePageBodyFrame(categories: categories),
         // note: 하단 add
-        floatingActionButton: buildFloatingActionButton(),
+        floatingActionButton: buildFloatingActionButton(context),
         // note: Drawer 만들기
         drawer: DrawerWidget(),
       ),
@@ -48,9 +58,13 @@ class MyPage extends StatelessWidget {
       );
   }
 
-  FloatingActionButton buildFloatingActionButton() {
+  FloatingActionButton buildFloatingActionButton(context) {
     return FloatingActionButton.extended(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return AddScreen();
+        },),);
+      },
       label: const Text('Add'),
       icon: const Icon(Icons.add),
     );
