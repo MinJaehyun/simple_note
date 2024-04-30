@@ -18,8 +18,20 @@ class HiveHelper {
   }
 
   // note: CRUD
+  Future read() async {
+    return memoBox!.values.toList();
+  }
+
   Future addMemo({required String title, required DateTime time, required String mainText}) async {
     return memoBox!.add(MemoModel(time: time, title: title, mainText: mainText));
+  }
+
+  Future updateMemo({required index, required String title, required DateTime time, required String mainText}) async {
+    memoBox!.putAt(index, MemoModel(time: time, title: title, mainText: mainText));
+  }
+
+  Future delete(int index) async {
+    memoBox!.deleteAt(index);
   }
 
   // note: 미사용
@@ -27,15 +39,8 @@ class HiveHelper {
   //   return memoBox!.add(memo);
   // }
 
-  Future read() async {
-    return memoBox!.values.toList();
-  }
-
-  Future update(int index, MemoModel updateMomo) async {
-    memoBox!.putAt(index, updateMomo);
-  }
-
-  Future delete(int index) async {
-    memoBox!.delete(index);
-  }
+  // note: 미사용
+  // Future update(int index, MemoModel updateMomo) async {
+  //   memoBox!.putAt(index, updateMomo);
+  // }
 }
