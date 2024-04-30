@@ -19,22 +19,29 @@ class HomePageBodyFrame extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                // note: 카테고리 list view 가로 설정
                 Container(
                   child: Expanded(
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       separatorBuilder: (context, index) {
-                        return SizedBox(width: 25);
+                        return SizedBox(width: 10);
                       },
                       itemCount: 5,
                       itemBuilder: (context, index) {
-                        return Text('${categories[index]}');
+                        return Card(
+                          clipBehavior: Clip.antiAlias,
+                          child: InkWell(
+                            splashColor: Colors.blue.withAlpha(30),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('${categories[index]}'),
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ),
                 ),
-                SizedBox(width: 15),
                 // note: 우측 끝: 목록 생성 버튼과 달력 버튼
                 Container(
                   child: Row(
@@ -45,8 +52,7 @@ class HomePageBodyFrame extends StatelessWidget {
                           icon: Icon(Icons.list_alt_outlined)),
                       // note: 달력 페이지로 이동하는 버튼
                       IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.calendar_month))
+                          onPressed: () {}, icon: Icon(Icons.calendar_month))
                     ],
                   ),
                 )
