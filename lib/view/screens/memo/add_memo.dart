@@ -110,9 +110,7 @@ class _AddMemoState extends State<AddMemo> {
                     child: ElevatedButton(
                       onPressed: () {
                         // todo: 클릭 시, 메모 저장하고, 홈화면으로 이동하며, 저장한 메모 나타내기
-                        setState(() {
-                          HiveHelper().addMemo(title: title, time: time, mainText: mainText);
-                        });
+                        HiveHelper().addMemo(title: title, time: time, mainText: mainText);
                         Navigator.of(context).pop();
                       },
                       child: Text('저장'),
