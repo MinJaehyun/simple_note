@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:simple_note/model/memo.dart';
 
 
-const String MemoBox = 'Memo_Box';
+const String MemoBox = 'MEMO_BOX';
 
 class HiveHelper {
   static final HiveHelper _singleton = HiveHelper._internal();
@@ -17,10 +17,15 @@ class HiveHelper {
     memoBox = await Hive.openBox(MemoBox);
   }
 
-  // note: 이하 CRUD 및 필요한 api 만들기
-  Future create(MemoModel memo) async {
-    return memoBox!.add(memo);
+  // note: CRUD
+  Future addMemo({required String title, required DateTime time, required String mainText}) async {
+    return memoBox!.add(MemoModel(time: time, title: title, mainText: mainText));
   }
+
+  // note: 미사용
+  // Future create(MemoModel memo) async {
+  //   return memoBox!.add(memo);
+  // }
 
   Future read() async {
     return memoBox!.values.toList();
