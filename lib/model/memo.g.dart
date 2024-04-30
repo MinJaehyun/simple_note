@@ -8,7 +8,7 @@ part of 'memo.dart';
 
 class MemoModelAdapter extends TypeAdapter<MemoModel> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   MemoModel read(BinaryReader reader) {
@@ -17,8 +17,8 @@ class MemoModelAdapter extends TypeAdapter<MemoModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MemoModel(
-      title: fields[1] as String,
       time: fields[0] as DateTime,
+      title: fields[1] as String,
       mainText: fields[2] as String,
     );
   }
