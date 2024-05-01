@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_note/helper/hive_helper.dart';
+import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 
 class UpdateMemo extends StatefulWidget {
@@ -54,7 +55,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                 height: 80,
                 child: Row(
                   children: [
-                    Expanded(child: Text('${DateTime.now()}')),
+                    Expanded(child: Text('${FormatDate().formatDate(widget.currentContact.time)}')),
                     TextButton(
                       onPressed: () {},
                       child: DropdownButtonWidget(),
@@ -112,7 +113,10 @@ class _UpdateMemoState extends State<UpdateMemo> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        HiveHelper().updateMemo(index: widget.index, title: title, time: time, mainText: mainText);
+                        // note: 입력값 변하지 않으면 저장해도 취소하여서 이전 입력값 남기도록 한다
+                        if(title != '' || mainText != '') {
+                          HiveHelper().updateMemo(index: widget.index, title: title, time: time, mainText: mainText);
+                        }
                         Navigator.of(context).pop();
                       },
                       child: Text('저장'),
