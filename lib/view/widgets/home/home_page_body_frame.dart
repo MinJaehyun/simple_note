@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_note/view/screens/category/category.dart';
 import 'package:simple_note/view/widgets/home/value_listen.dart';
 
 class HomePageBodyFrame extends StatelessWidget {
@@ -46,11 +47,14 @@ class HomePageBodyFrame extends StatelessWidget {
                 Container(
                   child: Row(
                     children: [
-                      // note: 목록 카테고리 생성 버튼
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // todo:
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                              return AddCategory();
+                            },),);
+                          },
                           icon: Icon(Icons.list_alt_outlined)),
-                      // note: 달력 페이지로 이동하는 버튼
                       IconButton(
                           onPressed: () {}, icon: Icon(Icons.calendar_month))
                     ],
