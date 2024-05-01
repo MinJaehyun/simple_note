@@ -43,7 +43,7 @@ class _ValueListenWidgetState extends State<ValueListenWidget> {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
                     return UpdateMemo(
-                        index: index, currentContact: currentContact!);
+                        index: index, currentContact: currentContact);
                   }));
                 },
                 child: Padding(
