@@ -111,7 +111,6 @@ class _AddMemoState extends State<AddMemo> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-
                         HiveHelper().addMemo(title: title, time: time, mainText: mainText);
                         Navigator.of(context).pop();
                       },
