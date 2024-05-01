@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/helper/hive_helper.dart';
+import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/update_memo.dart';
 
@@ -54,7 +55,7 @@ class _ValueListenWidgetState extends State<ValueListenWidget> {
                     title: Text(currentContact!.title,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 20)),
-                    subtitle: Text(currentContact.time.toString(),
+                    subtitle: Text(FormatDate().formatDate(currentContact.time),
                         style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                     trailing: Column(
                       children: [

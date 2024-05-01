@@ -55,7 +55,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                 height: 80,
                 child: Row(
                   children: [
-                    Expanded(child: Text('${FormatDate().formatDate(widget.currentContact.time)}')),
+                    Expanded(child: Text('${FormatDate().formatDateTime(widget.currentContact.time)}')),
                     TextButton(
                       onPressed: () {},
                       child: DropdownButtonWidget(),
