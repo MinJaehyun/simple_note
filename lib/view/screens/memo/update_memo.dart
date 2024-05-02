@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/helper/hive_helper.dart';
-import 'package:simple_note/helper/string_util.dart';
+import 'package:simple_note/controller/hive_helper.dart';
+import 'package:simple_note/controller/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 
 class UpdateMemo extends StatefulWidget {
