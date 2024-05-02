@@ -4,9 +4,9 @@ part 'category.g.dart';
 @HiveType(typeId: 0)
 class CategoryModel {
   @HiveField(0)
-  final String categories;
+  final String? categories;
 
-  CategoryModel({required this.categories});
+  CategoryModel(this.categories);
 
   CategoryModel.fromJson(Map<String, dynamic> json)
       : categories = json['CategoryModel'];
