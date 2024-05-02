@@ -19,7 +19,7 @@ class HiveHelperCategory {
 
   // note: CRUD
   Future create(String data) async {
-    return categoriesBox!.add(CategoryModel(categories: data));
+    return categoriesBox!.add(CategoryModel(data));
   }
 
   Future read() async {
@@ -30,8 +30,7 @@ class HiveHelperCategory {
     categoriesBox!.deleteAt(index);
   }
 
-  Future update(int index, CategoryModel updateData) async {
-    categoriesBox!.putAt(index, updateData);
+  Future update({required int index, required String categories}) async {
+    categoriesBox!.putAt(index, CategoryModel(categories));
   }
-
 }
