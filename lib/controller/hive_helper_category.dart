@@ -30,4 +30,8 @@ class HiveHelperCategory {
     categoriesBox!.deleteAt(index);
   }
 
+  Future update(int index, CategoryModel updateData) async {
+    categoriesBox!.putAt(index, updateData);
+  }
+
 }
