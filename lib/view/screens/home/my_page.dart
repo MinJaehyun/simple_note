@@ -8,14 +8,12 @@ class MyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> categories = ['모두', '직장', '감사 일기', '오래전 일기', '롤 마스터'];
-
     return SafeArea(
       child: Scaffold(
         // note: Appbar
         appBar: buildAppBar(),
         // note: home page body frame
-        body: HomePageBodyFrame(categories: categories),
+        body: HomePageBodyFrame(),
         // note: 하단 add
         floatingActionButton: buildFloatingActionButton(context),
         // note: Drawer 만들기
