@@ -73,7 +73,7 @@ class _AddCategoryState extends State<AddCategory> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text('범주 이름 변경'),
+          title: Text('중복된 범주로는 변경되지 안습니다'),
           content: TextFormField(
             decoration: InputDecoration(
               hintText: '범주를 입력해 주세요',
@@ -91,7 +91,7 @@ class _AddCategoryState extends State<AddCategory> {
               ),
               child: const Text('저장'),
               onPressed: () {
-                HiveHelperCategory().update(index: index, categories: category!);
+                HiveHelperCategory().update(index: index, data: category!);
                 Navigator.of(context).pop();
               },
             ),
