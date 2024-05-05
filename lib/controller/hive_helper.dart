@@ -22,12 +22,12 @@ class HiveHelper {
     return memoBox!.values.toList();
   }
 
-  Future addMemo({required String title, required DateTime time, required String mainText}) async {
-    return memoBox!.add(MemoModel(time: time, title: title, mainText: mainText));
+  Future addMemo(String selectedCategory, {required String title, required DateTime time, required String mainText}) async {
+    return memoBox!.add(MemoModel(selectedCategory, time: time, title: title, mainText: mainText));
   }
 
-  Future updateMemo({required index, required String title, required DateTime time, required String mainText}) async {
-    memoBox!.putAt(index, MemoModel(time: time, title: title, mainText: mainText));
+  Future updateMemo(String selectedCategory, {required index, required String title, required DateTime time, required String mainText}) async {
+    memoBox!.putAt(index, MemoModel(selectedCategory, time: time, title: title, mainText: mainText));
   }
 
   // Future addMemo({required String title, required DateTime time, required String mainText, required String category}) async {
