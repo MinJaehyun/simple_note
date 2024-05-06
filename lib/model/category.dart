@@ -9,5 +9,5 @@ class CategoryModel {
   CategoryModel(this.categories);
 
   CategoryModel.fromJson(Map<String, dynamic> json)
-      : categories = json['CategoryModel'];
+      : categories = json['categories'];
 }
