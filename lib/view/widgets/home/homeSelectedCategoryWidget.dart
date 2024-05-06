@@ -5,16 +5,18 @@ import 'package:simple_note/controller/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/update_memo.dart';
 
+
 enum SampleItem { updateMemo, deleteMemo }
 
-class HomeAllCategoryWidget extends StatefulWidget {
-  const HomeAllCategoryWidget({super.key});
+class HomeSelectedCategoryWidget extends StatefulWidget {
+  const HomeSelectedCategoryWidget(this.selectedCategory, {super.key});
+  final String? selectedCategory;
 
   @override
-  State<HomeAllCategoryWidget> createState() => _HomeAllCategoryWidgetState();
+  State<HomeSelectedCategoryWidget> createState() => _HomeSelectedCategoryWidgetState();
 }
 
-class _HomeAllCategoryWidgetState extends State<HomeAllCategoryWidget> {
+class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget> {
   SampleItem? selectedItem;
 
   @override
@@ -22,13 +24,17 @@ class _HomeAllCategoryWidgetState extends State<HomeAllCategoryWidget> {
     return ValueListenableBuilder(
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
-        if (box.values.isEmpty)
-          return Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+        if (box.values.isEmpty) return Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+        var memo = box.values.where((item) {
+          return item.selectedCategory == widget.selectedCategory;
+        }).toList();
+        print(memo); // (Instance of 'MemoModel')
+
         return Container(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
-            itemCount: box.values.length,
+            itemCount: memo.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
               childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
@@ -36,26 +42,23 @@ class _HomeAllCategoryWidgetState extends State<HomeAllCategoryWidget> {
               crossAxisSpacing: 10, //수직 Padding
             ),
             itemBuilder: (BuildContext context, int index) {
-              MemoModel? currentContact = box.getAt(index);
+              // MemoModel? currentContact = box.getAt(index);
+              MemoModel? currentContact = memo[index];
               return Card(
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return UpdateMemo(
-                          index: index, currentContact: currentContact);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                      return UpdateMemo(index: index, currentContact: currentContact);
                     }));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 35.0, horizontal: 16.0),
-                      title: Text(currentContact!.title,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 20)),
+                      contentPadding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 16.0),
+                      title: Text(currentContact.title,
+                          overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20)),
                       subtitle: Text(FormatDate().formatDate(currentContact.time),
                           style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
@@ -68,15 +71,13 @@ class _HomeAllCategoryWidgetState extends State<HomeAllCategoryWidget> {
                                 selectedItem = item;
                               });
                             },
-                            itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry<SampleItem>>[
+                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
                               PopupMenuItem<SampleItem>(
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => UpdateMemo(
-                                          index: index,
-                                          currentContact: currentContact),
+                                      builder: (context) =>
+                                          UpdateMemo(index: index, currentContact: currentContact),
                                     ),
                                   );
                                 },
