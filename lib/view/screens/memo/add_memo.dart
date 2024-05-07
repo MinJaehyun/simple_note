@@ -56,13 +56,13 @@ class _AddMemoState extends State<AddMemo> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      color: Colors.green,
+                      // color: Colors.green,
                       height: 80,
                       child: Row(
                         children: [
                           Expanded(
-                              child: Text(
-                                  FormatDate().formatDateTime(DateTime.now()))),
+                            child: Text(FormatDate().formatDateTime(DateTime.now()), style: TextStyle(fontSize: 18)),
+                          ),
                           TextButton(
                             onPressed: () {},
                             child: DropdownButtonWidget(box),
@@ -78,7 +78,7 @@ class _AddMemoState extends State<AddMemo> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          color: Colors.green,
+                          // color: Colors.green,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -120,9 +120,7 @@ class _AddMemoState extends State<AddMemo> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              HiveHelper().addMemo(
-                                  _dropdownValue,
-                                  title: title, time: time, mainText: mainText);
+                              HiveHelper().addMemo(_dropdownValue, title: title, time: time, mainText: mainText);
                               Navigator.of(context).pop();
                             },
                             child: Text('저장'),
@@ -142,7 +140,7 @@ class _AddMemoState extends State<AddMemo> {
                   ),
                 ],
               );
-            }),
+            },),
       ),
     );
   }

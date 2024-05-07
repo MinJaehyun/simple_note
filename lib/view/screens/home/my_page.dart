@@ -39,8 +39,7 @@ class MyPage extends StatelessWidget {
           return AddMemo();
         }));
       },
-      label: const Text('memo'),
-      icon: const Icon(Icons.add),
+      label: const Text('메모 만들기'),
     );
   }
 }

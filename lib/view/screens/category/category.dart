@@ -118,11 +118,11 @@ class _AllCategoryState extends State<AllCategory> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => addPopupDialog(context),
-          label: const Text('범주 생성'),
-          icon: const Icon(Icons.add),
+          label: const Text('범주 만들기'),
         ),
         appBar: AppBar(
-          title: Text('범주'),
+          title: Text('범주 페이지'),
+          centerTitle: true,
         ),
         body: Column(
           children: [
