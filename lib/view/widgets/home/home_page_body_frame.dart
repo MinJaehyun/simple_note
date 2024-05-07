@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:simple_note/model/category.dart';
+import 'package:simple_note/view/screens/calendar/calendar.dart';
 import 'package:simple_note/view/screens/category/category.dart';
 import 'package:simple_note/view/widgets/home/homeSelectedCategoryWidget.dart';
 import 'package:simple_note/view/widgets/home/value_listen.dart';
@@ -101,7 +102,11 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                                 },
                                 icon: Icon(Icons.list_alt_outlined)),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                                  return CalendarPage();
+                                },),);
+                              },
                               icon: Icon(Icons.calendar_month),
                             ),
                           ],
@@ -112,9 +117,8 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                 ),
               ),
               // note: 하단 body - 전체 나타내기
-              // note: 선택한 범주가 없으면 아래 실행하고,
+              // note: 선택한 범주가 없으면 아래 실행하고, 선택한 범주가 있으면 아래 실행한다.
               if (selectedCategory == null) HomeAllCategoryWidget(),
-              // note: 선택한 범주가 있으면 아래 실행한다.
               if (selectedCategory != null) HomeSelectedCategoryWidget(selectedCategory)
             ],
           ),
