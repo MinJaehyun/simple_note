@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/controller/hive_helper.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/model/category.dart';
+import 'package:simple_note/model/memo.dart';
 
+enum CategoriesItem { update, delete }
 
-enum CategoriesItem {update, delete}
-
-class AddCategory extends StatefulWidget {
-  const AddCategory({super.key});
+class AllCategory extends StatefulWidget {
+  const AllCategory({super.key});
 
   @override
-  State<AddCategory> createState() => _AddCategoryState();
+  State<AllCategory> createState() => _AllCategoryState();
 }
 
-class _AddCategoryState extends State<AddCategory> {
+class _AllCategoryState extends State<AllCategory> {
   TextEditingController categoryController = TextEditingController();
   String? category;
   CategoriesItem? categoriesItem;
+  String? selectedCategory;
+  var unclassifiedMemo;
+  var classifiedMemo;
 
   // todo: add_category 분리하기
   Future<void> addPopupDialog(BuildContext context) {
@@ -35,7 +39,7 @@ class _AddCategoryState extends State<AddCategory> {
               hintText: '범주를 입력해 주세요',
             ),
             onChanged: (value) {
-              if(!value.isEmpty) {
+              if (!value.isEmpty) {
                 category = value;
               }
             },
@@ -119,47 +123,76 @@ class _AddCategoryState extends State<AddCategory> {
         ),
         appBar: AppBar(
           title: Text('범주'),
-          backgroundColor: Colors.green,
         ),
-        body: ValueListenableBuilder(
-          valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
-          builder: (context, Box<CategoryModel> box, _) {
-            if (box.values.isEmpty)
-              return Center(child: Text('하단 버튼을 클릭하여 범주를 생성해 주세요'));
-            return ListView.builder(
-              itemCount: box.values.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                CategoryModel? currentContact = box.getAt(index);
-                return Card(
-                  child: ListTile(
-                    title: Text(currentContact!.categories.toString()),
-                    leading: Icon(Icons.menu),
-                    trailing: Column(
-                      children: [
-                        PopupMenuButton<CategoriesItem>(
-                          initialValue: categoriesItem,
-                          itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<CategoriesItem>>[
-                            PopupMenuItem<CategoriesItem>(
-                              onTap: () => updatePopupDialog(context, index, currentContact),
-                              value: CategoriesItem.update,
-                              child: Text('수정'),
-                            ),
-                            PopupMenuItem<CategoriesItem>(
-                              onTap: () => HiveHelperCategory().delete(index),
-                              value: CategoriesItem.delete,
-                              child: Text('삭제'),
+        body: Column(
+          children: [
+            ValueListenableBuilder(
+              valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
+              builder: (context, Box<MemoModel> box, _) {
+                // note: 미분류 메모 개수
+                unclassifiedMemo = box.values.where((item) => item.selectedCategory == '').toList().length;
+                // note: 분류된 메모
+                classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory);
+
+                return Column(
+                  children: [
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.menu),
+                        title: Text('모든(${box.values.length})'),
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.menu),
+                        title: Text('미분류($unclassifiedMemo)'),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+
+            ValueListenableBuilder(
+              valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
+              builder: (context, Box<CategoryModel> box, _) {
+                if (box.values.isEmpty) return Center(child: Text('하단 버튼을 클릭하여 범주를 생성해 주세요'));
+                return ListView.builder(
+                  itemCount: box.values.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    CategoryModel? currentContact = box.getAt(index);
+                    selectedCategory = currentContact!.categories;
+                    return Card(
+                      child: ListTile(
+                        leading: Icon(Icons.menu),
+                        title: Text('${currentContact!.categories.toString()}(${classifiedMemo.length})'),
+                        trailing: Column(
+                          children: [
+                            PopupMenuButton<CategoriesItem>(
+                              initialValue: categoriesItem,
+                              itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
+                                PopupMenuItem<CategoriesItem>(
+                                  onTap: () => updatePopupDialog(context, index, currentContact),
+                                  value: CategoriesItem.update,
+                                  child: Text('수정'),
+                                ),
+                                PopupMenuItem<CategoriesItem>(
+                                  onTap: () => HiveHelperCategory().delete(index),
+                                  value: CategoriesItem.delete,
+                                  child: Text('삭제'),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 );
               },
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
