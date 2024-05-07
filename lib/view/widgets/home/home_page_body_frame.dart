@@ -27,17 +27,17 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
           child: Column(
             children: [
               Container(
-                height: 80,
+                height: 148,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Row(
+                  child: Column(
                     children: [
                       Container(
                         child: Expanded(
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             separatorBuilder: (context, index) {
-                              return SizedBox(width: 10);
+                              return SizedBox(width: 0);
                             },
                             itemCount: box.values.length,
                             itemBuilder: (context, index) {
@@ -58,24 +58,55 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                           ),
                         ),
                       ),
-                      // note: 우측 끝: 목록 생성 버튼과 달력 버튼
+                      // note: 2라인 미분류, 모든 메모, 우측 끝: 목록 생성 버튼과 달력 버튼
                       Container(
                         child: Row(
                           children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Card(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedCategory = '';
+                                        });
+                                      },
+                                      child: Text('미분류'),
+                                    ),
+                                  ),
+                                  Card(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          setState(() {
+                                            selectedCategory = null;
+                                          });
+                                          print(selectedCategory);
+                                        });
+                                      },
+                                      child: Text('모든'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // note: 전체 범주
                             IconButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                    return AddCategory();
+                                    // todo:
+                                    return AllCategory();
                                   }));
                                 },
                                 icon: Icon(Icons.list_alt_outlined)),
                             IconButton(
                               onPressed: () {},
                               icon: Icon(Icons.calendar_month),
-                            )
+                            ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
