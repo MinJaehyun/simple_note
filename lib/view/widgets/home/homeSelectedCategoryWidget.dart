@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper.dart';
-import 'package:simple_note/controller/string_util.dart';
+import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/update_memo.dart';
-
 
 enum SampleItem { updateMemo, deleteMemo }
 
 class HomeSelectedCategoryWidget extends StatefulWidget {
   const HomeSelectedCategoryWidget(this.selectedCategory, {super.key});
+
   final String? selectedCategory;
 
   @override
@@ -57,8 +57,8 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
                       contentPadding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 16.0),
-                      title: Text(currentContact.title,
-                          overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20)),
+                      title:
+                          Text(currentContact.title, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20)),
                       subtitle: Text(FormatDate().formatDate(currentContact.time),
                           style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
@@ -76,8 +76,7 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          UpdateMemo(index: index, currentContact: currentContact),
+                                      builder: (context) => UpdateMemo(index: index, currentContact: currentContact),
                                     ),
                                   );
                                 },
