@@ -14,6 +14,17 @@
 - 추후: 홈페이지에 흐릿하게 움직이는 배경 넣기
 
 
+## 2024-05-11
+### Features
+- 하단 navigation bar 구현하기 (curved_navigation_bar: ^1.0.3)
+- drawer 내부 요소 변경 (메든 메모, 달력, 휴지통, 범주, 백업은 하단 navigation bar에 등록함으로 기존 요소에서 제거 )
+- (ing) 범주 페이지 하단에 navigation bar 만들기
+- (ing) 달력 페이지 하단에 navigation bar 만들기
+- (ing) 하단 요소 누르면 페이지 이동하는 기능 구현하기
+- (ing) drawer 없애고, 안에 남은 3가지 기능은 상단 우측 settings에 넣기
+- (ing) search icon 클릭 시, 상단에 검색창 띄우고, 검색어 누르면, 범주 2행은 놔두고 그 밑에 메모장만 관련된 검색 내용 나타내기
+
+
 ## 2024-05-09~10
 ### Features
 - 선택한 날짜에 작성한 메모가 있다면 날짜 바로 밑에 분홍색 마킹하고 개수 나타내기
