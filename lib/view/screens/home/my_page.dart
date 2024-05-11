@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_note/view/screens/calendar/calendar.dart';
+import 'package:simple_note/view/screens/category/category.dart';
 import 'package:simple_note/view/screens/memo/add_memo.dart';
-import 'package:simple_note/view/widgets/home/drawer.dart';
 import 'package:simple_note/view/widgets/home/home_page_body_frame.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -13,13 +13,14 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  int currentIndex = 0;
+  int currentIndex = 2;
   bool isTapped = false;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         // note: Appbar
@@ -29,49 +30,95 @@ class _MyPageState extends State<MyPage> {
         // note: 하단 add
         floatingActionButton: buildFloatingActionButton(context),
         // note: Drawer 만들기
-        drawer: DrawerWidget(),
+        // drawer: DrawerWidget(),
         // note: navigation bar
         bottomNavigationBar: buildCurvedNavigationBar(),
       ),
     );
   }
 
+  // todo: 추후, 중복 개선하기
   CurvedNavigationBar buildCurvedNavigationBar() {
     return CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         animationDuration: Duration(milliseconds: 300),
         index: currentIndex,
-        color: Colors.black,
+        color: Theme.of(context).colorScheme.onPrimary,
         items: [
           // note: 캘린더
-          Icon(
-            Icons.calendar_month,
-            size: 25,
-            color: isTapped && currentIndex == 0 ? Colors.yellow : Colors.grey,
+          IconButton(
+            icon: Icon(Icons.calendar_month),
+            onPressed: (){
+              // setState(() {
+              //   isTapped = true;
+              //   currentIndex = 0;
+              // });
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return CalendarPage();
+              },));
+            },
+            iconSize: 25,
+            color: isTapped && currentIndex == 0 ? Colors.cyan : Colors.grey,
           ),
           // note: 범주
-          Icon(
-            Icons.category,
-            size: 25,
-            color: isTapped && currentIndex == 1 ? Colors.yellow : Colors.grey,
+          IconButton(
+            icon: Icon(Icons.category),
+            onPressed: (){
+              // setState(() {
+              //   isTapped = true;
+              //   currentIndex = 1;
+              // });
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return AllCategory();
+              },));
+            },
+            iconSize: 25,
+            color: isTapped && currentIndex == 1 ? Colors.cyan : Colors.grey,
           ),
           // note: 모든 메모
-          Icon(
-            Icons.data_array_outlined,
-            size: 25,
-            color: isTapped && currentIndex == 2 ? Colors.yellow :  Colors.grey,
+          IconButton(
+            icon: Icon(Icons.data_array_outlined),
+            onPressed: (){
+              // setState(() {
+              //   isTapped = true;
+              //   currentIndex = 2;
+              // });
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return MyPage();
+              },));
+            },
+            iconSize: 25,
+            color: isTapped && currentIndex == 2 ? Colors.cyan : Colors.grey,
           ),
           // note: 설정
-          Icon(
-            Icons.settings,
-            size: 25,
-            color: isTapped && currentIndex == 3 ? Colors.yellow :  Colors.grey,
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: (){
+              setState(() {
+                isTapped = true;
+                currentIndex = 3;
+              });
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              //   return;
+              // },));
+            },
+            iconSize: 25,
+            color: isTapped && currentIndex == 3 ? Colors.cyan : Colors.grey,
           ),
           // note: 휴지통
-          Icon(
-            Icons.delete,
-            size: 25,
-            color: isTapped && currentIndex == 4 ? Colors.yellow :  Colors.grey,
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: (){
+              setState(() {
+                isTapped = true;
+                currentIndex = 4;
+              });
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              //   return;
+              // },));
+            },
+            iconSize: 25,
+            color: isTapped && currentIndex == 4 ? Colors.cyan : Colors.grey,
           ),
         ],
         onTap: (index) {
@@ -85,11 +132,8 @@ class _MyPageState extends State<MyPage> {
 
   AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.cyan,
-      actions: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-        IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
-      ],
+      title: Text('Simple note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+      centerTitle: true,
     );
   }
 
