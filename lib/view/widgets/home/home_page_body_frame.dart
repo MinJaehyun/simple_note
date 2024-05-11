@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/view/screens/calendar/calendar.dart';
 import 'package:simple_note/view/screens/category/category.dart';
 import 'package:simple_note/view/widgets/home/homeSelectedCategoryWidget.dart';
 import 'package:simple_note/view/widgets/home/value_listen.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
-
 
 class HomePageBodyFrame extends StatefulWidget {
   HomePageBodyFrame({super.key});
@@ -20,6 +18,7 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
 
   @override
   Widget build(BuildContext context) {
+    // var textStyle = Theme.of(context).textTheme;
     return ValueListenableBuilder(
       valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
       builder: (context, Box<CategoryModel> box, _) {
@@ -33,6 +32,53 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
+                      // note: 2라인 미분류, 모든 메모, 우측 끝: 목록 생성 버튼과 달력 버튼
+                      Container(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Card(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          setState(() {
+                                            selectedCategory = null;
+                                          });
+                                          print(selectedCategory);
+                                        });
+                                      },
+                                      child: Text('모든', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                                    ),
+                                  ),
+                                  Card(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedCategory = '';
+                                        });
+                                      },
+                                      child: Text('미분류', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+                            // note: 전체 범주
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                                  // todo:
+                                  return AllCategory();
+                                }));
+                              },
+                              icon: Icon(Icons.list_alt_outlined),
+                            ),
+                          ],
+                        ),
+                      ),
                       Container(
                         child: Expanded(
                           child: ListView.separated(
@@ -53,63 +99,11 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                                   },
                                   // note: categoryContact?.categories 에만 모든 범주가 담겨있다
                                   child: Text('${categoryContact?.categories}'),
+                                  // child: Text('${categoryContact?.categories}', style: textStyle.titleMedium),
                                 ),
                               );
                             },
                           ),
-                        ),
-                      ),
-                      // note: 2라인 미분류, 모든 메모, 우측 끝: 목록 생성 버튼과 달력 버튼
-                      Container(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Card(
-                                    child: TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedCategory = '';
-                                        });
-                                      },
-                                      child: Text('미분류'),
-                                    ),
-                                  ),
-                                  Card(
-                                    child: TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          setState(() {
-                                            selectedCategory = null;
-                                          });
-                                          print(selectedCategory);
-                                        });
-                                      },
-                                      child: Text('모든'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // note: 전체 범주
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                    // todo:
-                                    return AllCategory();
-                                  }));
-                                },
-                                icon: Icon(Icons.list_alt_outlined)),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                  return CalendarPage();
-                                },),);
-                              },
-                              icon: Icon(Icons.calendar_month),
-                            ),
-                          ],
                         ),
                       ),
                     ],
