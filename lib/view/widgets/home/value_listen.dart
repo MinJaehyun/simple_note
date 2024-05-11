@@ -49,8 +49,7 @@ class _HomeAllCategoryWidgetState extends State<HomeAllCategoryWidget> {
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
                       contentPadding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 16.0),
-                      title:
-                          Text(currentContact!.title, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20)),
+                      title: Text(currentContact!.title, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary)),
                       subtitle: Text(FormatDate().formatDate(currentContact.time),
                           style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
