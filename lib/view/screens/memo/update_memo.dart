@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
@@ -123,7 +123,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                           onPressed: () {
                             // note: 입력값 변하지 않으면 저장해도 취소하여서 이전 입력값 남기도록 한다
                             if(title != '' || mainText != '') {
-                              HiveHelper().updateMemo(_dropdownValue, index: widget.index, title: title, time: time, mainText: mainText);
+                              HiveHelperMemo().updateMemo(_dropdownValue, index: widget.index, title: title, time: time, mainText: mainText);
                             }
                             Navigator.of(context).pop();
                           },
