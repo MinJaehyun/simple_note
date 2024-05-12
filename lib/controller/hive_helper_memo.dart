@@ -4,12 +4,12 @@ import 'package:simple_note/model/memo.dart';
 
 const String MemoBox = 'MEMO_BOX';
 
-class HiveHelper {
-  static final HiveHelper _singleton = HiveHelper._internal();
-  factory HiveHelper() {
+class HiveHelperMemo {
+  static final HiveHelperMemo _singleton = HiveHelperMemo._internal();
+  factory HiveHelperMemo() {
     return _singleton;
   }
-  HiveHelper._internal();
+  HiveHelperMemo._internal();
 
   Box<MemoModel>? memoBox;
 
