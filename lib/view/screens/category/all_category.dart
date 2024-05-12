@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/widgets/public/navigation_bar.dart';
 
 enum CategoriesItem { update, delete }
 
@@ -121,11 +122,12 @@ class _AllCategoryState extends State<AllCategory> {
           label: const Text('범주 만들기'),
         ),
         appBar: AppBar(
-          title: Text('범주 페이지'),
+          title: Text('범주'),
           centerTitle: true,
         ),
         body: Column(
           children: [
+            // note: 모든, 미분류
             ValueListenableBuilder(
               valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
               builder: (context, Box<MemoModel> box, _) {
@@ -133,7 +135,6 @@ class _AllCategoryState extends State<AllCategory> {
                 unclassifiedMemo = box.values.where((item) => item.selectedCategory == '').toList().length;
                 // note: 분류된 메모
                 classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory);
-
                 return Column(
                   children: [
                     Card(
@@ -152,7 +153,7 @@ class _AllCategoryState extends State<AllCategory> {
                 );
               },
             ),
-
+            // note: 생성한 카테고리 목록
             ValueListenableBuilder(
               valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
               builder: (context, Box<CategoryModel> box, _) {
@@ -194,6 +195,8 @@ class _AllCategoryState extends State<AllCategory> {
             ),
           ],
         ),
+        // note: navigation bar
+        bottomNavigationBar: BuildCurvedNavigationBar(1),
       ),
     );
   }
