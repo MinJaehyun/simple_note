@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
@@ -13,7 +13,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(MemoModelAdapter());
   Hive.registerAdapter(CategoryModelAdapter());
-  await HiveHelper().openBox();
+  await HiveHelperMemo().openBox();
   await HiveHelperCategory().openBox();
 
   // note: intl 초기화
