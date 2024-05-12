@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:simple_note/controller/hive_helper.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/widgets/home/HomeSearchWidget.dart';
-import 'package:simple_note/view/widgets/home/homeSelectedCategoryWidget.dart';
-import 'package:simple_note/view/widgets/home/value_listen.dart';
+import 'package:simple_note/view/widgets/home/home_search.dart';
+import 'package:simple_note/view/widgets/home/home_selected_category.dart';
+import 'package:simple_note/view/widgets/home/home_body_card.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 
-class HomePageBodyFrame extends StatefulWidget {
-  HomePageBodyFrame({super.key});
+class HomePage extends StatefulWidget {
+  HomePage({super.key});
 
   @override
-  State<HomePageBodyFrame> createState() => _HomePageBodyFrameState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
+class _HomePageState extends State<HomePage> {
   String? selectedCategory;
   var searchedTitle;
   var searchedMainText;
@@ -48,7 +48,7 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                             Container(
                               child: Row(
                                 children: [
-                                  // 상단 모든, 미분류 박스
+                                  // 상단1~2 모든, 미분류 박스
                                   Expanded(
                                     child: Row(
                                       children: [
@@ -81,7 +81,7 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                                       ],
                                     ),
                                   ),
-                                  // 상단 검색창
+                                  // 상단3 검색창
                                   Container(
                                     width: 220,
                                     child: Form(
@@ -109,6 +109,7 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                                 ],
                               ),
                             ),
+
                             // 상단: 생성한 카테고리
                             Container(
                               child: Expanded(
@@ -148,7 +149,8 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
               );
             },
           ),
-          // note: 하단 body
+
+          // note: 하단 body - 메모장
           ValueListenableBuilder(
             valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
             builder: (context, Box<MemoModel> box, _) {
@@ -161,7 +163,7 @@ class _HomePageBodyFrameState extends State<HomePageBodyFrame> {
                       children: [
                         // todo: 분기 처리하는 과정 좀 더 고민하기 (한줄 이라도 없으면 효율 증가, 조건 많은 순으로 정렬하여 처리 )
                         // 모든 카테고리 누르고 입력 내용 없으면 모든 메모 나타내기
-                        if (selectedCategory == null && searchControllerText == null) HomeAllCategoryWidget(),
+                        if (selectedCategory == null && searchControllerText == null) HomeBodyCardWidget(),
                         // 범주 있으면서, 검색내용 있으면, 아래 검색한 내용 나타내기(HomeSearchWidget)
                         if (selectedCategory != null && searchControllerText != null) HomeSearchWidget(searchControllerText!),
                         if (selectedCategory != null) HomeSelectedCategoryWidget(selectedCategory),
