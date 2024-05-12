@@ -20,6 +20,7 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -29,8 +30,6 @@ class _MyPageState extends State<MyPage> {
         body: HomePageBodyFrame(),
         // note: 하단 add
         floatingActionButton: buildFloatingActionButton(context),
-        // note: Drawer 만들기
-        // drawer: DrawerWidget(),
         // note: navigation bar
         bottomNavigationBar: buildCurvedNavigationBar(),
       ),
@@ -83,7 +82,7 @@ class _MyPageState extends State<MyPage> {
               //   isTapped = true;
               //   currentIndex = 2;
               // });
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                 return MyPage();
               },));
             },
