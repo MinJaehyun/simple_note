@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/update_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 
-class HomeAllCategoryWidget extends StatefulWidget {
-  const HomeAllCategoryWidget({super.key});
+class HomeBodyCardWidget extends StatefulWidget {
+  const HomeBodyCardWidget({super.key});
 
   @override
-  State<HomeAllCategoryWidget> createState() => _HomeAllCategoryWidgetState();
+  State<HomeBodyCardWidget> createState() => _HomeBodyCardWidgetState();
 }
 
-class _HomeAllCategoryWidgetState extends State<HomeAllCategoryWidget> {
+class _HomeBodyCardWidgetState extends State<HomeBodyCardWidget> {
   SampleItem? selectedItem;
 
   @override
@@ -75,7 +75,7 @@ class _HomeAllCategoryWidgetState extends State<HomeAllCategoryWidget> {
                                 child: Text('수정'),
                               ),
                               PopupMenuItem<SampleItem>(
-                                onTap: () => HiveHelper().delete(index),
+                                onTap: () => HiveHelperMemo().delete(index),
                                 value: SampleItem.deleteMemo,
                                 child: Text('삭제'),
                               ),
