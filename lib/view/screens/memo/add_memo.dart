@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
@@ -120,7 +120,7 @@ class _AddMemoState extends State<AddMemo> {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            HiveHelper().addMemo(_dropdownValue, title: title, time: time, mainText: mainText);
+                            HiveHelperMemo().addMemo(_dropdownValue, title: title, time: time, mainText: mainText);
                             Navigator.of(context).pop();
                           },
                           child: Text('저장'),
