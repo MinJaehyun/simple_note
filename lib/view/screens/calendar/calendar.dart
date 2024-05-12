@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/const/colors.dart';
-import 'package:simple_note/controller/hive_helper.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/add_memo.dart';
@@ -56,7 +56,7 @@ class _CalendarPageState extends State<CalendarPage> {
           },
           label: Text('메모 만들기'),
         ),
-        appBar: AppBar(title: Text('달력 페이지'), centerTitle: true),
+        appBar: AppBar(title: Text('달력'), centerTitle: true),
         body: Column(
           children: [
             SingleChildScrollView(
@@ -161,8 +161,8 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ],
         ),
-        // todo: navigation bar
-        // bottomNavigationBar: BuildCurvedNavigationBar(),
+        // note: navigation bar
+        bottomNavigationBar: BuildCurvedNavigationBar(0),
       ),
     );
   }
@@ -174,6 +174,7 @@ HeaderStyle buildHeaderStyle() {
     titleTextStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
   );
 }
+
 CalendarStyle buildCalendarStyle() {
   return CalendarStyle(
     // note: 오늘 날짜 흐린 스타일 제거하기
