@@ -36,6 +36,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
       items: [
         // note: 캘린더
         IconButton(
+          tooltip: '달력',
           icon: Icon(Icons.calendar_month),
           onPressed: (){
             setState(() {
@@ -50,6 +51,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
         ),
         // note: 범주
         IconButton(
+          tooltip: '범주',
           icon: Icon(Icons.category),
           onPressed: (){
             setState(() {
@@ -64,6 +66,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
         ),
         // note: 모든 메모
         IconButton(
+          tooltip: '모든 메모',
           icon: Icon(Icons.data_array_outlined),
           onPressed: (){
             setState(() {
@@ -78,6 +81,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
         ),
         // note: 설정
         IconButton(
+          tooltip: '설정',
           icon: Icon(Icons.settings),
           onPressed: (){
             setState(() {
@@ -93,6 +97,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
         ),
         // note: 휴지통
         IconButton(
+          tooltip: '휴지통',
           icon: Icon(Icons.delete),
           onPressed: (){
             setState(() {
