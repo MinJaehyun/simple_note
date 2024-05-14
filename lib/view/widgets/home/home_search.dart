@@ -4,6 +4,7 @@ import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/update_memo.dart';
+import 'package:substring_highlight/substring_highlight.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 
@@ -12,14 +13,13 @@ class HomeSearchWidget extends StatefulWidget {
 
   final String searchControllerText;
 
-
   @override
   State<HomeSearchWidget> createState() => _HomeSearchWidgetState();
 }
 
 class _HomeSearchWidgetState extends State<HomeSearchWidget> {
   SampleItem? selectedItem;
-  var boxSearchTitleAndMainText;
+  late List<MemoModel> boxSearchTitleAndMainText;
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +52,26 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
                       return UpdateMemo(index: index, currentContact: currentContact);
                     }));
                   },
-
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
                       contentPadding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 16.0),
-                      title:
-                      Text(currentContact.title, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20)),
-                      subtitle: Text(FormatDate().formatDate(currentContact.time),
-                          style: TextStyle(color: Colors.grey.withOpacity(0.9))),
+                      title: SubstringHighlight(
+                        text: currentContact.title,
+                        // 검색한 내용 가져오기
+                        term: widget.searchControllerText,
+                        // non-highlight style
+                        textStyle: TextStyle(color: Colors.grey),
+                        // highlight style
+                        textStyleHighlight: TextStyle(
+                          fontSize: 24.0,
+                          color: Colors.black,
+                          backgroundColor: Colors.yellow,
+                          // decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      subtitle: Text(FormatDate().formatDateKor(currentContact.time), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
                       trailing: Column(
                         children: [
