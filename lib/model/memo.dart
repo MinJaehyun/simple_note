@@ -10,7 +10,7 @@ class MemoModel {
   final String title;
 
   @HiveField(2)
-  final String mainText;
+  final String? mainText;
 
   @HiveField(3)
   final String? selectedCategory;

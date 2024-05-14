@@ -18,7 +18,7 @@ class MemoModelAdapter extends TypeAdapter<MemoModel> {
     };
     return MemoModel(
       fields[3] as String?,
-      fields[2] as String,
+      fields[2] as String?,
       time: fields[0] as DateTime,
       title: fields[1] as String,
     );
