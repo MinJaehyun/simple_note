@@ -18,7 +18,13 @@ class _AddMemoState extends State<AddMemo> {
   DateTime time = DateTime.now();
   String title = '';
   String mainText = '';
-  String _dropdownValue = '';
+  late String _dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _dropdownValue = '미분류';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +40,13 @@ class _AddMemoState extends State<AddMemo> {
       return DropdownButton(
         style: const TextStyle(color: Colors.green),
         underline: Container(height: 2, color: Colors.green[100]),
-        value: _dropdownValue.isNotEmpty ? _dropdownValue : null,
+        value: null,
+        hint: Text(_dropdownValue),
         onChanged: dropdownCallback,
         items: box.values.toList().map<DropdownMenuItem<String>>((value) {
           return DropdownMenuItem<String>(
             value: value.categories,
-            child: Text(value.categories!.isEmpty ? '미분류' : value.categories!),
+            child: Text(value.categories!.isEmpty ? 'test' : value.categories!),
           );
         }).toList(),
         iconSize: 35,
@@ -53,7 +60,7 @@ class _AddMemoState extends State<AddMemo> {
           body: ValueListenableBuilder(
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {
-              if (box.values.isEmpty) return Center(child: Text('test'));
+              if (box.values.isEmpty) return Center(child: Text('test add memo'));
               return Column(
                 children: [
                   // 상단: 시간 및 범주 메뉴
@@ -79,11 +86,7 @@ class _AddMemoState extends State<AddMemo> {
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             onPressed: () {},
-                            child: Row(
-                              children: [
-                                DropdownButtonWidget(box),
-                              ],
-                            ),
+                            child: DropdownButtonWidget(box),
                           ),
 
                           // 범주 생성 버튼
@@ -139,7 +142,6 @@ class _AddMemoState extends State<AddMemo> {
                                       ),
                                     ),
                                   ),
-
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return '한 글자 이상 입력해 주세요';
@@ -152,7 +154,6 @@ class _AddMemoState extends State<AddMemo> {
                                   },
                                 ),
                                 SizedBox(height: 25),
-                                // - (ing) 메모 생성 기능 개선하기(입력칸 늘리기: add 메모(maxLines: 6))
                                 TextFormField(
                                   cursorColor: Colors.orange,
                                   cursorWidth: 3,
