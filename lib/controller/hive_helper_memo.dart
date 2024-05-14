@@ -23,11 +23,11 @@ class HiveHelperMemo {
   }
 
   Future addMemo(String selectedCategory, {required String title, required DateTime time, required String mainText}) async {
-    return memoBox!.add(MemoModel(selectedCategory, time: time, title: title, mainText: mainText));
+    return memoBox!.add(MemoModel(selectedCategory, mainText, time: time, title: title));
   }
 
   Future updateMemo(String selectedCategory, {required index, required String title, required DateTime time, required String mainText}) async {
-    memoBox!.putAt(index, MemoModel(selectedCategory, time: time, title: title, mainText: mainText));
+    memoBox!.putAt(index, MemoModel(selectedCategory, mainText, time: time, title: title));
   }
 
   // Future addMemo({required String title, required DateTime time, required String mainText, required String category}) async {
