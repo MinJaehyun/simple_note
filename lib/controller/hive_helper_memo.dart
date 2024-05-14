@@ -22,11 +22,12 @@ class HiveHelperMemo {
     return memoBox!.values.toList();
   }
 
+  // todo: mainText 수정하기 - 필수 요소 아니므로 required 제거하기
   Future addMemo(String selectedCategory, {required String title, required DateTime time, required String mainText}) async {
     return memoBox!.add(MemoModel(selectedCategory, mainText, time: time, title: title));
   }
 
-  Future updateMemo(String selectedCategory, {required index, required String title, required DateTime time, required String mainText}) async {
+  Future updateMemo(String selectedCategory, String mainText, {required index, required String title, required DateTime time}) async {
     memoBox!.putAt(index, MemoModel(selectedCategory, mainText, time: time, title: title));
   }
 
