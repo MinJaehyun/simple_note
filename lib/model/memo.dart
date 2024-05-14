@@ -15,7 +15,7 @@ class MemoModel {
   @HiveField(3)
   final String? selectedCategory;
 
-  MemoModel(this.selectedCategory, {required this.time, required this.title, required this.mainText});
+  MemoModel(this.selectedCategory, this.mainText, {required this.time, required this.title});
 
   MemoModel.fromJson(Map<String, dynamic> json)
       : time = json['time'],
