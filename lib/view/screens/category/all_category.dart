@@ -125,75 +125,77 @@ class _AllCategoryState extends State<AllCategory> {
           title: Text('범주'),
           centerTitle: true,
         ),
-        body: Column(
-          children: [
-            // note: 모든, 미분류
-            ValueListenableBuilder(
-              valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
-              builder: (context, Box<MemoModel> box, _) {
-                // note: 미분류 메모 개수
-                unclassifiedMemo = box.values.where((item) => item.selectedCategory == '').toList().length;
-                // note: 분류된 메모
-                classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory);
-                return Column(
-                  children: [
-                    Card(
-                      child: ListTile(
-                        leading: Icon(Icons.menu),
-                        title: Text('모든(${box.values.length})'),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        leading: Icon(Icons.menu),
-                        title: Text('미분류($unclassifiedMemo)'),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-            // note: 생성한 카테고리 목록
-            ValueListenableBuilder(
-              valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
-              builder: (context, Box<CategoryModel> box, _) {
-                if (box.values.isEmpty) return Center(child: Text('하단 버튼을 클릭하여 범주를 생성해 주세요'));
-                return ListView.builder(
-                  itemCount: box.values.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    CategoryModel? currentContact = box.getAt(index);
-                    selectedCategory = currentContact!.categories;
-                    return Card(
-                      child: ListTile(
-                        leading: Icon(Icons.menu),
-                        title: Text('${currentContact!.categories.toString()}(${classifiedMemo.length})'),
-                        trailing: Column(
-                          children: [
-                            PopupMenuButton<CategoriesItem>(
-                              initialValue: categoriesItem,
-                              itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
-                                PopupMenuItem<CategoriesItem>(
-                                  onTap: () => updatePopupDialog(context, index, currentContact),
-                                  value: CategoriesItem.update,
-                                  child: Text('수정'),
-                                ),
-                                PopupMenuItem<CategoriesItem>(
-                                  onTap: () => HiveHelperCategory().delete(index),
-                                  value: CategoriesItem.delete,
-                                  child: Text('삭제'),
-                                ),
-                              ],
-                            ),
-                          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              // note: 모든, 미분류
+              ValueListenableBuilder(
+                valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
+                builder: (context, Box<MemoModel> box, _) {
+                  // note: 미분류 메모 개수
+                  unclassifiedMemo = box.values.where((item) => item.selectedCategory == '').toList().length;
+                  // note: 분류된 메모
+                  classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory);
+                  return Column(
+                    children: [
+                      Card(
+                        child: ListTile(
+                          leading: Icon(Icons.menu),
+                          title: Text('모든(${box.values.length})'),
                         ),
                       ),
-                    );
-                  },
-                );
-              },
-            ),
-          ],
+                      Card(
+                        child: ListTile(
+                          leading: Icon(Icons.menu),
+                          title: Text('미분류($unclassifiedMemo)'),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              // note: 생성한 카테고리 목록
+              ValueListenableBuilder(
+                valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
+                builder: (context, Box<CategoryModel> box, _) {
+                  if (box.values.isEmpty) return Center(child: Text('하단 버튼을 클릭하여 범주를 생성해 주세요'));
+                  return ListView.builder(
+                    itemCount: box.values.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      CategoryModel? currentContact = box.getAt(index);
+                      selectedCategory = currentContact!.categories;
+                      return Card(
+                        child: ListTile(
+                          leading: Icon(Icons.menu),
+                          title: Text('${currentContact!.categories.toString()}(${classifiedMemo.length})'),
+                          trailing: Column(
+                            children: [
+                              PopupMenuButton<CategoriesItem>(
+                                initialValue: categoriesItem,
+                                itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
+                                  PopupMenuItem<CategoriesItem>(
+                                    onTap: () => updatePopupDialog(context, index, currentContact),
+                                    value: CategoriesItem.update,
+                                    child: Text('수정'),
+                                  ),
+                                  PopupMenuItem<CategoriesItem>(
+                                    onTap: () => HiveHelperCategory().delete(index),
+                                    value: CategoriesItem.delete,
+                                    child: Text('삭제'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
         // note: navigation bar
         bottomNavigationBar: BuildCurvedNavigationBar(1),
