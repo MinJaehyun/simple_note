@@ -3,13 +3,15 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/screens/home/my_page.dart';
 import 'package:simple_note/view/widgets/home/home_search.dart';
 import 'package:simple_note/view/widgets/home/home_selected_category.dart';
 import 'package:simple_note/view/widgets/home/home_body_card.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  HomePage(this.sortedTime, {super.key});
+  final SortedTime? sortedTime;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -25,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(color: Theme.of(context).colorScheme.primary);
+    print('home_page : ${widget.sortedTime}');
 
     return GestureDetector(
       onTap: () {
@@ -194,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         // todo: 분기 처리하는 과정 좀 더 고민하기 (한줄 이라도 없으면 효율 증가, 조건 많은 순으로 정렬하여 처리 )
                         // note: 모든 카테고리 누르고 입력 내용 없으면 모든 메모 나타내기
-                        if (selectedCategory == null && searchControllerText == null) HomeBodyCardWidget(),
+                        if (selectedCategory == null && searchControllerText == null) HomeBodyCardWidget(widget.sortedTime),
                         // note: 범주 있으면서, 검색내용 있으면, 아래 검색한 내용 나타내기(HomeSearchWidget)
                         if (selectedCategory != null && searchControllerText != null) HomeSearchWidget(searchControllerText!),
                         // note: 미분류 위젯

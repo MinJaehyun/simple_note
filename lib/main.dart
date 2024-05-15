@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
+// import 'package:simple_note/controller/hive_helper_sort.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
+// import 'package:simple_note/model/sort.dart';
 import 'view/screens/home/my_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -13,9 +15,10 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(MemoModelAdapter());
   Hive.registerAdapter(CategoryModelAdapter());
+  // Hive.registerAdapter(SortModelAdapter());
   await HiveHelperMemo().openBox();
   await HiveHelperCategory().openBox();
-
+  // await HiveHelperSort().openBox();
   // note: intl 초기화
   await initializeDateFormatting();
   runApp(const MyApp());
