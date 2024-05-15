@@ -4,7 +4,7 @@ part 'memo.g.dart';
 @HiveType(typeId: 1)
 class MemoModel {
   @HiveField(0)
-  final DateTime time;
+  final DateTime createdAt;
 
   @HiveField(1)
   final String title;
@@ -15,11 +15,11 @@ class MemoModel {
   @HiveField(3)
   final String? selectedCategory;
 
-  MemoModel(this.selectedCategory, this.mainText, {required this.time, required this.title});
+  MemoModel(this.selectedCategory, this.mainText, {required this.createdAt, required this.title});
 
   MemoModel.fromJson(Map<String, dynamic> json)
-      : time = json['time'],
-        title = json['title'],
+      : title = json['title'],
         mainText = json['mainText'],
-        selectedCategory = json['selectedCategory'];
+        selectedCategory = json['selectedCategory'],
+        createdAt = json['createdAt'];
 }

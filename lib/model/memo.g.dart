@@ -19,7 +19,7 @@ class MemoModelAdapter extends TypeAdapter<MemoModel> {
     return MemoModel(
       fields[3] as String?,
       fields[2] as String?,
-      time: fields[0] as DateTime,
+      createdAt: fields[0] as DateTime,
       title: fields[1] as String,
     );
   }
@@ -29,7 +29,7 @@ class MemoModelAdapter extends TypeAdapter<MemoModel> {
     writer
       ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.time)
+      ..write(obj.createdAt)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
