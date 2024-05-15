@@ -88,13 +88,44 @@ class _HomePageState extends State<HomePage> {
                                       child: TextFormField(
                                         controller: searchController,
                                         decoration: InputDecoration(
-                                          hintText: '내용을 입력해 주세요',
-                                          contentPadding: EdgeInsets.all(12),
-                                          suffixIcon: Icon(Icons.search),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(4)),
                                           ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.grey,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.grey,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          prefixIcon: GestureDetector(
+                                            onTap: () {},
+                                            child: Icon(
+                                              Icons.search,
+                                              size: 24,
+                                            ),
+                                          ),
+                                          prefixIconColor: Colors.grey,
+                                          suffixIcon: GestureDetector(
+                                            onTap: (){},
+                                            child: Icon(
+                                              Icons.close,
+                                              size: 24,
+                                            ),
+                                          ),
+                                          suffixIconColor: Colors.grey,
+                                          hintText: '검색',
+                                          contentPadding: EdgeInsets.all(12),
+                                          hintStyle: TextStyle(
+                                            fontSize: 14,
+                                          ),
                                         ),
+                                        cursorColor: Colors.grey,
                                         onChanged: (value) {
                                           setState(() {
                                             searchController.text = value;
@@ -102,7 +133,6 @@ class _HomePageState extends State<HomePage> {
                                           });
                                         },
                                         onTap: () {},
-                                        // validator: , enabled: ,
                                       ),
                                     ),
                                   ),
