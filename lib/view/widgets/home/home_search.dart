@@ -71,7 +71,7 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
                           // decoration: TextDecoration.underline,
                         ),
                       ),
-                      subtitle: Text(FormatDate().formatDefaultDateKor(currentContact.time), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
+                      subtitle: Text(FormatDate().formatDefaultDateKor(currentContact.createdAt), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
                       trailing: Column(
                         children: [

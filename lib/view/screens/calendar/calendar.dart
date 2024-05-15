@@ -106,7 +106,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
                 builder: (context, Box<MemoModel> box, _) {
                   dateTimeUtc = box.values.map((e) {
-                    return e.time;
+                    return e.createdAt;
                   }).toList();
 
                   textTitle = box.values.map((e) {
@@ -120,7 +120,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   }
 
                   classifiedTimeMemo =
-                      box.values.where((item) => FormatDate().formatDayEng(item.time) == FormatDate().formatDayEng(_selectedDay!)).toList();
+                      box.values.where((item) => FormatDate().formatDayEng(item.createdAt) == FormatDate().formatDayEng(_selectedDay!)).toList();
 
                   return Padding(
                     padding: const EdgeInsets.all(4.0),

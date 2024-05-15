@@ -61,7 +61,7 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
                       contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
                       title:
                           Text(currentContact.title, overflow: TextOverflow.ellipsis, style: style),
-                      subtitle: Text(FormatDate().formatDefaultDateKor(currentContact.time),
+                      subtitle: Text(FormatDate().formatDefaultDateKor(currentContact.createdAt),
                           style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
                       trailing: Column(

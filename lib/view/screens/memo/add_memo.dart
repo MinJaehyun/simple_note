@@ -197,7 +197,7 @@ class _AddMemoState extends State<AddMemo> {
                               final formKeyState = _formKey.currentState!;
                               if (formKeyState.validate()) {
                                 formKeyState.save();
-                                HiveHelperMemo().addMemo(_dropdownValue, title: title, time: time, mainText: mainText);
+                                HiveHelperMemo().addMemo(_dropdownValue, title: title, createdAt: time, mainText: mainText);
                                 Navigator.of(context).pop();
                               }
                             },
