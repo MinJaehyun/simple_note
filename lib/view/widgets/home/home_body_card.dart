@@ -19,6 +19,8 @@ class _HomeBodyCardWidgetState extends State<HomeBodyCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
+
     return ValueListenableBuilder(
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
@@ -49,7 +51,7 @@ class _HomeBodyCardWidgetState extends State<HomeBodyCardWidget> {
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
                       contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                      title: Text(currentContact!.title, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary)),
+                      title: Text(currentContact!.title, overflow: TextOverflow.ellipsis, style: style),
                       subtitle: Text(FormatDate().formatDefaultDateKor(currentContact.time),
                           style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼

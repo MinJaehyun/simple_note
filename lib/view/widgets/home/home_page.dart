@@ -24,7 +24,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // var textStyle = Theme.of(context).textTheme;
+    TextStyle style = TextStyle(color: Theme.of(context).colorScheme.primary);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -63,19 +64,19 @@ class _HomePageState extends State<HomePage> {
                                                 });
                                               });
                                             },
-                                            child: Text('모든', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                                            child: Text('모든', style: style),
                                           ),
                                         ),
                                         Card(
                                           child: TextButton(
                                             onPressed: () {
                                               setState(() {
-                                                selectedCategory = '';
+                                                selectedCategory = '미분류';
                                                 searchControllerText = null;
                                                 searchController.clear();
                                               });
                                             },
-                                            child: Text('미분류', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                                            child: Text('미분류', style: style),
                                           ),
                                         ),
                                       ],
@@ -192,11 +193,13 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         // todo: 분기 처리하는 과정 좀 더 고민하기 (한줄 이라도 없으면 효율 증가, 조건 많은 순으로 정렬하여 처리 )
-                        // 모든 카테고리 누르고 입력 내용 없으면 모든 메모 나타내기
+                        // note: 모든 카테고리 누르고 입력 내용 없으면 모든 메모 나타내기
                         if (selectedCategory == null && searchControllerText == null) HomeBodyCardWidget(),
-                        // 범주 있으면서, 검색내용 있으면, 아래 검색한 내용 나타내기(HomeSearchWidget)
+                        // note: 범주 있으면서, 검색내용 있으면, 아래 검색한 내용 나타내기(HomeSearchWidget)
                         if (selectedCategory != null && searchControllerText != null) HomeSearchWidget(searchControllerText!),
+                        // note: 미분류 위젯
                         if (selectedCategory != null) HomeSelectedCategoryWidget(selectedCategory),
+                        // note:
                         if (searchControllerText != null) HomeSearchWidget(searchControllerText!),
                       ],
                     ),
