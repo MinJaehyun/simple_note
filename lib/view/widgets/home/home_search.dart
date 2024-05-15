@@ -28,7 +28,7 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
       builder: (context, Box<MemoModel> box, _) {
         if (box.values.isEmpty) return Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
         boxSearchTitleAndMainText = box.values.where((item) {
-          return item.title.contains(widget.searchControllerText) || item.mainText.contains(widget.searchControllerText);
+          return item.title.contains(widget.searchControllerText) || item.mainText!.contains(widget.searchControllerText);
         }).toList();
         return Container(
           height: MediaQuery.of(context).size.height - 200,
@@ -56,7 +56,7 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 16.0),
+                      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
                       title: SubstringHighlight(
                         text: currentContact.title,
                         // 검색한 내용 가져오기
@@ -71,7 +71,7 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
                           // decoration: TextDecoration.underline,
                         ),
                       ),
-                      subtitle: Text(FormatDate().formatDateKor(currentContact.time), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
+                      subtitle: Text(FormatDate().formatDefaultDateKor(currentContact.time), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
                       trailing: Column(
                         children: [

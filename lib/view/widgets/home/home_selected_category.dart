@@ -56,10 +56,10 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 16.0),
+                      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
                       title:
                           Text(currentContact.title, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20)),
-                      subtitle: Text(FormatDate().formatDateKor(currentContact.time),
+                      subtitle: Text(FormatDate().formatDefaultDateKor(currentContact.time),
                           style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
                       trailing: Column(

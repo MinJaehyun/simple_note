@@ -115,6 +115,8 @@ class _AllCategoryState extends State<AllCategory> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(color: Theme.of(context).colorScheme.primary);
+
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
@@ -122,7 +124,7 @@ class _AllCategoryState extends State<AllCategory> {
           label: const Text('범주 만들기'),
         ),
         appBar: AppBar(
-          title: Text('범주'),
+          title: Text('Simple Note', style: style),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -137,17 +139,22 @@ class _AllCategoryState extends State<AllCategory> {
                   // note: 분류된 메모
                   classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory);
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text('범주', style: style),
+                      ),
                       Card(
                         child: ListTile(
                           leading: Icon(Icons.menu),
-                          title: Text('모든(${box.values.length})'),
+                          title: Text('모든(${box.values.length})', style: style),
                         ),
                       ),
                       Card(
                         child: ListTile(
                           leading: Icon(Icons.menu),
-                          title: Text('미분류($unclassifiedMemo)'),
+                          title: Text('미분류($unclassifiedMemo)', style: style),
                         ),
                       ),
                     ],
@@ -168,7 +175,7 @@ class _AllCategoryState extends State<AllCategory> {
                       return Card(
                         child: ListTile(
                           leading: Icon(Icons.menu),
-                          title: Text('${currentContact!.categories.toString()}(${classifiedMemo.length})'),
+                          title: Text('${currentContact!.categories.toString()}(${classifiedMemo.length})', style: style),
                           trailing: Column(
                             children: [
                               PopupMenuButton<CategoriesItem>(

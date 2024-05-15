@@ -56,7 +56,7 @@ class _CalendarPageState extends State<CalendarPage> {
           },
           label: Text('메모 만들기'),
         ),
-        appBar: AppBar(title: Text('달력'), centerTitle: true),
+        appBar: AppBar(title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)), centerTitle: true),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -119,7 +119,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     });
                   }
 
-                  classifiedTimeMemo = box.values.where((item) => FormatDate().formatDayEng(item.time) == FormatDate().formatDayEng(_selectedDay!)).toList();
+                  classifiedTimeMemo =
+                      box.values.where((item) => FormatDate().formatDayEng(item.time) == FormatDate().formatDayEng(_selectedDay!)).toList();
 
                   return Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -142,8 +143,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             child: Column(
                               children: [
                                 // 반복문으로 MemoModel 인스턴스에 접근
-                                for (MemoModel memo in classifiedTimeMemo)
-                                  Card(child: ListTile(title: Text("제목: ${memo.title}")))
+                                for (MemoModel memo in classifiedTimeMemo) Card(child: ListTile(title: Text("제목: ${memo.title}")))
                               ],
                             ),
                           ),
@@ -162,73 +162,72 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-HeaderStyle buildHeaderStyle() {
-  return HeaderStyle(
-    // note: 2week 기능
-    // formatButtonVisible: false,
-    titleCentered: true,
-    titleTextStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-  );
-}
-
-CalendarStyle buildCalendarStyle() {
-  return CalendarStyle(
-    // note: 오늘 날짜 흐린 스타일 제거하기
-    isTodayHighlighted: false,
-    // note: 평일 style
-    defaultDecoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(6),
-      color: LIGHT_GREY_COLOR,
-    ),
-    // note: 주말 style
-    weekendDecoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(6),
-      color: LIGHT_GREY_COLOR,
-    ),
-    // note: 선택한 날짜 style
-    selectedDecoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(6),
-      color: PRIMARY_COLOR.withOpacity(0.5),
-    ),
-    // note: 평일 글꼴 style
-    defaultTextStyle: TextStyle(
-      fontWeight: FontWeight.w600,
-      color: DARK_GREY_COLOR,
-    ),
-    // note: 주말 글꼴 style
-    weekendTextStyle: TextStyle(
-      fontWeight: FontWeight.w600,
-      color: DARK_GREY_COLOR,
-    ),
-    // note: 선택한 날짜 글꼴 style
-    selectedTextStyle: TextStyle(
-      fontWeight: FontWeight.w600,
-      // color: PRIMARY_COLOR,
-    ),
-    // marker 여러개 일 때 cell 영역을 벗어날지 여부
-    canMarkersOverflow: false,
-    // 자동정렬 여부
-    markersAutoAligned: true,
-    // marker 크기 조절
-    markerSize: 7.0,
-    // marker 크기 비율 조절
-    markerSizeScale: 10.0,
-    // marker 의 기준점 조정
-    markersAnchor: 0.7,
-    // marker margin 조절
-    markerMargin: const EdgeInsets.symmetric(horizontal: 0.3),
-    // marker 위치 조정
-    markersAlignment: Alignment.bottomCenter,
-    // 한줄에 보여지는 marker 갯수
-    markersMaxCount: 1,
-    //
-    markersOffset: const PositionedOffset(),
-    // marker 모양 조정
-    markerDecoration: const BoxDecoration(
-      color: Colors.deepOrangeAccent,
-      shape: BoxShape.rectangle,
-    ),
-  );
+  HeaderStyle buildHeaderStyle() {
+    return HeaderStyle(
+      // note: 2week 기능
+      // formatButtonVisible: false,
+      titleCentered: true,
+      titleTextStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+    );
   }
 
+  CalendarStyle buildCalendarStyle() {
+    return CalendarStyle(
+      // note: 오늘 날짜 흐린 스타일 제거하기
+      isTodayHighlighted: false,
+      // note: 평일 style
+      defaultDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        color: LIGHT_GREY_COLOR,
+      ),
+      // note: 주말 style
+      weekendDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        color: LIGHT_GREY_COLOR,
+      ),
+      // note: 선택한 날짜 style
+      selectedDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        color: PRIMARY_COLOR.withOpacity(0.5),
+      ),
+      // note: 평일 글꼴 style
+      defaultTextStyle: TextStyle(
+        fontWeight: FontWeight.w600,
+        color: DARK_GREY_COLOR,
+      ),
+      // note: 주말 글꼴 style
+      weekendTextStyle: TextStyle(
+        fontWeight: FontWeight.w600,
+        color: DARK_GREY_COLOR,
+      ),
+      // note: 선택한 날짜 글꼴 style
+      selectedTextStyle: TextStyle(
+        fontWeight: FontWeight.w600,
+        // color: PRIMARY_COLOR,
+      ),
+      // marker 여러개 일 때 cell 영역을 벗어날지 여부
+      canMarkersOverflow: false,
+      // 자동정렬 여부
+      markersAutoAligned: true,
+      // marker 크기 조절
+      markerSize: 7.0,
+      // marker 크기 비율 조절
+      markerSizeScale: 10.0,
+      // marker 의 기준점 조정
+      markersAnchor: 0.7,
+      // marker margin 조절
+      markerMargin: const EdgeInsets.symmetric(horizontal: 0.3),
+      // marker 위치 조정
+      markersAlignment: Alignment.bottomCenter,
+      // 한줄에 보여지는 marker 갯수
+      markersMaxCount: 1,
+      //
+      markersOffset: const PositionedOffset(),
+      // marker 모양 조정
+      markerDecoration: const BoxDecoration(
+        color: Colors.deepOrangeAccent,
+        shape: BoxShape.rectangle,
+      ),
+    );
+  }
 }

@@ -16,7 +16,6 @@ class _MyPageState extends State<MyPage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset : false,
-        // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         // note: Appbar
@@ -33,7 +32,7 @@ class _MyPageState extends State<MyPage> {
 
   AppBar buildAppBar() {
     return AppBar(
-      title: Text('Simple note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+      title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
       centerTitle: true,
     );
   }
