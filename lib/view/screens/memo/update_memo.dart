@@ -39,7 +39,8 @@ class _UpdateMemoState extends State<UpdateMemo> {
       return DropdownButton(
         style: const TextStyle(color: Colors.green),
         underline: Container(height: 2, color: Colors.green[100]),
-        value: _dropdownValue!.isNotEmpty ? _dropdownValue : null,
+        // value: _dropdownValue!.isNotEmpty ? _dropdownValue : null,
+        value: null,
         // ui에 나타낼 _dropdownValue 나타냄
         hint: Text('$_dropdownValue'),
         onChanged: dropdownCallback,
