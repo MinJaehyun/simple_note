@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:simple_note/view/screens/home/my_page.dart';
 
-
+//ignore: must_be_immutable
 class AppBarSort extends StatefulWidget implements PreferredSizeWidget {
   AppBarSort(this.sortedTime, this.changeFunc, {super.key});
-  final SortedTime sortedTime;
+  // final 지정하면 한 번만 값을 변경하는데, 그래서 지정하지 않음
+  SortedTime sortedTime;
   final Function(dynamic) changeFunc;
 
   @override
@@ -34,10 +35,8 @@ class _AppBarSortState extends State<AppBarSort> {
                       value: SortedTime.firstTime,
                       groupValue: widget.sortedTime,
                       onChanged: (SortedTime? value) {
-                        // setState(() {
-                        //   widget.sortedTime = value!;
-                        // });
-                        setState((){
+                        setState(() {
+                          widget.sortedTime = value!;
                           widget.changeFunc(value);
                         });
                       },
@@ -49,10 +48,8 @@ class _AppBarSortState extends State<AppBarSort> {
                       value: SortedTime.lastTime,
                       groupValue: widget.sortedTime,
                       onChanged: (SortedTime? value) {
-                        // setState(() {
-                        //   widget.sortedTime = value!;
-                        // });
-                        setState((){
+                        setState(() {
+                          widget.sortedTime = value!;
                           widget.changeFunc(value);
                         });
                       },
@@ -68,12 +65,11 @@ class _AppBarSortState extends State<AppBarSort> {
                     child: Text('적용')),
                 TextButton(
                     onPressed: () {
-                      Navigator.pop(context); // 취소 시 반환 값 없음
+                      Navigator.pop(context);
                     },
                     child: Text('취소')),
               ],
               elevation: 24.0,
-              // backgroundColor: Colors.white,
             );
           },
         );
@@ -83,7 +79,6 @@ class _AppBarSortState extends State<AppBarSort> {
 
   @override
   PreferredSizeWidget build(BuildContext context) {
-    print('2 : ${widget.sortedTime}');
     return AppBar(
       title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
       centerTitle: true,
@@ -91,12 +86,7 @@ class _AppBarSortState extends State<AppBarSort> {
         IconButton(
           icon: Icon(Icons.sort),
           onPressed: () {
-            // 1. 팝업창 띄우기
-            // 2. 정렬 종류 나열하기
-            // 3. 클릭한 정렬로 메모장 나열하기
             popupSort(context);
-            // 4. 정렬된 시간 순서대로 메모 나열하기
-            print('3: ${widget.sortedTime}'); // 3: SortedTime.firstTime
           },
         ),
       ],
