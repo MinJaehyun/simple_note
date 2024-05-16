@@ -17,17 +17,19 @@ class MemoModelAdapter extends TypeAdapter<MemoModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MemoModel(
-      fields[3] as String?,
-      fields[2] as String?,
       createdAt: fields[0] as DateTime,
       title: fields[1] as String,
+      mainText: fields[2] as String?,
+      selectedCategory: fields[3] as String?,
+      startTime: fields[4] as DateTime?,
+      endTime: fields[5] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MemoModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.createdAt)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class MemoModelAdapter extends TypeAdapter<MemoModel> {
       ..writeByte(2)
       ..write(obj.mainText)
       ..writeByte(3)
-      ..write(obj.selectedCategory);
+      ..write(obj.selectedCategory)
+      ..writeByte(4)
+      ..write(obj.startTime)
+      ..writeByte(5)
+      ..write(obj.endTime);
   }
 
   @override

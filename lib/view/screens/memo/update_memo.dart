@@ -8,10 +8,10 @@ import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/category/all_category.dart';
 
 class UpdateMemo extends StatefulWidget {
-  UpdateMemo({super.key, required this.currentContact, required this.index});
+  UpdateMemo({ required this.index, required this.currentContact, super.key});
 
-  final MemoModel currentContact;
   final int index;
+  final MemoModel currentContact;
 
   @override
   State<UpdateMemo> createState() => _UpdateMemoState();
@@ -197,7 +197,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                               final formKeyState = _formKey.currentState!;
                               // note: 범주 변경하고, 제목이나, 내용 변경하지 않으면 변경된 범주가 저장되지 않는다
                               if(widget.currentContact.title == title && widget.currentContact.mainText == mainText && widget.currentContact.selectedCategory != _dropdownValue) {
-                                HiveHelperMemo().updateMemo(_dropdownValue!, mainText!, index: widget.index, title: title, createdAt: time);
+                                HiveHelperMemo().updateMemo(index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
                                 Navigator.of(context).pop();
                               }
                               // note: 이전 입력 값과, 변경한 값(title, mainText)이 둘 다 같은 경우, 변경 사항이 없으므로 저장 눌러도 그대로 저장되도록 한다.
@@ -207,7 +207,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                               // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                               else if (formKeyState.validate()) {
                                 formKeyState.save();
-                                HiveHelperMemo().updateMemo(_dropdownValue!, mainText!, index: widget.index, title: title, createdAt: time);
+                                HiveHelperMemo().updateMemo(index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
                                 Navigator.of(context).pop();
                               }
                             },

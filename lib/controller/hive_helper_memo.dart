@@ -23,12 +23,13 @@ class HiveHelperMemo {
   }
 
   // todo: mainText 수정하기 - 필수 요소 아니므로 required 제거하기
-  Future addMemo(String selectedCategory, {required String title, required DateTime createdAt, required String mainText}) async {
-    return memoBox!.add(MemoModel(selectedCategory, mainText, createdAt: createdAt, title: title));
+  // todo: 추후: 시작과 끝나는 시간 속성 넣기 DateTime startTime, DateTime endTime :
+  Future addMemo({required DateTime createdAt, required String title, String? mainText, String? selectedCategory}) async {
+    return memoBox!.add(MemoModel(createdAt: createdAt, title: title, mainText: mainText, selectedCategory: selectedCategory));
   }
 
-  Future updateMemo(String selectedCategory, String mainText, {required index, required String title, required DateTime createdAt}) async {
-    memoBox!.putAt(index, MemoModel(selectedCategory, mainText, createdAt: createdAt, title: title));
+  Future updateMemo({required index, required DateTime createdAt, required String title, String? selectedCategory, String? mainText}) async {
+    memoBox!.putAt(index, MemoModel(createdAt: createdAt, title: title, mainText: mainText, selectedCategory: selectedCategory));
   }
 
   // Future addMemo({required String title, required DateTime time, required String mainText, required String category}) async {
