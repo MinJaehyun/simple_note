@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/home/my_page.dart';
-import 'package:simple_note/view/widgets/home/home_search.dart';
-import 'package:simple_note/view/widgets/home/home_selected_category.dart';
-import 'package:simple_note/view/widgets/home/home_body_card.dart';
+import 'package:simple_note/view/widgets/home/control_statements.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,15 +15,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? selectedCategory;
-  var searchedTitle;
-  var searchedMainText;
+  String? searchedTitle;
+  String? searchedMainText;
   String? searchControllerText;
   TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(color: Theme.of(context).colorScheme.primary);
-    print('home_page : ${widget.sortedTime}');
 
     return GestureDetector(
       onTap: () {
@@ -90,6 +85,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 220,
                                     child: Form(
                                       child: TextFormField(
+                                        autofocus: false,
                                         controller: searchController,
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(
@@ -165,7 +161,6 @@ class _HomePageState extends State<HomePage> {
                                             searchController.clear();
                                           });
                                         },
-                                        // note: categoryContact?.categories 에만 모든 범주가 담겨있다
                                         child: Text('${categoryContact?.categories}'),
                                         // child: Text('${categoryContact?.categories}', style: textStyle.titleMedium),
                                       ),
@@ -184,32 +179,15 @@ class _HomePageState extends State<HomePage> {
             },
           ),
 
-          // note: 하단 body - 메모장
-          ValueListenableBuilder(
-            valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
-            builder: (context, Box<MemoModel> box, _) {
-              return Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Container(
-                  height: 500,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        // todo: 분기 처리하는 과정 좀 더 고민하기 (한줄 이라도 없으면 효율 증가, 조건 많은 순으로 정렬하여 처리 )
-                        // note: 모든 카테고리 누르고 입력 내용 없으면 모든 메모 나타내기
-                        if (selectedCategory == null && searchControllerText == null) HomeBodyCardWidget(widget.sortedTime),
-                        // note: 범주 있으면서, 검색내용 있으면, 아래 검색한 내용 나타내기(HomeSearchWidget)
-                        if (selectedCategory != null && searchControllerText != null) HomeSearchWidget(searchControllerText!),
-                        // note: 미분류 위젯
-                        if (selectedCategory != null) HomeSelectedCategoryWidget(selectedCategory),
-                        // note:
-                        if (searchControllerText != null) HomeSearchWidget(searchControllerText!),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
+          // 하단 메모장
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 500,
+              child: SingleChildScrollView(
+                child: ControlStatements(selectedCategory, searchControllerText, widget.sortedTime),
+              ),
+            ),
           ),
         ],
       ),
