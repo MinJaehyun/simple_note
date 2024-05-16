@@ -24,7 +24,6 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('my sort: $sortedTime');
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -41,22 +40,6 @@ class _MyPageState extends State<MyPage> {
       ),
     );
   }
-
-  // todo 파일로 분리해서 달력페이제와 메모페이지에서 가져와 사용할 것이다.
-  // AppBar buildAppBar() {
-  //   return AppBar(
-  //     title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
-  //     centerTitle: true,
-  //     actions: [
-  //       IconButton(
-  //         onPressed: () {
-  //           // todo: 정렬 고민하기..
-  //         },
-  //         icon: Icon(Icons.sort.dart),
-  //       ),
-  //     ],
-  //   );
-  // }
 
   FloatingActionButton buildFloatingActionButton(context) {
     return FloatingActionButton.extended(
