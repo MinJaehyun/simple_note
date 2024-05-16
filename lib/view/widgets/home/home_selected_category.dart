@@ -3,14 +3,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/screens/home/my_page.dart';
 import 'package:simple_note/view/screens/memo/update_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 
 class HomeSelectedCategoryWidget extends StatefulWidget {
-  const HomeSelectedCategoryWidget(this.selectedCategory, {super.key});
+  const HomeSelectedCategoryWidget(this.selectedCategory, this.sortedTime, {super.key});
 
   final String? selectedCategory;
+  final SortedTime? sortedTime;
 
   @override
   State<HomeSelectedCategoryWidget> createState() => _HomeSelectedCategoryWidgetState();
@@ -46,12 +48,15 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
             itemBuilder: (BuildContext context, int index) {
               // MemoModel? currentContact = box.getAt(index);
               MemoModel? currentContact = memo[index];
+              MemoModel? reversedCurrentContact = memo[memo.length -1 -index];
+              var sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+
               return Card(
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return UpdateMemo(index: index, currentContact: currentContact);
+                      return UpdateMemo(index: index, currentContact: sortedCard);
                     }));
                   },
                   child: Padding(
@@ -60,8 +65,8 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
                       titleAlignment: ListTileTitleAlignment.top,
                       contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
                       title:
-                          Text(currentContact.title, overflow: TextOverflow.ellipsis, style: style),
-                      subtitle: Text(FormatDate().formatDefaultDateKor(currentContact.createdAt),
+                          Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
+                      subtitle: Text(FormatDate().formatDefaultDateKor(sortedCard.createdAt),
                           style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                       // note: card() 내 수정, 삭제 버튼
                       trailing: Column(
@@ -78,7 +83,7 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => UpdateMemo(index: index, currentContact: currentContact),
+                                      builder: (context) => UpdateMemo(index: index, currentContact: sortedCard),
                                     ),
                                   );
                                 },
