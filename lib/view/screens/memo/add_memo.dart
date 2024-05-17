@@ -29,6 +29,12 @@ class _AddMemoState extends State<AddMemo> {
     _scrollController.addListener(_scrollListener);
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void _scrollListener() {
     if (_scrollController.offset >= 200 && !_showScrollToTopButton) {
       setState(() {

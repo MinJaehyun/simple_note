@@ -113,6 +113,12 @@ class _AllCategoryState extends State<AllCategory> {
   }
 
   @override
+  void dispose() {
+    categoryController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(color: Theme.of(context).colorScheme.primary);
 

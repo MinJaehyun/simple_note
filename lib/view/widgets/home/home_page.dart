@@ -21,6 +21,12 @@ class _HomePageState extends State<HomePage> {
   TextEditingController searchController = TextEditingController();
 
   @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(color: Theme.of(context).colorScheme.primary);
 
