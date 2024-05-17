@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/const/colors.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/helper/popup_menu_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/add_memo.dart';
+import 'package:simple_note/view/screens/memo/update_memo.dart';
 import 'package:simple_note/view/widgets/public/navigation_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
@@ -24,6 +26,7 @@ class _CalendarPageState extends State<CalendarPage> {
   List<String> textTitle = [];
   late List<DateTime> dateTimeUtc;
   Map<DateTime, List<dynamic>> eventsList = {};
+  bool isAlarmColor = false;
 
   @override
   void initState() {
@@ -60,47 +63,42 @@ class _CalendarPageState extends State<CalendarPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ValueListenableBuilder(
-                valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
-                builder: (context, Box<MemoModel> box, _) {
-                  return TableCalendar(
-                    locale: 'ko-KR',
-                    firstDay: DateTime.utc(2010, 10, 16),
-                    lastDay: DateTime.utc(2030, 3, 14),
-                    focusedDay: DateTime.now(),
-                    calendarFormat: _calendarFormat,
-                    onFormatChanged: (format) {
-                      if (_calendarFormat != format) {
-                        setState(() {
-                          _calendarFormat = format;
-                        });
-                      }
-                    },
-                    // note: 날짜 선택 시, Datetime 타입의 day 를 받을 수 있고 bool 타입을 반환한다.
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      if (!isSameDay(_selectedDay, selectedDay)) {
-                        setState(() {
-                          _selectedDay = selectedDay;
-                          _focusedDay = focusedDay;
-                        });
-                        _getEventForDay(selectedDay);
-                      }
-                    },
-                    onPageChanged: (focusedDay) {
-                      _focusedDay = focusedDay;
-                    },
-                    // note: eventLoader: (day){}는? 선택한 달에 나타나는 모든 날짜를 의미한다.
-                    eventLoader: (day) {
-                      return _getEventForDay(day);
-                    },
-                    // note: 이하 style
-                    headerStyle: buildHeaderStyle(),
-                    calendarStyle: buildCalendarStyle(),
-                  );
+              TableCalendar(
+                locale: 'ko-KR',
+                firstDay: DateTime.utc(2010, 10, 16),
+                lastDay: DateTime.utc(2030, 3, 14),
+                focusedDay: DateTime.now(),
+                calendarFormat: _calendarFormat,
+                onFormatChanged: (format) {
+                  if (_calendarFormat != format) {
+                    setState(() {
+                      _calendarFormat = format;
+                    });
+                  }
                 },
+                // note: 날짜 선택 시, Datetime 타입의 day 를 받을 수 있고 bool 타입을 반환한다.
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  if (!isSameDay(_selectedDay, selectedDay)) {
+                    setState(() {
+                      _selectedDay = selectedDay;
+                      _focusedDay = focusedDay;
+                    });
+                    _getEventForDay(selectedDay);
+                  }
+                },
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
+                // note: eventLoader: (day){}는? 선택한 달에 나타나는 모든 날짜를 의미한다.
+                eventLoader: (day) {
+                  return _getEventForDay(day);
+                },
+                // note: 이하 style
+                headerStyle: buildHeaderStyle(),
+                calendarStyle: buildCalendarStyle(),
               ),
               ValueListenableBuilder(
                 valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
@@ -132,20 +130,51 @@ class _CalendarPageState extends State<CalendarPage> {
                           child: Row(
                             children: [
                               // note: 달력 선택하면 선택한 날짜(_selectedDay)를 나타낸다
-                              Expanded(child: Text('${FormatDate().formatDateKor(_selectedDay!)}')),
-                              Text('총 ${classifiedTimeMemo.length ?? 0} 개의 메모'),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('${FormatDate().formatDefaultDateKor(_selectedDay!)}'),
+                                ),
+                              ),
+                              Text('총 ${classifiedTimeMemo.length ?? 0} 개'),
                             ],
                           ),
                         ),
                         Container(
                           height: 245,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                // 반복문으로 MemoModel 인스턴스에 접근
-                                for (MemoModel memo in classifiedTimeMemo) Card(child: ListTile(title: Text("제목: ${memo.title}")))
-                              ],
-                            ),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: classifiedTimeMemo.length,
+                            itemBuilder: (context, index) {
+                              MemoModel? currentContact = classifiedTimeMemo[index];
+                              return SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    // 시간 지나기 전: 녹색, 시간 지난 후: 빨강
+                                    // todo: 시작 시간으로 오름차순 정렬하기
+                                    Card(
+                                      child: ListTile(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(builder: (context) {
+                                              return UpdateMemo(index: index, currentContact: currentContact);
+                                            }),
+                                          );
+                                        },
+                                        leading: isAlarmColor
+                                            ? Icon(Icons.access_alarm, color: Colors.red)
+                                            : Icon(Icons.access_alarm, color: Colors.green),
+                                        title: Text("${currentContact.title}"),
+                                        // todo: 추후, 동적 시간 설정하기
+                                        subtitle: Text('15:00 ~ 16:00', style: TextStyle(color: Colors.grey[500])),
+                                        dense: true,
+                                        trailing: PopupMenuButtonWidget(index, currentContact),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
