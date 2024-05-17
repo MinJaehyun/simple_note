@@ -203,8 +203,7 @@ class _AddMemoState extends State<AddMemo> {
                                         showCursor: true,
                                         initialValue: "",
                                         keyboardType: TextInputType.multiline,
-                                        // 입력값 무제한 설정하는 방법 - maxLines: null
-                                        maxLines: null,
+                                        maxLines: 100,
                                         onChanged: (value) {
                                           setState(() {
                                             mainText = value;
