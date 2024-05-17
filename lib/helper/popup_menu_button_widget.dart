@@ -6,7 +6,11 @@ import 'package:simple_note/view/screens/memo/update_memo.dart';
 enum SampleItem { updateMemo, deleteMemo }
 
 class PopupMenuButtonWidget extends StatefulWidget {
-  const PopupMenuButtonWidget(this.index, this.currentContact, {super.key, });
+  const PopupMenuButtonWidget(
+    this.index,
+    this.currentContact, {
+    super.key,
+  });
 
   final int index;
   final MemoModel currentContact;
@@ -40,7 +44,31 @@ class _PopupMenuButtonWidgetState extends State<PopupMenuButtonWidget> {
           child: Text('수정'),
         ),
         PopupMenuItem<SampleItem>(
-          onTap: () => HiveHelperMemo().delete(widget.index),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("삭제 하시겠습니까?"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          HiveHelperMemo().delete(widget.index);
+                          Navigator.pop(context);
+                        },
+                        child: Text('삭제')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('취소')),
+                  ],
+                  elevation: 24.0,
+                );
+              },
+            );
+
+          },
           value: SampleItem.deleteMemo,
           child: Text('삭제'),
         ),
