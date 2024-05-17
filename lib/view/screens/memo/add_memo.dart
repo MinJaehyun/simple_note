@@ -19,11 +19,8 @@ class _AddMemoState extends State<AddMemo> {
   String title = '';
   String mainText = '';
   late String _dropdownValue;
-
-  // _showScrollToTopButton
   bool _showScrollToTopButton = false;
   final ScrollController _scrollController = ScrollController();
-
 
   @override
   void initState() {
@@ -54,7 +51,7 @@ class _AddMemoState extends State<AddMemo> {
 
   void _scrollToDown() {
     _scrollController.animateTo(
-      479.0,
+      _scrollController.position.maxScrollExtent,
       duration: Duration(seconds: 1),
       curve: Curves.easeInOut,
     );
@@ -70,6 +67,7 @@ class _AddMemoState extends State<AddMemo> {
       }
     }
 
+    // todo: DropdownButtonWidget는 update_memo 와 동일한 구조 사용
     DropdownButton<String> DropdownButtonWidget(Box<CategoryModel> box) {
       return DropdownButton(
         style: const TextStyle(color: Colors.green),
@@ -80,6 +78,7 @@ class _AddMemoState extends State<AddMemo> {
         items: box.values.toList().map<DropdownMenuItem<String>>((value) {
           return DropdownMenuItem<String>(
             value: value.categories,
+            // todo: 아래 test 고민하기
             child: Text(value.categories!.isEmpty ? 'test' : value.categories!),
           );
         }).toList(),
@@ -95,6 +94,7 @@ class _AddMemoState extends State<AddMemo> {
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {
               if (box.values.isEmpty) return Center(child: Text('test add memo'));
+
               return Stack(
                 children: [
                   Column(
@@ -124,7 +124,6 @@ class _AddMemoState extends State<AddMemo> {
                                 onPressed: () {},
                                 child: DropdownButtonWidget(box),
                               ),
-
                               // 범주 생성 버튼
                               IconButton(
                                 // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
@@ -150,7 +149,7 @@ class _AddMemoState extends State<AddMemo> {
                       // 중단: 입력창 (제목/내용)
                       NotificationListener<ScrollNotification>(
                         onNotification: (scrollNotification) {
-                          print(scrollNotification.metrics.pixels); // 0 / 484.1428571428571
+                          // print(scrollNotification.metrics.pixels); // 0 / 484.1428571428571
                           return true;
                         },
                         child: Expanded(
@@ -204,7 +203,8 @@ class _AddMemoState extends State<AddMemo> {
                                         showCursor: true,
                                         initialValue: "",
                                         keyboardType: TextInputType.multiline,
-                                        maxLines: 40,
+                                        // 입력값 무제한 설정하는 방법 - maxLines: null
+                                        maxLines: null,
                                         onChanged: (value) {
                                           setState(() {
                                             mainText = value;
@@ -275,12 +275,6 @@ class _AddMemoState extends State<AddMemo> {
                                 ),
                               ),
                             ),
-                            // ElevatedButton(
-                            //   onPressed: () {},
-                            //   // isCeiling = true 상태이며, 바닥 상태일 때 isCeling = false; 상태로 변경(set)한다
-                            //   // 바닥 상태:
-                            //   child: isCeiling ? Icon(Icons.arrow_downward) : Icon(Icons.arrow_upward),
-                            // ),
                           ],
                         ),
                       ),
@@ -291,7 +285,9 @@ class _AddMemoState extends State<AddMemo> {
                     bottom: 70,
                     right: 20,
                     child: IconButton.filledTonal(
-                      icon: _showScrollToTopButton ? Icon(Icons.arrow_upward) :Icon(Icons.arrow_downward),
+                      hoverColor: Colors.orange,
+                      focusColor: Colors.orangeAccent,
+                      icon: _showScrollToTopButton ? Icon(Icons.arrow_upward) : Icon(Icons.arrow_downward),
                       onPressed: () {
                         _showScrollToTopButton ? _scrollToTop() : _scrollToDown();
                       },
