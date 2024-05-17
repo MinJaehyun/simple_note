@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:hive/hive.dart';
 import 'package:simple_note/model/category.dart';
-
 
 const String CategoryBox = 'CATEGORY_BOX';
 
@@ -50,5 +51,17 @@ class HiveHelperCategory {
   // note: 미사용 - 기본 구조
   // Future create(String data) async {
   //   return categoriesBox!.add(CategoryModel(data));
+  // }
+
+  // Reorder - 대기
+  // Future reorder(int oldIndex, int newIndex) async {
+  //   List<CategoryModel> newList = [];
+  //   newList.addAll(categoriesBox!.values);
+  //
+  //   final CategoryModel item = newList.removeAt(oldIndex);
+  //   newList.insert(newIndex, item);
+  //
+  //   await categoriesBox!.clear();
+  //   await categoriesBox!.addAll(newList);
   // }
 }
