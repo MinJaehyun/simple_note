@@ -28,7 +28,6 @@ class _AllCategoryState extends State<AllCategory> {
     // note: 순서: 범주 생성 시, 이전 범주값(String = '')은 지운다.
     // note: categoryController.clear() 처리하면 null값이 찍히는게 아니라 아예 값이 없다 - 이 의미는 String 값이 ''이므로 console에 아무값도 찍히지 않느다.
     // note: 문자열 길이가 0임을 확인 - isEmpty
-    categoryController.clear();
     return showDialog(
       context: context,
       builder: (_) {
@@ -123,10 +122,7 @@ class _AllCategoryState extends State<AllCategory> {
           onPressed: () => addPopupDialog(context),
           label: const Text('범주 만들기'),
         ),
-        appBar: AppBar(
-          title: Text('Simple Note', style: style),
-          centerTitle: true,
-        ),
+        appBar: AppBar(title: Text('Simple Note', style: style), centerTitle: true),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -138,23 +134,21 @@ class _AllCategoryState extends State<AllCategory> {
                   unclassifiedMemo = box.values.where((item) => item.selectedCategory == '').toList().length;
                   // note: 분류된 메모
                   classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory);
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text('범주', style: style),
-                      ),
+                      Padding(padding: const EdgeInsets.all(20.0), child: Text('범주', style: style)),
                       Card(
                         child: ListTile(
-                          leading: Icon(Icons.menu),
-                          title: Text('모든(${box.values.length})', style: style),
+                          // leading: Icon(Icons.menu),
+                          title: Text('모든 (${box.values.length})', style: style),
                         ),
                       ),
                       Card(
                         child: ListTile(
-                          leading: Icon(Icons.menu),
-                          title: Text('미분류($unclassifiedMemo)', style: style),
+                          // leading: Icon(Icons.menu),
+                          title: Text('미분류 ($unclassifiedMemo)', style: style),
                         ),
                       ),
                     ],
@@ -174,8 +168,8 @@ class _AllCategoryState extends State<AllCategory> {
                       selectedCategory = currentContact!.categories;
                       return Card(
                         child: ListTile(
-                          leading: Icon(Icons.menu),
-                          title: Text('${currentContact!.categories.toString()}(${classifiedMemo.length})', style: style),
+                          // leading: Icon(Icons.menu),
+                          title: Text('${currentContact!.categories.toString()} (${classifiedMemo.length})', style: style),
                           trailing: Column(
                             children: [
                               PopupMenuButton<CategoriesItem>(
