@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/view/screens/home/my_page.dart';
 
 //ignore: must_be_immutable
@@ -18,6 +19,7 @@ class AppBarSort extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppBarSortState extends State<AppBarSort> {
+  // 메모: 상단 정렬 버튼
   Future popupSort(context) {
     return showDialog(
       context: context,
@@ -78,18 +80,35 @@ class _AppBarSortState extends State<AppBarSort> {
   }
 
   @override
-  PreferredSizeWidget build(BuildContext context) {
-    return AppBar(
-      title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
-      centerTitle: true,
-      actions: [
-        IconButton(
-          icon: Icon(Icons.sort),
-          onPressed: () {
-            popupSort(context);
-          },
-        ),
-      ],
+  ValueListenableBuilder<Object?> build(BuildContext context) {
+    return ValueListenableBuilder<Box>(
+      valueListenable: Hive.box('darkModel').listenable(keys: ['darkMode']),
+      builder: (context, box, _) {
+        var darkMode = box.get('darkMode', defaultValue: false);
+
+        return AppBar(
+          title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.sort),
+              onPressed: () {
+                popupSort(context);
+              },
+            ),
+            IconButton(
+              icon: darkMode ? Icon(Icons.light_mode) : Icon(Icons.dark_mode),
+              onPressed: () {
+                if(darkMode == false) {
+                  box.put('darkMode', true);
+                } else {
+                  box.put('darkMode', false);
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
