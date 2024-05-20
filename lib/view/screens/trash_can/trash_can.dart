@@ -6,7 +6,7 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:simple_note/view/screens/trash_can_memo/update_trash_can_memo.dart';
 import 'package:simple_note/view/widgets/public/navigation_bar.dart';
-
+import 'package:simple_note/view/widgets/trash/trash_search.dart';
 
 class TrashCan extends StatefulWidget {
   const TrashCan({super.key});
@@ -118,67 +118,76 @@ class _TrashCanState extends State<TrashCan> {
                 child: ValueListenableBuilder(
                   valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
                   builder: (context, Box<TrashCanModel> box, _) {
-                    if (box.values.isEmpty) return Center(child: Text('휴지통이 비었습니다'));
+                    // 휴지통 분기문 시작점
+                    if (searchControllerText == null || searchControllerText == '') {
+                      return Container(
+                        height: MediaQuery.of(context).size.height - 200,
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: box.values.length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+                            childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
+                            mainAxisSpacing: 0, //수평 Padding
+                            crossAxisSpacing: 0, //수직 Padding
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
+                            // note: *** 아래처럼 TrashCanModel? currentContact 설정하면 제대로 index 각각 가져오는데, 상단에 TrashCanModel? currentContact 작성하고 currentContact = box.getAt(index); 처리하면 각각의 요소 가져오지 못한다. 이유는? ***
+                            TrashCanModel? currentContact = box.getAt(index);
+                            TrashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
+                            // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
-                    return Container(
-                      height: MediaQuery.of(context).size.height - 200,
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: box.values.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-                          childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
-                          mainAxisSpacing: 0, //수평 Padding
-                          crossAxisSpacing: 0, //수직 Padding
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
-                          // note: *** 아래처럼 TrashCanModel? currentContact 설정하면 제대로 index 각각 가져오는데, 상단에 TrashCanModel? currentContact 작성하고 currentContact = box.getAt(index); 처리하면 각각의 요소 가져오지 못한다. 이유는? ***
-                          TrashCanModel? currentContact = box.getAt(index);
-                          TrashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
-                          // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
-
-                          return Card(
-                            clipBehavior: Clip.antiAlias,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) {
-                                    // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
-                                    return UpdateTrashCanMemo(index: index, currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!);
-                                  }),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ListTile(
-                                  titleAlignment: ListTileTitleAlignment.top,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                                  title: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(height: 10.0),
-                                      Text(
-                                        isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: style,
-                                      ),
-                                      SizedBox(height: 100.0), // 원하는 간격 크기
-                                      Text(
-                                        FormatDate().formatSimpleTimeKor(isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
-                                        style: TextStyle(color: Colors.grey.withOpacity(0.9)),
-                                      ),
-                                    ],
+                            // 모든 휴지통 내용 출력
+                            return Card(
+                              clipBehavior: Clip.antiAlias,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
+                                      return UpdateTrashCanMemo(
+                                          index: index, currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!);
+                                    }),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    titleAlignment: ListTileTitleAlignment.top,
+                                    contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                                    title: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 10.0),
+                                        Text(
+                                          isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: style,
+                                        ),
+                                        SizedBox(height: 100.0), // 원하는 간격 크기
+                                        Text(
+                                          FormatDate()
+                                              .formatSimpleTimeKor(isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
+                                          style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                        ),
+                                      ],
+                                    ),
+                                    // note: card() 수정 및 복원 버튼
+                                    trailing: PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
                                   ),
-                                  // note: card() 수정 및 복원 버튼
-                                  trailing: PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                            );
+                          },
+                        ),
+                      );
+                    }
+                    // 휴지통에서 검색된 내용만 출력
+                    else if (searchControllerText != null) {
+                      return TrashSearch(searchControllerText!);
+                    }
+                    return Center(child: Text('휴지통이 비었습니다'));
                   },
                 ),
               ),
