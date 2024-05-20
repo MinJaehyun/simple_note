@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
@@ -273,6 +274,37 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
                               ),
                             ),
                             SizedBox(width: 15),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                label: Text('복원하기'),
+                                icon: Icon(Icons.restore),
+                                onPressed: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('메모를 복원 하시겠습니까?'),
+                                    actions: <Widget>[
+                                      // 예: 누르면, 메모를 복원한다.
+                                      TextButton(
+                                        onPressed: () async {
+                                          HiveHelperMemo().addMemo(createdAt: widget.currentContact.createdAt, title: title, mainText: mainText, selectedCategory: widget.currentContact.selectedCategory,);
+                                          HiveHelperTrashCan().delete(widget.index);
+                                          setState(() {
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                        child: const Text('메모를 복원'),
+                                      ),
+                                      // 아니오: 누르면, 메모장으로 빠져나간다.
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context, 'OK'),
+                                        child: const Text('메모장 돌아가기'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                             Expanded(
                               child: ElevatedButton.icon(
                                 label: Text('취소'),
