@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
+import 'package:simple_note/helper/popup_trash_can_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/memo/update_memo.dart';
+import 'package:simple_note/view/screens/home/my_page.dart';
+import 'package:simple_note/view/screens/trash_can_memo/update_trash_can_memo.dart';
+
 
 class TrashCan extends StatefulWidget {
-  const TrashCan({super.key});
+  const TrashCan(this.sortedTime, {super.key});
+
+  final SortedTime? sortedTime;
 
   @override
   State<TrashCan> createState() => _TrashCanState();
@@ -129,7 +134,7 @@ class _TrashCanState extends State<TrashCan> {
                         // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
                         TrashCanModel? currentContact = box.getAt(index);
                         TrashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
-                        // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+                        var sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
                         return Card(
                           clipBehavior: Clip.antiAlias,
@@ -138,7 +143,7 @@ class _TrashCanState extends State<TrashCan> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) {
                                   // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
-                                  return UpdateMemo(index: index, currentContact: currentContact);
+                                  return UpdateTrashCanMemo(index: index, currentContact: currentContact);
                                 }),
                               );
                             },
@@ -165,17 +170,7 @@ class _TrashCanState extends State<TrashCan> {
                                   ],
                                 ),
                                 // note: card() 수정 및 복원 버튼
-                                trailing: Column(
-                                  children: [
-                                    // todo: 수정 및 복원 버튼 만들기
-                                    // PopupMenuButtonWidget(index, sortedCard),
-
-                                    // SizedBox(height: 5),
-                                    // Flexible(
-                                    //   child: IconButton(onPressed: (){}, icon: Icon(Icons.star_border_sharp)),
-                                    // ),
-                                  ],
-                                ),
+                                trailing: PopupTrashCanButtonWidget(index, sortedCard!),
                               ),
                             ),
                           ),
