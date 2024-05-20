@@ -107,7 +107,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
               currentIndex = 4;
             });
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              return TrashCan(widget.sortedTime);
+              return TrashCan();
             },));
           },
           iconSize: 25,
