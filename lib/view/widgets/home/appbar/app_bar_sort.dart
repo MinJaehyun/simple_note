@@ -99,7 +99,7 @@ class _AppBarSortState extends State<AppBarSort> {
             ),
             IconButton(
               visualDensity: VisualDensity(horizontal: -4),
-              icon: darkMode ? Icon(Icons.light_mode) : Icon(Icons.dark_mode),
+              icon: darkMode ? Icon(Icons.light_mode_outlined) : Icon(Icons.dark_mode_outlined),
               onPressed: () {
                 if(darkMode == false) {
                   box.put('darkMode', true);
