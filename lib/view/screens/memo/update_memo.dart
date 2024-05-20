@@ -11,6 +11,7 @@ class UpdateMemo extends StatefulWidget {
   UpdateMemo({required this.index, required this.currentContact, super.key});
 
   final int index;
+  // err: final MemoModel currentContact; 처리하면 MemoModel만 사용하게 되므로 TrashCanModel은 사용할 수 없다.. 일단 제거하고 진행하기
   final MemoModel currentContact;
 
   @override
@@ -213,7 +214,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                                         initialValue: widget.currentContact.mainText,
                                         keyboardType: TextInputType.multiline,
                                         // 입력값 무제한 설정하는 방법 - maxLines: null
-                                        maxLines: null,
+                                        maxLines: widget.currentContact.mainText != null ? 100 : null,
                                         onChanged: (value) {
                                           setState(() {
                                             mainText = value;
@@ -275,9 +276,6 @@ class _UpdateMemoState extends State<UpdateMemo> {
                               child: ElevatedButton.icon(
                                 label: Text('취소'),
                                 icon: Icon(Icons.close),
-                                // onPressed: () {
-                                //   Navigator.of(context).pop();
-                                // },
                                 onPressed: () => showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) => AlertDialog(
