@@ -10,10 +10,7 @@ enum SampleItem { updateMemo, deleteMemo }
 
 class TrashSearch extends StatefulWidget {
   const TrashSearch(this.searchControllerText, {super.key});
-
   final String searchControllerText;
-
-  // final SortedTime? sortedTime;
 
   @override
   State<TrashSearch> createState() => _TrashSearchState();
@@ -34,10 +31,6 @@ class _TrashSearchState extends State<TrashSearch> {
           return item.title.contains(widget.searchControllerText) || item.mainText!.contains(widget.searchControllerText);
         }).toList();
 
-        print('boxSearchTitleAndMainText: $boxSearchTitleAndMainText');
-        // print();
-        // print();
-
         return Container(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
@@ -51,15 +44,12 @@ class _TrashSearchState extends State<TrashSearch> {
             ),
             itemBuilder: (BuildContext context, int index) {
               TrashCanModel currentContact = boxSearchTitleAndMainText[index];
-              // TrashCanModel? reversedCurrentContact = boxSearchTitleAndMainText[boxSearchTitleAndMainText.length -1 -index];
-              // var sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      // 'TrashCanModel' can't be assigned to the parameter type 'MemoModel'.
                       return UpdateTrashCanMemo(index: index, currentContact: currentContact);
                     }));
                   },
@@ -68,27 +58,32 @@ class _TrashSearchState extends State<TrashSearch> {
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
                       contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                      title: SubstringHighlight(
-                        // text: sortedCard.title,
-                        text: currentContact.title,
-                        // 검색한 내용 가져오기
-                        term: widget.searchControllerText,
-                        // non-highlight style
-                        textStyle: TextStyle(color: Colors.grey),
-                        // highlight style
-                        textStyleHighlight: TextStyle(
-                          fontSize: 24.0,
-                          color: Colors.black,
-                          backgroundColor: Colors.yellow,
-                          // decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      subtitle: Text(
-                        // FormatDate().formatDefaultDateKor(sortedCard.createdAt),
-                        FormatDate().formatDefaultDateKor(currentContact.createdAt),
-                        style: TextStyle(
-                          color: Colors.grey.withOpacity(0.9),
-                        ),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 13),
+                          SubstringHighlight(
+                            // text: sortedCard.title,
+                            text: currentContact.title,
+                            // 검색한 내용 가져오기
+                            term: widget.searchControllerText,
+                            // non-highlight style
+                            textStyle: TextStyle(color: Colors.grey),
+                            // highlight style
+                            textStyleHighlight: TextStyle(
+                              fontSize: 24.0,
+                              color: Colors.black,
+                              backgroundColor: Colors.yellow,
+                            ),
+                          ),
+                          SizedBox(height: 100),
+                          Text(
+                            FormatDate().formatDefaultDateKor(currentContact.createdAt),
+                            style: TextStyle(
+                              color: Colors.grey.withOpacity(0.9),
+                            ),
+                          ),
+                        ],
                       ),
                       // note: card() 내 수정, 삭제 버튼
                       trailing: Column(
@@ -105,7 +100,6 @@ class _TrashSearchState extends State<TrashSearch> {
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      // builder: (context) => UpdateTrashCanMemo(index: index, currentContact: sortedCard),
                                       builder: (context) => UpdateTrashCanMemo(index: index, currentContact: currentContact),
                                     ),
                                   );
