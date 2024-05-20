@@ -19,7 +19,7 @@ class HiveHelperTrashCan {
 
   // note: CRUD
   Future read() async {
-    return trashCanBox!.values.toList();가
+    return trashCanBox!.values.toList();
   }
 
   // todo: 추후: 시작과 끝나는 시간 속성 넣기 DateTime startTime, DateTime endTime :
