@@ -34,7 +34,7 @@ class _AppBarSortState extends State<AppBarSort> {
                   ListTile(
                     title: const Text('최신순'),
                     leading: Radio<SortedTime>(
-                      value: SortedTime.firstTime,
+                      value: SortedTime.lastTime,
                       groupValue: widget.sortedTime,
                       onChanged: (SortedTime? value) {
                         setState(() {
@@ -47,7 +47,7 @@ class _AppBarSortState extends State<AppBarSort> {
                   ListTile(
                     title: const Text('오래된 시간부터'),
                     leading: Radio<SortedTime>(
-                      value: SortedTime.lastTime,
+                      value: SortedTime.firstTime,
                       groupValue: widget.sortedTime,
                       onChanged: (SortedTime? value) {
                         setState(() {
@@ -91,12 +91,14 @@ class _AppBarSortState extends State<AppBarSort> {
           centerTitle: true,
           actions: [
             IconButton(
+              visualDensity: VisualDensity(horizontal: -4),
               icon: Icon(Icons.sort),
               onPressed: () {
                 popupSort(context);
               },
             ),
             IconButton(
+              visualDensity: VisualDensity(horizontal: -4),
               icon: darkMode ? Icon(Icons.light_mode) : Icon(Icons.dark_mode),
               onPressed: () {
                 if(darkMode == false) {
