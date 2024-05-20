@@ -4,15 +4,12 @@ import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/helper/popup_trash_can_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/home/my_page.dart';
 import 'package:simple_note/view/screens/trash_can_memo/update_trash_can_memo.dart';
 import 'package:simple_note/view/widgets/public/navigation_bar.dart';
 
 
 class TrashCan extends StatefulWidget {
-  const TrashCan(this.sortedTime, {super.key});
-
-  final SortedTime? sortedTime;
+  const TrashCan({super.key});
 
   @override
   State<TrashCan> createState() => _TrashCanState();
@@ -21,6 +18,7 @@ class TrashCan extends StatefulWidget {
 class _TrashCanState extends State<TrashCan> {
   String? searchControllerText;
   TextEditingController searchController = TextEditingController();
+  bool isCurrentSortVal = false;
 
   @override
   void dispose() {
@@ -40,8 +38,11 @@ class _TrashCanState extends State<TrashCan> {
           actions: [
             // 정렬
             IconButton(
+                // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
                 onPressed: () {
-                  // todo: 정렬 구현하기
+                  setState(() {
+                    isCurrentSortVal = !isCurrentSortVal;
+                  });
                 },
                 icon: Icon(Icons.sort)),
           ],
@@ -117,7 +118,8 @@ class _TrashCanState extends State<TrashCan> {
                 child: ValueListenableBuilder(
                   valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
                   builder: (context, Box<TrashCanModel> box, _) {
-                    if (box.values.isEmpty) return Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+                    if (box.values.isEmpty) return Center(child: Text('휴지통이 비었습니다'));
+
                     return Container(
                       height: MediaQuery.of(context).size.height - 200,
                       child: GridView.builder(
@@ -131,10 +133,11 @@ class _TrashCanState extends State<TrashCan> {
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
+                          // note: *** 아래처럼 TrashCanModel? currentContact 설정하면 제대로 index 각각 가져오는데, 상단에 TrashCanModel? currentContact 작성하고 currentContact = box.getAt(index); 처리하면 각각의 요소 가져오지 못한다. 이유는? ***
                           TrashCanModel? currentContact = box.getAt(index);
                           TrashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
-                          var sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
-              
+                          // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+
                           return Card(
                             clipBehavior: Clip.antiAlias,
                             child: InkWell(
@@ -142,7 +145,7 @@ class _TrashCanState extends State<TrashCan> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
                                     // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
-                                    return UpdateTrashCanMemo(index: index, currentContact: currentContact);
+                                    return UpdateTrashCanMemo(index: index, currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!);
                                   }),
                                 );
                               },
@@ -156,20 +159,19 @@ class _TrashCanState extends State<TrashCan> {
                                     children: [
                                       SizedBox(height: 10.0),
                                       Text(
-                                        // sortedCard!.title,
-                                        currentContact!.title,
+                                        isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
                                         overflow: TextOverflow.ellipsis,
                                         style: style,
                                       ),
                                       SizedBox(height: 100.0), // 원하는 간격 크기
                                       Text(
-                                        FormatDate().formatSimpleTimeKor(currentContact.createdAt),
+                                        FormatDate().formatSimpleTimeKor(isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
                                         style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                       ),
                                     ],
                                   ),
                                   // note: card() 수정 및 복원 버튼
-                                  trailing: PopupTrashCanButtonWidget(index, sortedCard!),
+                                  trailing: PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
                                 ),
                               ),
                             ),
