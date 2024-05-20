@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/model/trash_can.dart';
-
+import 'package:simple_note/view/screens/trash_can_memo/update_trash_can_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo, restoreMemo }
 
@@ -38,36 +38,74 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
       itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
         PopupMenuItem<SampleItem>(
           onTap: () {
-            HiveHelperTrashCan().updateMemo(
-              index: widget.index,
-              createdAt: widget.currentContact.createdAt,
-              title: widget.currentContact.title,
-              mainText: widget.currentContact.mainText,
-              // note: 휴지통에 저장되면서 범주는 '미분류'로 지정되야 한다.
-              selectedCategory: _dropdownValue,
-            );
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                return UpdateTrashCanMemo(index: widget.index, currentContact: widget.currentContact);
+              },
+            ));
           },
           value: SampleItem.updateMemo,
           child: Text('수정'),
         ),
         PopupMenuItem<SampleItem>(
           onTap: () {
-            // 복원한다: 메모장에 넣고, 휴지통에서 지운다.
-            HiveHelperMemo().addMemo(
-              createdAt: widget.currentContact.createdAt,
-              title: widget.currentContact.title,
-              mainText: widget.currentContact.mainText,
-              selectedCategory: _dropdownValue,
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("메모를 복원 하시겠습니까?"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          // 복원한다: 메모장에 넣고, 휴지통에서 지운다.
+                          HiveHelperMemo().addMemo(
+                            createdAt: widget.currentContact.createdAt,
+                            title: widget.currentContact.title,
+                            mainText: widget.currentContact.mainText,
+                            selectedCategory: _dropdownValue,
+                          );
+                          HiveHelperTrashCan().delete(widget.index);
+                          Navigator.pop(context);
+                        },
+                        child: Text('복원')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('취소')),
+                  ],
+                );
+              },
             );
-            HiveHelperTrashCan().delete(widget.index);
           },
           value: SampleItem.restoreMemo,
           child: Text('복원'),
         ),
         PopupMenuItem<SampleItem>(
           onTap: () {
-            // 휴지통에서 완전히 삭제
-            HiveHelperTrashCan().delete(widget.index);
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("메모를 완전히 삭제 하시겠습니까?"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          // 완전히 삭제
+                          HiveHelperTrashCan().delete(widget.index);
+                          Navigator.pop(context);
+                        },
+                        child: Text('완전히 삭제')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('취소')),
+                  ],
+                  elevation: 24.0,
+                );
+              },
+            );
           },
           value: SampleItem.deleteMemo,
           child: Text('완전히 삭제'),
