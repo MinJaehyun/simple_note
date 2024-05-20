@@ -35,8 +35,8 @@ class _HomeBodyCardWidgetState extends State<HomeBodyCardWidget> {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
               childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
-              mainAxisSpacing: 10, //수평 Padding
-              crossAxisSpacing: 10, //수직 Padding
+              mainAxisSpacing: 0, //수평 Padding
+              crossAxisSpacing: 0, //수직 Padding
             ),
             itemBuilder: (BuildContext context, int index) {
               // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
@@ -58,13 +58,36 @@ class _HomeBodyCardWidgetState extends State<HomeBodyCardWidget> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
-                        titleAlignment: ListTileTitleAlignment.top,
-                        contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                        title: Text(sortedCard!.title, overflow: TextOverflow.ellipsis, style: style),
-                        subtitle:
-                            Text(FormatDate().formatDefaultDateKor(sortedCard.createdAt), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
-                        // note: card() 내 수정, 삭제 버튼
-                        trailing: PopupMenuButtonWidget(index, sortedCard)),
+                      titleAlignment: ListTileTitleAlignment.top,
+                      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10.0),
+                          Text(
+                            sortedCard!.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: style,
+                          ),
+                          SizedBox(height: 100.0), // 원하는 간격 크기
+                          Text(
+                            FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
+                            style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                          ),
+                        ],
+                      ),
+                      // note: card() 내 수정, 삭제 버튼
+                      trailing: Column(
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          PopupMenuButtonWidget(index, sortedCard),
+                          // SizedBox(height: 5),
+                          // Flexible(
+                          //   child: IconButton(onPressed: (){}, icon: Icon(Icons.star_border_sharp)),
+                          // ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               );
