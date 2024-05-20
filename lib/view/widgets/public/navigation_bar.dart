@@ -6,8 +6,9 @@ import 'package:simple_note/view/screens/home/my_page.dart';
 import 'package:simple_note/view/screens/trash_can/trash_can.dart';
 
 class BuildCurvedNavigationBar extends StatefulWidget {
-  const BuildCurvedNavigationBar(this.index, {super.key});
+  const BuildCurvedNavigationBar(this.index, {super.key, this.sortedTime});
   final int index;
+  final SortedTime? sortedTime;
 
   @override
   State<BuildCurvedNavigationBar> createState() => _BuildCurvedNavigationBarState();
@@ -106,7 +107,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
               currentIndex = 4;
             });
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return TrashCan();
+              return TrashCan(widget.sortedTime);
             },));
           },
           iconSize: 25,
