@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:simple_note/view/screens/calendar/calendar.dart';
 import 'package:simple_note/view/screens/category/all_category.dart';
 import 'package:simple_note/view/screens/home/my_page.dart';
+import 'package:simple_note/view/screens/trash_can/trash_can.dart';
 
 class BuildCurvedNavigationBar extends StatefulWidget {
   const BuildCurvedNavigationBar(this.index, {super.key});
@@ -104,9 +105,9 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
               isTapped = true;
               currentIndex = 4;
             });
-            // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-            //   return;
-            // },));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return TrashCan();
+            },));
           },
           iconSize: 25,
           color: currentIndex == 4 ? Colors.cyan : Colors.grey,
