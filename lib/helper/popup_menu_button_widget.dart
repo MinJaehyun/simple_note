@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/update_memo.dart';
 
@@ -21,6 +22,13 @@ class PopupMenuButtonWidget extends StatefulWidget {
 
 class _PopupMenuButtonWidgetState extends State<PopupMenuButtonWidget> {
   SampleItem? selectedItem;
+  late String _dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _dropdownValue = '미분류';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +57,19 @@ class _PopupMenuButtonWidgetState extends State<PopupMenuButtonWidget> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text("삭제 하시겠습니까?"),
+                  title: Text("메모를 삭제 하시겠습니까?"),
                   actions: [
                     TextButton(
                         onPressed: () {
+                          // 휴지통에 담기
+                          HiveHelperTrashCan().addMemo(
+                            createdAt: widget.currentContact.createdAt,
+                            title: widget.currentContact.title,
+                            mainText: widget.currentContact.mainText,
+                            // note: 휴지통에 저장되면서 범주는 '미분류'로 지정되야 한다.
+                            selectedCategory: _dropdownValue,
+                          );
+                          // 일반 메모장에서 삭제하기
                           HiveHelperMemo().delete(widget.index);
                           Navigator.pop(context);
                         },
@@ -67,7 +84,6 @@ class _PopupMenuButtonWidgetState extends State<PopupMenuButtonWidget> {
                 );
               },
             );
-
           },
           value: SampleItem.deleteMemo,
           child: Text('삭제'),
