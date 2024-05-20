@@ -165,8 +165,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                             ? Icon(Icons.access_alarm, color: Colors.red)
                                             : Icon(Icons.access_alarm, color: Colors.green),
                                         title: Text("${currentContact.title}"),
-                                        // todo: 추후, 동적 시간 설정하기
-                                        subtitle: Text('15:00 ~ 16:00', style: TextStyle(color: Colors.grey[500])),
+                                        subtitle: Text('${FormatDate().formatDotDateTimeKor(currentContact.createdAt)}', style: TextStyle(color: Colors.grey[500])),
                                         dense: true,
                                         trailing: PopupMenuButtonWidget(index, currentContact),
                                       ),
