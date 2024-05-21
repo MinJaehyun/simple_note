@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/trash_can_memo/update_trash_can_memo.dart';
+import 'package:simple_note/view/screens/crud_trash_can_memo/update_trash_can_memo.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
