@@ -7,11 +7,7 @@ import 'package:simple_note/view/screens/memo/update_memo.dart';
 enum SampleItem { updateMemo, deleteMemo }
 
 class PopupMenuButtonWidget extends StatefulWidget {
-  const PopupMenuButtonWidget(
-    this.index,
-    this.currentContact, {
-    super.key,
-  });
+  const PopupMenuButtonWidget(this.index, this.currentContact, {super.key});
 
   final int index;
   final MemoModel currentContact;
@@ -35,9 +31,7 @@ class _PopupMenuButtonWidgetState extends State<PopupMenuButtonWidget> {
     return PopupMenuButton<SampleItem>(
       initialValue: selectedItem,
       onSelected: (SampleItem item) {
-        setState(() {
-          selectedItem = item;
-        });
+        setState(() => selectedItem = item);
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
         PopupMenuItem<SampleItem>(
@@ -75,9 +69,7 @@ class _PopupMenuButtonWidgetState extends State<PopupMenuButtonWidget> {
                         },
                         child: Text('삭제')),
                     TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: () => Navigator.pop(context),
                         child: Text('취소')),
                   ],
                   elevation: 24.0,

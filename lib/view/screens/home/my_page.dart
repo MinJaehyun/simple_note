@@ -29,11 +29,8 @@ class _MyPageState extends State<MyPage> {
         resizeToAvoidBottomInset: false,
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        // note: Appbar
         appBar: AppBarSort(sortedTime, changeFunc),
-        // note: home page body frame
         body: HomePage(sortedTime),
-        // note: navigation bar
         bottomNavigationBar: BuildCurvedNavigationBar(2),
         // note: 하단 add
         floatingActionButton: buildFloatingActionButton(context),

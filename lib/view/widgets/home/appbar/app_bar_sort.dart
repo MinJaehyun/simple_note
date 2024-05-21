@@ -5,13 +5,13 @@ import 'package:simple_note/view/screens/home/my_page.dart';
 //ignore: must_be_immutable
 class AppBarSort extends StatefulWidget implements PreferredSizeWidget {
   AppBarSort(this.sortedTime, this.changeFunc, {super.key});
-  // final 지정하면 한 번만 값을 변경하는데, 그래서 지정하지 않음
+
+  // note: 아래 SortedTime 은 final 지정하면 한 번만 값을 변경하여서 지정하지 않음
   SortedTime sortedTime;
   final Function(dynamic) changeFunc;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
   // 사이즈 조절: Size get preferredSize => const Size.fromHeight(70);
 
   @override
@@ -61,15 +61,9 @@ class _AppBarSortState extends State<AppBarSort> {
               ),
               actions: [
                 TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, widget.sortedTime); // 정렬 값을 반환
-                    },
+                    onPressed: () => Navigator.pop(context, widget.sortedTime), // 정렬 값을 반환,
                     child: Text('적용')),
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('취소')),
+                TextButton(onPressed: () => Navigator.pop(context), child: Text('취소')),
               ],
               elevation: 24.0,
             );
@@ -93,15 +87,13 @@ class _AppBarSortState extends State<AppBarSort> {
             IconButton(
               visualDensity: VisualDensity(horizontal: -4),
               icon: Icon(Icons.sort),
-              onPressed: () {
-                popupSort(context);
-              },
+              onPressed: () => popupSort(context),
             ),
             IconButton(
               visualDensity: VisualDensity(horizontal: -4),
               icon: darkMode ? Icon(Icons.light_mode_outlined) : Icon(Icons.dark_mode_outlined),
               onPressed: () {
-                if(darkMode == false) {
+                if (darkMode == false) {
                   box.put('darkMode', true);
                 } else {
                   box.put('darkMode', false);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
-import 'package:simple_note/helper/popup_menu_button_widget.dart';
+import 'package:simple_note/view/widgets/home/popup_menu_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/home/my_page.dart';
@@ -77,16 +77,7 @@ class _HomeBodyCardWidgetState extends State<HomeBodyCardWidget> {
                         ],
                       ),
                       // note: card() 내 수정, 삭제 버튼
-                      trailing: Column(
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
-                          PopupMenuButtonWidget(index, sortedCard),
-                          // SizedBox(height: 5),
-                          // Flexible(
-                          //   child: IconButton(onPressed: (){}, icon: Icon(Icons.star_border_sharp)),
-                          // ),
-                        ],
-                      ),
+                      trailing: PopupMenuButtonWidget(index, sortedCard),
                     ),
                   ),
                 ),
