@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/memo/update_memo.dart';
+import 'package:simple_note/view/screens/crud_memo/update_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/view/screens/memo/add_memo.dart';
+import 'package:simple_note/view/screens/crud_memo/add_memo.dart';
 import 'package:simple_note/view/widgets/home/appbar/app_bar_sort.dart';
 import 'package:simple_note/view/widgets/home/home_page.dart';
 import 'package:simple_note/view/widgets/public/navigation_bar.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/trash_can_memo/update_trash_can_memo.dart';
+import 'package:simple_note/view/screens/crud_trash_can_memo/update_trash_can_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo, restoreMemo }
 
@@ -62,6 +62,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                             createdAt: widget.currentContact.createdAt,
                             title: widget.currentContact.title,
                             mainText: widget.currentContact.mainText,
+                            // 선택한 범주를 가져오려면?
                             selectedCategory: _dropdownValue,
                           );
                           HiveHelperTrashCan().delete(widget.index);
