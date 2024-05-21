@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/view/widgets/home/popup_menu_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/home/my_page.dart';
@@ -20,6 +21,13 @@ class HomeSelectedCategoryWidget extends StatefulWidget {
 
 class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget> {
   SampleItem? selectedItem;
+  late var _dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _dropdownValue = '미분류';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +56,7 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
             itemBuilder: (BuildContext context, int index) {
               // MemoModel? currentContact = box.getAt(index);
               MemoModel? currentContact = memo[index];
-              MemoModel? reversedCurrentContact = memo[memo.length -1 -index];
+              MemoModel? reversedCurrentContact = memo[memo.length - 1 - index];
               var sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
@@ -64,41 +72,19 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
                       contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                      title:
-                          Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
-                      subtitle: Text(FormatDate().formatDefaultDateKor(sortedCard.createdAt),
-                          style: TextStyle(color: Colors.grey.withOpacity(0.9))),
-                      // note: card() 내 수정, 삭제 버튼
-                      trailing: Column(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          PopupMenuButton<SampleItem>(
-                            initialValue: selectedItem,
-                            onSelected: (SampleItem item) {
-                              setState(() {
-                                selectedItem = item;
-                              });
-                            },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                              PopupMenuItem<SampleItem>(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => UpdateMemo(index: index, currentContact: sortedCard),
-                                    ),
-                                  );
-                                },
-                                value: SampleItem.updateMemo,
-                                child: Text('수정'),
-                              ),
-                              PopupMenuItem<SampleItem>(
-                                onTap: () => HiveHelperMemo().delete(index),
-                                value: SampleItem.deleteMemo,
-                                child: Text('삭제'),
-                              ),
-                            ],
+                          SizedBox(height: 10.0),
+                          Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
+                          SizedBox(height: 100.0), // 원하는 간격 크기
+                          Text(
+                            FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
+                            style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                           ),
                         ],
                       ),
+                      trailing: PopupMenuButtonWidget(index, currentContact),
                     ),
                   ),
                 ),
