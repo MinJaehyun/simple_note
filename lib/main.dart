@@ -7,8 +7,8 @@ import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'view/screens/home/my_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:simple_note/view/screens/memo/memo_page.dart';
 
 // todo: 추후 hive_helper_dark_mode 파일로 분리하기
 const darkModeBox = 'darkModel';
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
               ThemeData.light().textTheme,
             ),
           ),
-          home: MyPage(),
+          home: MemoPage(),
         );
       },
     );

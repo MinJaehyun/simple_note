@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/view/screens/home/my_page.dart';
+import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/view/widgets/home/control_statements.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 

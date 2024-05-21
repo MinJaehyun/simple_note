@@ -6,14 +6,14 @@ import 'package:simple_note/view/widgets/public/navigation_bar.dart';
 
 enum SortedTime { firstTime, lastTime }
 
-class MyPage extends StatefulWidget {
-  const MyPage({Key? key}) : super(key: key);
+class MemoPage extends StatefulWidget {
+  const MemoPage({Key? key}) : super(key: key);
 
   @override
-  State<MyPage> createState() => _MyPageState();
+  State<MemoPage> createState() => _MemoPageState();
 }
 
-class _MyPageState extends State<MyPage> {
+class _MemoPageState extends State<MemoPage> {
   SortedTime sortedTime = SortedTime.firstTime;
 
   void changeFunc(value) {

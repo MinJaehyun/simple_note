@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/view/screens/home/my_page.dart';
+import 'package:simple_note/view/screens/memo/memo_page.dart';
 
 //ignore: must_be_immutable
 class AppBarSort extends StatefulWidget implements PreferredSizeWidget {

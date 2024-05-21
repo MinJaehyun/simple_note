@@ -4,7 +4,7 @@ import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/view/widgets/home/popup_menu_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/home/my_page.dart';
+import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/view/screens/crud_memo/update_memo.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 

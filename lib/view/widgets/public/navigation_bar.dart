@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:simple_note/view/screens/calendar/calendar.dart';
 import 'package:simple_note/view/screens/category/all_category.dart';
-import 'package:simple_note/view/screens/home/my_page.dart';
+import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/view/screens/trash_can/trash_can.dart';
 
 class BuildCurvedNavigationBar extends StatefulWidget {
@@ -75,7 +75,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
               setTappedAndIndex(2);
             });
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              return MyPage();
+              return MemoPage();
             },));
           },
           iconSize: 25,

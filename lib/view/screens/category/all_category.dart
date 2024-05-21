@@ -187,7 +187,9 @@ class _AllCategoryState extends State<AllCategory> {
                                     child: Text('수정'),
                                   ),
                                   PopupMenuItem<CategoriesItem>(
-                                    onTap: () => HiveHelperCategory().delete(index),
+                                    onTap: () {
+                                      HiveHelperCategory().delete(index);
+                                    },
                                     value: CategoriesItem.delete,
                                     child: Text('삭제'),
                                   ),
