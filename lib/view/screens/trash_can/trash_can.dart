@@ -30,171 +30,181 @@ class _TrashCanState extends State<TrashCan> {
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Simple Note'),
-          centerTitle: true,
-          actions: [
-            // 정렬
-            IconButton(
-                // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
-                onPressed: () {
-                  setState(() {
-                    isCurrentSortVal = !isCurrentSortVal;
-                  });
-                },
-                icon: Icon(Icons.sort)),
-          ],
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  // 상단: 검색창
-                  Container(
-                    width: double.infinity,
-                    child: Form(
-                      child: TextFormField(
-                        autofocus: false,
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Simple Note'),
+            centerTitle: true,
+            actions: [
+              // 정렬
+              IconButton(
+                  // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
+                  onPressed: () {
+                    setState(() {
+                      isCurrentSortVal = !isCurrentSortVal;
+                    });
+                  },
+                  icon: Icon(Icons.sort)),
+            ],
+          ),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    // 상단: 검색창
+                    Container(
+                      width: double.infinity,
+                      child: Form(
+                        child: TextFormField(
+                          autofocus: false,
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.orange,
+                                width: 1,
+                              ),
+                            ),
+                            prefixIcon: GestureDetector(
+                              onTap: () {},
+                              child: Icon(
+                                Icons.search,
+                                size: 24,
+                              ),
+                            ),
+                            prefixIconColor: Colors.grey,
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  searchController.clear();
+                                  searchControllerText = null;
+                                });
+                              },
+                              child: Icon(
+                                Icons.close,
+                                size: 24,
+                              ),
+                            ),
+                            suffixIconColor: Colors.grey,
+                            hintText: '검색',
+                            contentPadding: EdgeInsets.all(12),
+                            hintStyle: TextStyle(
+                              fontSize: 14,
                             ),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          prefixIcon: GestureDetector(
-                            onTap: () {},
-                            child: Icon(
-                              Icons.search,
-                              size: 24,
-                            ),
-                          ),
-                          prefixIconColor: Colors.grey,
-                          suffixIcon: GestureDetector(
-                            onTap: () {},
-                            child: Icon(
-                              Icons.close,
-                              size: 24,
-                            ),
-                          ),
-                          suffixIconColor: Colors.grey,
-                          hintText: '검색',
-                          contentPadding: EdgeInsets.all(12),
-                          hintStyle: TextStyle(
-                            fontSize: 14,
-                          ),
+                          cursorColor: Colors.grey,
+                          onChanged: (value) {
+                            setState(() {
+                              searchController.text = value;
+                              searchControllerText = searchController.text;
+                            });
+                          },
+                          onTap: () {},
                         ),
-                        cursorColor: Colors.grey,
-                        onChanged: (value) {
-                          setState(() {
-                            searchController.text = value;
-                            searchControllerText = searchController.text;
-                          });
-                        },
-                        onTap: () {},
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                // 삭제한 메모가 담긴 리스트를 실시간 보여주기
-                child: ValueListenableBuilder(
-                  valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
-                  builder: (context, Box<TrashCanModel> box, _) {
-                    // 휴지통 분기문 시작점
-                    if (searchControllerText == null || searchControllerText == '') {
-                      return Container(
-                        height: MediaQuery.of(context).size.height - 200,
-                        child: GridView.builder(
-                          shrinkWrap: true,
-                          itemCount: box.values.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-                            childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
-                            mainAxisSpacing: 0, //수평 Padding
-                            crossAxisSpacing: 0, //수직 Padding
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
-                            // note: *** 아래처럼 TrashCanModel? currentContact 설정하면 제대로 index 각각 가져오는데, 상단에 TrashCanModel? currentContact 작성하고 currentContact = box.getAt(index); 처리하면 각각의 요소 가져오지 못한다. 이유는? ***
-                            TrashCanModel? currentContact = box.getAt(index);
-                            TrashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
-                            // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
-
-                            // 모든 휴지통 내용 출력
-                            return Card(
-                              clipBehavior: Clip.antiAlias,
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
-                                      // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
-                                      return UpdateTrashCanMemo(
-                                          index: index, currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!);
-                                    }),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ListTile(
-                                    titleAlignment: ListTileTitleAlignment.top,
-                                    contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                                    title: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 10.0),
-                                        Text(
-                                          isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: style,
-                                        ),
-                                        SizedBox(height: 100.0), // 원하는 간격 크기
-                                        Text(
-                                          FormatDate()
-                                              .formatSimpleTimeKor(isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
-                                          style: TextStyle(color: Colors.grey.withOpacity(0.9)),
-                                        ),
-                                      ],
-                                    ),
-                                    // note: card() 수정 및 복원 버튼
-                                    trailing: PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    }
-                    // 휴지통에서 검색된 내용만 출력
-                    else if (searchControllerText != null) {
-                      return TrashSearch(searchControllerText!);
-                    }
-                    return Center(child: Text('휴지통이 비었습니다'));
-                  },
+                  ],
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: Container(
+                  // 삭제한 메모가 담긴 리스트를 실시간 보여주기
+                  child: ValueListenableBuilder(
+                    valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
+                    builder: (context, Box<TrashCanModel> box, _) {
+                      // 휴지통 분기문 시작점
+                      if (searchControllerText == null || searchControllerText == '') {
+                        return Container(
+                          height: MediaQuery.of(context).size.height - 200,
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: box.values.length,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+                              childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
+                              mainAxisSpacing: 0, //수평 Padding
+                              crossAxisSpacing: 0, //수직 Padding
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
+                              // note: *** 아래처럼 TrashCanModel? currentContact 설정하면 제대로 index 각각 가져오는데, 상단에 TrashCanModel? currentContact 작성하고 currentContact = box.getAt(index); 처리하면 각각의 요소 가져오지 못한다. 이유는? ***
+                              TrashCanModel? currentContact = box.getAt(index);
+                              TrashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
+                              // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+
+                              // 모든 휴지통 내용 출력
+                              return Card(
+                                clipBehavior: Clip.antiAlias,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                        // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
+                                        return UpdateTrashCanMemo(
+                                            index: index, currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!);
+                                      }),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ListTile(
+                                      titleAlignment: ListTileTitleAlignment.top,
+                                      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                                      title: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 10.0),
+                                          Text(
+                                            isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: style,
+                                          ),
+                                          SizedBox(height: 100.0), // 원하는 간격 크기
+                                          Text(
+                                            FormatDate()
+                                                .formatSimpleTimeKor(isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
+                                            style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                          ),
+                                        ],
+                                      ),
+                                      // note: card() 수정 및 복원 버튼
+                                      trailing: PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      }
+                      // 휴지통에서 검색된 내용만 출력
+                      else if (searchControllerText != null) {
+                        return TrashSearch(searchControllerText!);
+                      }
+                      return Center(child: Text('휴지통이 비었습니다'));
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: BuildCurvedNavigationBar(4),
         ),
-        bottomNavigationBar: BuildCurvedNavigationBar(4),
       ),
     );
   }
