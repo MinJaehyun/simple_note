@@ -153,6 +153,7 @@ class _AddMemoState extends State<AddMemo> {
                         ),
                       ),
                       // 중단: 입력창 (제목/내용)
+                      // 스크롤러 적용을 위한 설정: NotificationListener<ScrollNotification>
                       NotificationListener<ScrollNotification>(
                         onNotification: (scrollNotification) {
                           // print(scrollNotification.metrics.pixels); // 0 / 484.1428571428571

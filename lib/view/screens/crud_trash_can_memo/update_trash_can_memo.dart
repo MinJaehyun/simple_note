@@ -9,6 +9,7 @@ import 'package:simple_note/model/trash_can.dart';
 import 'package:simple_note/view/screens/category/all_category.dart';
 
 
+// note: 휴지통에 들어간 메모를 복원하기 위해서 update 하는 과정
 class UpdateTrashCanMemo extends StatefulWidget {
   UpdateTrashCanMemo({required this.index, required this.currentContact, super.key});
 
@@ -74,7 +75,7 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
   Widget build(BuildContext context) {
     // ui에 나타낼 _dropdownValue 변경함
     void dropdownCallback(String? selectedValue) {
-      if (selectedValue is String) {
+      if (selectedValue != null) {
         setState(() {
           _dropdownValue = selectedValue;
         });
@@ -286,7 +287,7 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
                                       // 예: 누르면, 메모를 복원한다.
                                       TextButton(
                                         onPressed: () async {
-                                          HiveHelperMemo().addMemo(createdAt: widget.currentContact.createdAt, title: title, mainText: mainText, selectedCategory: widget.currentContact.selectedCategory,);
+                                          HiveHelperMemo().addMemo(createdAt: widget.currentContact.createdAt, title: title, mainText: mainText, selectedCategory: _dropdownValue!);
                                           HiveHelperTrashCan().delete(widget.index);
                                           setState(() {
                                             Navigator.of(context).pop();
