@@ -5,7 +5,7 @@ import 'package:simple_note/view/widgets/home/popup_menu_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/home/my_page.dart';
-import 'package:simple_note/view/screens/memo/update_memo.dart';
+import 'package:simple_note/view/screens/crud_memo/update_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 
@@ -21,13 +21,13 @@ class HomeSelectedCategoryWidget extends StatefulWidget {
 
 class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget> {
   SampleItem? selectedItem;
-  late var _dropdownValue;
-
-  @override
-  void initState() {
-    super.initState();
-    _dropdownValue = '미분류';
-  }
+  // late String _dropdownValue;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _dropdownValue = '미분류';
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,10 @@ class _HomeSelectedCategoryWidgetState extends State<HomeSelectedCategoryWidget>
             shrinkWrap: true,
             itemCount: memo.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-              childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
-              mainAxisSpacing: 10, //수평 Padding
-              crossAxisSpacing: 10, //수직 Padding
+              crossAxisCount: 2,
+              childAspectRatio: 1/1,
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
               // MemoModel? currentContact = box.getAt(index);
