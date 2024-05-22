@@ -28,7 +28,7 @@ class HiveHelperMemo {
     return memoBox!.add(MemoModel(createdAt: createdAt, title: title, mainText: mainText, selectedCategory: selectedCategory));
   }
 
-  Future updateMemo({required index, required DateTime createdAt, required String title, String? selectedCategory, String? mainText}) async {
+  Future updateMemo({required int index, required DateTime createdAt, required String title, String? selectedCategory, String? mainText}) async {
     memoBox!.putAt(index, MemoModel(createdAt: createdAt, title: title, mainText: mainText, selectedCategory: selectedCategory));
   }
 
