@@ -4,16 +4,16 @@ import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/view/screens/category/all_category.dart';
+import 'package:simple_note/view/screens/category/category_page.dart';
 
-class AddMemo extends StatefulWidget {
-  AddMemo({super.key});
+class AddMemoPage extends StatefulWidget {
+  AddMemoPage({super.key});
 
   @override
-  State<AddMemo> createState() => _AddMemoState();
+  State<AddMemoPage> createState() => _AddMemoPageState();
 }
 
-class _AddMemoState extends State<AddMemo> {
+class _AddMemoPageState extends State<AddMemoPage> {
   final _formKey = GlobalKey<FormState>();
   DateTime time = DateTime.now();
   String title = '';
@@ -99,7 +99,7 @@ class _AddMemoState extends State<AddMemo> {
           body: ValueListenableBuilder(
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {
-              if (box.values.isEmpty) return Center(child: Text('test add memo'));
+              // if (box.values.isEmpty) return Center(child: Text('test add memo'));
 
               return Stack(
                 children: [
@@ -138,7 +138,7 @@ class _AddMemoState extends State<AddMemo> {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) {
-                                      return AllCategory();
+                                      return CategoryPage();
                                     },
                                   ));
                                 },

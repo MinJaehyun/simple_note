@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
-import 'package:simple_note/view/widgets/home/popup_menu_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
-import 'package:simple_note/view/screens/crud_memo/update_memo.dart';
+import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
+import 'package:simple_note/view/widgets/public/memo_calenar_popup_button_widget.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 
-class HomeSearchWidget extends StatefulWidget {
-  const HomeSearchWidget(this.searchControllerText, this.sortedTime, {super.key});
+class MemoSearchCardWidget extends StatefulWidget {
+  const MemoSearchCardWidget(this.searchControllerText, this.sortedTime, {super.key});
 
   final String? searchControllerText;
   final SortedTime? sortedTime;
 
   @override
-  State<HomeSearchWidget> createState() => _HomeSearchWidgetState();
+  State<MemoSearchCardWidget> createState() => _MemoSearchCardWidgetState();
 }
 
-class _HomeSearchWidgetState extends State<HomeSearchWidget> {
+class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
   SampleItem? selectedItem;
   late List<MemoModel> boxSearchTitleAndMainText;
-  // late String _dropdownValue;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _dropdownValue = '미분류';
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +57,7 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
-                        return UpdateMemo(index: index, currentContact: sortedCard);
+                        return UpdateMemoPage(index: index, currentContact: sortedCard);
                       }),
                     );
                   },
@@ -96,7 +89,7 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget> {
                         ],
                       ),
                       // note: card() 내 수정, 삭제 버튼
-                      trailing: PopupMenuButtonWidget(index, sortedCard),
+                      trailing: MemoCalendarPopupButtonWidget(index, sortedCard),
                     ),
                   ),
                 ),

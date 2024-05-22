@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/crud_memo/update_memo.dart';
+import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 
-class PopupMenuButtonWidget extends StatefulWidget {
-  const PopupMenuButtonWidget(this.index, this.currentContact, {super.key});
+class MemoCalendarPopupButtonWidget extends StatefulWidget {
+  const MemoCalendarPopupButtonWidget(this.index, this.currentContact, {super.key});
 
   final int index;
   final MemoModel currentContact;
 
   @override
-  State<PopupMenuButtonWidget> createState() => _PopupMenuButtonWidgetState();
+  State<MemoCalendarPopupButtonWidget> createState() => _MemoCalendarPopupButtonWidgetState();
 }
 
-class _PopupMenuButtonWidgetState extends State<PopupMenuButtonWidget> {
+class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonWidget> {
   SampleItem? selectedItem;
   late String _dropdownValue;
 
@@ -38,7 +38,7 @@ class _PopupMenuButtonWidgetState extends State<PopupMenuButtonWidget> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => UpdateMemo(index: widget.index, currentContact: widget.currentContact),
+                builder: (context) => UpdateMemoPage(index: widget.index, currentContact: widget.currentContact),
               ),
             );
           },

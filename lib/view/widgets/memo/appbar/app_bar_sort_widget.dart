@@ -3,8 +3,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
 
 //ignore: must_be_immutable
-class AppBarSort extends StatefulWidget implements PreferredSizeWidget {
-  AppBarSort(this.sortedTime, this.changeFunc, {super.key});
+class AppBarSortWidget extends StatefulWidget implements PreferredSizeWidget {
+  AppBarSortWidget(this.sortedTime, this.changeFunc, {super.key});
 
   // note: 아래 SortedTime 은 final 지정하면 한 번만 값을 변경하여서 지정하지 않음
   SortedTime sortedTime;
@@ -15,10 +15,10 @@ class AppBarSort extends StatefulWidget implements PreferredSizeWidget {
   // 사이즈 조절: Size get preferredSize => const Size.fromHeight(70);
 
   @override
-  State<AppBarSort> createState() => _AppBarSortState();
+  State<AppBarSortWidget> createState() => _AppBarSortWidgetState();
 }
 
-class _AppBarSortState extends State<AppBarSort> {
+class _AppBarSortWidgetState extends State<AppBarSortWidget> {
   // 메모: 상단 정렬 버튼
   Future popupSort(context) {
     return showDialog(

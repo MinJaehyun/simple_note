@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/category/all_category.dart';
+import 'package:simple_note/model/trash_can.dart';
+import 'package:simple_note/view/screens/category/category_page.dart';
 
-class UpdateMemo extends StatefulWidget {
-  UpdateMemo({required this.index, required this.currentContact, super.key});
+
+// note: 휴지통에 들어간 메모를 복원하기 위해서 update 하는 과정
+class UpdateTrashCanMemoPage extends StatefulWidget {
+  UpdateTrashCanMemoPage({required this.index, required this.currentContact, super.key});
 
   final int index;
   // err: final MemoModel currentContact; 처리하면 MemoModel만 사용하게 되므로 TrashCanModel은 사용할 수 없다.. 일단 제거하고 진행하기
-  final MemoModel currentContact;
+  final TrashCanModel currentContact;
 
   @override
-  State<UpdateMemo> createState() => _UpdateMemoState();
+  State<UpdateTrashCanMemoPage> createState() => _UpdateTrashCanMemoPageState();
 }
 
-class _UpdateMemoState extends State<UpdateMemo> {
+class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
   final _formKey = GlobalKey<FormState>();
   late DateTime time = widget.currentContact.createdAt;
   late String title = widget.currentContact.title;
@@ -72,7 +75,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
   Widget build(BuildContext context) {
     // ui에 나타낼 _dropdownValue 변경함
     void dropdownCallback(String? selectedValue) {
-      if (selectedValue is String) {
+      if (selectedValue != null) {
         setState(() {
           _dropdownValue = selectedValue;
         });
@@ -144,7 +147,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) {
-                                      return AllCategory();
+                                      return CategoryPage();
                                     },
                                   ));
                                 },
@@ -253,7 +256,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                                   if (widget.currentContact.title == title &&
                                       widget.currentContact.mainText == mainText &&
                                       widget.currentContact.selectedCategory != _dropdownValue) {
-                                    HiveHelperMemo().updateMemo(
+                                    HiveHelperTrashCan().updateMemo(
                                         index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
                                     Navigator.of(context).pop();
                                   }
@@ -264,7 +267,7 @@ class _UpdateMemoState extends State<UpdateMemo> {
                                   // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                                   else if (formKeyState.validate()) {
                                     formKeyState.save();
-                                    HiveHelperMemo().updateMemo(
+                                    HiveHelperTrashCan().updateMemo(
                                         index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
                                     Navigator.of(context).pop();
                                   }
@@ -272,6 +275,37 @@ class _UpdateMemoState extends State<UpdateMemo> {
                               ),
                             ),
                             SizedBox(width: 15),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                label: Text('복원하기'),
+                                icon: Icon(Icons.restore),
+                                onPressed: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('메모를 복원 하시겠습니까?'),
+                                    actions: <Widget>[
+                                      // 예: 누르면, 메모를 복원한다.
+                                      TextButton(
+                                        onPressed: () async {
+                                          HiveHelperMemo().addMemo(createdAt: widget.currentContact.createdAt, title: title, mainText: mainText, selectedCategory: _dropdownValue!);
+                                          HiveHelperTrashCan().delete(widget.index);
+                                          setState(() {
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                        child: const Text('메모를 복원'),
+                                      ),
+                                      // 아니오: 누르면, 메모장으로 빠져나간다.
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context, 'OK'),
+                                        child: const Text('메모장 돌아가기'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                             Expanded(
                               child: ElevatedButton.icon(
                                 label: Text('취소'),

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/const/colors.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
-import 'package:simple_note/view/screens/crud_memo/update_memo.dart';
-import 'package:simple_note/view/widgets/home/popup_menu_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/crud_memo/add_memo.dart';
-import 'package:simple_note/view/widgets/public/navigation_bar.dart';
+import 'package:simple_note/view/screens/public_crud_memo_calendar/add_memo_page.dart';
+import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
+import 'package:simple_note/view/widgets/public/memo_calenar_popup_button_widget.dart';
+import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 
@@ -54,12 +54,15 @@ class _CalendarPageState extends State<CalendarPage> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return AddMemo();
+              return AddMemoPage();
             }));
           },
           label: Text('메모 만들기'),
         ),
-        appBar: AppBar(title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)), centerTitle: true),
+        appBar: AppBar(
+          title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+          centerTitle: true,
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -157,7 +160,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                         onTap: () {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(builder: (context) {
-                                              return UpdateMemo(index: index, currentContact: currentContact);
+                                              return UpdateMemoPage(index: index, currentContact: currentContact);
                                             }),
                                           );
                                         },
@@ -165,9 +168,10 @@ class _CalendarPageState extends State<CalendarPage> {
                                             ? Icon(Icons.access_alarm, color: Colors.red)
                                             : Icon(Icons.access_alarm, color: Colors.green),
                                         title: Text("${currentContact.title}"),
-                                        subtitle: Text('${FormatDate().formatDotDateTimeKor(currentContact.createdAt)}', style: TextStyle(color: Colors.grey[500])),
+                                        subtitle: Text('${FormatDate().formatDotDateTimeKor(currentContact.createdAt)}',
+                                            style: TextStyle(color: Colors.grey[500])),
                                         dense: true,
-                                        trailing: PopupMenuButtonWidget(index, currentContact),
+                                        trailing: MemoCalendarPopupButtonWidget(index, currentContact),
                                       ),
                                     ),
                                   ],
@@ -184,8 +188,8 @@ class _CalendarPageState extends State<CalendarPage> {
             ],
           ),
         ),
-        // note: navigation bar
-        bottomNavigationBar: BuildCurvedNavigationBar(0),
+        // note: footer/navigation_bar
+        bottomNavigationBar: FooterNavigationBarWidget(0),
       ),
     );
   }

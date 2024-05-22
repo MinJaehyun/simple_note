@@ -4,18 +4,18 @@ import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/helper/popup_trash_can_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/crud_trash_can_memo/update_trash_can_memo.dart';
-import 'package:simple_note/view/widgets/public/navigation_bar.dart';
+import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
+import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:simple_note/view/widgets/trash/trash_search.dart';
 
-class TrashCan extends StatefulWidget {
-  const TrashCan({super.key});
+class TrashCanPage extends StatefulWidget {
+  const TrashCanPage({super.key});
 
   @override
-  State<TrashCan> createState() => _TrashCanState();
+  State<TrashCanPage> createState() => _TrashCanPageState();
 }
 
-class _TrashCanState extends State<TrashCan> {
+class _TrashCanPageState extends State<TrashCanPage> {
   String? searchControllerText;
   TextEditingController searchController = TextEditingController();
   bool isCurrentSortVal = false;
@@ -155,7 +155,7 @@ class _TrashCanState extends State<TrashCan> {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
                                         // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
-                                        return UpdateTrashCanMemo(
+                                        return UpdateTrashCanMemoPage(
                                             index: index, currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!);
                                       }),
                                     );
@@ -203,7 +203,7 @@ class _TrashCanState extends State<TrashCan> {
               ),
             ],
           ),
-          bottomNavigationBar: BuildCurvedNavigationBar(4),
+          bottomNavigationBar: FooterNavigationBarWidget(4),
         ),
       ),
     );

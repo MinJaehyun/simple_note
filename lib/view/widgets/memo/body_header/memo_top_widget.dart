@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
-import 'package:simple_note/view/widgets/home/control_statements.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/view/widgets/memo/memo_body_footer_control_statements_widget.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage(this.sortedTime, {super.key});
+class MemoTopWidget extends StatefulWidget {
+  MemoTopWidget(this.sortedTime, {super.key});
 
   final SortedTime? sortedTime;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MemoTopWidget> createState() => _MemoTopWidgetState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MemoTopWidgetState extends State<MemoTopWidget> {
   late String searchedTitle;
   String? searchedMainText;
   String? selectedCategory;
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: Column(
         children: [
-          // 상단: 범주 및 검색창
+          // body_top: 범주 및 검색창
           ValueListenableBuilder(
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               height: 500,
               child: SingleChildScrollView(
-                child: ControlStatements(selectedCategory, searchControllerText, widget.sortedTime),
+                child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText, widget.sortedTime),
               ),
             ),
           ),

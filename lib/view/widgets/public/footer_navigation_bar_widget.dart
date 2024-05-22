@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:simple_note/view/screens/calendar/calendar.dart';
-import 'package:simple_note/view/screens/category/all_category.dart';
+import 'package:simple_note/view/screens/calendar/calendar_page.dart';
+import 'package:simple_note/view/screens/category/category_page.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
-import 'package:simple_note/view/screens/trash_can/trash_can.dart';
+import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
 
-class BuildCurvedNavigationBar extends StatefulWidget {
-  const BuildCurvedNavigationBar(this.index, {super.key, this.sortedTime});
+class FooterNavigationBarWidget extends StatefulWidget {
+  const FooterNavigationBarWidget(this.index, {super.key, this.sortedTime});
+
   final int index;
   final SortedTime? sortedTime;
 
   @override
-  State<BuildCurvedNavigationBar> createState() => _BuildCurvedNavigationBarState();
+  State<FooterNavigationBarWidget> createState() => _FooterNavigationBarWidgetState();
 }
 
-class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
+class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
   late int currentIndex = 2;
   bool isTapped = true;
 
@@ -60,7 +61,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
               setTappedAndIndex(1);
             });
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              return AllCategory();
+              return CategoryPage();
             },));
           },
           iconSize: 25,
@@ -107,7 +108,7 @@ class _BuildCurvedNavigationBarState extends State<BuildCurvedNavigationBar> {
               currentIndex = 4;
             });
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              return TrashCan();
+              return TrashCanPage();
             },));
           },
           iconSize: 25,

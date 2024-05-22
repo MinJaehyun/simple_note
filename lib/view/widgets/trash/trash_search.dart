@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/crud_trash_can_memo/update_trash_can_memo.dart';
+import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
@@ -50,7 +50,7 @@ class _TrashSearchState extends State<TrashSearch> {
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return UpdateTrashCanMemo(index: index, currentContact: currentContact);
+                      return UpdateTrashCanMemoPage(index: index, currentContact: currentContact);
                     }));
                   },
                   child: Padding(
@@ -100,7 +100,7 @@ class _TrashSearchState extends State<TrashSearch> {
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => UpdateTrashCanMemo(index: index, currentContact: currentContact),
+                                      builder: (context) => UpdateTrashCanMemoPage(index: index, currentContact: currentContact),
                                     ),
                                   );
                                 },

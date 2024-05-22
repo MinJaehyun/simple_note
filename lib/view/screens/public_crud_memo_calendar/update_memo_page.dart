@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
-import 'package:simple_note/controller/hive_helper_trash_can.dart';
+import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/category/all_category.dart';
+import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/screens/category/category_page.dart';
 
-
-// note: 휴지통에 들어간 메모를 복원하기 위해서 update 하는 과정
-class UpdateTrashCanMemo extends StatefulWidget {
-  UpdateTrashCanMemo({required this.index, required this.currentContact, super.key});
+class UpdateMemoPage extends StatefulWidget {
+  UpdateMemoPage({required this.index, required this.currentContact, super.key});
 
   final int index;
   // err: final MemoModel currentContact; 처리하면 MemoModel만 사용하게 되므로 TrashCanModel은 사용할 수 없다.. 일단 제거하고 진행하기
-  final TrashCanModel currentContact;
+  final MemoModel currentContact;
 
   @override
-  State<UpdateTrashCanMemo> createState() => _UpdateTrashCanMemoState();
+  State<UpdateMemoPage> createState() => _UpdateMemoPageState();
 }
 
-class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
+class _UpdateMemoPageState extends State<UpdateMemoPage> {
   final _formKey = GlobalKey<FormState>();
   late DateTime time = widget.currentContact.createdAt;
   late String title = widget.currentContact.title;
@@ -75,7 +72,7 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
   Widget build(BuildContext context) {
     // ui에 나타낼 _dropdownValue 변경함
     void dropdownCallback(String? selectedValue) {
-      if (selectedValue != null) {
+      if (selectedValue is String) {
         setState(() {
           _dropdownValue = selectedValue;
         });
@@ -108,7 +105,7 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
           body: ValueListenableBuilder(
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {
-              if (box.values.isEmpty) return Center(child: Text('test update memo'));
+              // if (box.values.isEmpty) return Center(child: Text('test update memo'));
 
               return Stack(
                 children: [
@@ -147,7 +144,7 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) {
-                                      return AllCategory();
+                                      return CategoryPage();
                                     },
                                   ));
                                 },
@@ -256,7 +253,7 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
                                   if (widget.currentContact.title == title &&
                                       widget.currentContact.mainText == mainText &&
                                       widget.currentContact.selectedCategory != _dropdownValue) {
-                                    HiveHelperTrashCan().updateMemo(
+                                    HiveHelperMemo().updateMemo(
                                         index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
                                     Navigator.of(context).pop();
                                   }
@@ -267,7 +264,7 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
                                   // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                                   else if (formKeyState.validate()) {
                                     formKeyState.save();
-                                    HiveHelperTrashCan().updateMemo(
+                                    HiveHelperMemo().updateMemo(
                                         index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
                                     Navigator.of(context).pop();
                                   }
@@ -275,37 +272,6 @@ class _UpdateTrashCanMemoState extends State<UpdateTrashCanMemo> {
                               ),
                             ),
                             SizedBox(width: 15),
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                label: Text('복원하기'),
-                                icon: Icon(Icons.restore),
-                                onPressed: () => showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('메모를 복원 하시겠습니까?'),
-                                    actions: <Widget>[
-                                      // 예: 누르면, 메모를 복원한다.
-                                      TextButton(
-                                        onPressed: () async {
-                                          HiveHelperMemo().addMemo(createdAt: widget.currentContact.createdAt, title: title, mainText: mainText, selectedCategory: _dropdownValue!);
-                                          HiveHelperTrashCan().delete(widget.index);
-                                          setState(() {
-                                            Navigator.of(context).pop();
-                                            Navigator.of(context).pop();
-                                          });
-                                        },
-                                        child: const Text('메모를 복원'),
-                                      ),
-                                      // 아니오: 누르면, 메모장으로 빠져나간다.
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context, 'OK'),
-                                        child: const Text('메모장 돌아가기'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
                             Expanded(
                               child: ElevatedButton.icon(
                                 label: Text('취소'),
