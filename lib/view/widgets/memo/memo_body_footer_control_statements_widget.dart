@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/view/widgets/memo/body_footer/memo_card_widget.dart';
 import 'package:simple_note/view/widgets/memo/body_footer/memo_search_card_widget.dart';
 import 'package:simple_note/view/widgets/memo/body_footer/memo_selected_category_widget.dart';
@@ -8,7 +9,7 @@ class MemoBodyFooterControlStatementsWidget extends StatefulWidget {
 
   final String? selectedCategory;
   final String? searchControllerText;
-  final sortedTime;
+  final SortedTime? sortedTime;
 
   @override
   State<MemoBodyFooterControlStatementsWidget> createState() => _MemoBodyFooterControlStatementsWidgetState();

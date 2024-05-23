@@ -43,7 +43,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
             );
           },
           value: SampleItem.updateMemo,
-          child: Text('수정'),
+          child: const Text('수정'),
         ),
         PopupMenuItem<SampleItem>(
           onTap: () {
@@ -51,7 +51,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text("메모를 삭제 하시겠습니까?"),
+                  title: const Text("메모를 삭제 하시겠습니까?"),
                   actions: [
                     TextButton(
                         onPressed: () {
@@ -67,10 +67,10 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
                           HiveHelperMemo().delete(widget.index);
                           Navigator.pop(context);
                         },
-                        child: Text('삭제')),
+                        child: const Text('삭제')),
                     TextButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text('취소')),
+                        child: const Text('취소')),
                   ],
                   elevation: 24.0,
                 );
@@ -78,7 +78,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
             );
           },
           value: SampleItem.deleteMemo,
-          child: Text('삭제'),
+          child: const Text('삭제'),
         ),
       ],
     );

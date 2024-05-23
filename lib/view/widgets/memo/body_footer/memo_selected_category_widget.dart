@@ -22,14 +22,6 @@ class MemoSelectedCategoryWidget extends StatefulWidget {
 class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget> {
   SampleItem? selectedItem;
 
-  // late String _dropdownValue;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _dropdownValue = '미분류';
-  // }
-
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
@@ -38,7 +30,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
         if (box.values.isEmpty)
-          return Center(
+          return const Center(
             child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'),
           );
         var memo = box.values.where((item) {
@@ -46,12 +38,12 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
         }).toList();
         print(memo); // (Instance of 'MemoModel')
 
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: memo.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1 / 1,
               mainAxisSpacing: 0,
@@ -75,13 +67,13 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
-                          SizedBox(height: 100.0), // 원하는 간격 크기
+                          const SizedBox(height: 100.0), // 원하는 간격 크기
                           Text(
                             FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
                             style: TextStyle(color: Colors.grey.withOpacity(0.9)),

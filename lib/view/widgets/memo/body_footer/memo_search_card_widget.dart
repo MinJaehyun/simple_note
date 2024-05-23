@@ -29,7 +29,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
     return ValueListenableBuilder(
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
-        if (box.values.isEmpty) return Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+        if (box.values.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
         boxSearchTitleAndMainText = box.values.where((item) {
           return item.title.contains(widget.searchControllerText!) || item.mainText!.contains(widget.searchControllerText!);
         }).toList();
@@ -39,7 +39,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: boxSearchTitleAndMainText.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1/1,
               mainAxisSpacing: 0,
@@ -65,11 +65,11 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           SubstringHighlight(
                             text: sortedCard.title,
                             // 검색한 내용 가져오기
@@ -77,14 +77,14 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                             // non-highlight style
                             textStyle: TextStyle(color: Colors.grey),
                             // highlight style
-                            textStyleHighlight: TextStyle(
+                            textStyleHighlight: const TextStyle(
                               fontSize: 24.0,
                               color: Colors.black,
                               backgroundColor: Colors.yellow,
                               // decoration: TextDecoration.underline,
                             ),
                           ),
-                          SizedBox(height: 100),
+                          const SizedBox(height: 100),
                           Text(FormatDate().formatDefaultDateKor(sortedCard.createdAt), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
                         ],
                       ),

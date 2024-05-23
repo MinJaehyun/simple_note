@@ -33,20 +33,20 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
       backgroundColor: Colors.transparent,
-      animationDuration: Duration(milliseconds: 300),
+      animationDuration: const Duration(milliseconds: 300),
       index: currentIndex,
       color: Theme.of(context).colorScheme.onPrimary,
       items: [
         // note: 캘린더
         IconButton(
           tooltip: '달력',
-          icon: Icon(Icons.calendar_month),
+          icon: const Icon(Icons.calendar_month),
           onPressed: (){
             setState(() {
               setTappedAndIndex(0);
             });
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              return CalendarPage();
+              return const CalendarPage();
             },));
           },
           iconSize: 25,
@@ -55,13 +55,13 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
         // note: 범주
         IconButton(
           tooltip: '범주',
-          icon: Icon(Icons.category),
+          icon: const Icon(Icons.category),
           onPressed: (){
             setState(() {
               setTappedAndIndex(1);
             });
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              return CategoryPage();
+              return const CategoryPage();
             },));
           },
           iconSize: 25,
@@ -70,13 +70,13 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
         // note: 모든 메모
         IconButton(
           tooltip: '모든 메모',
-          icon: Icon(Icons.data_array_outlined),
+          icon: const Icon(Icons.data_array_outlined),
           onPressed: (){
             setState(() {
               setTappedAndIndex(2);
             });
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              return MemoPage();
+              return const MemoPage();
             },));
           },
           iconSize: 25,
@@ -85,7 +85,7 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
         // note: 설정
         IconButton(
           tooltip: '설정',
-          icon: Icon(Icons.settings),
+          icon: const Icon(Icons.settings),
           onPressed: (){
             setState(() {
               isTapped = true;
@@ -101,14 +101,14 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
         // note: 휴지통
         IconButton(
           tooltip: '휴지통',
-          icon: Icon(Icons.delete),
+          icon: const Icon(Icons.delete),
           onPressed: (){
             setState(() {
               isTapped = true;
               currentIndex = 4;
             });
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              return TrashCanPage();
+              return const TrashCanPage();
             },));
           },
           iconSize: 25,

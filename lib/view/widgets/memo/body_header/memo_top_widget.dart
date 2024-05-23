@@ -6,7 +6,7 @@ import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/view/widgets/memo/memo_body_footer_control_statements_widget.dart';
 
 class MemoTopWidget extends StatefulWidget {
-  MemoTopWidget(this.sortedTime, {super.key});
+  const MemoTopWidget(this.sortedTime, {super.key});
 
   final SortedTime? sortedTime;
 
@@ -49,103 +49,101 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                     child: Column(
                       children: [
                         // 상단: 모든, 미분류, 검색창
-                        Container(
-                          child: Row(
-                            children: [
-                              // 상단1~2: 모든, 미분류 박스
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Card(
-                                      child: TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            selectedCategory = null;
-                                            searchControllerText = null;
-                                            searchController.clear();
-                                          });
-                                        },
-                                        child: Text('모든', style: style),
-                                      ),
+                        Row(
+                          children: [
+                            // 상단1~2: 모든, 미분류 박스
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Card(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedCategory = null;
+                                          searchControllerText = null;
+                                          searchController.clear();
+                                        });
+                                      },
+                                      child: Text('모든', style: style),
                                     ),
-                                    Card(
-                                      child: TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            selectedCategory = '미분류';
-                                            searchControllerText = null;
-                                            searchController.clear();
-                                          });
-                                        },
-                                        child: Text('미분류', style: style),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // 상단3: 검색창
-                              Container(
-                                width: 220,
-                                child: Form(
-                                  child: TextFormField(
-                                    autofocus: false,
-                                    controller: searchController,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.orange,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      prefixIcon: GestureDetector(
-                                        onTap: () {},
-                                        child: Icon(
-                                          Icons.search,
-                                          size: 24,
-                                        ),
-                                      ),
-                                      prefixIconColor: Colors.grey,
-                                      suffixIcon: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            searchController.clear();
-                                            searchControllerText = null;
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.close,
-                                          size: 24,
-                                        ),
-                                      ),
-                                      suffixIconColor: Colors.grey,
-                                      hintText: '검색',
-                                      contentPadding: EdgeInsets.all(12),
-                                      hintStyle: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    cursorColor: Colors.grey,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        searchController.text = value;
-                                        searchControllerText = searchController.text;
-                                      });
-                                    },
-                                    onTap: () {},
                                   ),
+                                  Card(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedCategory = '미분류';
+                                          searchControllerText = null;
+                                          searchController.clear();
+                                        });
+                                      },
+                                      child: Text('미분류', style: style),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // 상단3: 검색창
+                            SizedBox(
+                              width: 220,
+                              child: Form(
+                                child: TextFormField(
+                                  autofocus: false,
+                                  controller: searchController,
+                                  decoration: InputDecoration(
+                                    border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                                    ),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    prefixIcon: GestureDetector(
+                                      onTap: () {},
+                                      child: const Icon(
+                                        Icons.search,
+                                        size: 24,
+                                      ),
+                                    ),
+                                    prefixIconColor: Colors.grey,
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          searchController.clear();
+                                          searchControllerText = null;
+                                        });
+                                      },
+                                      child: const Icon(
+                                        Icons.close,
+                                        size: 24,
+                                      ),
+                                    ),
+                                    suffixIconColor: Colors.grey,
+                                    hintText: '검색',
+                                    contentPadding: const EdgeInsets.all(12),
+                                    hintStyle: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  cursorColor: Colors.grey,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      searchController.text = value;
+                                      searchControllerText = searchController.text;
+                                    });
+                                  },
+                                  onTap: () {},
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
 
                         // 상단: 생성한 카테고리
@@ -154,7 +152,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                             child: ListView.separated(
                               scrollDirection: Axis.horizontal,
                               separatorBuilder: (context, index) {
-                                return SizedBox(width: 0);
+                                return const SizedBox(width: 0);
                               },
                               itemCount: box.values.length,
                               itemBuilder: (context, index) {

@@ -12,6 +12,7 @@ class AppBarSortWidget extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
   // 사이즈 조절: Size get preferredSize => const Size.fromHeight(70);
 
   @override
@@ -27,7 +28,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text('정렬을 선택해 주세요'),
+              title: const Text('정렬을 선택해 주세요'),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,8 +63,8 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(context, widget.sortedTime), // 정렬 값을 반환,
-                    child: Text('적용')),
-                TextButton(onPressed: () => Navigator.pop(context), child: Text('취소')),
+                    child: const Text('적용')),
+                TextButton(onPressed: () => Navigator.pop(context), child: const Text('취소')),
               ],
               elevation: 24.0,
             );
@@ -85,13 +86,13 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
           centerTitle: true,
           actions: [
             IconButton(
-              visualDensity: VisualDensity(horizontal: -4),
-              icon: Icon(Icons.sort),
+              visualDensity: const VisualDensity(horizontal: -4),
+              icon: const Icon(Icons.sort),
               onPressed: () => popupSort(context),
             ),
             IconButton(
-              visualDensity: VisualDensity(horizontal: -4),
-              icon: darkMode ? Icon(Icons.light_mode_outlined) : Icon(Icons.dark_mode_outlined),
+              visualDensity: const VisualDensity(horizontal: -4),
+              icon: darkMode ? const Icon(Icons.light_mode_outlined) : const Icon(Icons.dark_mode_outlined),
               onPressed: () {
                 if (darkMode == false) {
                   box.put('darkMode', true);

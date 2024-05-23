@@ -25,7 +25,7 @@ class _TrashSearchState extends State<TrashSearch> {
     return ValueListenableBuilder(
       valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
       builder: (context, Box<TrashCanModel> box, _) {
-        if (box.values.isEmpty) return Center(child: Text('휴지통에 검색한 제목이나 내용이 없습니다'));
+        if (box.values.isEmpty) return const Center(child: Text('휴지통에 검색한 제목이나 내용이 없습니다'));
 
         boxSearchTitleAndMainText = box.values.where((item) {
           return item.title.contains(widget.searchControllerText) || item.mainText!.contains(widget.searchControllerText);
@@ -36,7 +36,7 @@ class _TrashSearchState extends State<TrashSearch> {
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: boxSearchTitleAndMainText.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
               childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
               mainAxisSpacing: 10, //수평 Padding
@@ -57,26 +57,26 @@ class _TrashSearchState extends State<TrashSearch> {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 13),
+                          const SizedBox(height: 13),
                           SubstringHighlight(
                             // text: sortedCard.title,
                             text: currentContact.title,
                             // 검색한 내용 가져오기
                             term: widget.searchControllerText,
                             // non-highlight style
-                            textStyle: TextStyle(color: Colors.grey),
+                            textStyle: const TextStyle(color: Colors.grey),
                             // highlight style
-                            textStyleHighlight: TextStyle(
+                            textStyleHighlight: const TextStyle(
                               fontSize: 24.0,
                               color: Colors.black,
                               backgroundColor: Colors.yellow,
                             ),
                           ),
-                          SizedBox(height: 100),
+                          const SizedBox(height: 100),
                           Text(
                             FormatDate().formatDefaultDateKor(currentContact.createdAt),
                             style: TextStyle(
@@ -105,12 +105,12 @@ class _TrashSearchState extends State<TrashSearch> {
                                   );
                                 },
                                 value: SampleItem.updateMemo,
-                                child: Text('수정'),
+                                child: const Text('수정'),
                               ),
                               PopupMenuItem<SampleItem>(
                                 onTap: () => HiveHelperTrashCan().delete(index),
                                 value: SampleItem.deleteMemo,
-                                child: Text('삭제'),
+                                child: const Text('삭제'),
                               ),
                             ],
                           ),

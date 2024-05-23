@@ -26,14 +26,14 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
     return ValueListenableBuilder(
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
-        if (box.values.isEmpty) return Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+        if (box.values.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
 
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: box.values.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
               childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
               mainAxisSpacing: 0, //수평 Padding
@@ -60,17 +60,17 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           Text(
                             sortedCard!.title,
                             overflow: TextOverflow.ellipsis,
                             style: style,
                           ),
-                          SizedBox(height: 100.0), // 원하는 간격 크기
+                          const SizedBox(height: 100.0), // 원하는 간격 크기
                           Text(
                             FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
                             style: TextStyle(color: Colors.grey.withOpacity(0.9)),
