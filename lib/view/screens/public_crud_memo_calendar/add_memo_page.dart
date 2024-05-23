@@ -136,6 +136,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                 visualDensity: const VisualDensity(horizontal: -4),
                                 // visualDensity: VisualDensity.compact,
                                 onPressed: () {
+                                  // todo: 범주 생성 팝업 띄우려면? 위젯!
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) {
                                       return const CategoryPage();
