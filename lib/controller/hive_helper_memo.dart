@@ -32,25 +32,8 @@ class HiveHelperMemo {
     memoBox!.putAt(index, MemoModel(createdAt: createdAt, title: title, mainText: mainText, selectedCategory: selectedCategory));
   }
 
-  // Future addMemo({required String title, required DateTime time, required String mainText, required String category}) async {
-  //   return memoBox!.add(MemoModel(time: time, title: title, mainText: mainText, category: category));
-  // }
-  //
-  // Future updateMemo({required index, required String title, required DateTime time, required String mainText, required String category}) async {
-  //   memoBox!.putAt(index, MemoModel(time: time, title: title, mainText: mainText, category: category));
-  // }
-
   Future delete(int index) async {
     memoBox!.deleteAt(index);
   }
 
-  // note: 미사용
-  // Future create(MemoModel memo) async {
-  //   return memoBox!.add(memo);
-  // }
-
-  // note: 미사용
-  // Future update(int index, MemoModel updateMomo) async {
-  //   memoBox!.putAt(index, updateMomo);
-  // }
 }
