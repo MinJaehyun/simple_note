@@ -21,24 +21,31 @@ class _CategoryPageState extends State<CategoryPage> {
   TextEditingController categoryController = TextEditingController();
   String? category;
   String? selectedCategory;
+
   // late var unclassifiedMemo;
-  // note: null 또는 String 이 들어오므로 dynamic 처리. late dynamic
-  // late var classifiedMemo;
-
-  // var test;
-
-  late String _dropdownValue;
-
-  @override
-  void initState() {
-    super.initState();
-    _dropdownValue = '미분류';
-  }
+  // late List<MemoModel> classifiedMemo;
+  late List<MemoModel> classifiedMemo = [];
 
   @override
   void dispose() {
     categoryController.dispose();
     super.dispose();
+  }
+
+  /** note: 함수 내에서 setState 호출이 WidgetsBinding.instance.addPostFrameCallback를 사용하여 현재 프레임이 끝난 후에 실행되도록 하였습니다.
+  이로 인해 setState가 안전하게 호출되며, 빌드 중에 상태가 변경되는 문제를 피할 수 있습니다.
+  **/
+  void updateClassifiedMemo() {
+    if (selectedCategory != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          classifiedMemo = Hive.box<MemoModel>(MemoBox)
+              .values
+              .where((item) => item.selectedCategory == selectedCategory)
+              .toList();
+        });
+      });
+    }
   }
 
   @override
@@ -51,6 +58,7 @@ class _CategoryPageState extends State<CategoryPage> {
           label: const Text('범주 만들기'),
         ),
         appBar: AppBar(title: Text('Simple Note', style: style), centerTitle: true),
+        // note: body
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -60,10 +68,8 @@ class _CategoryPageState extends State<CategoryPage> {
                 builder: (context, Box<MemoModel> box, _) {
                   // note: 미분류 메모
                   var unclassifiedMemo = box.values.toList().where((item) => item.selectedCategory == '미분류');
-                  // print('unclassifiedMemo ${unclassifiedMemo.last.selectedCategory}');
-                  // note: 분류된 메모 - err : 아래 기능 오류..
-                  var classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory);
-                  // print('classifiedMemo: ${classifiedMemo}');
+                  // note: 분류된 메모 - err: 기능 오류
+                  // classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory).toList();
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,64 +87,74 @@ class _CategoryPageState extends State<CategoryPage> {
                           title: Text('미분류 (${unclassifiedMemo.length})', style: style),
                         ),
                       ),
-
-                      // note: 생성한 카테고리 목록
-                      ValueListenableBuilder(
-                        valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
-                        builder: (context, Box<CategoryModel> box, _) {
-                          if (box.values.isEmpty)
-                            return Center(
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 200),
-                                  Text('하단 버튼을 클릭하면 범주를 생성할 수 있습니다.'),
-                                ],
-                              ),
-                            );
-                          return ListView.builder(
-                            itemCount: box.values.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              CategoryModel? currentContact = box.getAt(index);
-                              selectedCategory = currentContact!.categories;
-
-                              // print('currentContact: ${currentContact.categories}'); // 생성된 카테고리 인스턴스 2개
-                              // print('selectedCategory: $selectedCategory'); // qwewq, test
-
-                              return Card(
-                                child: ListTile(
-                                  title: Text('${currentContact.categories.toString()} (${classifiedMemo.length})', style: style),
-                                  trailing: Column(
-                                    children: [
-                                      PopupMenuButton<CategoriesItem>(
-                                        initialValue: categoriesItem,
-                                        itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
-                                          PopupMenuItem<CategoriesItem>(
-                                            onTap: () => updatePopupDialog(context, index, currentContact),
-                                            value: CategoriesItem.update,
-                                            child: Text('수정'),
-                                          ),
-                                          PopupMenuItem<CategoriesItem>(
-                                            // todo: index 는 위에 범주 index 이고, 메모의 index를 가져와야 한다..
-                                            onTap: () => deletePopupDialog(context, index, classifiedMemo),
-                                            value: CategoriesItem.delete,
-                                            child: Text('삭제'),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
                     ],
                   );
                 },
               ),
 
+              // note: 생성한 카테고리 목록
+              ValueListenableBuilder(
+                valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
+                builder: (context, Box<CategoryModel> box, _) {
+                  if (box.values.isEmpty)
+                    return Center(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 200),
+                          Text('하단 버튼을 클릭하면 범주를 생성할 수 있습니다.'),
+                        ],
+                      ),
+                    );
+                  return ListView.builder(
+
+                    itemCount: box.values.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      CategoryModel? currentContact = box.getAt(index);
+                      String? categoryTitle = currentContact!.categories;
+
+                      // Update the selected category and classified memos
+                      selectedCategory = categoryTitle;
+                      updateClassifiedMemo();
+
+                      return Card(
+                        child: ListTile(
+                          // fix
+                          onTap: () {
+                            setState(() {
+                              selectedCategory = categoryTitle;
+                            });
+                            updateClassifiedMemo();
+                          },
+                          // fix
+                          // title: Text('${currentContact.categories.toString()} (${classifiedMemo.length})', style: style),
+                          title: Text('${currentContact.categories} (${Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == categoryTitle).length})', style: style),
+                          trailing: Column(
+                            children: [
+                              PopupMenuButton<CategoriesItem>(
+                                initialValue: categoriesItem,
+                                itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
+                                  PopupMenuItem<CategoriesItem>(
+                                    onTap: () => updatePopupDialog(context, index, currentContact),
+                                    value: CategoriesItem.update,
+                                    child: Text('수정'),
+                                  ),
+                                  PopupMenuItem<CategoriesItem>(
+                                    // todo: index 는 위에 범주 index 이고, 메모의 index를 가져와야 한다..
+                                    onTap: () => deletePopupDialog(context, index, classifiedMemo),
+                                    value: CategoriesItem.delete,
+                                    child: Text('삭제'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -179,6 +195,7 @@ class _CategoryPageState extends State<CategoryPage> {
               onPressed: () {
                 if (categoryController.text.isNotEmpty) {
                   HiveHelperCategory().create(category!);
+                  categoryController.text = '';
                 }
                 Navigator.of(context).pop();
               },
@@ -236,13 +253,13 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  Future<void> deletePopupDialog(BuildContext context, int index, classifiedMemo) {
+  Future<void> deletePopupDialog(BuildContext context, int index, List<MemoModel> classifiedMemo) {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text("범주를 삭제 하시겠습니까?"),
-          content: Text("이 범주의 모든 내용은 '미분류'로 이동됩니다."),
+          content: Text("이 범주의 모든 내용은 '미분류'로 이동 됩니다."),
           actions: [
             TextButton(
               style: TextButton.styleFrom(
@@ -250,16 +267,14 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
               child: const Text('삭제'),
               onPressed: () {
-                // todo: error: 범주 삭제 시 관련 메모 모두 삭제 실패
-                // for (var memo in classifiedMemo)
-                //   HiveHelperMemo().updateMemo(
-                //     index: index,
-                //     createdAt: memo.createdAt,
-                //     title: memo.title,
-                //     mainText: memo.mainText,
-                //     selectedCategory: _dropdownValue,
-                //   );
-                // setState(() {});
+                var box = Hive.box<MemoModel>(MemoBox);
+                List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == selectedCategory).toList();
+
+                // 각 메모의 범주를 '미분류'로 업데이트
+                for (var memo in memosToUpdate) {
+                  var memoIndex = box.values.toList().indexOf(memo);
+                  box.putAt(memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: '미분류'));
+                }
 
                 // 카테고리 삭제
                 HiveHelperCategory().delete(index);
