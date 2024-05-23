@@ -267,8 +267,8 @@ class _CategoryPageState extends State<CategoryPage> {
                 List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == selectedCategory).toList();
 
                 // 각 메모의 범주를 '미분류'로 업데이트
-                for (var memo in memosToUpdate) {
-                  var memoIndex = box.values.toList().indexOf(memo);
+                for (MemoModel memo in memosToUpdate) {
+                  int memoIndex = box.values.toList().indexOf(memo);
                   box.putAt(memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: '미분류'));
                 }
 

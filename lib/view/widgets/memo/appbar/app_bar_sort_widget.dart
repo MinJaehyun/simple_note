@@ -79,7 +79,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
     return ValueListenableBuilder<Box>(
       valueListenable: Hive.box('darkModel').listenable(keys: ['darkMode']),
       builder: (context, box, _) {
-        var darkMode = box.get('darkMode', defaultValue: false);
+        bool darkMode = box.get('darkMode', defaultValue: false);
 
         return AppBar(
           title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),

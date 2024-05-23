@@ -49,7 +49,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
               // note: MemoModel? currentContact = box.getAt(index);
               MemoModel currentContact = boxSearchTitleAndMainText[index];
               MemoModel? reversedCurrentContact = boxSearchTitleAndMainText[boxSearchTitleAndMainText.length - 1 - index];
-              var sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+              MemoModel? sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
                 clipBehavior: Clip.antiAlias,
@@ -75,7 +75,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                             // 검색한 내용 가져오기
                             term: widget.searchControllerText,
                             // non-highlight style
-                            textStyle: TextStyle(color: Colors.grey),
+                            textStyle: const TextStyle(color: Colors.grey),
                             // highlight style
                             textStyleHighlight: const TextStyle(
                               fontSize: 24.0,

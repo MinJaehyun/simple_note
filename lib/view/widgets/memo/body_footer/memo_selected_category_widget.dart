@@ -29,14 +29,14 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
     return ValueListenableBuilder(
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
-        if (box.values.isEmpty)
+        if (box.values.isEmpty) {
           return const Center(
             child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'),
           );
-        var memo = box.values.where((item) {
+        }
+        List<MemoModel> memo = box.values.where((item) {
           return item.selectedCategory == widget.selectedCategory;
         }).toList();
-        print(memo); // (Instance of 'MemoModel')
 
         return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
@@ -53,7 +53,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
               // MemoModel? currentContact = box.getAt(index);
               MemoModel? currentContact = memo[index];
               MemoModel? reversedCurrentContact = memo[memo.length - 1 - index];
-              var sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+              MemoModel? sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
                 clipBehavior: Clip.antiAlias,

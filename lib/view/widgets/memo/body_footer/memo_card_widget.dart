@@ -17,7 +17,7 @@ class MemoCardWidget extends StatefulWidget {
 }
 
 class _MemoCardWidgetState extends State<MemoCardWidget> {
-  var sortedCard;
+  MemoModel? sortedCard;
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +72,13 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                           ),
                           const SizedBox(height: 100.0), // 원하는 간격 크기
                           Text(
-                            FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
+                            FormatDate().formatSimpleTimeKor(sortedCard!.createdAt),
                             style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                           ),
                         ],
                       ),
                       // note: card() 내 수정, 삭제 버튼
-                      trailing: MemoCalendarPopupButtonWidget(index, sortedCard),
+                      trailing: MemoCalendarPopupButtonWidget(index, sortedCard!),
                     ),
                   ),
                 ),
