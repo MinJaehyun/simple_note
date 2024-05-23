@@ -4,6 +4,7 @@ import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 
 enum CategoriesItem { update, delete }
@@ -52,7 +53,7 @@ class _CategoryPageState extends State<CategoryPage> {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => addPopupDialog(context),
+          onPressed: () => addCategoryWidget(context),
           label: const Text('범주 만들기'),
         ),
         appBar: AppBar(title: Text('Simple Note', style: style), centerTitle: true),
@@ -160,54 +161,6 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  // todo: add_category 분리하기
-  Future<void> addPopupDialog(BuildContext context) {
-    // note: 순서: 범주 생성 시, 이전 범주값(String = '')은 지운다.
-    // note: categoryController.clear() 처리하면 null값이 찍히는게 아니라 아예 값이 없다 - 이 의미는 String 값이 ''이므로 console에 아무값도 찍히지 않느다.
-    // note: 문자열 길이가 0임을 확인 - isEmpty
-    return showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text('범주 추가'),
-          content: TextField(
-            controller: categoryController,
-            decoration: const InputDecoration(
-              hintText: '범주를 입력해 주세요',
-            ),
-            onChanged: (value) {
-              if (value.isNotEmpty) {
-                category = value;
-              }
-            },
-            autofocus: true,
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('저장'),
-              onPressed: () {
-                if (categoryController.text.isNotEmpty) {
-                  HiveHelperCategory().create(category!);
-                  categoryController.text = '';
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('취소'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-      },
-    );
-  }
   // todo: update_category 분리하기
   Future<void> updatePopupDialog(BuildContext context, int index, currentContact) {
     return showDialog(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 
+// note: 특징: 소문자 함수를 위젯으로 분리하여 가져올 수 있다
 Future<void> addCategoryWidget(BuildContext context) {
   final TextEditingController categoryController = TextEditingController();
   String? category;

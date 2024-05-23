@@ -7,6 +7,7 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:simple_note/view/screens/category/category_page.dart';
+import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
 // note: 휴지통에 들어간 메모를 복원하기 위해서 update 하는 과정
 class UpdateTrashCanMemoPage extends StatefulWidget {
@@ -142,15 +143,9 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                               // 범주 생성 버튼
                               IconButton(
                                 // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
-                                visualDensity: const VisualDensity(horizontal: -4),
                                 // visualDensity: VisualDensity.compact,
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) {
-                                      return const CategoryPage();
-                                    },
-                                  ));
-                                },
+                                visualDensity: const VisualDensity(horizontal: -4),
+                                onPressed: () => addCategoryWidget(context),
                                 icon: const Icon(Icons.category),
                                 iconSize: 18,
                                 tooltip: '범주 생성',
