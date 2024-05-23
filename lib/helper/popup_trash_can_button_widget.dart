@@ -45,7 +45,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
             ));
           },
           value: SampleItem.updateMemo,
-          child: Text('수정'),
+          child: const Text('수정'),
         ),
         PopupMenuItem<SampleItem>(
           onTap: () {
@@ -53,7 +53,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text("메모를 복원 하시겠습니까?"),
+                  title: const Text("메모를 복원 하시겠습니까?"),
                   actions: [
                     TextButton(
                         onPressed: () {
@@ -68,19 +68,19 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                           HiveHelperTrashCan().delete(widget.index);
                           Navigator.pop(context);
                         },
-                        child: Text('복원')),
+                        child: const Text('복원')),
                     TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text('취소')),
+                        child: const Text('취소')),
                   ],
                 );
               },
             );
           },
           value: SampleItem.restoreMemo,
-          child: Text('복원'),
+          child: const Text('복원'),
         ),
         PopupMenuItem<SampleItem>(
           onTap: () {
@@ -88,7 +88,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text("메모를 완전히 삭제 하시겠습니까?"),
+                  title: const Text("메모를 완전히 삭제 하시겠습니까?"),
                   actions: [
                     TextButton(
                         onPressed: () {
@@ -96,12 +96,12 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                           HiveHelperTrashCan().delete(widget.index);
                           Navigator.pop(context);
                         },
-                        child: Text('완전히 삭제')),
+                        child: const Text('완전히 삭제')),
                     TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text('취소')),
+                        child: const Text('취소')),
                   ],
                   elevation: 24.0,
                 );
@@ -109,7 +109,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
             );
           },
           value: SampleItem.deleteMemo,
-          child: Text('완전히 삭제'),
+          child: const Text('완전히 삭제'),
         ),
       ],
     );

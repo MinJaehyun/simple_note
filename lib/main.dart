@@ -48,14 +48,14 @@ class MyApp extends StatelessWidget {
           // theme 내에 2가지 설정 (colorScheme, textTheme)
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
-              seedColor: Color(0xff00ffff),
+              seedColor: const Color(0xff00ffff),
               brightness: Brightness.light,
             ),
             textTheme: GoogleFonts.notoSansNKoTextTheme(
               ThemeData.light().textTheme,
             ),
           ),
-          home: MemoPage(),
+          home: const MemoPage(),
         );
       },
     );

@@ -7,7 +7,7 @@ import 'package:simple_note/model/category.dart';
 import 'package:simple_note/view/screens/category/category_page.dart';
 
 class AddMemoPage extends StatefulWidget {
-  AddMemoPage({super.key});
+  const AddMemoPage({super.key});
 
   @override
   State<AddMemoPage> createState() => _AddMemoPageState();
@@ -50,7 +50,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
   void _scrollToTop() {
     _scrollController.animateTo(
       0.0,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       curve: Curves.easeInOut,
     );
   }
@@ -58,7 +58,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
   void _scrollToDown() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       curve: Curves.easeInOut,
     );
   }
@@ -73,8 +73,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
       }
     }
 
-    // todo: DropdownButtonWidget는 update_memo 와 동일한 구조 사용
-    DropdownButton<String> DropdownButtonWidget(Box<CategoryModel> box) {
+    // todo: dropdownButtonWidget는 update_memo 와 동일한 구조 사용
+    DropdownButton<String> dropdownButtonWidget(Box<CategoryModel> box) {
       return DropdownButton(
         style: const TextStyle(color: Colors.green),
         underline: Container(height: 2, color: Colors.green[100]),
@@ -108,7 +108,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       // 상단: 시간 및 범주 메뉴
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
+                        child: SizedBox(
                           height: 80,
                           child: Row(
                             children: [
@@ -116,7 +116,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                               Expanded(
                                 child: Text(
                                   FormatDate().formatDefaultDateKor(DateTime.now()),
-                                  style: TextStyle(fontSize: 18),
+                                  style: const TextStyle(fontSize: 18),
                                 ),
                               ),
                               // 범주
@@ -128,7 +128,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 onPressed: () {},
-                                child: DropdownButtonWidget(box),
+                                child: dropdownButtonWidget(box),
                               ),
                               // 범주 생성 버튼
                               IconButton(
@@ -138,11 +138,11 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) {
-                                      return CategoryPage();
+                                      return const CategoryPage();
                                     },
                                   ));
                                 },
-                                icon: Icon(Icons.category),
+                                icon: const Icon(Icons.category),
                                 iconSize: 18,
                                 tooltip: '범주 생성',
                                 hoverColor: Colors.orange,
@@ -164,70 +164,68 @@ class _AddMemoPageState extends State<AddMemoPage> {
                             key: _formKey,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                child: SingleChildScrollView(
-                                  controller: _scrollController,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(height: 10),
-                                      TextFormField(
-                                        cursorColor: Colors.orange,
-                                        cursorWidth: 3,
-                                        // 커서 노출 여부
-                                        showCursor: true,
-                                        initialValue: "",
-                                        onChanged: (value) {
-                                          setState(() {
-                                            title = value;
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          suffixIcon: Icon(Icons.clear),
-                                          labelText: '제목',
-                                          border: OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.orange,
-                                            ),
-                                          ),
-                                        ),
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return '한 글자 이상 입력해 주세요';
-                                          }
-                                          // print('test' + '   asdf   '.trimLeft() + 'E');  //testasdf   E /String /앞 공백 제거
-                                          else if (value.trimLeft() != value) {
-                                            return '앞에 공백을 제거해 주세요';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      SizedBox(height: 20),
-                                      TextFormField(
-                                        cursorColor: Colors.orange,
-                                        cursorWidth: 3,
-                                        // 커서 노출 여부
-                                        showCursor: true,
-                                        initialValue: "",
-                                        keyboardType: TextInputType.multiline,
-                                        maxLines: 100,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            mainText = value;
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          hintText: '내용을 입력해 주세요',
-                                          border: OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.orange,
-                                            ),
+                              child: SingleChildScrollView(
+                                controller: _scrollController,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 10),
+                                    TextFormField(
+                                      cursorColor: Colors.orange,
+                                      cursorWidth: 3,
+                                      // 커서 노출 여부
+                                      showCursor: true,
+                                      initialValue: "",
+                                      onChanged: (value) {
+                                        setState(() {
+                                          title = value;
+                                        });
+                                      },
+                                      decoration: const InputDecoration(
+                                        suffixIcon: Icon(Icons.clear),
+                                        labelText: '제목',
+                                        border: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.orange,
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return '한 글자 이상 입력해 주세요';
+                                        }
+                                        // print('test' + '   asdf   '.trimLeft() + 'E');  //testasdf   E /String /앞 공백 제거
+                                        else if (value.trimLeft() != value) {
+                                          return '앞에 공백을 제거해 주세요';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    const SizedBox(height: 20),
+                                    TextFormField(
+                                      cursorColor: Colors.orange,
+                                      cursorWidth: 3,
+                                      // 커서 노출 여부
+                                      showCursor: true,
+                                      initialValue: "",
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 100,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          mainText = value;
+                                        });
+                                      },
+                                      decoration: const InputDecoration(
+                                        hintText: '내용을 입력해 주세요',
+                                        border: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.orange,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -241,8 +239,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           children: [
                             Expanded(
                               child: ElevatedButton.icon(
-                                label: Text('저장'),
-                                icon: Icon(Icons.check),
+                                label: const Text('저장'),
+                                icon: const Icon(Icons.check),
                                 onPressed: () {
                                   final formKeyState = _formKey.currentState!;
                                   if (formKeyState.validate()) {
@@ -253,11 +251,11 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                 },
                               ),
                             ),
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             Expanded(
                               child: ElevatedButton.icon(
-                                label: Text('취소'),
-                                icon: Icon(Icons.close),
+                                label: const Text('취소'),
+                                icon: const Icon(Icons.close),
                                 onPressed: () => showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) => AlertDialog(
@@ -293,7 +291,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     child: IconButton.filledTonal(
                       hoverColor: Colors.orange,
                       focusColor: Colors.orangeAccent,
-                      icon: _showScrollToTopButton ? Icon(Icons.arrow_upward) : Icon(Icons.arrow_downward),
+                      icon: _showScrollToTopButton ? const Icon(Icons.arrow_upward) : const Icon(Icons.arrow_downward),
                       onPressed: () {
                         _showScrollToTopButton ? _scrollToTop() : _scrollToDown();
                       },

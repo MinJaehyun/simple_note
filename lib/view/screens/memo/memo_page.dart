@@ -7,7 +7,7 @@ import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dar
 enum SortedTime { firstTime, lastTime }
 
 class MemoPage extends StatefulWidget {
-  const MemoPage({Key? key}) : super(key: key);
+  const MemoPage({super.key});
 
   @override
   State<MemoPage> createState() => _MemoPageState();
@@ -31,7 +31,7 @@ class _MemoPageState extends State<MemoPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         appBar: AppBarSortWidget(sortedTime, changeFunc),
         body: MemoTopWidget(sortedTime),
-        bottomNavigationBar: FooterNavigationBarWidget(2),
+        bottomNavigationBar: const FooterNavigationBarWidget(2),
         // note: 하단 add
         floatingActionButton: buildFloatingActionButton(context),
       ),

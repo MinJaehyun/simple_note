@@ -30,9 +30,9 @@ class _CategoryPageState extends State<CategoryPage> {
     super.dispose();
   }
 
-  /** note: 함수 내에서 setState 호출이 WidgetsBinding.instance.addPostFrameCallback를 사용하여 현재 프레임이 끝난 후에 실행되도록 하였습니다.
+  /* note: 함수 내에서 setState 호출이 WidgetsBinding.instance.addPostFrameCallback를 사용하여 현재 프레임이 끝난 후에 실행되도록 하였습니다.
   이로 인해 setState가 안전하게 호출되며, 빌드 중에 상태가 변경되는 문제를 피할 수 있습니다.
-  **/
+  */
   void updateClassifiedMemo() {
     if (selectedCategory != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -93,8 +93,8 @@ class _CategoryPageState extends State<CategoryPage> {
               ValueListenableBuilder(
                 valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
                 builder: (context, Box<CategoryModel> box, _) {
-                  if (box.values.isEmpty)
-                    return Center(
+                  if (box.values.isEmpty) {
+                    return const Center(
                       child: Column(
                         children: [
                           SizedBox(height: 200),
@@ -102,6 +102,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         ],
                       ),
                     );
+                  }
                   return ListView.builder(
                     itemCount: box.values.length,
                     shrinkWrap: true,
@@ -132,13 +133,13 @@ class _CategoryPageState extends State<CategoryPage> {
                                   PopupMenuItem<CategoriesItem>(
                                     onTap: () => updatePopupDialog(context, index, currentContact),
                                     value: CategoriesItem.update,
-                                    child: Text('수정'),
+                                    child: const Text('수정'),
                                   ),
                                   PopupMenuItem<CategoriesItem>(
                                     // todo: index 는 위에 범주 index 이고, 메모의 index를 가져와야 한다..
                                     onTap: () => deletePopupDialog(context, index, classifiedMemo),
                                     value: CategoriesItem.delete,
-                                    child: Text('삭제'),
+                                    child: const Text('삭제'),
                                   ),
                                 ],
                               ),
@@ -154,7 +155,7 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
         ),
         // note: public_footer/navigation_bar
-        bottomNavigationBar: FooterNavigationBarWidget(1),
+        bottomNavigationBar: const FooterNavigationBarWidget(1),
       ),
     );
   }
@@ -168,14 +169,14 @@ class _CategoryPageState extends State<CategoryPage> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text('범주 추가'),
+          title: const Text('범주 추가'),
           content: TextField(
             controller: categoryController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: '범주를 입력해 주세요',
             ),
             onChanged: (value) {
-              if (!value.isEmpty) {
+              if (value.isNotEmpty) {
                 category = value;
               }
             },
@@ -213,9 +214,9 @@ class _CategoryPageState extends State<CategoryPage> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text('중복된 범주로 변경할 수 없습니다'),
+          title: const Text('중복된 범주로 변경할 수 없습니다'),
           content: TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: '범주를 입력해 주세요',
             ),
             onChanged: (value) {
@@ -253,8 +254,8 @@ class _CategoryPageState extends State<CategoryPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("범주를 삭제 하시겠습니까?"),
-          content: Text("이 범주의 모든 내용은 '미분류'로 이동 됩니다."),
+          title: const Text("범주를 삭제 하시겠습니까?"),
+          content: const Text("이 범주의 모든 내용은 '미분류'로 이동 됩니다."),
           actions: [
             TextButton(
               style: TextButton.styleFrom(
