@@ -22,8 +22,6 @@ class _CategoryPageState extends State<CategoryPage> {
   String? category;
   String? selectedCategory;
 
-  // late var unclassifiedMemo;
-  // late List<MemoModel> classifiedMemo;
   late List<MemoModel> classifiedMemo = [];
 
   @override
@@ -58,7 +56,6 @@ class _CategoryPageState extends State<CategoryPage> {
           label: const Text('범주 만들기'),
         ),
         appBar: AppBar(title: Text('Simple Note', style: style), centerTitle: true),
-        // note: body
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -66,9 +63,9 @@ class _CategoryPageState extends State<CategoryPage> {
               ValueListenableBuilder(
                 valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
                 builder: (context, Box<MemoModel> box, _) {
-                  // note: 미분류 메모
+                  // note: 미분류 메모: unclassifiedMemo 는 해당 ValueListenableBuilder 내에서만 사용할 것이므로 변수 타입 선언
                   var unclassifiedMemo = box.values.toList().where((item) => item.selectedCategory == '미분류');
-                  // note: 분류된 메모 - err: 기능 오류
+                  // note: 분류된 메모 - err: 기능 오류인 이유? var를 밖에 선언하고 다른 ValueListenableBuilder에서 사용하면 에러난다!
                   // classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory).toList();
 
                   return Column(
@@ -106,13 +103,11 @@ class _CategoryPageState extends State<CategoryPage> {
                       ),
                     );
                   return ListView.builder(
-
                     itemCount: box.values.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       CategoryModel? currentContact = box.getAt(index);
                       String? categoryTitle = currentContact!.categories;
-
                       // Update the selected category and classified memos
                       selectedCategory = categoryTitle;
                       updateClassifiedMemo();
