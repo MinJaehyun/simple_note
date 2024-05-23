@@ -40,13 +40,13 @@ class _CalendarPageState extends State<CalendarPage> {
       return key.day * 1000000 + key.month * 10000 + key.year;
     }
 
-    final _events = LinkedHashMap<DateTime, List>(
+    final events = LinkedHashMap<DateTime, List>(
       equals: isSameDay,
       hashCode: getHashCode,
     )..addAll(eventsList);
 
-    List _getEventForDay(DateTime day) {
-      return _events[day] ?? [];
+    List getEventForDay(DateTime day) {
+      return events[day] ?? [];
     }
 
     return SafeArea(
@@ -54,10 +54,10 @@ class _CalendarPageState extends State<CalendarPage> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return AddMemoPage();
+              return const AddMemoPage();
             }));
           },
-          label: Text('메모 만들기'),
+          label: const Text('메모 만들기'),
         ),
         appBar: AppBar(
           title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
@@ -89,7 +89,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
                     });
-                    _getEventForDay(selectedDay);
+                    getEventForDay(selectedDay);
                   }
                 },
                 onPageChanged: (focusedDay) {
@@ -97,7 +97,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 },
                 // note: eventLoader: (day){}는? 선택한 달에 나타나는 모든 날짜를 의미한다.
                 eventLoader: (day) {
-                  return _getEventForDay(day);
+                  return getEventForDay(day);
                 },
                 // note: 이하 style
                 headerStyle: buildHeaderStyle(),
@@ -136,14 +136,14 @@ class _CalendarPageState extends State<CalendarPage> {
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('${FormatDate().formatDefaultDateKor(_selectedDay!)}'),
+                                  child: Text(FormatDate().formatDefaultDateKor(_selectedDay!)),
                                 ),
                               ),
                               Text('총 ${classifiedTimeMemo.length ?? 0} 개'),
                             ],
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 245,
                           child: ListView.builder(
                             shrinkWrap: true,
@@ -165,10 +165,10 @@ class _CalendarPageState extends State<CalendarPage> {
                                           );
                                         },
                                         leading: isAlarmColor
-                                            ? Icon(Icons.access_alarm, color: Colors.red)
-                                            : Icon(Icons.access_alarm, color: Colors.green),
-                                        title: Text("${currentContact.title}"),
-                                        subtitle: Text('${FormatDate().formatDotDateTimeKor(currentContact.createdAt)}',
+                                            ? const Icon(Icons.access_alarm, color: Colors.red)
+                                            : const Icon(Icons.access_alarm, color: Colors.green),
+                                        title: Text(currentContact.title),
+                                        subtitle: Text(FormatDate().formatDotDateTimeKor(currentContact.createdAt),
                                             style: TextStyle(color: Colors.grey[500])),
                                         dense: true,
                                         trailing: MemoCalendarPopupButtonWidget(index, currentContact),
@@ -189,13 +189,13 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ),
         // note: footer/navigation_bar
-        bottomNavigationBar: FooterNavigationBarWidget(0),
+        bottomNavigationBar: const FooterNavigationBarWidget(0),
       ),
     );
   }
 
   HeaderStyle buildHeaderStyle() {
-    return HeaderStyle(
+    return const HeaderStyle(
       // note: 2week 기능
       // formatButtonVisible: false,
       titleCentered: true,
@@ -233,7 +233,7 @@ class _CalendarPageState extends State<CalendarPage> {
         color: DARK_GREY_COLOR,
       ),
       // note: 선택한 날짜 글꼴 style
-      selectedTextStyle: TextStyle(
+      selectedTextStyle: const TextStyle(
         fontWeight: FontWeight.w600,
         // color: PRIMARY_COLOR,
       ),

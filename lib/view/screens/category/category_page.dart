@@ -185,6 +185,16 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
               child: const Text('저장'),
               onPressed: () {
+                // print('category: $category'); // 6666
+                // todo
+                var box = Hive.box<MemoModel>(MemoBox);
+                List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == selectedCategory).toList();
+
+                for (MemoModel memo in memosToUpdate) {
+                  int memoIndex = box.values.toList().indexOf(memo);
+                  box.putAt(memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: category));
+                }
+
                 HiveHelperCategory().update(index: index, data: category!);
                 Navigator.of(context).pop();
               },
@@ -219,7 +229,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 var box = Hive.box<MemoModel>(MemoBox);
                 List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == selectedCategory).toList();
 
-                // 각 메모의 범주를 '미분류'로 업데이트
+                // 각 메모의 범주를 '미분류'로 업데이트?
                 for (MemoModel memo in memosToUpdate) {
                   int memoIndex = box.values.toList().indexOf(memo);
                   box.putAt(memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: '미분류'));

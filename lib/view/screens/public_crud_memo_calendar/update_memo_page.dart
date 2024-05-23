@@ -6,6 +6,7 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/category/category_page.dart';
+import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
 class UpdateMemoPage extends StatefulWidget {
   const UpdateMemoPage({required this.index, required this.currentContact, super.key});
@@ -106,7 +107,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {
               // if (box.values.isEmpty) return Center(child: Text('test update memo'));
-
               return Stack(
                 children: [
                   Column(
@@ -139,15 +139,9 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                               // 범주 생성 버튼
                               IconButton(
                                 // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
-                                visualDensity: const VisualDensity(horizontal: -4),
                                 // visualDensity: VisualDensity.compact,
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) {
-                                      return const CategoryPage();
-                                    },
-                                  ));
-                                },
+                                visualDensity: const VisualDensity(horizontal: -4),
+                                onPressed: () => addCategoryWidget(context),
                                 icon: const Icon(Icons.category),
                                 iconSize: 18,
                                 tooltip: '범주 생성',
