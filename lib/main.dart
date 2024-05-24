@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
@@ -27,7 +28,7 @@ void main() async {
 
   // note: intl 초기화
   await initializeDateFormatting();
-  runApp(const MyApp());
+  runApp(const GetMaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
