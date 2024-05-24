@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
@@ -164,58 +165,63 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                 child: Column(
                                   children: [
                                     const SizedBox(height: 10),
-                                    TextFormField(
-                                      cursorColor: Colors.orange,
-                                      cursorWidth: 3,
-                                      // 커서 노출 여부
-                                      showCursor: true,
-                                      initialValue: "",
-                                      onChanged: (value) {
-                                        setState(() {
-                                          title = value;
-                                        });
-                                      },
-                                      decoration: const InputDecoration(
-                                        suffixIcon: Icon(Icons.clear),
-                                        labelText: '제목',
-                                        border: OutlineInputBorder(),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.orange,
+                                    CustomPaint(
+                                      painter: GridPainter(),
+                                      child: TextFormField(
+                                        cursorColor: Colors.orange,
+                                        cursorWidth: 3,
+                                        showCursor: true,
+                                        initialValue: "",
+                                        onChanged: (value) {
+                                          setState(() {
+                                            title = value;
+                                          });
+                                        },
+                                        decoration: const InputDecoration(
+                                          suffixIcon: Icon(Icons.clear),
+                                          labelText: '제목',
+                                          border: OutlineInputBorder(),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.orange,
+                                            ),
                                           ),
                                         ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return '한 글자 이상 입력해 주세요';
+                                          }
+                                          // print('test' + '   asdf   '.trimLeft() + 'E');  //testasdf   E /String /앞 공백 제거
+                                          else if (value.trimLeft() != value) {
+                                            return '앞에 공백을 제거해 주세요';
+                                          }
+                                          return null;
+                                        },
                                       ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return '한 글자 이상 입력해 주세요';
-                                        }
-                                        // print('test' + '   asdf   '.trimLeft() + 'E');  //testasdf   E /String /앞 공백 제거
-                                        else if (value.trimLeft() != value) {
-                                          return '앞에 공백을 제거해 주세요';
-                                        }
-                                        return null;
-                                      },
                                     ),
                                     const SizedBox(height: 20),
-                                    TextFormField(
-                                      cursorColor: Colors.orange,
-                                      cursorWidth: 3,
-                                      // 커서 노출 여부
-                                      showCursor: true,
-                                      initialValue: "",
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 100,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          mainText = value;
-                                        });
-                                      },
-                                      decoration: const InputDecoration(
-                                        hintText: '내용을 입력해 주세요',
-                                        border: OutlineInputBorder(),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.orange,
+                                    CustomPaint(
+                                      painter: GridPainter(),
+                                      child: TextFormField(
+                                        cursorColor: Colors.orange,
+                                        cursorWidth: 3,
+                                        // 커서 노출 여부
+                                        showCursor: true,
+                                        initialValue: "",
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: 100,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            mainText = value;
+                                          });
+                                        },
+                                        decoration: const InputDecoration(
+                                          hintText: '내용을 입력해 주세요',
+                                          border: OutlineInputBorder(),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.orange,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -258,8 +264,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     // 예: 누르면, 메모장을 빠져나간다.
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop(); // 여기서 팝 처리하고 대화 상자를 닫습니다.
-                                        Navigator.of(context).pop('OK'); // 이전 페이지로 돌아갑니다.
+                                        // Navigator.of(context).pop(); // 여기서 팝 처리하고 대화 상자를 닫습니다.
+                                        // Navigator.of(context).pop('OK'); // 이전 페이지로 돌아갑니다.
+                                        // Get.offAll(const MemoPage());
+                                        // Navigator.of(context, rootNavigator: true).pop();
                                       },
                                       child: const Text('변경을 취소'),
                                     ),
