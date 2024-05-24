@@ -146,6 +146,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           ),
                         ),
                       ),
+
                       // 중단: 입력창 (제목/내용)
                       // 스크롤러 적용을 위한 설정: NotificationListener<ScrollNotification>
                       NotificationListener<ScrollNotification>(
@@ -257,8 +258,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     // 예: 누르면, 메모장을 빠져나간다.
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
+                                        Navigator.of(context).pop(); // 여기서 팝 처리하고 대화 상자를 닫습니다.
+                                        Navigator.of(context).pop('OK'); // 이전 페이지로 돌아갑니다.
                                       },
                                       child: const Text('변경을 취소'),
                                     ),
