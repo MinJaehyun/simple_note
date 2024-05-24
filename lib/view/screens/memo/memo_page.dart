@@ -42,7 +42,7 @@ class _MemoPageState extends State<MemoPage> {
     return FloatingActionButton.extended(
       onPressed: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return AddMemoPage();
+          return const AddMemoPage();
         }));
       },
       label: const Text('메모 만들기'),
