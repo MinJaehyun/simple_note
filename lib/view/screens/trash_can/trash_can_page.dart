@@ -58,7 +58,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                 child: Column(
                   children: [
                     // 상단: 검색창
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       child: Form(
                         child: TextFormField(
@@ -127,7 +127,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                   builder: (context, Box<TrashCanModel> box, _) {
                     // 휴지통 분기문 시작점
                     if (searchControllerText == null || searchControllerText == '') {
-                      return Container(
+                      return SizedBox(
                         height: MediaQuery.of(context).size.height - 200,
                         child: GridView.builder(
                           shrinkWrap: true,
@@ -200,7 +200,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
               ),
             ],
           ),
-          bottomNavigationBar: const FooterNavigationBarWidget(4),
+          bottomNavigationBar: const FooterNavigationBarWidget(3),
         ),
       ),
     );
