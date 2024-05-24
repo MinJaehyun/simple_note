@@ -71,18 +71,8 @@ class _CategoryPageState extends State<CategoryPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(padding: const EdgeInsets.all(20.0), child: Text('범주', style: style)),
-                      Card(
-                        child: ListTile(
-                          // leading: Icon(Icons.menu),
-                          title: Text('모든 (${box.values.length})', style: style),
-                        ),
-                      ),
-                      Card(
-                        child: ListTile(
-                          // leading: Icon(Icons.menu),
-                          title: Text('미분류 (${unclassifiedMemo.length})', style: style),
-                        ),
-                      ),
+                      Card(child: ListTile(title: Text('모든 (${box.values.length})', style: style))),
+                      Card(child: ListTile(title: Text('미분류 (${unclassifiedMemo.length})', style: style))),
                     ],
                   );
                 },
@@ -94,61 +84,82 @@ class _CategoryPageState extends State<CategoryPage> {
                 builder: (context, Box<CategoryModel> box, _) {
                   if (box.values.isEmpty) {
                     return const Center(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 200),
-                          Text('하단 버튼을 클릭하면 범주를 생성할 수 있습니다.'),
-                        ],
-                      ),
-                    );
+                        child: Column(
+                      children: [SizedBox(height: 200), Text('하단 버튼을 클릭하면 범주를 생성할 수 있습니다.')],
+                    ));
                   }
-                  return ListView.builder(
-                    itemCount: box.values.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      CategoryModel? currentContact = box.getAt(index);
-                      String? categoryTitle = currentContact!.categories;
-                      // Update the selected category and classified memos
-                      selectedCategory = categoryTitle;
-                      updateClassifiedMemo();
-
-                      return Card(
-                        child: ListTile(
-                          // fix
-                          onTap: () {
-                            setState(() {
-                              selectedCategory = categoryTitle;
-                            });
-                            updateClassifiedMemo();
-                          },
-                          // fix
-                          // title: Text('${currentContact.categories.toString()} (${classifiedMemo.length})', style: style),
-                          title: Text(
-                              '${currentContact.categories} (${Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == categoryTitle).length})',
-                              style: style),
-                          trailing: Column(
-                            children: [
-                              PopupMenuButton<CategoriesItem>(
-                                initialValue: categoriesItem,
-                                itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
-                                  PopupMenuItem<CategoriesItem>(
-                                    onTap: () => showUpdatePopupDialog(context, index, currentContact),
-                                    value: CategoriesItem.update,
-                                    child: const Text('수정'),
-                                  ),
-                                  PopupMenuItem<CategoriesItem>(
-                                    // todo: index 는 위에 범주 index 이고, 메모의 index를 가져와야 한다..
-                                    onTap: () => showDeletePopupDialog(context, index),
-                                    value: CategoriesItem.delete,
-                                    child: const Text('삭제'),
-                                  ),
-                                ],
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.6, // 적절한 높이 설정
+                    child: ReorderableListView(
+                      shrinkWrap: true,
+                      onReorder: (int oldIndex, int newIndex) async {
+                        setState(() async {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          // 카테고리 순서 변경
+                          var newList = box.values.toList();
+                          var movedItem = newList.removeAt(oldIndex);
+                          newList.insert(newIndex, movedItem);
+                          await box.clear();
+                          await box.addAll(newList);
+                        });
+                      },
+                      children: [
+                        for (int index = 0; index < box.values.length; index++)
+                          Dismissible(
+                            key: UniqueKey(), // Use UniqueKey for each Dismissible to avoid issues with duplicate keys
+                            onDismissed: (direction) async {
+                              // Delete the category and associated memos
+                              final categoryToDelete = box.getAt(index)!;
+                              await box.deleteAt(index);
+                              // Delete associated memos
+                              List<MemoModel> memosToDelete =
+                                  Hive.box<MemoModel>(MemoBox).values.where((memo) => memo.selectedCategory == categoryToDelete.categories).toList();
+                              for (MemoModel memo in memosToDelete) {
+                                await memo.delete();
+                              }
+                            },
+                            child: Card(
+                              key: ValueKey(index),
+                              child: ListTile(
+                                onTap: () {
+                                  if (selectedCategory != null) {
+                                    setState(() {
+                                      selectedCategory = box.getAt(index)!.categories!;
+                                    });
+                                  }
+                                  updateClassifiedMemo();
+                                },
+                                leading: const Icon(Icons.menu),
+                                title: Text(
+                                    '${box.getAt(index)!.categories} (${Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == box.getAt(index)!.categories).length})',
+                                    style: style),
+                                trailing: Column(
+                                  children: [
+                                    PopupMenuButton<CategoriesItem>(
+                                      initialValue: categoriesItem,
+                                      itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
+                                        PopupMenuItem<CategoriesItem>(
+                                          onTap: () => showUpdatePopupDialog(context, index, box.getAt(index)!),
+                                          value: CategoriesItem.update,
+                                          child: const Text('수정'),
+                                        ),
+                                        PopupMenuItem<CategoriesItem>(
+                                          // todo: index 는 위에 범주 index 이고, 메모의 index를 가져와야 한다..
+                                          onTap: () => showDeletePopupDialog(context, index),
+                                          value: CategoriesItem.delete,
+                                          child: const Text('삭제'),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                      ],
+                    ),
                   );
                 },
               ),
@@ -160,6 +171,4 @@ class _CategoryPageState extends State<CategoryPage> {
       ),
     );
   }
-
-
 }
