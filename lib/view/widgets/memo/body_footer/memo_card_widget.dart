@@ -5,7 +5,7 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
-import 'package:simple_note/view/widgets/public/memo_calenar_popup_button_widget.dart';
+import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 
 class MemoCardWidget extends StatefulWidget {
   const MemoCardWidget(this.sortedTime, {super.key});
