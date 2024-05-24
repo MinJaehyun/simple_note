@@ -5,7 +5,6 @@ import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/category/category_page.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
 class UpdateMemoPage extends StatefulWidget {
@@ -141,7 +140,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                 // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
                                 // visualDensity: VisualDensity.compact,
                                 visualDensity: const VisualDensity(horizontal: -4),
-                                onPressed: () => addCategoryWidget(context),
+                                onPressed: () => showAddPopupDialog(context),
                                 icon: const Icon(Icons.category),
                                 iconSize: 18,
                                 tooltip: '범주 생성',

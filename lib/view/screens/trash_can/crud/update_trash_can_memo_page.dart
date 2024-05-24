@@ -6,7 +6,6 @@ import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/category/category_page.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
 // note: 휴지통에 들어간 메모를 복원하기 위해서 update 하는 과정
@@ -145,7 +144,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
                                 // visualDensity: VisualDensity.compact,
                                 visualDensity: const VisualDensity(horizontal: -4),
-                                onPressed: () => addCategoryWidget(context),
+                                onPressed: () => showAddPopupDialog(context),
                                 icon: const Icon(Icons.category),
                                 iconSize: 18,
                                 tooltip: '범주 생성',
@@ -167,69 +166,67 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                             key: _formKey,
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Container(
-                                child: SingleChildScrollView(
-                                  controller: _scrollController,
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(height: 10),
-                                      TextFormField(
-                                        cursorColor: Colors.orange,
-                                        cursorWidth: 3,
-                                        // 커서 노출 여부
-                                        showCursor: true,
-                                        initialValue: widget.currentContact.title,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            title = value;
-                                          });
-                                        },
-                                        decoration: const InputDecoration(
-                                          suffixIcon: Icon(Icons.clear),
-                                          labelText: '제목',
-                                          border: OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.orange,
-                                            ),
-                                          ),
-                                        ),
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return '한 글자 이상 입력해 주세요';
-                                          } else if (value.trimLeft() != value) {
-                                            return '앞에 공백을 제거해 주세요';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      const SizedBox(height: 25),
-                                      TextFormField(
-                                        cursorColor: Colors.orange,
-                                        cursorWidth: 3,
-                                        // 커서 노출 여부
-                                        showCursor: true,
-                                        initialValue: widget.currentContact.mainText,
-                                        keyboardType: TextInputType.multiline,
-                                        // 입력값 무제한 설정하는 방법 - maxLines: null
-                                        maxLines: widget.currentContact.mainText != null ? 100 : null,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            mainText = value;
-                                          });
-                                        },
-                                        decoration: const InputDecoration(
-                                          hintText: '내용을 입력해 주세요',
-                                          border: OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.orange,
-                                            ),
+                              child: SingleChildScrollView(
+                                controller: _scrollController,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 10),
+                                    TextFormField(
+                                      cursorColor: Colors.orange,
+                                      cursorWidth: 3,
+                                      // 커서 노출 여부
+                                      showCursor: true,
+                                      initialValue: widget.currentContact.title,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          title = value;
+                                        });
+                                      },
+                                      decoration: const InputDecoration(
+                                        suffixIcon: Icon(Icons.clear),
+                                        labelText: '제목',
+                                        border: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.orange,
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return '한 글자 이상 입력해 주세요';
+                                        } else if (value.trimLeft() != value) {
+                                          return '앞에 공백을 제거해 주세요';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    const SizedBox(height: 25),
+                                    TextFormField(
+                                      cursorColor: Colors.orange,
+                                      cursorWidth: 3,
+                                      // 커서 노출 여부
+                                      showCursor: true,
+                                      initialValue: widget.currentContact.mainText,
+                                      keyboardType: TextInputType.multiline,
+                                      // 입력값 무제한 설정하는 방법 - maxLines: null
+                                      maxLines: widget.currentContact.mainText != null ? 100 : null,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          mainText = value;
+                                        });
+                                      },
+                                      decoration: const InputDecoration(
+                                        hintText: '내용을 입력해 주세요',
+                                        border: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.orange,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

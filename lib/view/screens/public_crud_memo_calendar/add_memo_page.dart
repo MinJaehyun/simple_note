@@ -4,7 +4,6 @@ import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/view/screens/category/category_page.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
 class AddMemoPage extends StatefulWidget {
@@ -136,7 +135,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                 // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
                                 // visualDensity: VisualDensity.compact,
                                 visualDensity: const VisualDensity(horizontal: -4),
-                                onPressed: () => addCategoryWidget(context),
+                                onPressed: () => showAddPopupDialog(context),
                                 icon: const Icon(Icons.category),
                                 iconSize: 18,
                                 tooltip: '범주 생성',
@@ -229,53 +228,51 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       ),
 
                       // 하단: 저장 및 취소
-                      Container(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                label: const Text('저장'),
-                                icon: const Icon(Icons.check),
-                                onPressed: () {
-                                  final formKeyState = _formKey.currentState!;
-                                  if (formKeyState.validate()) {
-                                    formKeyState.save();
-                                    HiveHelperMemo().addMemo(createdAt: time, title: title, mainText: mainText, selectedCategory: _dropdownValue);
-                                    Navigator.of(context).pop();
-                                  }
-                                },
-                              ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              label: const Text('저장'),
+                              icon: const Icon(Icons.check),
+                              onPressed: () {
+                                final formKeyState = _formKey.currentState!;
+                                if (formKeyState.validate()) {
+                                  formKeyState.save();
+                                  HiveHelperMemo().addMemo(createdAt: time, title: title, mainText: mainText, selectedCategory: _dropdownValue);
+                                  Navigator.of(context).pop();
+                                }
+                              },
                             ),
-                            const SizedBox(width: 15),
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                label: const Text('취소'),
-                                icon: const Icon(Icons.close),
-                                onPressed: () => showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('변경 사항을 취소 하시겠습니까?'),
-                                    actions: <Widget>[
-                                      // 예: 누르면, 메모장을 빠져나간다.
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('변경을 취소'),
-                                      ),
-                                      // 아니오: 누르면, 메모장으로 빠져나간다.
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context, 'OK'),
-                                        child: const Text('메모장 돌아가기'),
-                                      ),
-                                    ],
-                                  ),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              label: const Text('취소'),
+                              icon: const Icon(Icons.close),
+                              onPressed: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('변경 사항을 취소 하시겠습니까?'),
+                                  actions: <Widget>[
+                                    // 예: 누르면, 메모장을 빠져나간다.
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('변경을 취소'),
+                                    ),
+                                    // 아니오: 누르면, 메모장으로 빠져나간다.
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, 'OK'),
+                                      child: const Text('메모장 돌아가기'),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
