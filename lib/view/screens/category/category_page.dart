@@ -38,10 +38,7 @@ class _CategoryPageState extends State<CategoryPage> {
     if (selectedCategory != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         setState(() {
-          classifiedMemo = Hive.box<MemoModel>(MemoBox)
-              .values
-              .where((item) => item.selectedCategory == selectedCategory)
-              .toList();
+          classifiedMemo = Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == selectedCategory).toList();
         });
       });
     }
@@ -125,7 +122,9 @@ class _CategoryPageState extends State<CategoryPage> {
                           },
                           // fix
                           // title: Text('${currentContact.categories.toString()} (${classifiedMemo.length})', style: style),
-                          title: Text('${currentContact.categories} (${Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == categoryTitle).length})', style: style),
+                          title: Text(
+                              '${currentContact.categories} (${Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == categoryTitle).length})',
+                              style: style),
                           trailing: Column(
                             children: [
                               PopupMenuButton<CategoriesItem>(
@@ -138,7 +137,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                   ),
                                   PopupMenuItem<CategoriesItem>(
                                     // todo: index 는 위에 범주 index 이고, 메모의 index를 가져와야 한다..
-                                    onTap: () => deletePopupDialog(context, index, classifiedMemo),
+                                    onTap: () => deletePopupDialog(context, index),
                                     value: CategoriesItem.delete,
                                     child: const Text('삭제'),
                                   ),
@@ -163,6 +162,10 @@ class _CategoryPageState extends State<CategoryPage> {
 
   // todo: update_category 분리하기
   Future<void> updatePopupDialog(BuildContext context, int index, currentContact) {
+    // note: 범주 탭할 때, selectedCategory가 적절히 업데이트되도록 하고, 단, 다이얼로그 내에서는 직접적으로 특정 범주를 참조 해야한다!
+    // note: 아래 categories는 모델의 속성
+    final categoryToUpdate = Hive.box<CategoryModel>(CategoryBox).getAt(index)?.categories;
+
     return showDialog(
       context: context,
       builder: (_) {
@@ -185,17 +188,19 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
               child: const Text('저장'),
               onPressed: () {
-                // print('category: $category'); // 6666
-                // todo
-                var box = Hive.box<MemoModel>(MemoBox);
-                List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == selectedCategory).toList();
+                if (categoryToUpdate != null) {
+                  HiveHelperCategory().update(index: index, data: category!);
 
-                for (MemoModel memo in memosToUpdate) {
-                  int memoIndex = box.values.toList().indexOf(memo);
-                  box.putAt(memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: category));
+                  var box = Hive.box<MemoModel>(MemoBox);
+                  List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == categoryToUpdate).toList();
+
+                  for (MemoModel memo in memosToUpdate) {
+                    int memoIndex = box.values.toList().indexOf(memo);
+                    box.putAt(
+                        memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: category));
+                  }
                 }
 
-                HiveHelperCategory().update(index: index, data: category!);
                 Navigator.of(context).pop();
               },
             ),
@@ -212,7 +217,12 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  Future<void> deletePopupDialog(BuildContext context, int index, List<MemoModel> classifiedMemo) {
+  Future<void> deletePopupDialog(BuildContext context, int index) {
+    // note: 범주 탭할 때, selectedCategory가 적절히 업데이트되도록 하고, 단, 다이얼로그 내에서는 직접적으로 특정 범주를 참조 해야한다!
+    // note: 아래 categories는 모델의 속성
+    final categoryToDelete = Hive.box<CategoryModel>(CategoryBox).getAt(index)?.categories;
+    // print(categoryToDelete); // 범주에서 선택한 카테고리 출력
+
     return showDialog(
       context: context,
       builder: (context) {
@@ -226,17 +236,17 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
               child: const Text('삭제'),
               onPressed: () {
-                var box = Hive.box<MemoModel>(MemoBox);
-                List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == selectedCategory).toList();
-
-                // 각 메모의 범주를 '미분류'로 업데이트?
-                for (MemoModel memo in memosToUpdate) {
-                  int memoIndex = box.values.toList().indexOf(memo);
-                  box.putAt(memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: '미분류'));
+                if (categoryToDelete != null) {
+                  var box = Hive.box<MemoModel>(MemoBox);
+                  List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == categoryToDelete).toList();
+                  // 각 메모의 범주를 '미분류'로 업데이트?
+                  for (MemoModel memo in memosToUpdate) {
+                    int memoIndex = box.values.toList().indexOf(memo);
+                    box.putAt(memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: '미분류'));
+                  }
+                  // 카테고리 삭제
+                  HiveHelperCategory().delete(index);
                 }
-
-                // 카테고리 삭제
-                HiveHelperCategory().delete(index);
                 Navigator.of(context).pop();
               },
             ),
