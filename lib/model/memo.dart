@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'memo.g.dart';
 
 @HiveType(typeId: 1)
-class MemoModel {
+class MemoModel extends HiveObject {
   @HiveField(0)
   final DateTime createdAt;
 
