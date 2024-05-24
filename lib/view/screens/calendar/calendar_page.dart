@@ -6,7 +6,7 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/add_memo_page.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
-import 'package:simple_note/view/widgets/public/memo_calenar_popup_button_widget.dart';
+import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
