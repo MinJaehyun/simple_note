@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/main.dart';
 
 class GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black12
+    // note: 다크모드면 연한 흰색 나타내기
+      ..color = Hive.box(darkModeBox).values.last == false ? Colors.black12 : Colors.white12
       ..strokeWidth = 1.0;
 
     const double gridSize = 20.0;
