@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
+import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
@@ -31,7 +32,7 @@ class _TrashSearchState extends State<TrashSearch> {
           return item.title.contains(widget.searchControllerText) || item.mainText!.contains(widget.searchControllerText);
         }).toList();
 
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
@@ -47,74 +48,77 @@ class _TrashSearchState extends State<TrashSearch> {
 
               return Card(
                 clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return UpdateTrashCanMemoPage(index: index, currentContact: currentContact);
-                    }));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 13),
-                          SubstringHighlight(
-                            // text: sortedCard.title,
-                            text: currentContact.title,
-                            // 검색한 내용 가져오기
-                            term: widget.searchControllerText,
-                            // non-highlight style
-                            textStyle: const TextStyle(color: Colors.grey),
-                            // highlight style
-                            textStyleHighlight: const TextStyle(
-                              fontSize: 24.0,
-                              color: Colors.black,
-                              backgroundColor: Colors.yellow,
-                            ),
-                          ),
-                          const SizedBox(height: 100),
-                          Text(
-                            FormatDate().formatDefaultDateKor(currentContact.createdAt),
-                            style: TextStyle(
-                              color: Colors.grey.withOpacity(0.9),
-                            ),
-                          ),
-                        ],
-                      ),
-                      // note: card() 내 수정, 삭제 버튼
-                      trailing: Column(
-                        children: [
-                          PopupMenuButton<SampleItem>(
-                            initialValue: selectedItem,
-                            onSelected: (SampleItem item) {
-                              setState(() {
-                                selectedItem = item;
-                              });
-                            },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                              PopupMenuItem<SampleItem>(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => UpdateTrashCanMemoPage(index: index, currentContact: currentContact),
-                                    ),
-                                  );
-                                },
-                                value: SampleItem.updateMemo,
-                                child: const Text('수정'),
+                child: CustomPaint(
+                  painter: GridPainter(),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                        return UpdateTrashCanMemoPage(index: index, currentContact: currentContact);
+                      }));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        titleAlignment: ListTileTitleAlignment.top,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 13),
+                            SubstringHighlight(
+                              // text: sortedCard.title,
+                              text: currentContact.title,
+                              // 검색한 내용 가져오기
+                              term: widget.searchControllerText,
+                              // non-highlight style
+                              textStyle: const TextStyle(color: Colors.grey),
+                              // highlight style
+                              textStyleHighlight: const TextStyle(
+                                fontSize: 24.0,
+                                color: Colors.black,
+                                backgroundColor: Colors.yellow,
                               ),
-                              PopupMenuItem<SampleItem>(
-                                onTap: () => HiveHelperTrashCan().delete(index),
-                                value: SampleItem.deleteMemo,
-                                child: const Text('삭제'),
+                            ),
+                            const SizedBox(height: 100),
+                            Text(
+                              FormatDate().formatDefaultDateKor(currentContact.createdAt),
+                              style: TextStyle(
+                                color: Colors.grey.withOpacity(0.9),
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                          ],
+                        ),
+                        // note: card() 내 수정, 삭제 버튼
+                        trailing: Column(
+                          children: [
+                            PopupMenuButton<SampleItem>(
+                              initialValue: selectedItem,
+                              onSelected: (SampleItem item) {
+                                setState(() {
+                                  selectedItem = item;
+                                });
+                              },
+                              itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+                                PopupMenuItem<SampleItem>(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => UpdateTrashCanMemoPage(index: index, currentContact: currentContact),
+                                      ),
+                                    );
+                                  },
+                                  value: SampleItem.updateMemo,
+                                  child: const Text('수정'),
+                                ),
+                                PopupMenuItem<SampleItem>(
+                                  onTap: () => HiveHelperTrashCan().delete(index),
+                                  value: SampleItem.deleteMemo,
+                                  child: const Text('삭제'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
