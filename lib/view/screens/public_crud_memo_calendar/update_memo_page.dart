@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/helper/string_util.dart';
+import 'package:simple_note/main.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
@@ -274,8 +276,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     // 예: 누르면, 메모장을 빠져나간다.
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
+                                        Get.offAll(const MyApp());
                                       },
                                       child: const Text('변경을 취소'),
                                     ),
