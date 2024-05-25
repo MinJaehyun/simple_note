@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
+import 'package:simple_note/main.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
+
 
 class AddMemoPage extends StatefulWidget {
   const AddMemoPage({super.key});
@@ -264,10 +267,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     // 예: 누르면, 메모장을 빠져나간다.
                                     TextButton(
                                       onPressed: () {
+                                        // fix: 이전 코드: 팝업 2번하면 MaterialApp 위젯이 꺼지고 있어서 직접 경로로 이동하여 해결
                                         // Navigator.of(context).pop(); // 여기서 팝 처리하고 대화 상자를 닫습니다.
-                                        // Navigator.of(context).pop('OK'); // 이전 페이지로 돌아갑니다.
-                                        // Get.offAll(const MemoPage());
-                                        // Navigator.of(context, rootNavigator: true).pop();
+                                        // Navigator.of(context).pop(); // 이전 페이지로 돌아갑니다.
+                                        Get.offAll(const MyApp());
                                       },
                                       child: const Text('변경을 취소'),
                                     ),
