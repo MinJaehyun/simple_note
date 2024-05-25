@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/main.dart';
 import 'package:simple_note/model/category.dart';
@@ -169,61 +170,67 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                 child: Column(
                                   children: [
                                     const SizedBox(height: 10),
-                                    TextFormField(
-                                      cursorColor: Colors.orange,
-                                      cursorWidth: 3,
-                                      // 커서 노출 여부
-                                      showCursor: true,
-                                      initialValue: widget.currentContact.title,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          title = value;
-                                        });
-                                      },
-                                      decoration: const InputDecoration(
-                                        suffixIcon: Icon(Icons.clear),
-                                        labelText: '제목',
-                                        border: OutlineInputBorder(),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.orange,
+                                    CustomPaint(
+                                      painter: GridPainter(),
+                                      child: TextFormField(
+                                        cursorColor: Colors.orange,
+                                        cursorWidth: 3,
+                                        // 커서 노출 여부
+                                        showCursor: true,
+                                        initialValue: widget.currentContact.title,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            title = value;
+                                          });
+                                        },
+                                        decoration: const InputDecoration(
+                                          suffixIcon: Icon(Icons.clear),
+                                          labelText: '제목',
+                                          border: OutlineInputBorder(),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.orange,
+                                            ),
                                           ),
                                         ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return '한 글자 이상 입력해 주세요';
+                                          } else if (value.trimLeft() != value) {
+                                            return '앞에 공백을 제거해 주세요';
+                                          }
+                                          return null;
+                                        },
                                       ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return '한 글자 이상 입력해 주세요';
-                                        } else if (value.trimLeft() != value) {
-                                          return '앞에 공백을 제거해 주세요';
-                                        }
-                                        return null;
-                                      },
                                     ),
                                     const SizedBox(height: 25),
-                                    TextFormField(
-                                      cursorColor: Colors.orange,
-                                      cursorWidth: 3,
-                                      // 커서 노출 여부
-                                      showCursor: true,
-                                      initialValue: widget.currentContact.mainText,
-                                      keyboardType: TextInputType.multiline,
-                                      // 입력값 무제한 설정하는 방법 - maxLines: null
-                                      maxLines: widget.currentContact.mainText != null ? 100 : null,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          mainText = value;
-                                        });
-                                      },
-                                      decoration: const InputDecoration(
-                                        hintText: '내용을 입력해 주세요',
-                                        border: OutlineInputBorder(),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.orange,
+                                    CustomPaint(
+                                      painter: GridPainter(),
+                                      child: TextFormField(
+                                        cursorColor: Colors.orange,
+                                        cursorWidth: 3,
+                                        // 커서 노출 여부
+                                        showCursor: true,
+                                        initialValue: widget.currentContact.mainText,
+                                        keyboardType: TextInputType.multiline,
+                                        // 입력값 무제한 설정하는 방법 - maxLines: null
+                                        maxLines: widget.currentContact.mainText != null ? 100 : null,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            mainText = value;
+                                          });
+                                        },
+                                        decoration: const InputDecoration(
+                                          hintText: '내용을 입력해 주세요',
+                                          border: OutlineInputBorder(),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.orange,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
