@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
@@ -57,30 +58,33 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
 
               return Card(
                 clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return UpdateMemoPage(index: index, currentContact: sortedCard);
-                    }));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 10.0),
-                          Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
-                          const SizedBox(height: 100.0), // 원하는 간격 크기
-                          Text(
-                            FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
-                            style: TextStyle(color: Colors.grey.withOpacity(0.9)),
-                          ),
-                        ],
+                child: CustomPaint(
+                  painter: GridPainter(),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                        return UpdateMemoPage(index: index, currentContact: sortedCard);
+                      }));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        titleAlignment: ListTileTitleAlignment.top,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10.0),
+                            Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
+                            const SizedBox(height: 100.0), // 원하는 간격 크기
+                            Text(
+                              FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
+                              style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                            ),
+                          ],
+                        ),
+                        trailing: MemoCalendarPopupButtonWidget(index, currentContact),
                       ),
-                      trailing: MemoCalendarPopupButtonWidget(index, currentContact),
                     ),
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
@@ -53,43 +54,46 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
 
               return Card(
                 clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return UpdateMemoPage(index: index, currentContact: sortedCard);
-                      }),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      titleAlignment: ListTileTitleAlignment.top,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 10.0),
-                          SubstringHighlight(
-                            text: sortedCard.title,
-                            // 검색한 내용 가져오기
-                            term: widget.searchControllerText,
-                            // non-highlight style
-                            textStyle: const TextStyle(color: Colors.grey),
-                            // highlight style
-                            textStyleHighlight: const TextStyle(
-                              fontSize: 24.0,
-                              color: Colors.black,
-                              backgroundColor: Colors.yellow,
-                              // decoration: TextDecoration.underline,
+                child: CustomPaint(
+                  painter: GridPainter(),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return UpdateMemoPage(index: index, currentContact: sortedCard);
+                        }),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        titleAlignment: ListTileTitleAlignment.top,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10.0),
+                            SubstringHighlight(
+                              text: sortedCard.title,
+                              // 검색한 내용 가져오기
+                              term: widget.searchControllerText,
+                              // non-highlight style
+                              textStyle: const TextStyle(color: Colors.grey),
+                              // highlight style
+                              textStyleHighlight: const TextStyle(
+                                fontSize: 24.0,
+                                color: Colors.black,
+                                backgroundColor: Colors.yellow,
+                                // decoration: TextDecoration.underline,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 100),
-                          Text(FormatDate().formatDefaultDateKor(sortedCard.createdAt), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
-                        ],
+                            const SizedBox(height: 100),
+                            Text(FormatDate().formatDefaultDateKor(sortedCard.createdAt), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
+                          ],
+                        ),
+                        // note: card() 내 수정, 삭제 버튼
+                        trailing: MemoCalendarPopupButtonWidget(index, sortedCard),
                       ),
-                      // note: card() 내 수정, 삭제 버튼
-                      trailing: MemoCalendarPopupButtonWidget(index, sortedCard),
                     ),
                   ),
                 ),
