@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/const/colors.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/add_memo_page.dart';
@@ -32,6 +33,27 @@ class _CalendarPageState extends State<CalendarPage> {
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
+    loadEvents();
+  }
+
+  // note: 달력 초기 진입 시, 생성된 메모에 마킹 나타내기
+  void loadEvents() {
+    final box = Hive.box<MemoModel>(MemoBox);
+    dateTimeUtc = box.values.map((e) => e.createdAt).toList();
+    textTitle = box.values.map((e) => e.title).toList();
+
+    for (int i = 0; i < dateTimeUtc.length; i++) {
+      DateTime date = dateTimeUtc[i];
+      String title = textTitle[i];
+
+      if (eventsList.containsKey(date)) {
+        eventsList[date]!.add(title);
+      } else {
+        eventsList[date] = [title];
+      }
+    }
+
+    setState(() {});  // UI를 업데이트
   }
 
   @override
@@ -127,20 +149,23 @@ class _CalendarPageState extends State<CalendarPage> {
                     padding: const EdgeInsets.all(4.0),
                     child: Column(
                       children: [
-                        Container(
-                          height: 50,
-                          color: Colors.cyan,
-                          child: Row(
-                            children: [
-                              // note: 달력 선택하면 선택한 날짜(_selectedDay)를 나타낸다
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(FormatDate().formatDefaultDateKor(_selectedDay!)),
+                        CustomPaint(
+                          painter: GridPainter(),
+                          child: SizedBox(
+                            height: 50,
+                            // color: Colors.cyan,
+                            child: Row(
+                              children: [
+                                // note: 달력 선택하면 선택한 날짜(_selectedDay)를 나타낸다
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(FormatDate().formatDefaultDateKor(_selectedDay!)),
+                                  ),
                                 ),
-                              ),
-                              Text('총 ${classifiedTimeMemo.length ?? 0} 개'),
-                            ],
+                                Text('총 ${classifiedTimeMemo.length ?? 0} 개'),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(
