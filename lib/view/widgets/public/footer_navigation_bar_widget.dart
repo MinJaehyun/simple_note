@@ -4,6 +4,7 @@ import 'package:get/route_manager.dart';
 import 'package:simple_note/view/screens/calendar/calendar_page.dart';
 import 'package:simple_note/view/screens/category/category_page.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
+import 'package:simple_note/view/screens/settings/settings.dart';
 import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
 
 class FooterNavigationBarWidget extends StatefulWidget {
@@ -116,9 +117,13 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
               isTapped = true;
               currentIndex = 4;
             });
-            // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-            //   return;
-            // },));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) {
+                return const Settings();
+              },
+            ));
+            // Get.offAll(() => const Settings());
+
             Get.snackbar(
               '기능을 준비 중 입니다',
               '업데이트 준비 중: \n'
