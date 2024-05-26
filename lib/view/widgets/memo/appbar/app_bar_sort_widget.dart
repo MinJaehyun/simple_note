@@ -12,7 +12,6 @@ class AppBarSortWidget extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
   // 사이즈 조절: Size get preferredSize => const Size.fromHeight(70);
 
   @override
@@ -25,6 +24,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
     return showDialog(
       context: context,
       builder: (context) {
+        // note: StatefulBuilder 기능?
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
@@ -79,7 +79,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
     return ValueListenableBuilder<Box>(
       valueListenable: Hive.box('darkModel').listenable(keys: ['darkMode']),
       builder: (context, box, _) {
-        bool darkMode = box.get('darkMode', defaultValue: false);
+        // bool darkMode = box.get('darkMode', defaultValue: false);
 
         return AppBar(
           title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
@@ -90,17 +90,17 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
               icon: const Icon(Icons.sort),
               onPressed: () => popupSort(context),
             ),
-            IconButton(
-              visualDensity: const VisualDensity(horizontal: -4),
-              icon: darkMode ? const Icon(Icons.light_mode_outlined) : const Icon(Icons.dark_mode_outlined),
-              onPressed: () {
-                if (darkMode == false) {
-                  box.put('darkMode', true);
-                } else {
-                  box.put('darkMode', false);
-                }
-              },
-            ),
+            // IconButton(
+            //   visualDensity: const VisualDensity(horizontal: -4),
+            //   icon: darkMode ? const Icon(Icons.light_mode_outlined) : const Icon(Icons.dark_mode_outlined),
+            //   onPressed: () {
+            //     if (darkMode == false) {
+            //       box.put('darkMode', true);
+            //     } else {
+            //       box.put('darkMode', false);
+            //     }
+            //   },
+            // ),
           ],
         );
       },

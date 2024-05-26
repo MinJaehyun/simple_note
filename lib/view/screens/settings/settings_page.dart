@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/main.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 
 class Settings extends StatefulWidget {
@@ -18,7 +20,6 @@ class _SettingsState extends State<Settings> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('환경 설정'),
-          // leading: IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios)),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -39,9 +40,27 @@ class _SettingsState extends State<Settings> {
                         child: Column(
                           children: [
                             ListTile(
-                              leading: Icon(Icons.brightness_6),
+                              leading: Hive.box(darkModeBox).get('darkMode', defaultValue: false)
+                                  ? const Icon(Icons.dark_mode_outlined)
+                                  : const Icon(Icons.light_mode_outlined),
                               title: Text('테마 설정'),
-                              onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
+                              trailing: ValueListenableBuilder(
+                                valueListenable: Hive.box('darkModel').listenable(keys: ['darkMode']),
+                                builder: (context, box, child) {
+                                  var darkMode = box.get('darkMode', defaultValue: false);
+
+                                  return Switch(
+                                    value: darkMode,
+                                    activeColor: Colors.red,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        // darkMode = value 대신 분기문 처리하여 darkMode 키에 bool 값 변경함
+                                        darkMode == false ? box.put('darkMode', true) : box.put('darkMode', false);
+                                      });
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.collections),

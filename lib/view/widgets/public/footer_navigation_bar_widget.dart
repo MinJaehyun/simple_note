@@ -4,7 +4,7 @@ import 'package:get/route_manager.dart';
 import 'package:simple_note/view/screens/calendar/calendar_page.dart';
 import 'package:simple_note/view/screens/category/category_page.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
-import 'package:simple_note/view/screens/settings/settings.dart';
+import 'package:simple_note/view/screens/settings/settings_page.dart';
 import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
 
 class FooterNavigationBarWidget extends StatefulWidget {
