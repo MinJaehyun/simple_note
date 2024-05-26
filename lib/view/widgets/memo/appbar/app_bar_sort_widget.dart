@@ -77,7 +77,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
   @override
   ValueListenableBuilder<Object?> build(BuildContext context) {
     return ValueListenableBuilder<Box>(
-      valueListenable: Hive.box('darkModel').listenable(keys: ['darkMode']),
+      valueListenable: Hive.box('themeModel').listenable(keys: ['darkMode']),
       builder: (context, box, _) {
         // bool darkMode = box.get('darkMode', defaultValue: false);
 
@@ -90,17 +90,6 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
               icon: const Icon(Icons.sort),
               onPressed: () => popupSort(context),
             ),
-            // IconButton(
-            //   visualDensity: const VisualDensity(horizontal: -4),
-            //   icon: darkMode ? const Icon(Icons.light_mode_outlined) : const Icon(Icons.dark_mode_outlined),
-            //   onPressed: () {
-            //     if (darkMode == false) {
-            //       box.put('darkMode', true);
-            //     } else {
-            //       box.put('darkMode', false);
-            //     }
-            //   },
-            // ),
           ],
         );
       },
