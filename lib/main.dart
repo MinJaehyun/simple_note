@@ -12,7 +12,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
 
 // todo: 추후 hive_helper_dark_mode 파일로 분리하기
-const darkModeBox = 'darkModel';
+const themeModeBox = 'themeModel';
 
 void main() async {
   // note: hive 설정
@@ -23,12 +23,14 @@ void main() async {
   await HiveHelperMemo().openBox();
   await HiveHelperCategory().openBox();
   await HiveHelperTrashCan().openBox();
-  // note: dark mode
-  await Hive.openBox(darkModeBox);
 
+  // note: themeModeBox(dark/light mode, gridPaingter(on/off)
+  await Hive.openBox(themeModeBox);
   // note: intl 초기화
   await initializeDateFormatting();
-  runApp(const GetMaterialApp(home: MyApp()));
+  // note: GetX Controller 초기화 - 테스트 중...
+  // Get.put(ThemeController());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -36,12 +38,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 다크모드 설정을 위한 ValueListenableBuilder 설정
+    // note: 다크 모드을 위한 ValueListenableBuilder
     return ValueListenableBuilder(
-      valueListenable: Hive.box(darkModeBox).listenable(),
+      valueListenable: Hive.box(themeModeBox).listenable(),
       builder: (context, box, widget) {
-        var darkMode = box.get('darkMode', defaultValue: false);
-        return MaterialApp(
+        var darkMode = box.get('darkMode', defaultValue: true);
+        return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           // 다크모드 설정
           themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
