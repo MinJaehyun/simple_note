@@ -42,7 +42,7 @@ class SettingsController extends GetxController {
   }
 
   void updateFontSlider(double value) {
-    print(value);
+    // print(value); // 28 을 fontSize: 28에 적용하기..
     fontSizeSlide.value = value;
     var box = Hive.box('themeModel');
     box.put('fontSizeSlide', value);
@@ -62,7 +62,7 @@ class SettingsController extends GetxController {
     box.put('selectedFont', font.index);
   }
 
-  void toggleDarkMode() {
+  void toggleDarkMode(bool value) {
     var box = Hive.box('themeModel');
     isDarkMode.value = !isDarkMode.value;
     box.put('darkMode', isDarkMode.value);

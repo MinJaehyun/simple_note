@@ -61,6 +61,7 @@ class _SettingsState extends State<Settings> {
                                     value: darkMode,
                                     activeColor: Colors.pinkAccent,
                                     onChanged: (bool value) {
+                                      settingsController.toggleDarkMode(value);
                                       setState(() {
                                         // note: darkMode = value 대신 분기문 처리하여 darkMode 키에 bool 값 변경함
                                         darkMode == false ? box.put('darkMode', true) : box.put('darkMode', false);
@@ -215,11 +216,7 @@ class _SettingsState extends State<Settings> {
                                           children: [
                                             Icon(Icons.format_shapes),
                                             SizedBox(width: 16),
-                                            TextButton(
-                                              child: Text('글자 크기'),
-                                              onPressed: () =>
-                                                  Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
-                                            ),
+                                            Text('글자 크기'),
                                           ],
                                         ),
                                         Slider(
@@ -229,11 +226,9 @@ class _SettingsState extends State<Settings> {
                                           divisions: 10,
                                           label: '$selectedFont',
                                           onChanged: (double value) {
-                                            setState(
-                                              () {
-                                                controller.updateFontSlider(value);
-                                              },
-                                            );
+                                            setState(() {
+                                              controller.updateFontSlider(value);
+                                            });
                                           },
                                         ),
                                       ],
