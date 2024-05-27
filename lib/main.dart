@@ -67,8 +67,12 @@ class MyApp extends StatelessWidget {
             // fontFamily: 'NanumSquareNeo', // 변경 전
             fontFamily: selectedFont,
             colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color(0xff00ffff),
+              seedColor: Colors.white,
               brightness: Brightness.light,
+            ),
+            scaffoldBackgroundColor: Colors.grey[100], // 전체 배경색을 회색으로 설정
+            appBarTheme: AppBarTheme(
+              backgroundColor: Colors.grey[100], // AppBar의 배경색을 회색으로 설정
             ),
           ),
           darkTheme: ThemeData(
@@ -76,6 +80,7 @@ class MyApp extends StatelessWidget {
               seedColor: const Color(0xff00ff00),
               brightness: Brightness.dark,
             ),
+            // scaffoldBackgroundColor: Colors.grey[900], // 다크 모드의 경우 더 진한 회색으로 설정
           ),
           home: const MemoPage(),
         );
