@@ -73,7 +73,7 @@ class _SettingsState extends State<Settings> {
                                 // note: 격자 설정
                                 ListTile(
                                   leading: gridMode ? Icon(Icons.apps) : Icon(Icons.crop_din),
-                                  title: Text('격자 배경 설정'),
+                                  title: Text('격자 설정'),
                                   trailing: ValueListenableBuilder(
                                     valueListenable: Hive.box('themeModel').listenable(keys: ['gridMode']),
                                     builder: (context, box, child) {
@@ -216,7 +216,7 @@ class _SettingsState extends State<Settings> {
                                           children: [
                                             Icon(Icons.format_shapes),
                                             SizedBox(width: 16),
-                                            Text('글자 크기'),
+                                            Text('글자 크기',style: TextStyle(fontSize: 16)),
                                           ],
                                         ),
                                         Slider(
