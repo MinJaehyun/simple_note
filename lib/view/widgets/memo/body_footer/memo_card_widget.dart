@@ -46,50 +46,47 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
               MemoModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
               sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
-
               return Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: CustomPaint(
-                    painter: GridPainter(),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) {
-                            // fix: 업데이트 할 때에는 currentContact: sortedCard 넣으면 에러
-                            return UpdateMemoPage(index: index, currentContact: currentContact!);
-                          }),
-                        );
-                      },
-
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-
-                        child: ListTile(
-                          titleAlignment: ListTileTitleAlignment.top,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 10.0),
-                              Text(
-                                sortedCard!.title,
-                                overflow: TextOverflow.ellipsis,
-                                style: style,
-                              ),
-                              const SizedBox(height: 100.0), // 원하는 간격 크기
-                              Text(
-                                FormatDate().formatSimpleTimeKor(sortedCard!.createdAt),
-                                style: TextStyle(color: Colors.grey.withOpacity(0.9)),
-                              ),
-                            ],
-                          ),
-                          // note: card() 내 수정, 삭제 버튼
-                          trailing: MemoCalendarPopupButtonWidget(index, sortedCard!),
+                clipBehavior: Clip.antiAlias,
+                child: CustomPaint(
+                  painter: GridPainter(),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          // fix: 업데이트 할 때에는 currentContact: sortedCard 넣으면 에러
+                          return UpdateMemoPage(index: index, currentContact: currentContact!);
+                        }),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        titleAlignment: ListTileTitleAlignment.top,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10.0),
+                            Text(
+                              sortedCard!.title,
+                              overflow: TextOverflow.ellipsis,
+                              style: style,
+                            ),
+                            const SizedBox(height: 100.0), // 원하는 간격 크기
+                            Text(
+                              FormatDate().formatSimpleTimeKor(sortedCard!.createdAt),
+                              style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                            ),
+                          ],
                         ),
+                        // note: card() 내 수정, 삭제 버튼
+                        trailing: MemoCalendarPopupButtonWidget(index, sortedCard!),
                       ),
                     ),
                   ),
-                );
+                ),
+              );
             },
           ),
         );
