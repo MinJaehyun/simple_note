@@ -62,8 +62,6 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           // 다크모드 설정
           themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
-          darkTheme: ThemeData.dark(),
-
           // theme 내에 3가지 설정 (폰트 설정, colorScheme, textTheme)
           theme: ThemeData(
             // fontFamily: 'NanumSquareNeo', // 변경 전
@@ -71,6 +69,12 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(
               seedColor: const Color(0xff00ffff),
               brightness: Brightness.light,
+            ),
+          ),
+          darkTheme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xff00ff00),
+              brightness: Brightness.dark,
             ),
           ),
           home: const MemoPage(),
