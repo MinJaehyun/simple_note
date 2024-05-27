@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
+import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/model/trash_can.dart';
@@ -29,7 +29,7 @@ void main() async {
   // note: intl 초기화
   await initializeDateFormatting();
   // note: GetX Controller 초기화 - 테스트 중...
-  // Get.put(ThemeController());
+  Get.put(SettingsController());
   runApp(const MyApp());
 }
 
@@ -38,24 +38,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsController = Get.find<SettingsController>();
+
     // note: 다크 모드을 위한 ValueListenableBuilder
     return ValueListenableBuilder(
       valueListenable: Hive.box(themeModeBox).listenable(),
       builder: (context, box, widget) {
-        var darkMode = box.get('darkMode', defaultValue: true);
+        var darkMode = box.get('darkMode', defaultValue: true); // Hive
+        // bool darkMode = settingsController.isDarkMode.value; // getx
+        String selectedFont = settingsController.selectedFont.value.name; // enum의 name을 사용
+
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           // 다크모드 설정
           themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
           darkTheme: ThemeData.dark(),
-          // theme 내에 2가지 설정 (colorScheme, textTheme)
+
+          // theme 내에 3가지 설정 (폰트 설정, colorScheme, textTheme)
           theme: ThemeData(
+            // fontFamily: 'NanumSquareNeo', // 변경 전
+            fontFamily: selectedFont,
             colorScheme: ColorScheme.fromSeed(
               seedColor: const Color(0xff00ffff),
               brightness: Brightness.light,
-            ),
-            textTheme: GoogleFonts.notoSansNKoTextTheme(
-              ThemeData.light().textTheme,
             ),
           ),
           home: const MemoPage(),
