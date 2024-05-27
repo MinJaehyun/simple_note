@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
@@ -67,6 +69,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsController = Get.find<SettingsController>();
+
     void dropdownCallback(String? selectedValue) {
       if (selectedValue != null) {
         setState(() {
@@ -74,7 +78,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
         });
       }
     }
-
     // todo: dropdownButtonWidget는 update_memo 와 동일한 구조 사용
     DropdownButton<String> dropdownButtonWidget(Box<CategoryModel> box) {
       return DropdownButton(
@@ -93,7 +96,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
         iconSize: 35,
       );
     }
-
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -224,6 +226,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                               color: Colors.orange,
                                             ),
                                           ),
+                                        ),
+                                        style: TextStyle(
+                                          color: settingsController.isDarkMode.isTrue ? Colors.white : Colors.black,
+                                          fontSize: settingsController.fontSizeSlide.toDouble(),
                                         ),
                                       ),
                                     ),

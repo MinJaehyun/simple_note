@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
@@ -71,7 +73,9 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    // ui에 나타낼 _dropdownValue 변경함
+    final settingsController = Get.find<SettingsController>();
+
+    // ui에 나타낼 _dropdownValue 변경함 R
     void dropdownCallback(String? selectedValue) {
       if (selectedValue is String) {
         setState(() {
@@ -79,7 +83,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
         });
       }
     }
-
     DropdownButton<String> dropdownButtonWidget(Box<CategoryModel> box) {
       return DropdownButton(
         style: const TextStyle(color: Colors.green),
@@ -98,7 +101,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
         iconSize: 35,
       );
     }
-
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -226,6 +228,10 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                               color: Colors.orange,
                                             ),
                                           ),
+                                        ),
+                                        style: TextStyle(
+                                          color: settingsController.isDarkMode.isTrue ? Colors.white : Colors.black,
+                                          fontSize: settingsController.fontSizeSlide.toDouble(),
                                         ),
                                       ),
                                     )
