@@ -53,6 +53,13 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
               MemoModel? sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: Colors.grey,
+                    width: 0.1,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
                 clipBehavior: Clip.antiAlias,
                 child: CustomPaint(
                   painter: GridPainter(),

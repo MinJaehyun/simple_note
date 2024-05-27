@@ -55,7 +55,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
                     // 상단: 검색창
@@ -66,15 +66,6 @@ class _TrashCanPageState extends State<TrashCanPage> {
                           autofocus: false,
                           controller: searchController,
                           decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(4)),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                            ),
                             focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.orange,
@@ -96,10 +87,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                   searchControllerText = null;
                                 });
                               },
-                              child: const Icon(
-                                Icons.close,
-                                size: 24,
-                              ),
+                              child: searchControllerText != null ? Icon(Icons.close, size: 24) : Icon(Icons.transit_enterexit),
                             ),
                             suffixIconColor: Colors.grey,
                             hintText: '검색',
@@ -148,6 +136,13 @@ class _TrashCanPageState extends State<TrashCanPage> {
 
                             // 모든 휴지통 내용 출력
                             return Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.1,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
                               clipBehavior: Clip.antiAlias,
                               child: CustomPaint(
                                 painter: GridPainter(),
