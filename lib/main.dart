@@ -44,6 +44,16 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: Hive.box(themeModeBox).listenable(),
       builder: (context, box, widget) {
+        // print(Hive.box(themeModeBox).values); //  (false, 28.0, true, 5)
+        // print(Hive.box(themeModeBox).values.);
+        // var box = Hive.box(themeModeBox);
+
+        // 모든 키를 가져와서 반복하면서 값을 가져옴
+        // box.keys.forEach((key) {
+        //   var value = box.get(key);
+        //   print('$key: $value');
+        // });
+
         var darkMode = box.get('darkMode', defaultValue: true); // Hive
         // bool darkMode = settingsController.isDarkMode.value; // getx
         String selectedFont = settingsController.selectedFont.value.name; // enum의 name을 사용
