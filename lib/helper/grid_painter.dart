@@ -16,7 +16,8 @@ class GridPainter extends CustomPainter {
       ..strokeWidth = 1.0;
 
     const double gridSize = 20.0;
-    final bool isGridVisible = Hive.box(themeModeBox).values.last;
+    final bool isGridVisible = Hive.box(themeModeBox).values.toList()[1];
+    // print(Hive.box(themeModeBox).values.toList()[1]); // (false, false, 2) => 2번째에 접근하려면?
 
     // 가로 선 그리기
     for (double i = 0; i < size.height; i += gridSize) {
@@ -25,6 +26,7 @@ class GridPainter extends CustomPainter {
     }
     // 세로 선 그리기
     for (double i = 0; i < size.width; i += gridSize) {
+      // canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
       isGridVisible ? canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint) : null;
     }
   }
