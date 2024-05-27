@@ -15,11 +15,13 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  double _fontSize = 20.0; // 초기 글자 크기
+  // double _fontSize = 20.0; // 초기 글자 크기
+  final settingsController = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
     final SettingsController controller = Get.put(SettingsController());
+    double selectedFont = settingsController.fontSizeSlide.value.toDouble();
 
     return SafeArea(
       child: Scaffold(
@@ -103,11 +105,9 @@ class _SettingsState extends State<Settings> {
                                             Divider(),
                                           ],
                                         ),
-                                        // radio btn 생성하기
                                         content: Column(
-                                          mainAxisSize: MainAxisSize.min, // 추가된 부분
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            // RadioListTile(value: value, groupValue: groupValue, onChanged: onChanged),
                                             // note: RadioListTile.adaptive는 플랫폼에 따른(ios, android) 적응형 디자인을 제공하므로 다양한 플랫폼에서 일관된 사용자 경험을 유지하고자 할 때 매우 유용하다
                                             Obx(
                                               () => RadioListTile.adaptive(
@@ -123,7 +123,6 @@ class _SettingsState extends State<Settings> {
                                                 //   });
                                                 // },
                                                 onChanged: (SelectedFont? value) {
-                                                  // print(value);
                                                   if (value != null) {
                                                     controller.updateFont(value);
                                                   }
@@ -206,6 +205,7 @@ class _SettingsState extends State<Settings> {
                                     );
                                   },
                                 ),
+                                // note: 글자 크기 설정
                                 Container(
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
@@ -223,15 +223,17 @@ class _SettingsState extends State<Settings> {
                                           ],
                                         ),
                                         Slider(
-                                          value: _fontSize,
+                                          value: selectedFont,
                                           min: 10.0,
                                           max: 40.0,
                                           divisions: 10,
-                                          label: '$_fontSize',
+                                          label: '$selectedFont',
                                           onChanged: (double value) {
-                                            setState(() {
-                                              _fontSize = value;
-                                            });
+                                            setState(
+                                              () {
+                                                controller.updateFontSlider(value);
+                                              },
+                                            );
                                           },
                                         ),
                                       ],

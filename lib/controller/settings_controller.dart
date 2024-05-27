@@ -6,26 +6,46 @@ class SettingsController extends GetxController {
   var isDarkMode = false.obs;
   var gridMode = false.obs;
   var selectedFont = SelectedFont.pretendard.obs;
+  var fontSizeSlide = 20.0.obs;
 
   @override
   void onInit() {
     super.onInit();
     var box = Hive.box('themeModel');
-    isDarkMode.value = box.get('darkMode', defaultValue: false);
 
-    // selectedFont.value = SelectedFont.values[box.get('selectedFont', defaultValue: SelectedFont.pretendard)]; // 변경 전
-    // int selectedFontIndex = box.get('selectedFont', defaultValue: SelectedFont.pretendard.index); // index로 가져오기
-    // selectedFont.value = SelectedFont.values[selectedFontIndex];  // index를 enum으로 변환
+    // isDarkMode.value = box.get('darkMode', defaultValue: false);
+    // isDarkMode 값을 가져올 때 double 값이 할당되지 않도록 확인
+    dynamic darkModeValue = box.get('darkMode', defaultValue: false);
+    if (darkModeValue is bool) {
+      isDarkMode.value = darkModeValue;
+    } else {
+      isDarkMode.value = false; // 기본값으로 설정
+    }
 
-    // 변경된 부분
+    // gridMode 값을 가져올 때 double 값이 할당되지 않도록 확인
+    dynamic gridModeValue = box.get('gridMode', defaultValue: false);
+    if (gridModeValue is bool) {
+      gridMode.value = gridModeValue;
+    } else {
+      gridMode.value = false; // 기본값으로 설정
+    }
+
     dynamic selectedFontValue = box.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
     if (selectedFontValue is int) {
-      print('1: ${SelectedFont.values[selectedFontValue]}');
       selectedFont.value = SelectedFont.values[selectedFontValue];
     } else {
-      print('2: ${SelectedFont.values[selectedFontValue]}');
       selectedFont.value = SelectedFont.pretendard; // 혹은 원하는 기본값으로 설정
     }
+
+    double fontSizeValue = box.get('fontSizeSlide', defaultValue: 20.0);
+    fontSizeSlide.value = fontSizeValue;
+  }
+
+  void updateFontSlider(double value) {
+    print(value);
+    fontSizeSlide.value = value;
+    var box = Hive.box('themeModel');
+    box.put('fontSizeSlide', value);
   }
 
   // 변경 전:
@@ -37,11 +57,9 @@ class SettingsController extends GetxController {
   // }
 
   void updateFont(SelectedFont font) {
-    // print(font); // SelectedFont.pretendard
     selectedFont.value = font;
     var box = Hive.box('themeModel');
     box.put('selectedFont', font.index);
-    // print(font.index);
   }
 
   void toggleDarkMode() {
