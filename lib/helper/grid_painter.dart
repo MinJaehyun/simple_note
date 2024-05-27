@@ -3,6 +3,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/main.dart';
 
 class GridPainter extends CustomPainter {
+  var box = Hive.box(themeModeBox);
+  bool? isGridVisible;
+
   @override
   void paint(Canvas canvas, Size size) {
     // print(Hive.box(themeModeBox).values);
@@ -16,18 +19,28 @@ class GridPainter extends CustomPainter {
       ..strokeWidth = 1.0;
 
     const double gridSize = 20.0;
-    final bool isGridVisible = Hive.box(themeModeBox).values.toList()[1];
-    // print(Hive.box(themeModeBox).values.toList()[1]); // (false, false, 2) => 2번째에 접근하려면?
+
+    // note: 인덱스로 접근하면 themeMode가 추가될 수록 바뀌므로, 키 값으로 지정 해야한다.
+    // note: 아래 [2]는 gridMode 키의 값을 가져오면 된다(gridMode: true)
+    // 변경 전: isGridVisible = Hive.box(themeModeBox).values.toList()[2];
+    // 변경 후:
+    box.keys.forEach((key) {
+      var value = box.get(key);
+      // print('$key: $value');
+      if (key == 'gridMode') {
+        isGridVisible = value;
+      }
+    });
 
     // 가로 선 그리기
     for (double i = 0; i < size.height; i += gridSize) {
       // canvas.drawLine(Offset(0, i), Offset(size.width, i), paint); // 변경 전
-      isGridVisible ? canvas.drawLine(Offset(0, i), Offset(size.width, i), paint) : null;
+      isGridVisible! ? canvas.drawLine(Offset(0, i), Offset(size.width, i), paint) : null;
     }
     // 세로 선 그리기
     for (double i = 0; i < size.width; i += gridSize) {
       // canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
-      isGridVisible ? canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint) : null;
+      isGridVisible! ? canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint) : null;
     }
   }
 
