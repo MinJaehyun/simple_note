@@ -4,7 +4,6 @@ import 'package:simple_note/view/widgets/memo/appbar/app_bar_sort_widget.dart';
 import 'package:simple_note/view/widgets/memo/body_header/memo_top_widget.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 
-enum SortedTime { firstTime, lastTime }
 
 class MemoPage extends StatefulWidget {
   const MemoPage({super.key});
@@ -14,14 +13,6 @@ class MemoPage extends StatefulWidget {
 }
 
 class _MemoPageState extends State<MemoPage> {
-  SortedTime sortedTime = SortedTime.firstTime;
-
-  void changeFunc(value) {
-    setState(() {
-      sortedTime = value;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,8 +20,8 @@ class _MemoPageState extends State<MemoPage> {
         resizeToAvoidBottomInset: false,
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        appBar: AppBarSortWidget(sortedTime, changeFunc),
-        body: MemoTopWidget(sortedTime),
+        appBar: AppBarSortWidget(),
+        body: MemoTopWidget(),
         bottomNavigationBar: const FooterNavigationBarWidget(2),
         // note: 하단 add
         floatingActionButton: buildFloatingActionButton(context),

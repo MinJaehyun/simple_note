@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/view/widgets/memo/memo_body_footer_control_statements_widget.dart';
 
 class MemoTopWidget extends StatefulWidget {
-  const MemoTopWidget(this.sortedTime, {super.key});
-
-  final SortedTime? sortedTime;
+  const MemoTopWidget({super.key});
 
   @override
   State<MemoTopWidget> createState() => _MemoTopWidgetState();
@@ -20,6 +19,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
   String? selectedCategory;
   String? searchControllerText;
   TextEditingController searchController = TextEditingController();
+  final settingsController = Get.find<SettingsController>();
 
   @override
   void dispose() {
@@ -29,8 +29,6 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // TextStyle style = TextStyle(color: Theme.of(context).colorScheme.primary);
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -204,7 +202,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
             child: Container(
               height: 500,
               child: SingleChildScrollView(
-                child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText, widget.sortedTime),
+                child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText, settingsController.sortedTime.value),
               ),
             ),
           ),

@@ -16,11 +16,10 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   // double _fontSize = 20.0; // 초기 글자 크기
-  final settingsController = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
-    final SettingsController controller = Get.put(SettingsController());
+    final settingsController = Get.find<SettingsController>();
     double selectedFont = settingsController.fontSizeSlide.value.toDouble();
 
     return SafeArea(
@@ -115,7 +114,7 @@ class _SettingsState extends State<Settings> {
                                                 title: Text('기본 폰트'),
                                                 value: SelectedFont.pretendard,
                                                 // 변경 전
-                                                groupValue: controller.selectedFont.value,
+                                                groupValue: settingsController.selectedFont.value,
                                                 // groupValue: controller.selectedFont.value,
                                                 // 변경 전:
                                                 // onChanged: (SelectedFont? value) {
@@ -125,7 +124,7 @@ class _SettingsState extends State<Settings> {
                                                 // },
                                                 onChanged: (SelectedFont? value) {
                                                   if (value != null) {
-                                                    controller.updateFont(value);
+                                                    settingsController.updateFont(value);
                                                   }
                                                 },
                                               ),
@@ -134,10 +133,10 @@ class _SettingsState extends State<Settings> {
                                               () => RadioListTile.adaptive(
                                                 title: Text('나눔고딕 D2coding'),
                                                 value: SelectedFont.d2coding,
-                                                groupValue: controller.selectedFont.value,
+                                                groupValue: settingsController.selectedFont.value,
                                                 onChanged: (SelectedFont? value) {
                                                   if (value != null) {
-                                                    controller.updateFont(value);
+                                                    settingsController.updateFont(value);
                                                   }
                                                 },
                                               ),
@@ -146,10 +145,10 @@ class _SettingsState extends State<Settings> {
                                               () => RadioListTile.adaptive(
                                                 title: Text('나눔손글씨 붓'),
                                                 value: SelectedFont.nanumBrush,
-                                                groupValue: controller.selectedFont.value,
+                                                groupValue: settingsController.selectedFont.value,
                                                 onChanged: (SelectedFont? value) {
                                                   if (value != null) {
-                                                    controller.updateFont(value);
+                                                    settingsController.updateFont(value);
                                                   }
                                                 },
                                               ),
@@ -158,10 +157,10 @@ class _SettingsState extends State<Settings> {
                                               () => RadioListTile.adaptive(
                                                 title: Text('나눔명조'),
                                                 value: SelectedFont.nanumMyeongjo,
-                                                groupValue: controller.selectedFont.value,
+                                                groupValue: settingsController.selectedFont.value,
                                                 onChanged: (SelectedFont? value) {
                                                   if (value != null) {
-                                                    controller.updateFont(value);
+                                                    settingsController.updateFont(value);
                                                   }
                                                 },
                                               ),
@@ -170,10 +169,10 @@ class _SettingsState extends State<Settings> {
                                               () => RadioListTile.adaptive(
                                                 title: Text('나눔손글씨 펜'),
                                                 value: SelectedFont.nanumPen,
-                                                groupValue: controller.selectedFont.value,
+                                                groupValue: settingsController.selectedFont.value,
                                                 onChanged: (SelectedFont? value) {
                                                   if (value != null) {
-                                                    controller.updateFont(value);
+                                                    settingsController.updateFont(value);
                                                   }
                                                 },
                                               ),
@@ -182,10 +181,10 @@ class _SettingsState extends State<Settings> {
                                               () => RadioListTile.adaptive(
                                                 title: Text('나눔스퀘어 네오'),
                                                 value: SelectedFont.NanumSquareNeo,
-                                                groupValue: controller.selectedFont.value,
+                                                groupValue: settingsController.selectedFont.value,
                                                 onChanged: (SelectedFont? value) {
                                                   if (value != null) {
-                                                    controller.updateFont(value);
+                                                    settingsController.updateFont(value);
                                                   }
                                                 },
                                               ),
@@ -227,7 +226,7 @@ class _SettingsState extends State<Settings> {
                                           label: '$selectedFont',
                                           onChanged: (double value) {
                                             setState(() {
-                                              controller.updateFontSlider(value);
+                                              settingsController.updateFontSlider(value);
                                             });
                                           },
                                         ),
