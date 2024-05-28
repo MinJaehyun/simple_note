@@ -111,6 +111,8 @@ class _TrashCanPageState extends State<TrashCanPage> {
                   ],
                 ),
               ),
+              // todo: 빈공간 배너 넣기
+              SizedBox(height: 72),
               Expanded(
                 child: ValueListenableBuilder(
                   valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
