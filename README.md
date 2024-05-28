@@ -19,8 +19,10 @@
 
 ## 2024-05-28
 ### Features
-- (ing) 설정: 정렬 기능 (memoPage, trashCanPage) 2곳 적용하기
-- (ing) 메모: 상단 정렬 스위치 버튼으로 만들기
+- sortedTime 변수 상위에서 하위로 내려주었는데, GetX 상태관리 적용하여, 하위에 직접 설정함
+- 설정: memoPage 정렬 
+- (ing) 설정: trashCanPage 정렬
+- 
 
 
 ## 2024-05-27
