@@ -2,11 +2,15 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:simple_note/view/screens/settings/settings_page.dart';
 
+enum SortedTime { firstTime, lastTime }
+
 class SettingsController extends GetxController {
   var isDarkMode = false.obs;
   var gridMode = false.obs;
   var selectedFont = SelectedFont.pretendard.obs;
   var fontSizeSlide = 20.0.obs;
+  var sortedTime = SortedTime.firstTime.obs;
+
 
   @override
   void onInit() {
@@ -39,6 +43,22 @@ class SettingsController extends GetxController {
 
     double fontSizeValue = box.get('fontSizeSlide', defaultValue: 20.0);
     fontSizeSlide.value = fontSizeValue;
+
+    dynamic sortedTimeValue = box.get('sortedTime', defaultValue: SortedTime.firstTime.index);
+    if (sortedTimeValue is int) {
+      sortedTime.value = SortedTime.values[sortedTimeValue];
+    } else {
+      sortedTime.value = SortedTime.firstTime; // 혹은 원하는 기본값으로 설정
+    }
+  }
+
+  // sort
+  void updateSortedName(SortedTime value) {
+    sortedTime.value = value;
+    print('sortedTime: $sortedTime'); // sortedTime: SortedTime.lastTime
+    print('value.index: ${value.index}'); // value: SortedTime.lastTime
+    var box = Hive.box('themeModel');
+    box.put('sortedTime', value.index);
   }
 
   void updateFontSlider(double value) {
