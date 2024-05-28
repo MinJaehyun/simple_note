@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/view/screens/memo/memo_page.dart';
+import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/view/widgets/memo/body_footer/memo_card_widget.dart';
 import 'package:simple_note/view/widgets/memo/body_footer/memo_search_card_widget.dart';
 import 'package:simple_note/view/widgets/memo/body_footer/memo_selected_category_widget.dart';

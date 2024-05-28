@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
 import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 import 'package:substring_highlight/substring_highlight.dart';
