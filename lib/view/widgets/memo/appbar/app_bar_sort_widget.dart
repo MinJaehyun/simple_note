@@ -5,10 +5,13 @@ import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
+import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
 
 //ignore: must_be_immutable
 class AppBarSortWidget extends StatefulWidget implements PreferredSizeWidget {
-  AppBarSortWidget({super.key});
+  AppBarSortWidget(this.index, {super.key});
+
+  final int index;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -83,12 +86,20 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
               TextButton(
                   onPressed: () {
                     // note: 화면 즉시 재구성하기 위해 페이지 전체를 리로드
-                    Navigator.pop(context);
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                      return MemoPage();
-                    }));
                     // note: 아래 적용되지 않을 때가 있으므로 위에 pushReplacement 사용한다
                     // Get.off(MemoPage()); // (= pushReplacement)
+                    Navigator.pop(context);
+
+                    // todo: MemoPage() 인지, TrashCanPage() 인지 구별해서 설정해야 한다. 방법은 ?
+                    if(widget.index == 2) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+                        return MemoPage();
+                      }));
+                    } else if(widget.index == 3) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+                        return TrashCanPage();
+                      }));
+                    }
                   },
                   child: const Text('적용')),
               TextButton(onPressed: () => Navigator.pop(context), child: const Text('취소')),
