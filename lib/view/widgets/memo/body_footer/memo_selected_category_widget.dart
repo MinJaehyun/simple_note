@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/settings_controller.dart';
@@ -11,10 +12,9 @@ import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widge
 enum SampleItem { updateMemo, deleteMemo }
 
 class MemoSelectedCategoryWidget extends StatefulWidget {
-  const MemoSelectedCategoryWidget(this.selectedCategory, this.sortedTime, {super.key});
+  const MemoSelectedCategoryWidget(this.selectedCategory, {super.key});
 
   final String? selectedCategory;
-  final SortedTime? sortedTime;
 
   @override
   State<MemoSelectedCategoryWidget> createState() => _MemoSelectedCategoryWidgetState();
@@ -22,6 +22,7 @@ class MemoSelectedCategoryWidget extends StatefulWidget {
 
 class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget> {
   SampleItem? selectedItem;
+  final settingsController = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
               // MemoModel? currentContact = box.getAt(index);
               MemoModel? currentContact = memo[index];
               MemoModel? reversedCurrentContact = memo[memo.length - 1 - index];
-              MemoModel? sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+              MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
                 shape: RoundedRectangleBorder(

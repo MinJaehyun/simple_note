@@ -202,7 +202,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
             child: Container(
               height: 500,
               child: SingleChildScrollView(
-                child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText, settingsController.sortedTime.value),
+                child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText),
               ),
             ),
           ),

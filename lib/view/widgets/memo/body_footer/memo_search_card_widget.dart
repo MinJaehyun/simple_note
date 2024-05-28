@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/settings_controller.dart';
@@ -12,10 +13,9 @@ import 'package:substring_highlight/substring_highlight.dart';
 enum SampleItem { updateMemo, deleteMemo }
 
 class MemoSearchCardWidget extends StatefulWidget {
-  const MemoSearchCardWidget(this.searchControllerText, this.sortedTime, {super.key});
+  const MemoSearchCardWidget(this.searchControllerText, {super.key});
 
   final String? searchControllerText;
-  final SortedTime? sortedTime;
 
   @override
   State<MemoSearchCardWidget> createState() => _MemoSearchCardWidgetState();
@@ -24,6 +24,7 @@ class MemoSearchCardWidget extends StatefulWidget {
 class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
   SampleItem? selectedItem;
   late List<MemoModel> boxSearchTitleAndMainText;
+  final settingsController = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
               // note: MemoModel? currentContact = box.getAt(index);
               MemoModel currentContact = boxSearchTitleAndMainText[index];
               MemoModel? reversedCurrentContact = boxSearchTitleAndMainText[boxSearchTitleAndMainText.length - 1 - index];
-              MemoModel? sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+              MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
                 shape: RoundedRectangleBorder(

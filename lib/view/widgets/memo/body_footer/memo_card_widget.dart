@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/settings_controller.dart';
@@ -9,9 +10,7 @@ import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_p
 import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 
 class MemoCardWidget extends StatefulWidget {
-  const MemoCardWidget(this.sortedTime, {super.key});
-
-  final SortedTime? sortedTime;
+  const MemoCardWidget({super.key});
 
   @override
   State<MemoCardWidget> createState() => _MemoCardWidgetState();
@@ -19,6 +18,7 @@ class MemoCardWidget extends StatefulWidget {
 
 class _MemoCardWidgetState extends State<MemoCardWidget> {
   MemoModel? sortedCard;
+  final settingsController = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
               // note: 정렬 설정 - firstTime: 오래된 순서로 정렬, lastTime: 생성된 순서로 정렬.
               MemoModel? currentContact = box.getAt(index);
               MemoModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
-              sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+              sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
                 shape: RoundedRectangleBorder(
