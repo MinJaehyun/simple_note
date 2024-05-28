@@ -17,7 +17,6 @@ class MemoCardWidget extends StatefulWidget {
 }
 
 class _MemoCardWidgetState extends State<MemoCardWidget> {
-  MemoModel? sortedCard;
   final settingsController = Get.find<SettingsController>();
 
   @override
@@ -44,7 +43,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
               // note: 정렬 설정 - firstTime: 오래된 순서로 정렬, lastTime: 생성된 순서로 정렬.
               MemoModel? currentContact = box.getAt(index);
               MemoModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
-              sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+              MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
               return Card(
                 shape: RoundedRectangleBorder(
@@ -88,7 +87,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                 ),
                                 // todo: 메뉴바를 흐릿하게 처리하는 방법? 가로로 나타내는 방법?
                                 // note: card() 내 수정, 삭제 버튼
-                                MemoCalendarPopupButtonWidget(index, sortedCard!),
+                                MemoCalendarPopupButtonWidget(index, sortedCard),
                               ],
                             ),
                             // todo: 아래 내용 넣기
@@ -97,7 +96,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    FormatDate().formatSimpleTimeKor(sortedCard!.createdAt),
+                                    FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),

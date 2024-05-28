@@ -84,8 +84,13 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                   Icon(Icons.account_box, size: 50, color: Colors.grey),
                                   const SizedBox(width: 10.0),
                                   Expanded(
-                                    child: Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
+                                    child: Text(
+                                      sortedCard.title,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: style,
+                                    ),
                                   ),
+                                  // todo: 아래 2번째 인자가 다르다
                                   MemoCalendarPopupButtonWidget(index, currentContact),
                                 ],
                               ),
