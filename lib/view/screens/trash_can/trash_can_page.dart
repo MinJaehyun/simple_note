@@ -158,29 +158,46 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                     );
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(4.0),
                                     child: ListTile(
-                                      titleAlignment: ListTileTitleAlignment.top,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                                      titleAlignment: ListTileTitleAlignment.titleHeight,
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                                       title: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          const SizedBox(height: 10.0),
-                                          Text(
-                                            isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: style,
+                                          Expanded(
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                                const SizedBox(width: 10.0),
+                                                Expanded(
+                                                  child: Text(
+                                                    isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: style,
+                                                  ),
+                                                ),
+                                                // note: card() 수정 및 복원 버튼
+                                                PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
+                                              ],
+                                            ),
                                           ),
-                                          const SizedBox(height: 100.0), // 원하는 간격 크기
-                                          Text(
-                                            FormatDate()
-                                                .formatSimpleTimeKor(isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
-                                            style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                          const SizedBox(height: 80.0),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  FormatDate().formatSimpleTimeKor(
+                                                      isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
+                                                  style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                                ),
+                                              ),
+                                              // todo: 추후 즐찾 구현하기
+                                              IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                      // note: card() 수정 및 복원 버튼
-                                      trailing: PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
                                     ),
                                   ),
                                 ),

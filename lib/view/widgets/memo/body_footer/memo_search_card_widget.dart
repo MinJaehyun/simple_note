@@ -43,7 +43,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
             itemCount: boxSearchTitleAndMainText.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 1/1,
+              childAspectRatio: 1 / 1,
               mainAxisSpacing: 0,
               crossAxisSpacing: 0,
             ),
@@ -73,34 +73,61 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                       );
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: ListTile(
-                        titleAlignment: ListTileTitleAlignment.top,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        titleAlignment: ListTileTitleAlignment.titleHeight,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 10.0),
-                            SubstringHighlight(
-                              text: sortedCard.title,
-                              // 검색한 내용 가져오기
-                              term: widget.searchControllerText,
-                              // non-highlight style
-                              textStyle: const TextStyle(color: Colors.grey),
-                              // highlight style
-                              textStyleHighlight: const TextStyle(
-                                fontSize: 24.0,
-                                color: Colors.black,
-                                backgroundColor: Colors.yellow,
-                                // decoration: TextDecoration.underline,
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  // todo: 추후, 구글 로그인 이미지 넣기
+                                  Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                  const SizedBox(width: 10.0),
+                                  Expanded(
+                                    // todo: 아래 부분만 다르므로, 이를 위젯으로 처리하면 리펙토링 가능할 듯
+                                    child: SubstringHighlight(
+                                      text: sortedCard.title,
+                                      // 검색한 내용 가져오기
+                                      term: widget.searchControllerText,
+                                      // non-highlight style
+                                      textStyle: const TextStyle(
+                                        color: Colors.grey,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      // highlight style
+                                      textStyleHighlight: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 24.0,
+                                        color: Colors.black,
+                                        backgroundColor: Colors.yellow,
+                                        // decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                  // todo: 메뉴바를 흐릿하게 처리하는 방법? 가로로 나타내는 방법?
+                                  // note: card() 내 수정, 삭제 버튼
+                                  MemoCalendarPopupButtonWidget(index, sortedCard),
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 100),
-                            Text(FormatDate().formatDefaultDateKor(sortedCard.createdAt), style: TextStyle(color: Colors.grey.withOpacity(0.9))),
+                            const SizedBox(height: 80),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    FormatDate().formatDefaultDateKor(sortedCard.createdAt),
+                                    style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                  ),
+                                ),
+                                // todo: 추후 즐찾 구현하기
+                                IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
+                              ],
+                            ),
                           ],
                         ),
-                        // note: card() 내 수정, 삭제 버튼
-                        trailing: MemoCalendarPopupButtonWidget(index, sortedCard),
                       ),
                     ),
                   ),

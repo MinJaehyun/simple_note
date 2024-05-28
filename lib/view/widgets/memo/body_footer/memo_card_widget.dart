@@ -67,28 +67,46 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                       );
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: ListTile(
-                        titleAlignment: ListTileTitleAlignment.top,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        titleAlignment: ListTileTitleAlignment.titleHeight,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 10.0),
-                            Text(
-                              sortedCard!.title,
-                              overflow: TextOverflow.ellipsis,
-                              style: style,
+                            Row(
+                              children: [
+                                // todo: 추후, 구글 로그인 이미지 넣기
+                                Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                const SizedBox(width: 10.0),
+                                Expanded(
+                                  child: Text(
+                                    sortedCard!.title,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: style,
+                                  ),
+                                ),
+                                // todo: 메뉴바를 흐릿하게 처리하는 방법? 가로로 나타내는 방법?
+                                // note: card() 내 수정, 삭제 버튼
+                                MemoCalendarPopupButtonWidget(index, sortedCard!),
+                              ],
                             ),
-                            const SizedBox(height: 100.0), // 원하는 간격 크기
-                            Text(
-                              FormatDate().formatSimpleTimeKor(sortedCard!.createdAt),
-                              style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                            // todo: 아래 내용 넣기
+                            const SizedBox(height: 80.0),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    FormatDate().formatSimpleTimeKor(sortedCard!.createdAt),
+                                    style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                  ),
+                                ),
+                                // todo: 추후 즐찾 구현하기
+                                IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
+                              ],
                             ),
                           ],
                         ),
-                        // note: card() 내 수정, 삭제 버튼
-                        trailing: MemoCalendarPopupButtonWidget(index, sortedCard!),
                       ),
                     ),
                   ),

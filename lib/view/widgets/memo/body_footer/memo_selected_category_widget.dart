@@ -31,11 +31,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
     return ValueListenableBuilder(
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
-        if (box.values.isEmpty) {
-          return const Center(
-            child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'),
-          );
-        }
+        if (box.values.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
         List<MemoModel> memo = box.values.where((item) {
           return item.selectedCategory == widget.selectedCategory;
         }).toList();
@@ -52,7 +48,6 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
               crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
-              // MemoModel? currentContact = box.getAt(index);
               MemoModel? currentContact = memo[index];
               MemoModel? reversedCurrentContact = memo[memo.length - 1 - index];
               MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
@@ -75,23 +70,41 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                       }));
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: ListTile(
-                        titleAlignment: ListTileTitleAlignment.top,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        titleAlignment: ListTileTitleAlignment.titleHeight,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 10.0),
-                            Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
-                            const SizedBox(height: 100.0), // 원하는 간격 크기
-                            Text(
-                              FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
-                              style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  // todo: 추후, 구글 로그인 이미지 넣기
+                                  Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                  const SizedBox(width: 10.0),
+                                  Expanded(
+                                    child: Text(sortedCard.title, overflow: TextOverflow.ellipsis, style: style),
+                                  ),
+                                  MemoCalendarPopupButtonWidget(index, currentContact),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 80.0),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
+                                    style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                  ),
+                                ),
+                                // todo: 추후 즐찾 구현하기
+                                IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
+                              ],
                             ),
                           ],
                         ),
-                        trailing: MemoCalendarPopupButtonWidget(index, currentContact),
                       ),
                     ),
                   ),

@@ -11,6 +11,7 @@ enum SampleItem { updateMemo, deleteMemo }
 
 class TrashSearch extends StatefulWidget {
   const TrashSearch(this.searchControllerText, {super.key});
+
   final String searchControllerText;
 
   @override
@@ -64,64 +65,82 @@ class _TrashSearchState extends State<TrashSearch> {
                       }));
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: ListTile(
-                        titleAlignment: ListTileTitleAlignment.top,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        titleAlignment: ListTileTitleAlignment.titleHeight,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 13),
-                            SubstringHighlight(
-                              // text: sortedCard.title,
-                              text: currentContact.title,
-                              // 검색한 내용 가져오기
-                              term: widget.searchControllerText,
-                              // non-highlight style
-                              textStyle: const TextStyle(color: Colors.grey),
-                              // highlight style
-                              textStyleHighlight: const TextStyle(
-                                fontSize: 24.0,
-                                color: Colors.black,
-                                backgroundColor: Colors.yellow,
-                              ),
-                            ),
-                            const SizedBox(height: 100),
-                            Text(
-                              FormatDate().formatDefaultDateKor(currentContact.createdAt),
-                              style: TextStyle(
-                                color: Colors.grey.withOpacity(0.9),
-                              ),
-                            ),
-                          ],
-                        ),
-                        // note: card() 내 수정, 삭제 버튼
-                        trailing: Column(
-                          children: [
-                            PopupMenuButton<SampleItem>(
-                              initialValue: selectedItem,
-                              onSelected: (SampleItem item) {
-                                setState(() {
-                                  selectedItem = item;
-                                });
-                              },
-                              itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                                PopupMenuItem<SampleItem>(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => UpdateTrashCanMemoPage(index: index, currentContact: currentContact),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  // todo: 추후, 구글 로그인 이미지 넣기
+                                  Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: SubstringHighlight(
+                                      // text: sortedCard.title,
+                                      text: currentContact.title,
+                                      // 검색한 내용 가져오기
+                                      term: widget.searchControllerText,
+                                      // non-highlight style
+                                      textStyle: const TextStyle(
+                                        color: Colors.grey,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    );
-                                  },
-                                  value: SampleItem.updateMemo,
-                                  child: const Text('수정'),
+                                      // highlight style
+                                      textStyleHighlight: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 24.0,
+                                        color: Colors.black,
+                                        backgroundColor: Colors.yellow,
+                                      ),
+                                    ),
+                                  ),
+                                  // note: card() 내 수정, 삭제 버튼
+                                  PopupMenuButton<SampleItem>(
+                                    initialValue: selectedItem,
+                                    onSelected: (SampleItem item) {
+                                      setState(() {
+                                        selectedItem = item;
+                                      });
+                                    },
+                                    itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+                                      PopupMenuItem<SampleItem>(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => UpdateTrashCanMemoPage(index: index, currentContact: currentContact),
+                                            ),
+                                          );
+                                        },
+                                        value: SampleItem.updateMemo,
+                                        child: const Text('수정'),
+                                      ),
+                                      PopupMenuItem<SampleItem>(
+                                        onTap: () => HiveHelperTrashCan().delete(index),
+                                        value: SampleItem.deleteMemo,
+                                        child: const Text('삭제'),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 80),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    FormatDate().formatDefaultDateKor(currentContact.createdAt),
+                                    style: TextStyle(
+                                      color: Colors.grey.withOpacity(0.9),
+                                    ),
+                                  ),
                                 ),
-                                PopupMenuItem<SampleItem>(
-                                  onTap: () => HiveHelperTrashCan().delete(index),
-                                  value: SampleItem.deleteMemo,
-                                  child: const Text('삭제'),
-                                ),
+                                // todo: 추후 즐찾 구현하기
+                                IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
                               ],
                             ),
                           ],
