@@ -43,6 +43,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
             actions: [
               // 정렬
               IconButton(
+                  visualDensity: const VisualDensity(horizontal: -4),
                   // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
                   onPressed: () {
                     setState(() {
