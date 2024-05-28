@@ -34,6 +34,7 @@ class SettingsController extends GetxController {
       gridMode.value = false; // 기본값으로 설정
     }
 
+    // todo: 아래 필요한 코드인지?
     dynamic selectedFontValue = box.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
     if (selectedFontValue is int) {
       selectedFont.value = SelectedFont.values[selectedFontValue];
@@ -43,38 +44,20 @@ class SettingsController extends GetxController {
 
     double fontSizeValue = box.get('fontSizeSlide', defaultValue: 20.0);
     fontSizeSlide.value = fontSizeValue;
-
-    dynamic sortedTimeValue = box.get('sortedTime', defaultValue: SortedTime.firstTime.index);
-    if (sortedTimeValue is int) {
-      sortedTime.value = SortedTime.values[sortedTimeValue];
-    } else {
-      sortedTime.value = SortedTime.firstTime; // 혹은 원하는 기본값으로 설정
-    }
   }
 
   // sort
   void updateSortedName(SortedTime value) {
     sortedTime.value = value;
-    print('sortedTime: $sortedTime'); // sortedTime: SortedTime.lastTime
-    print('value.index: ${value.index}'); // value: SortedTime.lastTime
     var box = Hive.box('themeModel');
     box.put('sortedTime', value.index);
   }
 
   void updateFontSlider(double value) {
-    // print(value); // 28 을 fontSize: 28에 적용하기..
     fontSizeSlide.value = value;
     var box = Hive.box('themeModel');
     box.put('fontSizeSlide', value);
   }
-
-  // 변경 전:
-  // void updateFont(SelectedFont font) {
-  //   selectedFont.value = font;
-  //   // todo: 폰트 저장 테스트 중....
-  //   // var selectedFontBox = Hive.box('themeModel').put('selectedFont', selectedFont.value);
-  //   // print(selectedFontBox);
-  // }
 
   void updateFont(SelectedFont font) {
     selectedFont.value = font;
