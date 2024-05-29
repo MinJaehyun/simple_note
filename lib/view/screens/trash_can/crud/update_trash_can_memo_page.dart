@@ -264,7 +264,13 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     widget.currentContact.mainText == mainText &&
                                     widget.currentContact.selectedCategory != _dropdownValue) {
                                   HiveHelperTrashCan().updateMemo(
-                                      index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
+                                    index: widget.index,
+                                    createdAt: time,
+                                    title: title,
+                                    mainText: mainText!,
+                                    selectedCategory: _dropdownValue!,
+                                    // isFavoriteMemo: false,
+                                  );
                                   Navigator.of(context).pop();
                                 }
                                 // note: 이전 입력 값과, 변경한 값(title, mainText)이 둘 다 같은 경우, 변경 사항이 없으므로 저장 눌러도 그대로 저장되도록 한다.
@@ -275,7 +281,13 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 else if (formKeyState.validate()) {
                                   formKeyState.save();
                                   HiveHelperTrashCan().updateMemo(
-                                      index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
+                                    index: widget.index,
+                                    createdAt: time,
+                                    title: title,
+                                    mainText: mainText!,
+                                    selectedCategory: _dropdownValue!,
+                                    isFavoriteMemo: false,
+                                  );
                                   Navigator.of(context).pop();
                                 }
                               },
@@ -295,10 +307,12 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     TextButton(
                                       onPressed: () async {
                                         HiveHelperMemo().addMemo(
-                                            createdAt: widget.currentContact.createdAt,
-                                            title: title,
-                                            mainText: mainText,
-                                            selectedCategory: _dropdownValue!);
+                                          createdAt: widget.currentContact.createdAt,
+                                          title: title,
+                                          mainText: mainText,
+                                          selectedCategory: _dropdownValue!,
+                                          isFavoriteMemo: false,
+                                        );
                                         HiveHelperTrashCan().delete(widget.index);
                                         setState(() {
                                           Navigator.of(context).pop();

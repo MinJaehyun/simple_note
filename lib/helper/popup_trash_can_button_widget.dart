@@ -56,24 +56,27 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                   title: const Text("메모를 복원 하시겠습니까?"),
                   actions: [
                     TextButton(
-                        onPressed: () {
-                          // 복원한다: 메모장에 넣고, 휴지통에서 지운다.
-                          HiveHelperMemo().addMemo(
-                            createdAt: widget.currentContact.createdAt,
-                            title: widget.currentContact.title,
-                            mainText: widget.currentContact.mainText,
-                            // 선택한 범주를 가져오려면?
-                            selectedCategory: _dropdownValue,
-                          );
-                          HiveHelperTrashCan().delete(widget.index);
-                          Navigator.pop(context);
-                        },
-                        child: const Text('복원')),
+                      onPressed: () {
+                        // 복원한다: 메모장에 넣고, 휴지통에서 지운다.
+                        HiveHelperMemo().addMemo(
+                          createdAt: widget.currentContact.createdAt,
+                          title: widget.currentContact.title,
+                          mainText: widget.currentContact.mainText,
+                          // 선택한 범주를 가져오려면?
+                          selectedCategory: _dropdownValue,
+                          isFavoriteMemo: false,
+                        );
+                        HiveHelperTrashCan().delete(widget.index);
+                        Navigator.pop(context);
+                      },
+                      child: const Text('복원'),
+                    ),
                     TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('취소')),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('취소'),
+                    ),
                   ],
                 );
               },

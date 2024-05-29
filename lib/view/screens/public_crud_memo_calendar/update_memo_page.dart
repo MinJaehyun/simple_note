@@ -83,6 +83,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
         });
       }
     }
+
     DropdownButton<String> dropdownButtonWidget(Box<CategoryModel> box) {
       return DropdownButton(
         style: const TextStyle(color: Colors.green),
@@ -101,6 +102,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
         iconSize: 35,
       );
     }
+
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -258,7 +260,13 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     widget.currentContact.mainText == mainText &&
                                     widget.currentContact.selectedCategory != _dropdownValue) {
                                   HiveHelperMemo().updateMemo(
-                                      index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
+                                    index: widget.index,
+                                    createdAt: time,
+                                    title: title,
+                                    mainText: mainText!,
+                                    selectedCategory: _dropdownValue!,
+                                    isFavoriteMemo: false,
+                                  );
                                   Navigator.of(context).pop();
                                 }
                                 // note: 이전 입력 값과, 변경한 값(title, mainText)이 둘 다 같은 경우, 변경 사항이 없으므로 저장 눌러도 그대로 저장되도록 한다.
@@ -269,7 +277,13 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                 else if (formKeyState.validate()) {
                                   formKeyState.save();
                                   HiveHelperMemo().updateMemo(
-                                      index: widget.index, createdAt: time, title: title, mainText: mainText!, selectedCategory: _dropdownValue!);
+                                    index: widget.index,
+                                    createdAt: time,
+                                    title: title,
+                                    mainText: mainText!,
+                                    selectedCategory: _dropdownValue!,
+                                    isFavoriteMemo: false,
+                                  );
                                   Navigator.of(context).pop();
                                 }
                               },

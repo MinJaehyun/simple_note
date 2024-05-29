@@ -22,18 +22,29 @@ class MemoModel extends HiveObject {
   @HiveField(5)
   final DateTime? endTime;
 
+  @HiveField(6)
+  final bool? isFavoriteMemo;
+
   // 변경 전: 사용 가능하나, this.createdAt, this.title는 positional parameter 이므로 가독성이 좋지 않다.
   // MemoModel(this.createdAt, this.title, {this.mainText, this.selectedCategory, this.startTime, this.endTime});
 
   // 변경 후
-  MemoModel({required this.createdAt, required this.title, this.mainText, this.selectedCategory, this.startTime, this.endTime});
-
+  MemoModel({
+    required this.createdAt,
+    required this.title,
+    this.mainText,
+    this.selectedCategory,
+    this.startTime,
+    this.endTime,
+    this.isFavoriteMemo = false,
+  });
 
   MemoModel.fromJson(Map<String, dynamic> json)
       : title = json['title'],
         mainText = json['mainText'],
         selectedCategory = json['selectedCategory'],
-        createdAt = json['createdAt'],
+        createdAt = json['createdAt'] != null ? DateTime.parse(json['createdAt']) : DateTime.now(),
         startTime = json['startTime'] != null ? DateTime.parse(json['startTime']) : null,
-        endTime = json['endTime'] != null ? DateTime.parse(json['endTime']) : null;
+        endTime = json['endTime'] != null ? DateTime.parse(json['endTime']) : null,
+        isFavoriteMemo = json['isFavoriteMemo'] as bool? ?? false;
 }

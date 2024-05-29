@@ -9,7 +9,6 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
-
 class AddMemoPage extends StatefulWidget {
   const AddMemoPage({super.key});
 
@@ -78,6 +77,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
         });
       }
     }
+
     // todo: dropdownButtonWidget는 update_memo 와 동일한 구조 사용
     DropdownButton<String> dropdownButtonWidget(Box<CategoryModel> box) {
       return DropdownButton(
@@ -96,6 +96,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
         iconSize: 35,
       );
     }
+
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -253,7 +254,13 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                 final formKeyState = _formKey.currentState!;
                                 if (formKeyState.validate()) {
                                   formKeyState.save();
-                                  HiveHelperMemo().addMemo(createdAt: time, title: title, mainText: mainText, selectedCategory: _dropdownValue);
+                                  HiveHelperMemo().addMemo(
+                                    createdAt: time,
+                                    title: title,
+                                    mainText: mainText,
+                                    selectedCategory: _dropdownValue,
+                                    isFavoriteMemo: false,
+                                  );
                                   Navigator.of(context).pop();
                                 }
                               },

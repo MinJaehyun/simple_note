@@ -62,6 +62,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
                             mainText: widget.currentContact.mainText,
                             // note: 휴지통에 저장되면서 범주는 '미분류'로 지정되야 한다.
                             selectedCategory: _dropdownValue,
+                            isFavoriteMemo: false,
                           );
                           // 일반 메모장에서 삭제하기
                           HiveHelperMemo().delete(widget.index);

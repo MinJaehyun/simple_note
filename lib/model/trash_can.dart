@@ -22,7 +22,18 @@ class TrashCanModel {
   @HiveField(5)
   final DateTime? endTime;
 
-  TrashCanModel({required this.createdAt, required this.title, this.mainText, this.selectedCategory, this.startTime, this.endTime});
+  @HiveField(6)
+  final bool? isFavoriteMemo;
+
+  TrashCanModel({
+    required this.createdAt,
+    required this.title,
+    this.mainText,
+    this.selectedCategory,
+    this.startTime,
+    this.endTime,
+    this.isFavoriteMemo = false,
+  });
 
   TrashCanModel.fromJson(Map<String, dynamic> json)
       : title = json['title'],
@@ -30,5 +41,6 @@ class TrashCanModel {
         selectedCategory = json['selectedCategory'],
         createdAt = json['createdAt'],
         startTime = json['startTime'] != null ? DateTime.parse(json['startTime']) : null,
-        endTime = json['endTime'] != null ? DateTime.parse(json['endTime']) : null;
+        endTime = json['endTime'] != null ? DateTime.parse(json['endTime']) : null,
+        isFavoriteMemo = json['isFavoriteMemo'] as bool? ?? false;
 }
