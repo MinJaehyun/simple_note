@@ -100,8 +100,23 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
-                                // todo: 추후 즐찾 구현하기
-                                IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
+                                // note: 배경 즐찾 처리
+                                IconButton(
+                                  onPressed: () {
+                                    HiveHelperMemo().updateMemo(
+                                      index: index,
+                                      createdAt: currentContact!.createdAt,
+                                      title: currentContact.title,
+                                      mainText: currentContact.mainText,
+                                      selectedCategory: currentContact.selectedCategory,
+                                      isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                    );
+                                  },
+                                  // note: 동적 처리 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+                                  icon: currentContact?.isFavoriteMemo == false
+                                      ? Icon(Icons.star_border_sharp, color: null)
+                                      : Icon(Icons.star, color: Colors.red),
+                                ),
                               ],
                             ),
                           ],

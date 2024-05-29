@@ -14,6 +14,7 @@ class UpdateMemoPage extends StatefulWidget {
   const UpdateMemoPage({required this.index, required this.currentContact, super.key});
 
   final int index;
+
   // err: final MemoModel currentContact; 처리하면 MemoModel만 사용하게 되므로 TrashCanModel은 사용할 수 없다.. 일단 제거하고 진행하기
   final MemoModel currentContact;
 
@@ -27,6 +28,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
   late String title = widget.currentContact.title;
   late String? mainText = widget.currentContact.mainText;
   late String? _dropdownValue = widget.currentContact.selectedCategory;
+  late bool? _isFavorite = widget.currentContact.isFavoriteMemo;
 
   bool _showScrollToTopButton = false;
   final ScrollController _scrollController = ScrollController();
@@ -74,6 +76,14 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
   @override
   Widget build(BuildContext context) {
     final settingsController = Get.find<SettingsController>();
+    // var memoBox = Hive.box<MemoModel>(MemoBox);
+    // memoBox: Instance of 'BoxImpl<MemoModel>'
+    // memoBox.key: (251, 252, 253, 254, 255)
+    // memoBox.length: 5
+    // memoBox.values: (Instance of 'MemoModel', Instance of 'MemoModel', Instance of 'MemoModel', Instance of 'MemoModel', Instance of 'MemoModel')
+    // memoBox.values.first: Instance of 'MemoModel'
+    // memoBox.values.first.isFavoriteMemo: false
+    // print('memoBox: ${memoBox.values.first.isFavoriteMemo}');
 
     // ui에 나타낼 _dropdownValue 변경함 R
     void dropdownCallback(String? selectedValue) {
@@ -108,234 +118,250 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           backgroundColor: Colors.white,
-          body: ValueListenableBuilder(
-            valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
-            builder: (context, Box<CategoryModel> box, _) {
-              // if (box.values.isEmpty) return Center(child: Text('test update memo'));
-              return Stack(
+          body: Stack(
+            children: [
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      // 상단: 시간 및 범주 메뉴
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 80,
-                          child: Row(
-                            children: [
-                              // 시간
-                              Expanded(
-                                child: Text(
-                                  FormatDate().formatDotDateTimeKor(widget.currentContact.createdAt),
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              ),
-                              // 범주
-                              TextButton(
-                                // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
-                                style: TextButton.styleFrom(
-                                  minimumSize: Size.zero,
-                                  padding: EdgeInsets.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                onPressed: () {},
-                                child: dropdownButtonWidget(box),
-                              ),
-                              // 범주 생성 버튼
-                              IconButton(
-                                // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
-                                // visualDensity: VisualDensity.compact,
-                                visualDensity: const VisualDensity(horizontal: -4),
-                                onPressed: () => showAddPopupDialog(context),
-                                icon: const Icon(Icons.category),
-                                iconSize: 18,
-                                tooltip: '범주 생성',
-                                hoverColor: Colors.orange,
-                                focusColor: Colors.orange,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      // 중단: 입력창 (제목/내용)
-                      NotificationListener<ScrollNotification>(
-                        onNotification: (scrollNotification) {
-                          return true;
-                        },
-                        child: Expanded(
-                          child: Form(
-                            key: _formKey,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SingleChildScrollView(
-                                controller: _scrollController,
-                                child: Column(
-                                  children: [
-                                    const SizedBox(height: 10),
-                                    CustomPaint(
-                                      painter: GridPainter(),
-                                      child: TextFormField(
-                                        cursorColor: Colors.orange,
-                                        cursorWidth: 3,
-                                        // 커서 노출 여부
-                                        showCursor: true,
-                                        initialValue: widget.currentContact.title,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            title = value;
-                                          });
-                                        },
-                                        decoration: const InputDecoration(
-                                          suffixIcon: Icon(Icons.clear),
-                                          labelText: '제목',
-                                          border: OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.orange,
-                                            ),
-                                          ),
-                                        ),
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return '한 글자 이상 입력해 주세요';
-                                          } else if (value.trimLeft() != value) {
-                                            return '앞에 공백을 제거해 주세요';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(height: 25),
-                                    CustomPaint(
-                                      painter: GridPainter(),
-                                      child: TextFormField(
-                                        cursorColor: Colors.orange,
-                                        cursorWidth: 3,
-                                        // 커서 노출 여부
-                                        showCursor: true,
-                                        initialValue: widget.currentContact.mainText,
-                                        keyboardType: TextInputType.multiline,
-                                        // 입력값 무제한 설정하는 방법 - maxLines: null
-                                        maxLines: widget.currentContact.mainText != null ? 100 : null,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            mainText = value;
-                                          });
-                                        },
-                                        decoration: const InputDecoration(
-                                          hintText: '내용을 입력해 주세요',
-                                          border: OutlineInputBorder(),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.orange,
-                                            ),
-                                          ),
-                                        ),
-                                        style: TextStyle(
-                                          color: settingsController.isDarkMode.isTrue ? Colors.white : Colors.black,
-                                          fontSize: settingsController.fontSizeSlide.toDouble(),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // 하단: 저장 및 취소
-                      Row(
+                  // 상단: 시간 및 범주 메뉴
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 80,
+                      child: Row(
                         children: [
+                          // 시간
                           Expanded(
-                            child: ElevatedButton.icon(
-                              label: const Text('저장'),
-                              icon: const Icon(Icons.check),
-                              onPressed: () {
-                                final formKeyState = _formKey.currentState!;
-                                // note: 범주 변경하고, 제목이나, 내용 변경하지 않으면 변경된 범주가 저장되지 않는다
-                                if (widget.currentContact.title == title &&
-                                    widget.currentContact.mainText == mainText &&
-                                    widget.currentContact.selectedCategory != _dropdownValue) {
-                                  HiveHelperMemo().updateMemo(
-                                    index: widget.index,
-                                    createdAt: time,
-                                    title: title,
-                                    mainText: mainText!,
-                                    selectedCategory: _dropdownValue!,
-                                    isFavoriteMemo: false,
-                                  );
-                                  Navigator.of(context).pop();
-                                }
-                                // note: 이전 입력 값과, 변경한 값(title, mainText)이 둘 다 같은 경우, 변경 사항이 없으므로 저장 눌러도 그대로 저장되도록 한다.
-                                else if (widget.currentContact.title == title && widget.currentContact.mainText == mainText) {
-                                  Navigator.of(context).pop();
-                                }
-                                // note: 위 해당 사항 없으면 validation 검사하고 저장한다
-                                else if (formKeyState.validate()) {
-                                  formKeyState.save();
-                                  HiveHelperMemo().updateMemo(
-                                    index: widget.index,
-                                    createdAt: time,
-                                    title: title,
-                                    mainText: mainText!,
-                                    selectedCategory: _dropdownValue!,
-                                    isFavoriteMemo: false,
-                                  );
-                                  Navigator.of(context).pop();
-                                }
-                              },
+                            child: Text(
+                              FormatDate().formatDotDateTimeKor(widget.currentContact.createdAt),
+                              style: const TextStyle(fontSize: 18),
                             ),
                           ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              label: const Text('취소'),
-                              icon: const Icon(Icons.close),
-                              onPressed: () => showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('변경 사항을 취소 하시겠습니까?'),
-                                  actions: <Widget>[
-                                    // 예: 누르면, 메모장을 빠져나간다.
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('변경을 취소'),
-                                    ),
-                                    // 아니오: 누르면, 메모장으로 빠져나간다.
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, 'OK'),
-                                      child: const Text('메모장 돌아가기'),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          // 범주
+                          ValueListenableBuilder(
+                              valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
+                              builder: (context, Box<CategoryModel> box, _) {
+                                // if (box.values.isEmpty) return Center(child: Text('test update memo'));
+                                return TextButton(
+                                  // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
+                                  style: TextButton.styleFrom(
+                                    minimumSize: Size.zero,
+                                    padding: EdgeInsets.zero,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  onPressed: () {},
+                                  child: dropdownButtonWidget(box),
+                                );
+                              }),
+                          // 범주 생성 버튼
+                          IconButton(
+                            // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
+                            // visualDensity: VisualDensity.compact,
+                            visualDensity: const VisualDensity(horizontal: -4),
+                            onPressed: () => showAddPopupDialog(context),
+                            icon: const Icon(Icons.category),
+                            iconSize: 18,
+                            tooltip: '범주 생성',
+                            hoverColor: Colors.orange,
+                            focusColor: Colors.orange,
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  Positioned(
-                    bottom: 70,
-                    right: 20,
-                    child: IconButton.filledTonal(
-                      hoverColor: Colors.orange,
-                      focusColor: Colors.orangeAccent,
-                      icon: _showScrollToTopButton ? const Icon(Icons.arrow_upward) : const Icon(Icons.arrow_downward),
-                      onPressed: () {
-                        _showScrollToTopButton ? _scrollToTop() : _scrollToDown();
-                      },
                     ),
                   ),
+
+                  // 중단: 입력창 (제목/내용)
+                  NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      return true;
+                    },
+                    child: Expanded(
+                      child: Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: SingleChildScrollView(
+                            controller: _scrollController,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 10),
+                                CustomPaint(
+                                  painter: GridPainter(),
+                                  child: TextFormField(
+                                    cursorColor: Colors.orange,
+                                    cursorWidth: 3,
+                                    // 커서 노출 여부
+                                    showCursor: true,
+                                    initialValue: widget.currentContact.title,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        title = value;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      suffixIcon: Icon(Icons.clear),
+                                      labelText: '제목',
+                                      border: OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.orange,
+                                        ),
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return '한 글자 이상 입력해 주세요';
+                                      } else if (value.trimLeft() != value) {
+                                        return '앞에 공백을 제거해 주세요';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 25),
+                                CustomPaint(
+                                  painter: GridPainter(),
+                                  child: TextFormField(
+                                    cursorColor: Colors.orange,
+                                    cursorWidth: 3,
+                                    // 커서 노출 여부
+                                    showCursor: true,
+                                    initialValue: widget.currentContact.mainText,
+                                    keyboardType: TextInputType.multiline,
+                                    // 입력값 무제한 설정하는 방법 - maxLines: null
+                                    maxLines: widget.currentContact.mainText != null ? 100 : null,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        mainText = value;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      hintText: '내용을 입력해 주세요',
+                                      border: OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.orange,
+                                        ),
+                                      ),
+                                    ),
+                                    style: TextStyle(
+                                      color: settingsController.isDarkMode.isTrue ? Colors.white : Colors.black,
+                                      fontSize: settingsController.fontSizeSlide.toDouble(),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // 하단: 저장 및 취소
+                  Row(
+                    children: [
+                      TextButton(
+                        child: _isFavorite == false ? Icon(Icons.star_border_sharp, color: null) : Icon(Icons.star, color: Colors.red),
+                        onPressed: () {
+                          setState(() {
+                            _isFavorite = !_isFavorite!;
+                          });
+                          HiveHelperMemo().updateMemo(
+                            index: widget.index,
+                            createdAt: time,
+                            title: title,
+                            mainText: mainText,
+                            selectedCategory: _dropdownValue,
+                            isFavoriteMemo: _isFavorite!,
+                          );
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          label: const Text('저장'),
+                          icon: const Icon(Icons.check),
+                          onPressed: () {
+                            final formKeyState = _formKey.currentState!;
+                            // note: 범주 변경하고, 제목이나, 내용 변경하지 않으면 변경된 범주가 저장되지 않는다
+                            if (widget.currentContact.title == title &&
+                                widget.currentContact.mainText == mainText &&
+                                widget.currentContact.selectedCategory != _dropdownValue) {
+                              HiveHelperMemo().updateMemo(
+                                index: widget.index,
+                                createdAt: time,
+                                title: title,
+                                mainText: mainText!,
+                                selectedCategory: _dropdownValue!,
+                                isFavoriteMemo: _isFavorite!,
+                              );
+                              Navigator.of(context).pop();
+                            }
+                            // note: 이전 입력 값과, 변경한 값(title, mainText)이 둘 다 같은 경우, 변경 사항이 없으므로 저장 눌러도 그대로 저장되도록 한다.
+                            else if (widget.currentContact.title == title && widget.currentContact.mainText == mainText) {
+                              Navigator.of(context).pop();
+                            }
+                            // note: 위 해당 사항 없으면 validation 검사하고 저장한다
+                            else if (formKeyState.validate()) {
+                              formKeyState.save();
+                              HiveHelperMemo().updateMemo(
+                                index: widget.index,
+                                createdAt: time,
+                                title: title,
+                                mainText: mainText!,
+                                selectedCategory: _dropdownValue!,
+                                isFavoriteMemo: _isFavorite!,
+                              );
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          label: const Text('취소'),
+                          icon: const Icon(Icons.close),
+                          onPressed: () => showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('변경 사항을 취소 하시겠습니까?'),
+                              actions: <Widget>[
+                                // 예: 누르면, 메모장을 빠져나간다.
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('변경을 취소'),
+                                ),
+                                // 아니오: 누르면, 메모장으로 빠져나간다.
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'OK'),
+                                  child: const Text('메모장 돌아가기'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
-              );
-            },
+              ),
+              Positioned(
+                bottom: 70,
+                right: 20,
+                child: IconButton.filledTonal(
+                  hoverColor: Colors.orange,
+                  focusColor: Colors.orangeAccent,
+                  icon: _showScrollToTopButton ? const Icon(Icons.arrow_upward) : const Icon(Icons.arrow_downward),
+                  onPressed: () {
+                    _showScrollToTopButton ? _scrollToTop() : _scrollToDown();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
