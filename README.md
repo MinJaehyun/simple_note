@@ -20,7 +20,8 @@
 
 ## 2024-05-29
 ### Features
-- (ing 2/2) 즐겨 찾기 () 
+- (2/2) 즐겨 찾기 (모든 카테고리에서 즐겨찾기 구현 / 선택한 카테고리에서 즐겨찾기 구현 / 검색한 카테고리에서 즐겨찾기 구현)
+- 메모장에서 삭제한 메모는 휴지통으로 이동하며, 이때, 즐겨찾기한 내용도 취소되어 이동한다 (공통성: 미분류로 지정하며, 즐찾도 취소로 지정된다)
 ### Bug Fixes
 - 크리티컬 이슈: memo model에 isFavorite 속성 추가 후, type 'Null' is not a subtype of type 'bool' in type cast 발생함
 -- bool isFavorite => bool? isFavorite 처리하여 Nul이 올 수 있도록 설정함 (null 일수도 있지만, 기본값을 false로 지정했으므로 코드상에는 문제가 없다고 생각하여 진행함)
