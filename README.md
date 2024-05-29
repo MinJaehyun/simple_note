@@ -24,6 +24,7 @@
 ### Bug Fixes
 - 크리티컬 이슈: memo model에 isFavorite 속성 추가 후, type 'Null' is not a subtype of type 'bool' in type cast 발생함
 -- bool isFavorite => bool? isFavorite 처리하여 Nul이 올 수 있도록 설정함 (null 일수도 있지만, 기본값을 false로 지정했으므로 코드상에는 문제가 없다고 생각하여 진행함)
+- 검색어 2 누른 상태에서 외부 즐찾 클릭하면, 동일한 내용의 메모로 다른 메모의 index에 이전에 내용으로 덮어씌운다.
 
 
 ## 2024-05-28
