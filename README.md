@@ -1,6 +1,6 @@
 # Release notes
 
-## 프로젝트 마무리 전
+## 베퍼 전 todo
 - const 설정 하기
 - var, dynamic, nullable(?) 변수의 타입 상세히 명시하기 및 불필요한 변수 찾아서 제거하기
 - crud 위젯 분리 (현재 변경되는 코드가 많아서 막바지에 작업하기)
@@ -9,13 +9,21 @@
 - 모든: 페이지에 기능 구현되어 있는지부터 확인하기
 
 
-## todo: 우선 중요하면서 긴급하면서 간단한 것을 처리하자!
-- 디자인: 학습하기
-- (ing- 추후) 메모: 검색창에 내용이 비어 있으면 x 가세표 나타내지 않기 (Bug Fixes)
-- 11: 메모 및 휴지통: 태그 기능 (날짜 위에 명시) 
-- 11: 달력: 일정에 시간 기능 구현
-- 11: 메모: 입력창 더보기
+## todo: 중요하면서 긴급하면서 간단한 것을 우선 처리하자!
+- 디자인 학습
+- 메모: 검색창 내용 비었으면 x 가세표 안 나타내기
+- 메모 및 휴지통: 태그 기능 (날짜 위에 명시) 
+- 달력: 시간 기능 구현 (+ add_memo, update_memo, update_trash_can)
+- 메모: 더보기 (내용 입력창)
 - (ing) 
+
+
+## 2024-05-29
+### Features
+- (ing 2/2) 즐겨 찾기 () 
+### Bug Fixes
+- 크리티컬 이슈: memo model에 isFavorite 속성 추가 후, type 'Null' is not a subtype of type 'bool' in type cast 발생함
+-- bool isFavorite => bool? isFavorite 처리하여 Nul이 올 수 있도록 설정함 (null 일수도 있지만, 기본값을 false로 지정했으므로 코드상에는 문제가 없다고 생각하여 진행함)
 
 
 ## 2024-05-28
