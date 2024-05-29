@@ -36,6 +36,15 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
           return item.title.contains(widget.searchControllerText!) || item.mainText!.contains(widget.searchControllerText!);
         }).toList();
 
+        // note: 검색한 제목이나 내용의 원조 모든 메모에 인덱스를 가져오는 방법
+        List<MemoModel> memoList = box.values.toList();
+        List<int> selectedIndices = [];
+        for (int i = 0; i < memoList.length; i++) {
+          if (memoList[i].title.contains(widget.searchControllerText!) || memoList[i].mainText!.contains(widget.searchControllerText!)) {
+            selectedIndices.add(i);
+          }
+        }
+
         return Container(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
@@ -122,8 +131,21 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
-                                // todo: 추후 즐찾 구현하기
-                                IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
+                                IconButton(
+                                  onPressed: () {
+                                    HiveHelperMemo().updateMemo(
+                                      index: selectedIndices[index],
+                                      createdAt: currentContact.createdAt,
+                                      title: currentContact.title,
+                                      mainText: currentContact.mainText,
+                                      selectedCategory: currentContact.selectedCategory,
+                                      isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                    );
+                                  },
+                                  icon: currentContact.isFavoriteMemo == false
+                                      ? Icon(Icons.star_border_sharp, color: null)
+                                      : Icon(Icons.star, color: Colors.red),
+                                ),
                               ],
                             ),
                           ],
