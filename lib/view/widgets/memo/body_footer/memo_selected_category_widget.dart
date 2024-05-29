@@ -32,9 +32,27 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
         if (box.values.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+
         List<MemoModel> memo = box.values.where((item) {
           return item.selectedCategory == widget.selectedCategory;
         }).toList();
+
+        // note: 선택한 카테고리의 원조 모든 메모에 인덱스를 가져오는 방법
+        List<MemoModel> memoList = box.values.toList();
+        List<int> selectedIndices = [];
+        for (int i = 0; i < memoList.length; i++) {
+          if (memoList[i].selectedCategory == widget.selectedCategory) {
+            selectedIndices.add(i);
+          }
+        }
+
+        // note: 위 내용을 개선하면 아래와 같다
+        // memoList.asMap().forEach((index, item) {
+        //   if (item.selectedCategory == widget.selectedCategory) {
+        //     selectedIndices.add(index);
+        //   }
+        // });
+        // note: 현재 문제점: 프로젝트에 치중하다보니, 알고리즘을 손 놓게 됐는데, 위에 코드는 기본 알고리즘 풀이 능력되면 쉽게 풀 수 있으므로, 알고리즘도 같이 진행하도록 한다!
 
         return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
@@ -51,6 +69,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
               MemoModel? currentContact = memo[index];
               MemoModel? reversedCurrentContact = memo[memo.length - 1 - index];
               MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+
+              // print(box.values.length);
 
               return Card(
                 shape: RoundedRectangleBorder(
@@ -104,8 +124,21 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
-                                // todo: 추후 즐찾 구현하기
-                                IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
+                                IconButton(
+                                  onPressed: () {
+                                    HiveHelperMemo().updateMemo(
+                                      index: selectedIndices[index],
+                                      createdAt: currentContact.createdAt,
+                                      title: currentContact.title,
+                                      mainText: currentContact.mainText,
+                                      selectedCategory: currentContact.selectedCategory,
+                                      isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                    );
+                                  },
+                                  icon: currentContact.isFavoriteMemo == false
+                                      ? Icon(Icons.star_border_sharp, color: null)
+                                      : Icon(Icons.star, color: Colors.red),
+                                ),
                               ],
                             ),
                           ],
