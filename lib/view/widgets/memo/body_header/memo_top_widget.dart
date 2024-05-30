@@ -40,7 +40,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {
               return SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   height: 155,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -75,12 +75,12 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                       searchControllerText = null;
                                     });
                                   },
-                                  child: searchControllerText != null ? Icon(Icons.close, size: 24) : Icon(Icons.transit_enterexit),
+                                  child: searchControllerText != null ? const Icon(Icons.close, size: 24) : const Icon(Icons.transit_enterexit),
                                 ),
                                 suffixIconColor: Colors.grey,
                                 hintText: '검색',
                                 contentPadding: const EdgeInsets.all(12),
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                   fontSize: 14,
                                 ),
                               ),
@@ -95,76 +95,77 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         // 상단2: 모든, 미분류, 생성한 범주
                         SizedBox(
                           width: 363,
                           height: 56,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                        color: Colors.grey,
-                                        width: 0.1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(4.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.1,
                                     ),
-                                    // note: 선택한 범주가 '모든(null)' 이면 빨강 박스로
-                                    color: selectedCategory == null ? Colors.red : null,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedCategory = null;
-                                          searchControllerText = null;
-                                          searchController.clear();
-                                        });
-                                      },
-                                      child: Text(
-                                        '모든',
-                                        // note: 선택한 범주가 '모든(null)' 이면 ...
-                                        style: TextStyle(color: selectedCategory == null ? Colors.white : null),
-                                      ),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  // note: 선택한 범주가 '모든(null)' 이면 빨강 박스로
+                                  color: selectedCategory == null ? Colors.red : null,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedCategory = null;
+                                        searchControllerText = null;
+                                        searchController.clear();
+                                      });
+                                    },
+                                    child: Text(
+                                      '모든',
+                                      // note: 선택한 범주가 '모든(null)' 이면 ...
+                                      style: TextStyle(color: selectedCategory == null ? Colors.white : null),
                                     ),
                                   ),
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                      width: 1.0,
                                     ),
-                                    color: selectedCategory == '미분류' ? Colors.red : null,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedCategory = '미분류';
-                                          searchControllerText = null;
-                                          searchController.clear();
-                                        });
-                                      },
-                                      child: Text(
-                                        '미분류',
-                                        style: TextStyle(color: selectedCategory == '미분류' ? Colors.white : null),
-                                      ),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  color: selectedCategory == '미분류' ? Colors.red : null,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedCategory = '미분류';
+                                        searchControllerText = null;
+                                        searchController.clear();
+                                      });
+                                    },
+                                    child: Text(
+                                      '미분류',
+                                      style: TextStyle(color: selectedCategory == '미분류' ? Colors.white : null),
                                     ),
                                   ),
-                                  // note: [] 내에서 ...box 사용하여 ListView 대신 반복하는 방법: SingleChildScrollView 내에 ListView 사용 시 충돌함!
-                                  // child: ListView.separated(
-                                  //   scrollDirection: Axis.horizontal,
-                                  //   separatorBuilder: (context, index) {
-                                  //     return const SizedBox();
-                                  //   },
-                                  //   itemCount: box.values.length,
-                                  //   itemBuilder: (context, index) {
-                                  //     CategoryModel? categoryContact = box.getAt(index);
-                                  ...box.values.map((categoryContact) {
+                                ),
+                                // note: [] 내에서 ...box 사용하여 ListView 대신 반복하는 방법: SingleChildScrollView 내에 ListView 사용 시 충돌함!
+                                // child: ListView.separated(
+                                //   scrollDirection: Axis.horizontal,
+                                //   separatorBuilder: (context, index) {
+                                //     return const SizedBox();
+                                //   },
+                                //   itemCount: box.values.length,
+                                //   itemBuilder: (context, index) {
+                                //     CategoryModel? categoryContact = box.getAt(index);
+                                ...box.values.map(
+                                  (categoryContact) {
                                     return Card(
                                       shape: RoundedRectangleBorder(
-                                        side: BorderSide(
+                                        side: const BorderSide(
                                           color: Colors.grey,
                                           width: 1.0,
                                         ),
@@ -186,12 +187,11 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                         ),
                                       ),
                                     );
-                                  }).toList(),
-                                ],
-                              ),
+                                  },
+                                ),
+                              ],
                             ),
-                            // },
-                          // ),
+                          ),
                         ),
                       ],
                     ),
@@ -202,13 +202,10 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
           ),
 
           // 하단 메모장
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 500,
-              child: SingleChildScrollView(
-                child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText),
-              ),
+          SizedBox(
+            height: 500,
+            child: SingleChildScrollView(
+              child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText),
             ),
           ),
         ],
