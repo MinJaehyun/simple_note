@@ -35,8 +35,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+   - assets/first_loading_logo.png
   #   - images/a_dot_ham.jpeg
 
   fonts:
@@ -72,9 +72,13 @@ flutter:
       fonts:
         - asset: assets/fonts/NanumSquareNeo/NanumSquareNeo-bRg.ttf
 
-# flutter_native_splash
-#flutter_native_splash:
-#  image: assets/first_loading_logo.jpg
-#  color: "42a5f5"
+
+flutter_native_splash:
+  color: "#ffffff" # background color
+  image: assets/first_loading_logo.png # 추가할 이미지 파일 경로를 추가
+  android: true
+  ios: true
+  web: false
+
 
 

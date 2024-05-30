@@ -16,6 +16,12 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 const themeModeBox = 'themeModel';
 
 void main() async {
+  // note: flutter_native_splash 설정 중 필요한 세팅
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // 스플래시 화면을 보여주기 위해 5초간 대기
+  await initialization();
+
   // note: hive 설정
   await Hive.initFlutter();
   Hive.registerAdapter(MemoModelAdapter());
@@ -31,30 +37,20 @@ void main() async {
   await initializeDateFormatting();
   // note: GetX Controller 초기화 - 테스트 중...
   Get.put(SettingsController());
-
-  // note: flutter_native_splash 설정 중 필요한 세팅
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Future.delayed(const Duration(seconds: 3));
-  // FlutterNativeSplash.remove();
-
-  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // Firebase.initializeApp().whenComplete(() => {
-  //   FlutterNativeSplash.remove() });
   runApp(const MyApp());
 }
 
-
+Future initialization() async {
+  await Future.delayed(const Duration(seconds: 3));
+  FlutterNativeSplash.remove();
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    FlutterNativeSplash.remove();
+    // FlutterNativeSplash.remove();
 
     final settingsController = Get.find<SettingsController>();
 
