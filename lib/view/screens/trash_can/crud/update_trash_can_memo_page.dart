@@ -214,6 +214,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     CustomPaint(
                                       painter: GridPainter(),
                                       child: TextFormField(
+                                        maxLength: 5000,
                                         cursorColor: Colors.orange,
                                         cursorWidth: 3,
                                         // 커서 노출 여부

@@ -44,6 +44,7 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
         },
         autofocus: true,
         initialValue: widget.currentContact?.categories.toString(),
+        maxLength: 17,
       ),
       actions: [
         TextButton(

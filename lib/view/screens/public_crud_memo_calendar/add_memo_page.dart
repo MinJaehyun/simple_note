@@ -209,6 +209,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     CustomPaint(
                                       painter: GridPainter(),
                                       child: TextFormField(
+                                        maxLength: 5000,
                                         cursorColor: Colors.orange,
                                         cursorWidth: 3,
                                         // 커서 노출 여부
