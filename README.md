@@ -1,21 +1,32 @@
 # Release notes
 
-## 베퍼 전 todo
+## 베포 전 todo
 - const 설정 하기
 - var, dynamic, nullable(?) 변수의 타입 상세히 명시하기 및 불필요한 변수 찾아서 제거하기
 - crud 위젯 분리 (현재 변경되는 코드가 많아서 막바지에 작업하기)
 - figma: 와이어 프레임 수정하기
 - 광고: 넣고 바로 어플 등록 진행 할건지? (검색)
 - 모든: 페이지에 기능 구현되어 있는지부터 확인하기
+- pubspec.yaml 전체 패키지는 프로젝트 완료 전에 업데이트 하기 (6개월 마다 업데이트)
 
 
 ## todo: 중요하면서 긴급하면서 간단한 것을 우선 처리하자!
-- 디자인 학습
-- 메모: 검색창 내용 비었으면 x 가세표 안 나타내기
-- 메모 및 휴지통: 태그 기능 (날짜 위에 명시) 
-- 달력: 시간 기능 구현 (+ add_memo, update_memo, update_trash_can)
-- 메모: 더보기 (내용 입력창)
-- (ing) 
+- 달력: 시간 기능 구현 (+ add_memo, update_memo, update_trash_can) (시작 시간, 종료 시간 설정하고, 하단에 v체크 표시로 완료했으면 빨강 진하게 체크하고, 미완이면 빈체크표시 흐릿하게 나타내기)
+- (ing) google drive 대신 로컬 백업/복구 기능 구현하기..
+- (ing)
+### Bug Fixes
+- 범주 20 이상 작성하면 overflow 에러 발생한다 (17은 괜찮다. 1/17 글자 길이 지정하기?)
+
+
+
+## 2024-05-30~
+### Features
+- (1/2) 앱 실행 시, flutter native splash 띄우기 
+- 메모 디자인 개선: 범위 내 모든 범주 스크롤 구현 및 박스 높이 동일하게 설정
+- inspector 보며 쓰지 않는 위젯 제거
+- add_memo: 즐찾 사라진게 아니라 메모 생성 시 추가하지 않았다.
+### Bug Fixes
+- 휴지통으로 이동 시, 즐찾 내,외부에서 삭제하기
 
 
 ## 2024-05-29
@@ -24,7 +35,7 @@
 - 메모장에서 삭제한 메모는 휴지통으로 이동하며, 이때, 즐겨찾기한 내용도 취소되어 이동한다 (공통성: 미분류로 지정하며, 즐찾도 취소로 지정된다)
 ### Bug Fixes
 - 크리티컬 이슈: memo model에 isFavorite 속성 추가 후, type 'Null' is not a subtype of type 'bool' in type cast 발생함
--- bool isFavorite => bool? isFavorite 처리하여 Nul이 올 수 있도록 설정함 (null 일수도 있지만, 기본값을 false로 지정했으므로 코드상에는 문제가 없다고 생각하여 진행함)
+- bool isFavorite => bool? isFavorite 처리하여 Nul이 올 수 있도록 설정함 (null 일수도 있지만, 기본값을 false로 지정했으므로 코드상에는 문제가 없다고 생각하여 진행함)
 - 검색어 2 누른 상태에서 외부 즐찾 클릭하면, 동일한 내용의 메모로 다른 메모의 index에 이전에 내용으로 덮어씌운다.
 
 
