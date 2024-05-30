@@ -58,6 +58,8 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    // TextStyle style = TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary);
+
     int getHashCode(DateTime key) {
       return key.day * 1000000 + key.month * 10000 + key.year;
     }
@@ -82,8 +84,7 @@ class _CalendarPageState extends State<CalendarPage> {
           label: const Text('메모 만들기'),
         ),
         appBar: AppBar(
-          title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
-          centerTitle: true,
+          // title: Text('Simple Note', style: style),
         ),
         body: SingleChildScrollView(
           child: Column(

@@ -27,9 +27,10 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // TextStyle style = TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary);
+
     return AppBar(
-      title: Text('Simple Note', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
-      centerTitle: true,
+      // title: Text('Simple Note', style: style),
       actions: [
         IconButton(
             visualDensity: const VisualDensity(horizontal: -4),

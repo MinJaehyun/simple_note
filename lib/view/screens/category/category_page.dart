@@ -48,13 +48,17 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(color: Theme.of(context).colorScheme.primary);
+
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => showAddPopupDialog(context),
           label: const Text('범주 만들기'),
         ),
-        appBar: AppBar(title: Text('Simple Note', style: style), centerTitle: true),
+        appBar: AppBar(
+            // title: Text('Simple Note', style: style),
+            // centerTitle: true,
+            ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -70,7 +74,13 @@ class _CategoryPageState extends State<CategoryPage> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(padding: const EdgeInsets.all(20.0), child: Text('범주', style: style)),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          '범주',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+                        ),
+                      ),
                       Card(child: ListTile(title: Text('모든 (${box.values.length})', style: style))),
                       Card(child: ListTile(title: Text('미분류 (${unclassifiedMemo.length})', style: style))),
                     ],

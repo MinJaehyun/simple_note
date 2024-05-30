@@ -29,7 +29,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
+    // TextStyle style = TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary);
 
     return GestureDetector(
       onTap: () {
@@ -38,8 +38,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Simple Note'),
-            centerTitle: true,
+            // title: Text('Simple Note', style: style),
             actions: [
               // 정렬
               IconButton(
@@ -176,7 +175,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                   child: Text(
                                                     isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
                                                     overflow: TextOverflow.ellipsis,
-                                                    style: style,
+                                                    style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                                                   ),
                                                 ),
                                                 // note: card() 수정 및 복원 버튼
