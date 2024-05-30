@@ -100,7 +100,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
         underline: Container(height: 2, color: Colors.green[100]),
         value: null,
         // ui에 나타낼 _dropdownValue 나타냄
-        hint: Text('$_dropdownValue'),
+        hint: Text('$_dropdownValue', overflow: TextOverflow.ellipsis),
         onChanged: dropdownCallback,
         items: box.values.toList().map<DropdownMenuItem<String>>((value) {
           return DropdownMenuItem<String>(
@@ -113,9 +113,9 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
       );
     }
 
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.white,
           body: Stack(
@@ -137,21 +137,23 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                             ),
                           ),
                           // 범주
-                          ValueListenableBuilder(
-                              valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
-                              builder: (context, Box<CategoryModel> box, _) {
-                                // if (box.values.isEmpty) return Center(child: Text('test update memo'));
-                                return TextButton(
-                                  // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
-                                  style: TextButton.styleFrom(
-                                    minimumSize: Size.zero,
-                                    padding: EdgeInsets.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  onPressed: () {},
-                                  child: dropdownButtonWidget(box),
-                                );
-                              }),
+                          Expanded(
+                            child: ValueListenableBuilder(
+                                valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
+                                builder: (context, Box<CategoryModel> box, _) {
+                                  // if (box.values.isEmpty) return Center(child: Text('test update memo'));
+                                  return TextButton(
+                                    // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
+                                    style: TextButton.styleFrom(
+                                      minimumSize: Size.zero,
+                                      padding: EdgeInsets.zero,
+                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    onPressed: () {},
+                                    child: dropdownButtonWidget(box),
+                                  );
+                                }),
+                          ),
                           // 범주 생성 버튼
                           IconButton(
                             // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
@@ -170,6 +172,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                   ),
 
                   // 중단: 입력창 (제목/내용)
+                  // note: 스크롤 버튼 처리하기 위한 설정
                   NotificationListener<ScrollNotification>(
                     onNotification: (scrollNotification) {
                       return true;
@@ -261,7 +264,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                   Row(
                     children: [
                       TextButton(
-                        child: _isFavorite == false ? Icon(Icons.star_border_sharp, color: null) : Icon(Icons.star, color: Colors.red),
+                        child: _isFavorite == false ? const Icon(Icons.star_border_sharp, color: null) : const Icon(Icons.star, color: Colors.red),
                         onPressed: () {
                           setState(() {
                             _isFavorite = !_isFavorite!;
@@ -276,7 +279,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                           );
                         },
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: ElevatedButton.icon(
                           label: const Text('저장'),

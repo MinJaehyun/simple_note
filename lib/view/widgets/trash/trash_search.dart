@@ -41,19 +41,19 @@ class _TrashSearchState extends State<TrashSearch> {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
               childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
-              mainAxisSpacing: 10, //수평 Padding
-              crossAxisSpacing: 10, //수직 Padding
+              mainAxisSpacing: 0, //수평 Padding
+              crossAxisSpacing: 0, //수직 Padding
             ),
             itemBuilder: (BuildContext context, int index) {
               TrashCanModel currentContact = boxSearchTitleAndMainText[index];
 
               return Card(
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Colors.grey,
                     width: 0.1,
                   ),
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(4.0),
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: CustomPaint(
@@ -76,7 +76,7 @@ class _TrashSearchState extends State<TrashSearch> {
                               child: Row(
                                 children: [
                                   // todo: 추후, 구글 로그인 이미지 넣기
-                                  Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                  const Icon(Icons.account_box, size: 50, color: Colors.grey),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: SubstringHighlight(
@@ -128,20 +128,12 @@ class _TrashSearchState extends State<TrashSearch> {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 80),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    FormatDate().formatDefaultDateKor(currentContact.createdAt),
-                                    style: TextStyle(
-                                      color: Colors.grey.withOpacity(0.9),
-                                    ),
-                                  ),
-                                ),
-                                // todo: 추후 즐찾 구현하기
-                                IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
-                              ],
+                            const SizedBox(height: 110),
+                            Expanded(
+                              child: Text(
+                                FormatDate().formatSimpleTimeKor(currentContact.createdAt),
+                                style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                              ),
                             ),
                           ],
                         ),

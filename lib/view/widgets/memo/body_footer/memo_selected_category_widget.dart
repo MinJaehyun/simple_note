@@ -74,7 +74,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
 
               return Card(
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Colors.grey,
                     width: 0.1,
                   ),
@@ -101,7 +101,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                               child: Row(
                                 children: [
                                   // todo: 추후, 구글 로그인 이미지 넣기
-                                  Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                  const Icon(Icons.account_box, size: 50, color: Colors.grey),
                                   const SizedBox(width: 10.0),
                                   Expanded(
                                     child: Text(
@@ -136,8 +136,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     );
                                   },
                                   icon: currentContact.isFavoriteMemo == false
-                                      ? Icon(Icons.star_border_sharp, color: null)
-                                      : Icon(Icons.star, color: Colors.red),
+                                      ? const Icon(Icons.star_border_sharp, color: null)
+                                      : const Icon(Icons.star, color: Colors.red),
                                 ),
                               ],
                             ),

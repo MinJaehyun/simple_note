@@ -74,8 +74,8 @@ class _CategoryPageState extends State<CategoryPage> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
                         child: Text(
                           '범주',
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),

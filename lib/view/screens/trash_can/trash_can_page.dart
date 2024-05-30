@@ -55,7 +55,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Column(
                   children: [
                     // 상단: 검색창
@@ -72,12 +72,9 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                 width: 1,
                               ),
                             ),
-                            prefixIcon: GestureDetector(
-                              onTap: () {},
-                              child: const Icon(
-                                Icons.search,
-                                size: 24,
-                              ),
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              size: 24,
                             ),
                             prefixIconColor: Colors.grey,
                             suffixIcon: GestureDetector(
@@ -87,7 +84,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                   searchControllerText = null;
                                 });
                               },
-                              child: searchControllerText != null ? Icon(Icons.close, size: 24) : Icon(Icons.transit_enterexit),
+                              child: searchControllerText != null ? const Icon(Icons.close, size: 24) : const Icon(Icons.transit_enterexit),
                             ),
                             suffixIconColor: Colors.grey,
                             hintText: '검색',
@@ -110,8 +107,9 @@ class _TrashCanPageState extends State<TrashCanPage> {
                   ],
                 ),
               ),
-              // todo: 빈공간 배너 넣기
-              SizedBox(height: 72),
+              // todo: 빈공간 배너 넣기: height: 20
+              // note: 검색창 height: 20 을 추가한 넓이: 100
+              const SizedBox(height: 100),
               Expanded(
                 child: ValueListenableBuilder(
                   valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
@@ -139,11 +137,11 @@ class _TrashCanPageState extends State<TrashCanPage> {
                             // 모든 휴지통 내용 출력
                             return Card(
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(
+                                side: const BorderSide(
                                   color: Colors.grey,
                                   width: 0.1,
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(4.0),
                               ),
                               clipBehavior: Clip.antiAlias,
                               child: CustomPaint(
@@ -169,7 +167,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                           Expanded(
                                             child: Row(
                                               children: [
-                                                Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                                const Icon(Icons.account_box, size: 50, color: Colors.grey),
                                                 const SizedBox(width: 10.0),
                                                 Expanded(
                                                   child: Text(
@@ -183,19 +181,13 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                               ],
                                             ),
                                           ),
-                                          const SizedBox(height: 80.0),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  FormatDate().formatSimpleTimeKor(
-                                                      isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
-                                                  style: TextStyle(color: Colors.grey.withOpacity(0.9)),
-                                                ),
-                                              ),
-                                              // todo: 추후 즐찾 구현하기
-                                              IconButton(onPressed: () {}, icon: Icon(Icons.star_border_sharp)),
-                                            ],
+                                          const SizedBox(height: 110.0),
+                                          Expanded(
+                                            child: Text(
+                                              FormatDate().formatSimpleTimeKor(
+                                                  isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
+                                              style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                            ),
                                           ),
                                         ],
                                       ),

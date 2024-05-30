@@ -47,7 +47,7 @@ class _MemoBodyFooterControlStatementsWidgetState extends State<MemoBodyFooterCo
       return MemoSelectedCategoryWidget(widget.selectedCategory);
     } else {
       // 범주 미선택 및 검색 미선택이므로 모든 메모 나타내기
-      return MemoCardWidget();
+      return const MemoCardWidget();
     }
   }
 }

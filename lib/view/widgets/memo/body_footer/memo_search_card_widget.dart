@@ -45,7 +45,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
           }
         }
 
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
@@ -64,7 +64,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
 
               return Card(
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Colors.grey,
                     width: 0.1,
                   ),
@@ -93,7 +93,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                               child: Row(
                                 children: [
                                   // todo: 추후, 구글 로그인 이미지 넣기
-                                  Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                  const Icon(Icons.account_box, size: 50, color: Colors.grey),
                                   const SizedBox(width: 10.0),
                                   Expanded(
                                     // todo: 아래 부분만 다르므로, 이를 위젯으로 처리하면 리펙토링 가능할 듯
@@ -127,7 +127,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    FormatDate().formatDefaultDateKor(sortedCard.createdAt),
+                                    FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
@@ -143,8 +143,8 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                     );
                                   },
                                   icon: currentContact.isFavoriteMemo == false
-                                      ? Icon(Icons.star_border_sharp, color: null)
-                                      : Icon(Icons.star, color: Colors.red),
+                                      ? const Icon(Icons.star_border_sharp, color: null)
+                                      : const Icon(Icons.star, color: Colors.red),
                                 ),
                               ],
                             ),

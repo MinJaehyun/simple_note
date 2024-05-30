@@ -53,7 +53,7 @@ class _CalendarPageState extends State<CalendarPage> {
       }
     }
 
-    setState(() {});  // UI를 업데이트
+    setState(() {}); // UI를 업데이트
   }
 
   @override
@@ -84,135 +84,126 @@ class _CalendarPageState extends State<CalendarPage> {
           label: const Text('메모 만들기'),
         ),
         appBar: AppBar(
-          // title: Text('Simple Note', style: style),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              TableCalendar(
-                locale: 'ko-KR',
-                firstDay: DateTime.utc(2010, 10, 16),
-                lastDay: DateTime.utc(2030, 3, 14),
-                focusedDay: DateTime.now(),
-                calendarFormat: _calendarFormat,
-                onFormatChanged: (format) {
-                  if (_calendarFormat != format) {
-                    setState(() {
-                      _calendarFormat = format;
-                    });
-                  }
-                },
-                // note: 날짜 선택 시, Datetime 타입의 day 를 받을 수 있고 bool 타입을 반환한다.
-                selectedDayPredicate: (day) {
-                  return isSameDay(_selectedDay, day);
-                },
-                onDaySelected: (selectedDay, focusedDay) {
-                  if (!isSameDay(_selectedDay, selectedDay)) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                    });
-                    getEventForDay(selectedDay);
-                  }
-                },
-                onPageChanged: (focusedDay) {
-                  _focusedDay = focusedDay;
-                },
-                // note: eventLoader: (day){}는? 선택한 달에 나타나는 모든 날짜를 의미한다.
-                eventLoader: (day) {
-                  return getEventForDay(day);
-                },
-                // note: 이하 style
-                headerStyle: buildHeaderStyle(),
-                calendarStyle: buildCalendarStyle(),
-              ),
-              ValueListenableBuilder(
-                valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
-                builder: (context, Box<MemoModel> box, _) {
-                  dateTimeUtc = box.values.map((e) {
-                    return e.createdAt;
-                  }).toList();
+            // title: Text('Simple Note', style: style),
+            ),
+        body: Column(
+          children: [
+            TableCalendar(
+              locale: 'ko-KR',
+              firstDay: DateTime.utc(2010, 10, 16),
+              lastDay: DateTime.utc(2030, 3, 14),
+              focusedDay: DateTime.now(),
+              calendarFormat: _calendarFormat,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              // note: 날짜 선택 시, Datetime 타입의 day 를 받을 수 있고 bool 타입을 반환한다.
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                if (!isSameDay(_selectedDay, selectedDay)) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                  });
+                  getEventForDay(selectedDay);
+                }
+              },
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
+              },
+              // note: eventLoader: (day){}는? 선택한 달에 나타나는 모든 날짜를 의미한다.
+              eventLoader: (day) {
+                return getEventForDay(day);
+              },
+              // note: 이하 style
+              headerStyle: buildHeaderStyle(),
+              calendarStyle: buildCalendarStyle(),
+            ),
+            ValueListenableBuilder(
+              valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
+              builder: (context, Box<MemoModel> box, _) {
+                dateTimeUtc = box.values.map((e) {
+                  return e.createdAt;
+                }).toList();
 
-                  textTitle = box.values.map((e) {
-                    return e.title;
-                  }).toList();
+                textTitle = box.values.map((e) {
+                  return e.title;
+                }).toList();
 
-                  for (int i = 0; i < dateTimeUtc.length; i++) {
-                    eventsList.addAll({
-                      dateTimeUtc[i]: [textTitle]
-                    });
-                  }
+                for (int i = 0; i < dateTimeUtc.length; i++) {
+                  eventsList.addAll({
+                    dateTimeUtc[i]: [textTitle]
+                  });
+                }
 
-                  classifiedTimeMemo =
-                      box.values.where((item) => FormatDate().formatDayEng(item.createdAt) == FormatDate().formatDayEng(_selectedDay!)).toList();
+                classifiedTimeMemo = box.values.where((item) {
+                  return FormatDate().formatDayEng(item.createdAt) == FormatDate().formatDayEng(_selectedDay!);
+                }).toList();
 
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Column(
-                      children: [
-                        CustomPaint(
-                          painter: GridPainter(),
-                          child: SizedBox(
-                            height: 50,
-                            // color: Colors.cyan,
-                            child: Row(
-                              children: [
-                                // note: 달력 선택하면 선택한 날짜(_selectedDay)를 나타낸다
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(FormatDate().formatDefaultDateKor(_selectedDay!)),
-                                  ),
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    children: [
+                      CustomPaint(
+                        painter: GridPainter(),
+                        child: SizedBox(
+                          height: 50,
+                          // color: Colors.cyan,
+                          child: Row(
+                            children: [
+                              // note: 달력 선택하면 선택한 날짜(_selectedDay)를 나타낸다
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(FormatDate().formatDefaultDateKor(_selectedDay!)),
                                 ),
-                                Text('총 ${classifiedTimeMemo.length ?? 0} 개'),
-                              ],
-                            ),
+                              ),
+                              Text('총 ${classifiedTimeMemo.length} 개'),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          height: 245,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: classifiedTimeMemo.length,
-                            itemBuilder: (context, index) {
-                              MemoModel? currentContact = classifiedTimeMemo[index];
-                              return SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    // 시간 지나기 전: 녹색, 시간 지난 후: 빨강
-                                    // todo: 시작 시간으로 오름차순 정렬하기
-                                    Card(
-                                      child: ListTile(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(builder: (context) {
-                                              return UpdateMemoPage(index: index, currentContact: currentContact);
-                                            }),
-                                          );
-                                        },
-                                        leading: isAlarmColor
-                                            ? const Icon(Icons.access_alarm, color: Colors.red)
-                                            : const Icon(Icons.access_alarm, color: Colors.green),
-                                        title: Text(currentContact.title),
-                                        subtitle: Text(FormatDate().formatDotDateTimeKor(currentContact.createdAt),
-                                            style: TextStyle(color: Colors.grey[500])),
-                                        dense: true,
-                                        trailing: MemoCalendarPopupButtonWidget(index, currentContact),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                      ),
+                      SizedBox(
+                        height: 245,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: classifiedTimeMemo.length,
+                          itemBuilder: (context, index) {
+                            MemoModel? currentContact = classifiedTimeMemo[index];
+                            return Card(
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return UpdateMemoPage(index: index, currentContact: currentContact);
+                                    }),
+                                  );
+                                },
+                                leading: isAlarmColor
+                                    ? const Icon(Icons.access_alarm, color: Colors.red)
+                                    : const Icon(Icons.access_alarm, color: Colors.green),
+                                title: Text(currentContact.title),
+                                subtitle:
+                                    Text(FormatDate().formatDotDateTimeKor(currentContact.createdAt), style: TextStyle(color: Colors.grey[500])),
+                                dense: true,
+                                trailing: MemoCalendarPopupButtonWidget(index, currentContact),
+                              ),
+                            );
+                          },
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         // note: footer/navigation_bar
         bottomNavigationBar: const FooterNavigationBarWidget(0),

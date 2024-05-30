@@ -9,7 +9,7 @@ import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
 
 //ignore: must_be_immutable
 class AppBarSortWidget extends StatefulWidget implements PreferredSizeWidget {
-  AppBarSortWidget(this.index, {super.key});
+  const AppBarSortWidget(this.index, {super.key});
 
   final int index;
 
@@ -49,7 +49,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
         valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
         builder: (context, Box<MemoModel> box, _) {
           return AlertDialog(
-            title: Column(
+            title: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('정렬 선택'),
@@ -94,11 +94,11 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
                     // todo: MemoPage() 인지, TrashCanPage() 인지 구별해서 설정해야 한다. 방법은 ?
                     if(widget.index == 2) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                        return MemoPage();
+                        return const MemoPage();
                       }));
                     } else if(widget.index == 3) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                        return TrashCanPage();
+                        return const TrashCanPage();
                       }));
                     }
                   },

@@ -293,10 +293,10 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 15),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: ElevatedButton.icon(
-                              label: const Text('복원하기'),
+                              label: const Text('복원'),
                               icon: const Icon(Icons.restore),
                               onPressed: () => showDialog<String>(
                                 context: context,
@@ -331,6 +331,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                               ),
                             ),
                           ),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: ElevatedButton.icon(
                               label: const Text('취소'),
