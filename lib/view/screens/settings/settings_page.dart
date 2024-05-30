@@ -39,7 +39,10 @@ class _SettingsState extends State<Settings> {
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('사용자 정의', style: TextStyle(color: Colors.blue, fontSize: 16)),
+                      child: Text(
+                        '사용자 정의',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+                      ),
                     ),
                     Card(
                       child: ValueListenableBuilder(
@@ -207,7 +210,7 @@ class _SettingsState extends State<Settings> {
                                       children: [
                                         Icon(Icons.format_shapes),
                                         SizedBox(width: 16),
-                                        Text('글자 크기',style: TextStyle(fontSize: 16)),
+                                        Text('글자 크기', style: TextStyle(fontSize: 16)),
                                       ],
                                     ),
                                     Slider(
@@ -237,8 +240,11 @@ class _SettingsState extends State<Settings> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding:  EdgeInsets.all(8.0),
-                      child: Text('일반', style: TextStyle(color: Colors.blue, fontSize: 16)),
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        '일반',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+                      ),
                     ),
                     Card(
                       child: Column(
@@ -265,9 +271,12 @@ class _SettingsState extends State<Settings> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                      const Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('정보', style: TextStyle(color: Colors.blue, fontSize: 16)),
+                      child: Text(
+                        '정보',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+                      ),
                     ),
                     Card(
                       child: Column(

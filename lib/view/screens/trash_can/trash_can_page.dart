@@ -55,7 +55,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
                     // 상단: 검색창
@@ -108,8 +108,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                 ),
               ),
               // todo: 빈공간 배너 넣기: height: 20
-              // note: 검색창 height: 20 을 추가한 넓이: 100
-              const SizedBox(height: 100),
+              const SizedBox(height: 75),
               Expanded(
                 child: ValueListenableBuilder(
                   valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
@@ -167,7 +166,15 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                           Expanded(
                                             child: Row(
                                               children: [
-                                                const Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                                IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(Icons.account_box),
+                                                  padding: EdgeInsets.zero,
+                                                  // 패딩 설정
+                                                  constraints: BoxConstraints(),
+                                                  iconSize: 50,
+                                                  color: Colors.grey,
+                                                ),
                                                 const SizedBox(width: 10.0),
                                                 Expanded(
                                                   child: Text(
@@ -181,13 +188,22 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                               ],
                                             ),
                                           ),
-                                          const SizedBox(height: 110.0),
-                                          Expanded(
-                                            child: Text(
-                                              FormatDate().formatSimpleTimeKor(
-                                                  isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt),
-                                              style: TextStyle(color: Colors.grey.withOpacity(0.9)),
-                                            ),
+                                          const SizedBox(height: 90.0),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  FormatDate().formatSimpleTimeKor(
+                                                    isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt,
+                                                  ),
+                                                  style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: null,
+                                                icon: SizedBox.shrink(), // 비어있는 아이콘 버튼
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),

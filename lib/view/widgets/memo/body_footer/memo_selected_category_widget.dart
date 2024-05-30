@@ -78,7 +78,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                     color: Colors.grey,
                     width: 0.1,
                   ),
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(4.0),
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: CustomPaint(
@@ -97,25 +97,32 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  // todo: 추후, 구글 로그인 이미지 넣기
-                                  const Icon(Icons.account_box, size: 50, color: Colors.grey),
-                                  const SizedBox(width: 10.0),
-                                  Expanded(
-                                    child: Text(
-                                      sortedCard.title,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: style,
-                                    ),
+                            Row(
+                              children: [
+                                // todo: 추후, 구글 로그인 이미지 넣기
+                                IconButton(
+                                  onPressed: (){
+
+                                  },
+                                  icon: Icon(Icons.account_box),
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(),
+                                  iconSize: 50,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(width: 10.0),
+                                Expanded(
+                                  child: Text(
+                                    sortedCard.title,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: style,
                                   ),
-                                  // todo: 아래 2번째 인자가 다르다
-                                  MemoCalendarPopupButtonWidget(index, currentContact),
-                                ],
-                              ),
+                                ),
+                                // todo: 아래 2번째 인자가 다르다
+                                MemoCalendarPopupButtonWidget(index, currentContact),
+                              ],
                             ),
-                            const SizedBox(height: 80.0),
+                            const SizedBox(height: 90.0),
                             Row(
                               children: [
                                 Expanded(

@@ -76,7 +76,15 @@ class _TrashSearchState extends State<TrashSearch> {
                               child: Row(
                                 children: [
                                   // todo: 추후, 구글 로그인 이미지 넣기
-                                  const Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.account_box),
+                                    padding: EdgeInsets.zero,
+                                    // 패딩 설정
+                                    constraints: BoxConstraints(),
+                                    iconSize: 50,
+                                    color: Colors.grey,
+                                  ),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: SubstringHighlight(
@@ -88,11 +96,12 @@ class _TrashSearchState extends State<TrashSearch> {
                                       textStyle: const TextStyle(
                                         color: Colors.grey,
                                         overflow: TextOverflow.ellipsis,
+                                        height: 1.0, // 여기에서 높이를 조절합니다.
                                       ),
                                       // highlight style
                                       textStyleHighlight: const TextStyle(
                                         overflow: TextOverflow.ellipsis,
-                                        fontSize: 24.0,
+                                        fontSize: 20.0,
                                         color: Colors.black,
                                         backgroundColor: Colors.yellow,
                                       ),
@@ -128,12 +137,20 @@ class _TrashSearchState extends State<TrashSearch> {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 110),
-                            Expanded(
-                              child: Text(
-                                FormatDate().formatSimpleTimeKor(currentContact.createdAt),
-                                style: TextStyle(color: Colors.grey.withOpacity(0.9)),
-                              ),
+                            const SizedBox(height: 90),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    FormatDate().formatSimpleTimeKor(currentContact.createdAt),
+                                    style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: null,
+                                  icon: SizedBox.shrink(), // 비어있는 아이콘 버튼
+                                ),
+                              ],
                             ),
                           ],
                         ),

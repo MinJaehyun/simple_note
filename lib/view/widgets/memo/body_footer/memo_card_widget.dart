@@ -69,14 +69,23 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                       padding: const EdgeInsets.all(4.0),
                       child: ListTile(
                         titleAlignment: ListTileTitleAlignment.titleHeight,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
                                 // todo: 추후, 구글 로그인 이미지 넣기
-                                const Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                IconButton(
+                                  onPressed: (){
+
+                                  },
+                                  icon: Icon(Icons.account_box),
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(),
+                                  iconSize: 50,
+                                  color: Colors.grey,
+                                ),
                                 const SizedBox(width: 10.0),
                                 Expanded(
                                   child: Text(
@@ -91,7 +100,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                               ],
                             ),
                             // todo: 아래 내용 넣기
-                            const SizedBox(height: 80.0),
+                            const SizedBox(height: 90.0),
                             Row(
                               children: [
                                 Expanded(
