@@ -19,17 +19,26 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('새로운 범주 추가'),
-      content: TextField(
-        controller: categoryController,
-        decoration: const InputDecoration(
-          hintText: '범주를 입력해 주세요',
-        ),
-        onChanged: (value) {
-          if (value.isNotEmpty) {
-            category = value;
-          }
-        },
-        autofocus: true,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('중복으로 범주를 추가할 수 없습니다', style: TextStyle(color: Colors.grey[600])),
+          SizedBox(height: 10),
+          TextField(
+            maxLength: 17,
+            controller: categoryController,
+            decoration: const InputDecoration(
+              hintText: '범주를 입력해 주세요',
+            ),
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                category = value;
+              }
+            },
+            autofocus: true,
+          ),
+        ],
       ),
       actions: [
         TextButton(
