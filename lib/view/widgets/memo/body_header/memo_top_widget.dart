@@ -97,96 +97,101 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                         ),
                         SizedBox(height: 15),
                         // 상단2: 모든, 미분류, 생성한 범주
-                        Row(
-                          children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              // note: 선택한 범주가 '모든(null)' 이면 빨강 박스로
-                              color: selectedCategory == null ? Colors.red : null,
-                              child: TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    selectedCategory = null;
-                                    searchControllerText = null;
-                                    searchController.clear();
-                                  });
-                                },
-                                child: Text(
-                                  '모든',
-                                  // note: 선택한 범주가 '모든(null)' 이면 ...
-                                  style: TextStyle(color: selectedCategory == null ? Colors.white : null),
-                                ),
-                              ),
-                            ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              color: selectedCategory == '미분류' ? Colors.red : null,
-                              child: TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    selectedCategory = '미분류';
-                                    searchControllerText = null;
-                                    searchController.clear();
-                                  });
-                                },
-                                child: Text(
-                                  '미분류',
-                                  style: TextStyle(color: selectedCategory == '미분류' ? Colors.white : null),
-                                ),
-                              ),
-                            ),
-                            // 상단: 생성한 카테고리
-                            SizedBox(
-                              width: 230,
-                              height: 60,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox();
-                                },
-                                itemCount: box.values.length,
-                                itemBuilder: (context, index) {
-                                  CategoryModel? categoryContact = box.getAt(index);
-                                  return Card(
+                        SizedBox(
+                          width: 363,
+                          height: 56,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: Colors.grey,
+                                        width: 0.1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                    // note: 선택한 범주가 '모든(null)' 이면 빨강 박스로
+                                    color: selectedCategory == null ? Colors.red : null,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedCategory = null;
+                                          searchControllerText = null;
+                                          searchController.clear();
+                                        });
+                                      },
+                                      child: Text(
+                                        '모든',
+                                        // note: 선택한 범주가 '모든(null)' 이면 ...
+                                        style: TextStyle(color: selectedCategory == null ? Colors.white : null),
+                                      ),
+                                    ),
+                                  ),
+                                  Card(
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                         color: Colors.grey,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderRadius: BorderRadius.circular(4.0),
                                     ),
-                                    color: selectedCategory == categoryContact!.categories ? Colors.red : null,
-                                    clipBehavior: Clip.antiAlias,
+                                    color: selectedCategory == '미분류' ? Colors.red : null,
                                     child: TextButton(
                                       onPressed: () {
                                         setState(() {
+                                          selectedCategory = '미분류';
                                           searchControllerText = null;
                                           searchController.clear();
-                                          selectedCategory = categoryContact.categories;
                                         });
                                       },
                                       child: Text(
-                                        '${categoryContact.categories}',
-                                        style: TextStyle(color: selectedCategory == categoryContact.categories ? Colors.white : null),
+                                        '미분류',
+                                        style: TextStyle(color: selectedCategory == '미분류' ? Colors.white : null),
                                       ),
                                     ),
-                                  );
-                                },
+                                  ),
+                                  // note: [] 내에서 ...box 사용하여 ListView 대신 반복하는 방법: SingleChildScrollView 내에 ListView 사용 시 충돌함!
+                                  // child: ListView.separated(
+                                  //   scrollDirection: Axis.horizontal,
+                                  //   separatorBuilder: (context, index) {
+                                  //     return const SizedBox();
+                                  //   },
+                                  //   itemCount: box.values.length,
+                                  //   itemBuilder: (context, index) {
+                                  //     CategoryModel? categoryContact = box.getAt(index);
+                                  ...box.values.map((categoryContact) {
+                                    return Card(
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                          color: Colors.grey,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius: BorderRadius.circular(4.0),
+                                      ),
+                                      color: selectedCategory == categoryContact!.categories ? Colors.red : null,
+                                      clipBehavior: Clip.antiAlias,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            searchControllerText = null;
+                                            searchController.clear();
+                                            selectedCategory = categoryContact.categories;
+                                          });
+                                        },
+                                        child: Text(
+                                          '${categoryContact.categories}',
+                                          style: TextStyle(color: selectedCategory == categoryContact.categories ? Colors.white : null),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ],
                               ),
                             ),
-                          ],
+                            // },
+                          // ),
                         ),
                       ],
                     ),
