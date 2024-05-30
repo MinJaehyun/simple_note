@@ -10,6 +10,7 @@ import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 // todo: 추후 hive_helper_dark_mode 파일로 분리하기
 const themeModeBox = 'themeModel';
@@ -30,14 +31,31 @@ void main() async {
   await initializeDateFormatting();
   // note: GetX Controller 초기화 - 테스트 중...
   Get.put(SettingsController());
+
+  // note: flutter_native_splash 설정 중 필요한 세팅
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Future.delayed(const Duration(seconds: 3));
+  // FlutterNativeSplash.remove();
+
+  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // Firebase.initializeApp().whenComplete(() => {
+  //   FlutterNativeSplash.remove() });
   runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
+
     final settingsController = Get.find<SettingsController>();
 
     // note: 다크 모드을 위한 ValueListenableBuilder
