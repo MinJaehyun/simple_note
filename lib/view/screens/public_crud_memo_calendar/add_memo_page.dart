@@ -24,6 +24,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
   late String _dropdownValue;
   bool _showScrollToTopButton = false;
   final ScrollController _scrollController = ScrollController();
+  late bool? _isFavorite = false;
 
   @override
   void initState() {
@@ -246,6 +247,15 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       // 하단: 저장 및 취소
                       Row(
                         children: [
+                          TextButton(
+                            child: _isFavorite == false ? const Icon(Icons.star_border_sharp, color: null) : const Icon(Icons.star, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                _isFavorite = !_isFavorite!;
+                              });
+                            },
+                          ),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: ElevatedButton.icon(
                               label: const Text('저장'),
@@ -259,7 +269,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     title: title,
                                     mainText: mainText,
                                     selectedCategory: _dropdownValue,
-                                    isFavoriteMemo: false,
+                                    isFavoriteMemo: _isFavorite!,
                                   );
                                   Navigator.of(context).pop();
                                 }
