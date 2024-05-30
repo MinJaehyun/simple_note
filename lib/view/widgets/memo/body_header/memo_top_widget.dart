@@ -87,7 +87,9 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 setState(() {
-                                  searchController.text = value;
+                                  // 변경 전: 자음 한개씩 가져오는게 아닌, 전체를 가져오도록 변경
+                                  // searchController.text = value;
+                                  // 변경 후
                                   searchControllerText = searchController.text;
                                 });
                               },
