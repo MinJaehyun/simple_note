@@ -126,15 +126,14 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
             // Get.offAll(() => const Settings());
 
             Get.snackbar(
-              '기능을 준비 중 입니다',
+              '공지: ',
               '업데이트 준비 중: \n'
-                  '1. 구글 로그인 및 구글 동기화, \n'
-                  '2. 메모장 글꼴, 스킨 선택 기능 \n'
-                  '3. 즐겨 찾기 \n'
-                  '4. 태그 \n'
-                  '5. 달력 내 알림 및 타임라인 \n \n'
+                  '1. 백업 및 복원 (google drive), \n'
+                  '2. 메모장 스킨 \n'
+                  '3. 태그 \n'
+                  '4. 메모 알람 및 달력 타임 라인 \n \n'
                   '등등 많은 기능을 다듬고 있습니다. 좀 더 기다려 주세요 :) \n',
-              colorText: Colors.orange,
+              colorText: Colors.blue,
               snackPosition: SnackPosition.BOTTOM,
               forwardAnimationCurve: Curves.elasticInOut,
               reverseAnimationCurve: Curves.easeOut,
