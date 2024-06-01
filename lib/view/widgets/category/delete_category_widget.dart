@@ -34,7 +34,7 @@ class _DeleteCategoryWidgetState extends State<DeleteCategoryWidget> {
           child: const Text('삭제'),
           onPressed: () {
             if (categoryToDelete != null) {
-              var box = Hive.box<MemoModel>(MemoBox);
+              Box<MemoModel> box = Hive.box<MemoModel>(MemoBox);
               List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == categoryToDelete).toList();
               // 각 메모의 범주를 '미분류'로 업데이트?
               for (MemoModel memo in memosToUpdate) {

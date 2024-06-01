@@ -68,8 +68,8 @@ class MyApp extends StatelessWidget {
         //   print('$key: $value');
         // });
 
-        var darkMode = box.get('darkMode', defaultValue: true); // Hive
-        // bool darkMode = settingsController.isDarkMode.value; // getx
+        bool darkMode = box.get('darkMode', defaultValue: true); // Hive
+        // RxBool darkMode = settingsController.isDarkMode; // getx
         String selectedFont = settingsController.selectedFont.value.name; // enum의 name을 사용
 
         return GetMaterialApp(

@@ -49,8 +49,9 @@ class _SettingsState extends State<Settings> {
                         // valueListenable: Hive.box('themeModel').listenable(keys: ['darkMode']), // 변경 전: 불필요한 요소 제거?
                         valueListenable: Hive.box('themeModel').listenable(),
                         builder: (context, box, child) {
-                          var darkMode = box.get('darkMode', defaultValue: false);
-                          var gridMode = box.get('gridMode', defaultValue: false);
+                          // note: RxBool 인지 bool 인지에 따라 , Hive Box에서 가져왔는지 GetX controller에서 가져왔는지 확인이 가능하다..
+                          bool darkMode = box.get('darkMode', defaultValue: false);
+                          bool gridMode = box.get('gridMode', defaultValue: false);
 
                           return Column(
                             children: [

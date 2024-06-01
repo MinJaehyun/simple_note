@@ -5,17 +5,18 @@ import 'package:simple_note/view/screens/settings/settings_page.dart';
 enum SortedTime { firstTime, lastTime }
 
 class SettingsController extends GetxController {
-  var isDarkMode = false.obs;
-  var gridMode = false.obs;
-  var selectedFont = SelectedFont.pretendard.obs;
-  var fontSizeSlide = 20.0.obs;
-  var sortedTime = SortedTime.firstTime.obs;
+  RxBool isDarkMode = false.obs;
+  RxBool gridMode = false.obs;
+  RxDouble fontSizeSlide = 20.0.obs;
+  Rx<SelectedFont> selectedFont = SelectedFont.pretendard.obs;
+  Rx<SortedTime> sortedTime = SortedTime.firstTime.obs;
 
+  Box<dynamic> box = Hive.box('themeModel');
 
   @override
   void onInit() {
     super.onInit();
-    var box = Hive.box('themeModel');
+    // Box<dynamic> box = Hive.box('themeModel');
 
     // isDarkMode.value = box.get('darkMode', defaultValue: false);
     // isDarkMode 값을 가져올 때 double 값이 할당되지 않도록 확인
@@ -49,24 +50,20 @@ class SettingsController extends GetxController {
   // sort
   void updateSortedName(SortedTime value) {
     sortedTime.value = value;
-    var box = Hive.box('themeModel');
     box.put('sortedTime', value.index);
   }
 
   void updateFontSlider(double value) {
     fontSizeSlide.value = value;
-    var box = Hive.box('themeModel');
     box.put('fontSizeSlide', value);
   }
 
   void updateFont(SelectedFont font) {
     selectedFont.value = font;
-    var box = Hive.box('themeModel');
     box.put('selectedFont', font.index);
   }
 
   void toggleDarkMode(bool value) {
-    var box = Hive.box('themeModel');
     isDarkMode.value = !isDarkMode.value;
     box.put('darkMode', isDarkMode.value);
   }

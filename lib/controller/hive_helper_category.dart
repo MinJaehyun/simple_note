@@ -21,7 +21,7 @@ class HiveHelperCategory {
   // note: CRUD
   Future create(String data) async {
     /** 만약 값이 없으면 해당 데이터를 추가하고, 있으면 해당 데이터를 추가하지 않는다 **/
-    var containedCategories = categoriesBox!.values.where((item) => item.categories == data);
+    List<CategoryModel> containedCategories = categoriesBox!.values.where((item) => item.categories == data).toList();
     if(containedCategories.isEmpty) {
       categoriesBox?.add(CategoryModel(data));
     }
@@ -29,7 +29,7 @@ class HiveHelperCategory {
   }
 
   Future update({required int index, required String data}) async {
-    var containedCategories = categoriesBox!.values.where((item) => item.categories == data);
+    List<CategoryModel> containedCategories = categoriesBox!.values.where((item) => item.categories == data).toList as List<CategoryModel>;
     if(containedCategories.isEmpty) {
       categoriesBox!.putAt(index, CategoryModel(data));
     }

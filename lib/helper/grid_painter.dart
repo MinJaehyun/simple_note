@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/main.dart';
 
 class GridPainter extends CustomPainter {
-  var box = Hive.box(themeModeBox);
+  Box<dynamic> box = Hive.box(themeModeBox);
   bool? isGridVisible;
 
   @override

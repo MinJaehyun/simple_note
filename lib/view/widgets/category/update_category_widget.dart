@@ -56,7 +56,7 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
             if (categoryToUpdate != null) {
               HiveHelperCategory().update(index: widget.index, data: category!);
 
-              var box = Hive.box<MemoModel>(MemoBox);
+              Box<MemoModel> box = Hive.box<MemoModel>(MemoBox);
               List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == categoryToUpdate).toList();
 
               for (MemoModel memo in memosToUpdate) {

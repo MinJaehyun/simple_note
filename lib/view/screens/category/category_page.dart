@@ -67,7 +67,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
                 builder: (context, Box<MemoModel> box, _) {
                   // note: 미분류 메모: unclassifiedMemo 는 해당 ValueListenableBuilder 내에서만 사용할 것이므로 변수 타입 선언
-                  var unclassifiedMemo = box.values.toList().where((item) => item.selectedCategory == '미분류');
+                  List<MemoModel> unclassifiedMemo = box.values.toList().where((item) => item.selectedCategory == '미분류').toList();
                   // note: 분류된 메모 - err: 기능 오류인 이유? var를 밖에 선언하고 다른 ValueListenableBuilder에서 사용하면 에러난다!
                   // classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory).toList();
 
@@ -108,8 +108,8 @@ class _CategoryPageState extends State<CategoryPage> {
                             newIndex -= 1;
                           }
                           // 카테고리 순서 변경
-                          var newList = box.values.toList();
-                          var movedItem = newList.removeAt(oldIndex);
+                          List<CategoryModel> newList = box.values.toList();
+                          CategoryModel movedItem = newList.removeAt(oldIndex);
                           newList.insert(newIndex, movedItem);
                           await box.clear();
                           await box.addAll(newList);
