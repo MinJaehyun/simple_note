@@ -59,7 +59,12 @@ class SettingsController extends GetxController {
   }
 
   void toggleDarkMode(bool value) {
-    isDarkMode.value = !isDarkMode.value;
-    box.put('darkMode', isDarkMode.value);
+    // 변경 전:
+    // isDarkMode.value = !isDarkMode.value;
+    // box.put('darkMode', isDarkMode.value);
+
+    // 변경 후: bool는 .toggle() 기능으로 간편하게 처리할 수 있다
+    isDarkMode.toggle();
+    box.put('darkMode', isDarkMode.toggle());
   }
 }
