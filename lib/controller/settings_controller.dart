@@ -20,28 +20,23 @@ class SettingsController extends GetxController {
 
     // isDarkMode.value = box.get('darkMode', defaultValue: false);
     // isDarkMode 값을 가져올 때 double 값이 할당되지 않도록 확인
-    dynamic darkModeValue = box.get('darkMode', defaultValue: false);
-    if (darkModeValue is bool) {
+    bool darkModeValue = box.get('darkMode', defaultValue: false);
+    if (darkModeValue) {
       isDarkMode.value = darkModeValue;
     } else {
       isDarkMode.value = false; // 기본값으로 설정
     }
 
     // gridMode 값을 가져올 때 double 값이 할당되지 않도록 확인
-    dynamic gridModeValue = box.get('gridMode', defaultValue: false);
-    if (gridModeValue is bool) {
+    bool gridModeValue = box.get('gridMode', defaultValue: false);
+    if (gridModeValue) {
       gridMode.value = gridModeValue;
     } else {
       gridMode.value = false; // 기본값으로 설정
     }
-
-    // todo: 아래 필요한 코드인지?
-    dynamic selectedFontValue = box.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
-    if (selectedFontValue is int) {
-      selectedFont.value = SelectedFont.values[selectedFontValue];
-    } else {
-      selectedFont.value = SelectedFont.pretendard; // 혹은 원하는 기본값으로 설정
-    }
+    
+    int selectedFontValue = box.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
+    selectedFont.value = SelectedFont.values[selectedFontValue];
 
     double fontSizeValue = box.get('fontSizeSlide', defaultValue: 20.0);
     fontSizeSlide.value = fontSizeValue;
