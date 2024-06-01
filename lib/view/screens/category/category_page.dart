@@ -116,7 +116,18 @@ class _CategoryPageState extends State<CategoryPage> {
                       children: [
                         for (int index = 0; index < box.values.length; index++)
                           Dismissible(
-                            key: UniqueKey(), // Use UniqueKey for each Dismissible to avoid issues with duplicate keys
+                            key: UniqueKey(),
+                            background: Container(
+                              color: Colors.red,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(Icons.cancel),
+                                  SizedBox(width: 35),
+                                ],
+                              ),
+                            ),
+
                             onDismissed: (direction) async {
                               // Delete the category and associated memos
                               final categoryToDelete = box.getAt(index)!;
@@ -124,6 +135,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               // Delete associated memos
                               List<MemoModel> memosToDelete =
                                   Hive.box<MemoModel>(MemoBox).values.where((memo) => memo.selectedCategory == categoryToDelete.categories).toList();
+
                               for (MemoModel memo in memosToDelete) {
                                 await memo.delete();
                               }
@@ -133,7 +145,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               child: ListTile(
                                 onTap: () {
                                   if (selectedCategory != null) {
-                                      selectedCategory = box.getAt(index)!.categories!;
+                                    selectedCategory = box.getAt(index)!.categories!;
                                   }
                                   updateClassifiedMemo();
                                 },
