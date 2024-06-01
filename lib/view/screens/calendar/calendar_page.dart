@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:simple_note/const/colors.dart';
 import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/helper/grid_painter.dart';
@@ -53,7 +54,7 @@ class _CalendarPageState extends State<CalendarPage> {
       }
     }
 
-    setState(() {}); // UI를 업데이트
+    setState(() {});
   }
 
   @override
@@ -121,8 +122,76 @@ class _CalendarPageState extends State<CalendarPage> {
               eventLoader: (day) {
                 return getEventForDay(day);
               },
+
+              calendarBuilders: CalendarBuilders(
+                defaultBuilder: (context, day, focusedDay) {
+                  return Center(
+                    child: Text(
+                      '${day.day}',
+                      style: TextStyle(color: DARK_GREY_COLOR, fontWeight: FontWeight.w600),
+                    ),
+                  );
+                },
+                selectedBuilder: (context, day, focusedDay) {
+                  return Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: PRIMARY_COLOR.withOpacity(0.5),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(4)
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${day.day}',
+                          style: const TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                todayBuilder: (context, day, focusedDay) {
+                  return Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.orangeAccent.withOpacity(0.5),
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${day.day}',
+                          style: const TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                outsideBuilder: (context, day, focusedDay) {
+                  return Center(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        // color: Colors.grey,
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${day.day}',
+                          style: TextStyle(color: Colors.grey[500]),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                headerTitleBuilder: (context, day) {
+                  return Text(
+                    DateFormat('yyyy.MM').format(DateTime.now()),
+                    style: const TextStyle(fontSize: 20),
+                  );
+                },
+              ),
+
               // note: 이하 style
-              headerStyle: buildHeaderStyle(),
+              // headerTitleBuilder 와 headerStyle 둘 다 적용되지 않는다..
+              // headerStyle: buildHeaderStyle(),
               calendarStyle: buildCalendarStyle(),
             ),
             ValueListenableBuilder(
@@ -170,7 +239,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 245,
+                        height: 205,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: classifiedTimeMemo.length,
@@ -211,32 +280,40 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
+  // 미사용: 위에 직접 설정 넣음
   HeaderStyle buildHeaderStyle() {
     return const HeaderStyle(
       // note: 2week 기능
-      // formatButtonVisible: false,
-      titleCentered: true,
-      titleTextStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+      // formatButtonVisible: true,
+      // titleCentered: true,
+      // titleTextStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
     );
   }
 
+  // 사용: 위에 부분적으로 사용중
   CalendarStyle buildCalendarStyle() {
     return CalendarStyle(
       // note: 오늘 날짜 흐린 스타일 제거하기
       isTodayHighlighted: false,
       // note: 평일 style
       defaultDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(4),
         color: LIGHT_GREY_COLOR,
       ),
       // note: 주말 style
       weekendDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(4),
         color: LIGHT_GREY_COLOR,
       ),
       // note: 선택한 날짜 style
       selectedDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        // shape: BoxShape.circle,
+        shape: BoxShape.rectangle,
+        // error: Failed assertion: line 128 pos 12: 'shape != BoxShape.circle || borderRadius == null': is not true.
+        // note: 선택한 날짜에 rectangle 와 circular 사용하면 위 에러 발생하여 임시로 아래 주석처리
+        // borderRadius: BorderRadius.circular(10),
         color: PRIMARY_COLOR.withOpacity(0.5),
       ),
       // note: 평일 글꼴 style
@@ -259,7 +336,7 @@ class _CalendarPageState extends State<CalendarPage> {
       // 자동정렬 여부
       markersAutoAligned: true,
       // marker 크기 조절
-      markerSize: 7.0,
+      markerSize: 9.0,
       // marker 크기 비율 조절
       markerSizeScale: 10.0,
       // marker 의 기준점 조정
@@ -270,12 +347,11 @@ class _CalendarPageState extends State<CalendarPage> {
       markersAlignment: Alignment.bottomCenter,
       // 한줄에 보여지는 marker 갯수
       markersMaxCount: 1,
-      //
       markersOffset: const PositionedOffset(),
       // marker 모양 조정
       markerDecoration: const BoxDecoration(
         color: Colors.deepOrangeAccent,
-        shape: BoxShape.rectangle,
+        shape: BoxShape.circle,
       ),
     );
   }
