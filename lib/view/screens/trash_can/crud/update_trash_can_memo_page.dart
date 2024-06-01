@@ -110,7 +110,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          backgroundColor: Colors.white,
           body: ValueListenableBuilder(
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {

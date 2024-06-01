@@ -102,7 +102,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          backgroundColor: Colors.white,
           body: ValueListenableBuilder(
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {

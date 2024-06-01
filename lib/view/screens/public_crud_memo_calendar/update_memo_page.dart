@@ -117,7 +117,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
           body: Stack(
             children: [
               Column(
