@@ -24,13 +24,13 @@ class GridPainter extends CustomPainter {
     // note: 아래 [2]는 gridMode 키의 값을 가져오면 된다(gridMode: true)
     // 변경 전: isGridVisible = Hive.box(themeModeBox).values.toList()[2];
     // 변경 후:
-    box.keys.forEach((key) {
+    for (var key in box.keys) {
       var value = box.get(key);
       // print('$key: $value');
       if (key == 'gridMode') {
         isGridVisible = value;
       }
-    });
+    }
 
     // 가로 선 그리기
     for (double i = 0; i < size.height; i += gridSize) {

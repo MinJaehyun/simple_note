@@ -24,7 +24,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text('중복으로 범주를 추가할 수 없습니다', style: TextStyle(color: Colors.grey[600])),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           TextField(
             maxLength: 17,
             controller: categoryController,

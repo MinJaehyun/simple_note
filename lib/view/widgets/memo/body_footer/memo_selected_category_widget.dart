@@ -104,9 +104,9 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                   onPressed: (){
 
                                   },
-                                  icon: Icon(Icons.account_box),
+                                  icon: const Icon(Icons.account_box),
                                   padding: EdgeInsets.zero, // 패딩 설정
-                                  constraints: BoxConstraints(),
+                                  constraints: const BoxConstraints(),
                                   iconSize: 50,
                                   color: Colors.grey,
                                 ),

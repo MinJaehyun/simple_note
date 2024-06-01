@@ -170,10 +170,10 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                               children: [
                                                 IconButton(
                                                   onPressed: () {},
-                                                  icon: Icon(Icons.account_box),
+                                                  icon: const Icon(Icons.account_box),
                                                   padding: EdgeInsets.zero,
                                                   // 패딩 설정
-                                                  constraints: BoxConstraints(),
+                                                  constraints: const BoxConstraints(),
                                                   iconSize: 50,
                                                   color: Colors.grey,
                                                 ),
@@ -201,7 +201,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                   style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                                 ),
                                               ),
-                                              IconButton(
+                                              const IconButton(
                                                 onPressed: null,
                                                 icon: SizedBox.shrink(), // 비어있는 아이콘 버튼
                                               ),

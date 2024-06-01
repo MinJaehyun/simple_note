@@ -173,7 +173,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                         ),
                                         borderRadius: BorderRadius.circular(4.0),
                                       ),
-                                      color: selectedCategory == categoryContact!.categories ? Colors.red : null,
+                                      color: selectedCategory == categoryContact.categories ? Colors.red : null,
                                       clipBehavior: Clip.antiAlias,
                                       child: TextButton(
                                         onPressed: () {
