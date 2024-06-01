@@ -4,8 +4,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 
-// 프리텐드, 나눔고딕 D2coding, 나눔손글씨 붓, 나눔명조, 나눔손글씨 펜, 나눔스퀘어 네오
-enum SelectedFont { pretendard, d2coding, nanumBrush, nanumMyeongjo, nanumPen, NanumSquareNeo }
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -20,7 +18,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     final settingsController = Get.find<SettingsController>();
-    double selectedFont = settingsController.fontSizeSlide.value.toDouble();
+    double selectedFont = settingsController.fontSizeSlider.value.toDouble();
 
     return SafeArea(
       child: Scaffold(

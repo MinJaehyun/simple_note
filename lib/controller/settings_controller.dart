@@ -1,13 +1,17 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:simple_note/view/screens/settings/settings_page.dart';
 
+// note: 프리텐드, 나눔고딕 D2coding, 나눔손글씨 붓, 나눔명조, 나눔손글씨 펜, 나눔스퀘어 네오
+enum SelectedFont { pretendard, d2coding, nanumBrush, nanumMyeongjo, nanumPen, NanumSquareNeo }
 enum SortedTime { firstTime, lastTime }
 
 class SettingsController extends GetxController {
-  RxBool isDarkMode = false.obs;
-  RxBool gridMode = false.obs;
-  RxDouble fontSizeSlide = 20.0.obs;
+  // note: 모델을 통해서 설정 페이지에서 뭔가를 만드는게 아니므로, 모델 작성할 필요 없다
+  // var settingsInstance = <SettingsModel>[].obs; // 임시
+
+  RxBool isThemeMode = false.obs;
+  RxBool isGridMode = false.obs;
+  RxDouble fontSizeSlider = 20.0.obs;
   Rx<SelectedFont> selectedFont = SelectedFont.pretendard.obs;
   Rx<SortedTime> sortedTime = SortedTime.firstTime.obs;
 
@@ -22,24 +26,24 @@ class SettingsController extends GetxController {
     // isDarkMode 값을 가져올 때 double 값이 할당되지 않도록 확인
     bool darkModeValue = box.get('darkMode', defaultValue: false);
     if (darkModeValue) {
-      isDarkMode.value = darkModeValue;
+      isThemeMode.value = darkModeValue;
     } else {
-      isDarkMode.value = false; // 기본값으로 설정
+      isThemeMode.value = false; // 기본값으로 설정
     }
 
     // gridMode 값을 가져올 때 double 값이 할당되지 않도록 확인
     bool gridModeValue = box.get('gridMode', defaultValue: false);
     if (gridModeValue) {
-      gridMode.value = gridModeValue;
+      isGridMode.value = gridModeValue;
     } else {
-      gridMode.value = false; // 기본값으로 설정
+      isGridMode.value = false; // 기본값으로 설정
     }
     
     int selectedFontValue = box.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
     selectedFont.value = SelectedFont.values[selectedFontValue];
 
     double fontSizeValue = box.get('fontSizeSlide', defaultValue: 20.0);
-    fontSizeSlide.value = fontSizeValue;
+    fontSizeSlider.value = fontSizeValue;
   }
 
   // sort
@@ -49,7 +53,7 @@ class SettingsController extends GetxController {
   }
 
   void updateFontSlider(double value) {
-    fontSizeSlide.value = value;
+    fontSizeSlider.value = value;
     box.put('fontSizeSlide', value);
   }
 
@@ -62,9 +66,8 @@ class SettingsController extends GetxController {
     // 변경 전:
     // isDarkMode.value = !isDarkMode.value;
     // box.put('darkMode', isDarkMode.value);
-
     // 변경 후: bool는 .toggle() 기능으로 간편하게 처리할 수 있다
-    isDarkMode.toggle();
-    box.put('darkMode', isDarkMode.toggle());
+    isThemeMode.toggle();
+    box.put('darkMode', isThemeMode.toggle());
   }
 }

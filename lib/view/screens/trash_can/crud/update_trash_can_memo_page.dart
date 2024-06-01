@@ -237,8 +237,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                           ),
                                         ),
                                         style: TextStyle(
-                                          color: settingsController.isDarkMode.isTrue ? Colors.white : Colors.black,
-                                          fontSize: settingsController.fontSizeSlide.toDouble(),
+                                          color: settingsController.isThemeMode.isTrue ? Colors.white : Colors.black,
+                                          fontSize: settingsController.fontSizeSlider.toDouble(),
                                         ),
                                       ),
                                     ),

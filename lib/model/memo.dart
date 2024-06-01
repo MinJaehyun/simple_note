@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'memo.g.dart';
 
+// note: typeId 는 모델마다 달라야 한다.
 @HiveType(typeId: 1)
 class MemoModel extends HiveObject {
   @HiveField(0)
