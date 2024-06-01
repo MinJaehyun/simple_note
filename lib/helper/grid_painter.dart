@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/main.dart';
 
 class GridPainter extends CustomPainter {
+  // themeModeBox는 여러 종류이므로 dynamic 설정함
   Box<dynamic> box = Hive.box(themeModeBox);
   bool? isGridVisible;
 
