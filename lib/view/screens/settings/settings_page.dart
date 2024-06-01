@@ -62,10 +62,8 @@ class _SettingsState extends State<Settings> {
                                   activeColor: Colors.pinkAccent,
                                   onChanged: (bool value) {
                                     settingsController.toggleDarkMode(value);
-                                    setState(() {
                                       // note: darkMode = value 대신 분기문 처리하여 darkMode 키에 bool 값 변경함
                                       darkMode == false ? box.put('darkMode', true) : box.put('darkMode', false);
-                                    });
                                   },
                                 ),
                               ),
@@ -78,9 +76,7 @@ class _SettingsState extends State<Settings> {
                                   value: gridMode,
                                   activeColor: Colors.pinkAccent,
                                   onChanged: (bool value) {
-                                    setState(() {
                                       gridMode == false ? box.put('gridMode', true) : box.put('gridMode', false);
-                                    });
                                   },
                                 ),
                               ),

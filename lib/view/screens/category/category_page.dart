@@ -103,17 +103,15 @@ class _CategoryPageState extends State<CategoryPage> {
                     child: ReorderableListView(
                       shrinkWrap: true,
                       onReorder: (int oldIndex, int newIndex) async {
-                        setState(() async {
-                          if (oldIndex < newIndex) {
-                            newIndex -= 1;
-                          }
-                          // 카테고리 순서 변경
-                          List<CategoryModel> newList = box.values.toList();
-                          CategoryModel movedItem = newList.removeAt(oldIndex);
-                          newList.insert(newIndex, movedItem);
-                          await box.clear();
-                          await box.addAll(newList);
-                        });
+                        if (oldIndex < newIndex) {
+                          newIndex -= 1;
+                        }
+                        // 카테고리 순서 변경
+                        List<CategoryModel> newList = box.values.toList();
+                        CategoryModel movedItem = newList.removeAt(oldIndex);
+                        newList.insert(newIndex, movedItem);
+                        await box.clear();
+                        await box.addAll(newList);
                       },
                       children: [
                         for (int index = 0; index < box.values.length; index++)
@@ -135,9 +133,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               child: ListTile(
                                 onTap: () {
                                   if (selectedCategory != null) {
-                                    setState(() {
                                       selectedCategory = box.getAt(index)!.categories!;
-                                    });
                                   }
                                   updateClassifiedMemo();
                                 },

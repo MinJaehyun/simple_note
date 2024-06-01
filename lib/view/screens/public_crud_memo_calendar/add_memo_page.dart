@@ -102,6 +102,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
+          // note: 아래 ValueListenableBuilder는 CategoryBox 영역만 setState()없이 리빌딩 하므로, 하단 저장 버튼과는 관계없다. (Hive Box 와 Get controller와는 setState가 별게이다..)
           body: ValueListenableBuilder(
             valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
             builder: (context, Box<CategoryModel> box, _) {
@@ -217,9 +218,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                         keyboardType: TextInputType.multiline,
                                         maxLines: 100,
                                         onChanged: (value) {
-                                          setState(() {
                                             mainText = value;
-                                          });
                                         },
                                         decoration: const InputDecoration(
                                           hintText: '내용을 입력해 주세요',
