@@ -114,7 +114,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                 // note: 배경 즐찾 처리
                                 IconButton(
                                   onPressed: () {
-                                    memoController.updateMemo(
+                                    memoController.updateCtr(
                                       index: index,
                                       createdAt: currentContact!.createdAt,
                                       title: currentContact.title,

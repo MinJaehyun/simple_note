@@ -135,7 +135,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    memoController.updateMemo(
+                                    memoController.updateCtr(
                                       index: selectedIndices[index],
                                       createdAt: currentContact.createdAt,
                                       title: currentContact.title,

@@ -135,7 +135,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    memoController.updateMemo(
+                                    memoController.updateCtr(
                                       index: selectedIndices[index],
                                       createdAt: currentContact.createdAt,
                                       title: currentContact.title,

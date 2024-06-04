@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/model/category.dart';
-import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/view/widgets/memo/memo_body_footer_control_statements_widget.dart';
 
 class MemoTopWidget extends StatefulWidget {

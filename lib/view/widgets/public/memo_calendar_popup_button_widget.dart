@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
-import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
 
@@ -21,6 +21,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
   SampleItem? selectedItem;
   late String _dropdownValue;
   final trashCanMemoController = Get.find<TrashCanMemoController>();
+  final memoController = Get.find<MemoController>();
 
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
                     TextButton(
                         onPressed: () {
                           // 휴지통에 담기
-                          trashCanMemoController.addMemo(
+                          trashCanMemoController.addCtr(
                             createdAt: widget.currentContact.createdAt,
                             title: widget.currentContact.title,
                             mainText: widget.currentContact.mainText,
@@ -67,7 +68,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
                             isFavoriteMemo: false,
                           );
                           // 일반 메모장에서 삭제하기
-                          MemoRepository().delete(widget.index);
+                          memoController.deleteCtr(index: widget.index);
                           Navigator.pop(context);
                         },
                         child: const Text('삭제')),

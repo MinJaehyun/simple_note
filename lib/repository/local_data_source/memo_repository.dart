@@ -21,7 +21,7 @@ class MemoRepository {
   // note: CRUD ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
   // 미사용
-  Future<List<MemoModel>> getAllMemo() async {
+  Future<List<MemoModel>> getAllMemoRepo() async {
     return memoBox!.values.toList();
   }
 
@@ -57,7 +57,7 @@ class MemoRepository {
 
   // 변경 후
   // MemoRepository는 데이터 접근 및 저장만을 담당하도록 설계함.
-  Future<void> addMemo(MemoModel memo) async {
+  Future<void> addMemoRepo(MemoModel memo) async {
     if (memoBox == null) {
       await openBox();
     }
@@ -114,12 +114,12 @@ class MemoRepository {
   // }
 
   // 변경 후
-  Future<void> updateMemo(int index, MemoModel memo) async {
+  Future<void> updateRepo(int index, MemoModel memo) async {
     await memoBox!.putAt(index, memo);
   }
 
   // delete
-  Future delete(int index) async {
+  Future deleteRepo(int index) async {
     await memoBox!.deleteAt(index);
   }
 }

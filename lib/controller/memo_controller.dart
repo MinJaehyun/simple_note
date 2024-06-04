@@ -13,14 +13,14 @@ class MemoController extends GetxController {
   void onInit() {
     super.onInit();
     _memoRepository = MemoRepository();
-    loadMemo();
+    loadMemoCtr();
   }
 
   // 미사용
-  void loadMemo() async {
+  void loadMemoCtr() async {
     isLoading(true);
     try {
-      var memos = await _memoRepository.getAllMemo();
+      var memos = await _memoRepository.getAllMemoRepo();
       memoList(memos);
     } catch (e) {
       errorMessage('Failed to load memos: $e');
@@ -61,7 +61,7 @@ class MemoController extends GetxController {
 
   // 변경 후 4. add
   // MemoController가 MemoRepository를 직접 호출하여 데이터 작업을 수행하도록 한다.
-  void addMemo({
+  void addCtr({
     required DateTime createdAt,
     required String title,
     String? mainText,
@@ -77,9 +77,9 @@ class MemoController extends GetxController {
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
       );
-      await _memoRepository.addMemo(memo);
+      await _memoRepository.addMemoRepo(memo);
       // 메모 추가 후 다시 로드하여 목록 업데이트
-      loadMemo();
+      loadMemoCtr();
     } catch (e) {
       errorMessage('Failed to add memo: $e');
     } finally {
@@ -88,7 +88,7 @@ class MemoController extends GetxController {
   }
 
   // update
-  void updateMemo({
+  void updateCtr({
     required int index,
     required DateTime createdAt,
     required String title,
@@ -105,8 +105,8 @@ class MemoController extends GetxController {
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
       );
-      await _memoRepository.updateMemo(index, memo);
-      loadMemo();
+      await _memoRepository.updateRepo(index, memo);
+      loadMemoCtr();
     } catch (e) {
       errorMessage('Failed to update memo: $e');
     } finally {
@@ -115,12 +115,12 @@ class MemoController extends GetxController {
   }
 
   // delete
-  void deleteMemo({required int index}) async {
+  void deleteCtr({required int index}) async {
     isLoading(true);
 
     try {
-      await _memoRepository.delete(index);
-      loadMemo(); // 메모 삭제 후 다시 로드하여 목록 업데이트
+      await _memoRepository.deleteRepo(index);
+      loadMemoCtr(); // 메모 삭제 후 다시 로드하여 목록 업데이트
     } catch (e) {
       errorMessage('Failed to delete memo: $e');
     } finally {
