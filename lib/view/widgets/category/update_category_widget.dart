@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/controller/category_controller.dart';
+import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
@@ -20,6 +22,7 @@ class UpdatePopupDialog extends StatefulWidget {
 
 class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
   String? category;
+  final _categoryController = Get.find<CategoryController>();
 
   @override
   void initState() {
@@ -54,7 +57,7 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
           child: const Text('저장'),
           onPressed: () {
             if (categoryToUpdate != null) {
-              HiveHelperCategory().update(index: widget.index, data: category!);
+              _categoryController.updateCtr(widget.index, category!);
 
               Box<MemoModel> box = Hive.box<MemoModel>(MemoBox);
               List<MemoModel> memosToUpdate = box.values.where((memo) => memo.selectedCategory == categoryToUpdate).toList();

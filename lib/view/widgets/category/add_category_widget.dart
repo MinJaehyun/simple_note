@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/controller/hive_helper_category.dart';
-
+import 'package:get/get.dart';
+import 'package:simple_note/controller/category_controller.dart';
 
 class AddCategoryWidget extends StatefulWidget {
   const AddCategoryWidget(this.context, {super.key});
@@ -14,6 +14,7 @@ class AddCategoryWidget extends StatefulWidget {
 class _AddCategoryWidgetState extends State<AddCategoryWidget> {
   final TextEditingController categoryController = TextEditingController();
   String? category;
+  final _categoryController = Get.find<CategoryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
           ),
           onPressed: () {
             if (categoryController.text.isNotEmpty) {
-              HiveHelperCategory().create(category!);
+              _categoryController.addCtr(category);
               categoryController.text = '';
               // categoryController.clear(); // 위 대신 이거 사용해보기
             }

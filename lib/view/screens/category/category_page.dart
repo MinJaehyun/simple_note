@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
-import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';

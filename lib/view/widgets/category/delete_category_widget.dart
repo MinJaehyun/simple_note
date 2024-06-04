@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_category.dart';
+import 'package:simple_note/controller/category_controller.dart';
+import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
@@ -16,6 +18,8 @@ class DeleteCategoryWidget extends StatefulWidget {
 }
 
 class _DeleteCategoryWidgetState extends State<DeleteCategoryWidget> {
+  final _categoryController = Get.find<CategoryController>();
+
   @override
   Widget build(BuildContext context) {
     // note: 범주 탭할 때, selectedCategory가 적절히 업데이트되도록 하고, 단, 다이얼로그 내에서는 직접적으로 특정 범주를 참조 해야한다!
@@ -42,7 +46,7 @@ class _DeleteCategoryWidgetState extends State<DeleteCategoryWidget> {
                 box.putAt(memoIndex, MemoModel(createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: '미분류'));
               }
               // 카테고리 삭제
-              HiveHelperCategory().delete(widget.index);
+              _categoryController.deleteCtr(index: widget.index);
             }
             Navigator.of(context).pop();
           },
