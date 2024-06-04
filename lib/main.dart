@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/memo_controller.dart';
+import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
-import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:simple_note/repository/local_data_source/trash_can_memo_repository.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -29,8 +30,8 @@ void main() async {
   Hive.registerAdapter(CategoryModelAdapter());
   Hive.registerAdapter(TrashCanModelAdapter());
   await MemoRepository().openBox();
+  await TrashCanMemoRepository().openBox();
   await HiveHelperCategory().openBox();
-  await HiveHelperTrashCan().openBox();
 
   // note: themeModeBox(dark/light mode, gridPaingter(on/off)
   await Hive.openBox(themeModeBox);
@@ -39,6 +40,7 @@ void main() async {
   // note: Get.put은 즉시 컨트롤러를 생성하는 반면, Get.lazyPut은 실제로 필요할 때까지 컨트롤러를 생성하지 않습니다
   Get.lazyPut<SettingsController>(() => SettingsController());
   Get.lazyPut<MemoController>(() => MemoController());
+  Get.lazyPut<TrashCanMemoController>(() => TrashCanMemoController());
   runApp(MyApp());
 }
 
