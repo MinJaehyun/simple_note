@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/controller/memo_controller.dart';
+import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/controller/settings_controller.dart';
@@ -27,7 +28,7 @@ void main() async {
   Hive.registerAdapter(MemoModelAdapter());
   Hive.registerAdapter(CategoryModelAdapter());
   Hive.registerAdapter(TrashCanModelAdapter());
-  await HiveHelperMemo().openBox();
+  await MemoRepository().openBox();
   await HiveHelperCategory().openBox();
   await HiveHelperTrashCan().openBox();
 
@@ -35,9 +36,10 @@ void main() async {
   await Hive.openBox(themeModeBox);
   // note: intl 초기화
   await initializeDateFormatting();
-  // note: GetX Controller 초기화 - 테스트 중...
-  Get.put(SettingsController());
-  runApp(const MyApp());
+  // note: Get.put은 즉시 컨트롤러를 생성하는 반면, Get.lazyPut은 실제로 필요할 때까지 컨트롤러를 생성하지 않습니다
+  Get.lazyPut<SettingsController>(() => SettingsController());
+  Get.lazyPut<MemoController>(() => MemoController());
+  runApp(MyApp());
 }
 
 Future initialization() async {
@@ -46,14 +48,13 @@ Future initialization() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final settingsController = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
     // FlutterNativeSplash.remove();
-
-    final settingsController = Get.find<SettingsController>();
-
     // note: 다크 모드을 위한 ValueListenableBuilder
     return ValueListenableBuilder(
       valueListenable: Hive.box(themeModeBox).listenable(),
