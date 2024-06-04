@@ -1,7 +1,9 @@
 # Release notes
 
 ## 배포 후:
-- pubspec.yaml 전체 패키지는 프로젝트 완료 전에 업데이트 하기 (매년 6월 마다 업데이트) 
+- pubspec.yaml 전체 패키지는 프로젝트 완료 전에 업데이트 하기 (매년 6월 마다 업데이트)
+- 달력: 시간 기능 구현 (+ add_memo, update_memo, update_trash_can) (시작 시간, 종료 시간 설정하고, 하단에 v체크 표시로 완료했으면 빨강 진하게 체크하고, 미완이면 빈체크표시 흐릿하게 나타내기)
+
 
 ## 베포 전: 
 - 리펙토링: const 설정 
@@ -11,11 +13,23 @@
 - 광고: 넣고 바로 어플 등록 진행 할건지? (검색)
 - 모든: 페이지에 기능 구현되어 있는지부터 확인하기
 - 설정: google drive 구현
+- 즐겨 찾기 페이지 or 위젯 만들건지?
 
 
 ## todo: 중요하면서 긴급하면서 간단한 것을 우선 처리하자!
-- 달력: 시간 기능 구현 (+ add_memo, update_memo, update_trash_can) (시작 시간, 종료 시간 설정하고, 하단에 v체크 표시로 완료했으면 빨강 진하게 체크하고, 미완이면 빈체크표시 흐릿하게 나타내기)
-- (ing) settings: 개선하기 
+- (ing) settings: 개선하기 (하단: 정보: 개선 사항 문의하기, 앱 리뷰하기, 앱 정보) 
+
+
+## 2024-06-03~04
+### Features
+- refactoring: mvc => mvvm 구조로 변경 
+1. controller 내에 싱글톤 패턴 파일을 repository/local_data_source 폴더로 이동함.
+2. MemoController 에서는 MemoRepository를 직접 호출하여 데이터 작업을 수행하도록 하고,
+3. MemoRepository는 데이터 접근 및 저장만을 담당하도록 설계함.
+4. 비동기 작업에는 예외처리를 적용하여 오류 처리 시간을 줄임
+### Bug Fixes
+- 내림 차순으로 정렬하고 작성된 메모장 누르면 정렬 전(오름차순(기본)) 내용을 나타낸다
+- 테마 변경 시, 에러 발생 (RxBool. Did you forget to register an adapter?)
 
 
 ## 2024-06-01
