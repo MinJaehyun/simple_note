@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
@@ -65,7 +65,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
                             isFavoriteMemo: false,
                           );
                           // 일반 메모장에서 삭제하기
-                          HiveHelperMemo().delete(widget.index);
+                          MemoRepository().delete(widget.index);
                           Navigator.pop(context);
                         },
                         child: const Text('삭제')),
