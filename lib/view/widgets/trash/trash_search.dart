@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_trash_can.dart';
+import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
+import 'package:simple_note/repository/local_data_source/trash_can_memo_repository.dart';
 import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
@@ -21,6 +23,7 @@ class TrashSearch extends StatefulWidget {
 class _TrashSearchState extends State<TrashSearch> {
   SampleItem? selectedItem;
   late List<TrashCanModel> boxSearchTitleAndMainText;
+  final trashCanMemoController = Get.find<TrashCanMemoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +131,7 @@ class _TrashSearchState extends State<TrashSearch> {
                                         child: const Text('수정'),
                                       ),
                                       PopupMenuItem<SampleItem>(
-                                        onTap: () => HiveHelperTrashCan().delete(index),
+                                        onTap: () => trashCanMemoController.deleteMemo(index: index),
                                         value: SampleItem.deleteMemo,
                                         child: const Text('삭제'),
                                       ),

@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/controller/memo_controller.dart';
-import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/controller/settings_controller.dart';
+import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
@@ -35,6 +35,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
   final ScrollController _scrollController = ScrollController();
   final settingsController = Get.find<SettingsController>();
   final memoController = Get.find<MemoController>();
+  final trashCanMemoController = Get.find<TrashCanMemoController>();
 
   @override
   void initState() {
@@ -263,7 +264,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 if (widget.currentContact.title == title &&
                                     widget.currentContact.mainText == mainText &&
                                     widget.currentContact.selectedCategory != _dropdownValue) {
-                                  HiveHelperTrashCan().updateMemo(
+                                  trashCanMemoController.updateMemo(
                                     index: widget.index,
                                     createdAt: time,
                                     title: title,
@@ -280,7 +281,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                                 else if (formKeyState.validate()) {
                                   formKeyState.save();
-                                  HiveHelperTrashCan().updateMemo(
+                                  trashCanMemoController.updateMemo(
                                     index: widget.index,
                                     createdAt: time,
                                     title: title,
@@ -313,7 +314,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                           selectedCategory: _dropdownValue!,
                                           isFavoriteMemo: false,
                                         );
-                                        HiveHelperTrashCan().delete(widget.index);
+                                        // trash_can_memo_controller.delete
+                                        trashCanMemoController.deleteMemo(index: widget.index);
                                         setState(() {
                                           Navigator.of(context).pop();
                                           Navigator.of(context).pop();

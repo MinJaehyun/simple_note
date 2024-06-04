@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
-import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
 
@@ -19,6 +20,7 @@ class MemoCalendarPopupButtonWidget extends StatefulWidget {
 class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonWidget> {
   SampleItem? selectedItem;
   late String _dropdownValue;
+  final trashCanMemoController = Get.find<TrashCanMemoController>();
 
   @override
   void initState() {
@@ -56,7 +58,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
                     TextButton(
                         onPressed: () {
                           // 휴지통에 담기
-                          HiveHelperTrashCan().addMemo(
+                          trashCanMemoController.addMemo(
                             createdAt: widget.currentContact.createdAt,
                             title: widget.currentContact.title,
                             mainText: widget.currentContact.mainText,

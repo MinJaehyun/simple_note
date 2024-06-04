@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/controller/memo_controller.dart';
+import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
 
 enum SampleItem { updateMemo, deleteMemo, restoreMemo }
@@ -22,6 +21,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
   SampleItem? selectedItem;
   late String _dropdownValue;
   final memoController = Get.find<MemoController>();
+  final trashCanMemoController = Get.find<TrashCanMemoController>();
 
   @override
   void initState() {
@@ -69,7 +69,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                           selectedCategory: _dropdownValue,
                           isFavoriteMemo: false,
                         );
-                        HiveHelperTrashCan().delete(widget.index);
+                        trashCanMemoController.deleteMemo(index: widget.index);
                         Navigator.pop(context);
                       },
                       child: const Text('복원'),
@@ -99,7 +99,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                     TextButton(
                         onPressed: () {
                           // 완전히 삭제
-                          HiveHelperTrashCan().delete(widget.index);
+                          trashCanMemoController.deleteMemo(index: widget.index);
                           Navigator.pop(context);
                         },
                         child: const Text('완전히 삭제')),
