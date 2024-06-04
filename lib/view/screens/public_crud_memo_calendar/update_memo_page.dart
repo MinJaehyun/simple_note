@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
@@ -9,6 +8,7 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 
 class UpdateMemoPage extends StatefulWidget {
   const UpdateMemoPage({required this.index, required this.currentContact, super.key});
@@ -32,6 +32,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
 
   bool _showScrollToTopButton = false;
   final ScrollController _scrollController = ScrollController();
+  final settingsController = Get.find<SettingsController>();
+  final memoController = Get.find<MemoController>();
 
   @override
   void initState() {
@@ -75,7 +77,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsController = Get.find<SettingsController>();
     // var memoBox = Hive.box<MemoModel>(MemoBox);
     // memoBox: Instance of 'BoxImpl<MemoModel>'
     // memoBox.key: (251, 252, 253, 254, 255)
@@ -269,7 +270,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                           setState(() {
                             _isFavorite = !_isFavorite!;
                           });
-                          HiveHelperMemo().updateMemo(
+                          memoController.updateMemo(
                             index: widget.index,
                             createdAt: time,
                             title: title,
@@ -290,7 +291,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                             if (widget.currentContact.title == title &&
                                 widget.currentContact.mainText == mainText &&
                                 widget.currentContact.selectedCategory != _dropdownValue) {
-                              HiveHelperMemo().updateMemo(
+                              memoController.updateMemo(
                                 index: widget.index,
                                 createdAt: time,
                                 title: title,
@@ -307,7 +308,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                             // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                             else if (formKeyState.validate()) {
                               formKeyState.save();
-                              HiveHelperMemo().updateMemo(
+                              memoController.updateMemo(
                                 index: widget.index,
                                 createdAt: time,
                                 title: title,

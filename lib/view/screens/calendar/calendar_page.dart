@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_note/const/colors.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';

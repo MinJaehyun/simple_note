@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
@@ -33,6 +33,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
 
   bool _showScrollToTopButton = false;
   final ScrollController _scrollController = ScrollController();
+  final settingsController = Get.find<SettingsController>();
+  final memoController = Get.find<MemoController>();
 
   @override
   void initState() {
@@ -76,8 +78,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsController = Get.find<SettingsController>();
-
     // ui에 나타낼 _dropdownValue 변경함
     void dropdownCallback(String? selectedValue) {
       if (selectedValue != null) {
@@ -306,7 +306,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     // 예: 누르면, 메모를 복원한다.
                                     TextButton(
                                       onPressed: () async {
-                                        HiveHelperMemo().addMemo(
+                                        memoController.addMemo(
                                           createdAt: widget.currentContact.createdAt,
                                           title: title,
                                           mainText: mainText,

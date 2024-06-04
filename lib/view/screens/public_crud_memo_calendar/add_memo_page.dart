@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
@@ -25,6 +25,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
   bool _showScrollToTopButton = false;
   final ScrollController _scrollController = ScrollController();
   late bool? _isFavorite = false;
+  final settingsController = Get.find<SettingsController>();
+  final memoController = Get.find<MemoController>();
 
   @override
   void initState() {
@@ -69,8 +71,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsController = Get.find<SettingsController>();
-
     void dropdownCallback(String? selectedValue) {
       if (selectedValue != null) {
         setState(() {
@@ -263,7 +263,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                 final formKeyState = _formKey.currentState!;
                                 if (formKeyState.validate()) {
                                   formKeyState.save();
-                                  HiveHelperMemo().addMemo(
+                                  memoController.addMemo(
                                     createdAt: time,
                                     title: title,
                                     mainText: mainText,

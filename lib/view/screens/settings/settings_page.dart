@@ -13,11 +13,11 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  final settingsController = Get.find<SettingsController>();
   // double _fontSize = 20.0; // 초기 글자 크기
 
   @override
   Widget build(BuildContext context) {
-    final settingsController = Get.find<SettingsController>();
     double selectedFont = settingsController.fontSizeSlider.value.toDouble();
 
     return SafeArea(

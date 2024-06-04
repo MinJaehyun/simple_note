@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:get/get.dart';
 import 'package:simple_note/controller/hive_helper_trash_can.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/model/trash_can.dart';
+import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
 
 enum SampleItem { updateMemo, deleteMemo, restoreMemo }
@@ -19,6 +21,7 @@ class PopupTrashCanButtonWidget extends StatefulWidget {
 class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
   SampleItem? selectedItem;
   late String _dropdownValue;
+  final memoController = Get.find<MemoController>();
 
   @override
   void initState() {
@@ -58,7 +61,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                     TextButton(
                       onPressed: () {
                         // 복원한다: 메모장에 넣고, 휴지통에서 지운다.
-                        HiveHelperMemo().addMemo(
+                        memoController.addMemo(
                           createdAt: widget.currentContact.createdAt,
                           title: widget.currentContact.title,
                           mainText: widget.currentContact.mainText,

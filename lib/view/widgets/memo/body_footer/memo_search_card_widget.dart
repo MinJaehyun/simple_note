@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_memo.dart';
+import 'package:simple_note/controller/memo_controller.dart';
+import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -25,6 +26,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
   SampleItem? selectedItem;
   late List<MemoModel> boxSearchTitleAndMainText;
   final settingsController = Get.find<SettingsController>();
+  final memoController = Get.find<MemoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +135,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    HiveHelperMemo().updateMemo(
+                                    memoController.updateMemo(
                                       index: selectedIndices[index],
                                       createdAt: currentContact.createdAt,
                                       title: currentContact.title,
