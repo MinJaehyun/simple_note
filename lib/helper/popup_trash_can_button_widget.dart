@@ -61,7 +61,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                     TextButton(
                       onPressed: () {
                         // 복원한다: 메모장에 넣고, 휴지통에서 지운다.
-                        memoController.addMemo(
+                        memoController.addCtr(
                           createdAt: widget.currentContact.createdAt,
                           title: widget.currentContact.title,
                           mainText: widget.currentContact.mainText,
@@ -69,7 +69,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                           selectedCategory: _dropdownValue,
                           isFavoriteMemo: false,
                         );
-                        trashCanMemoController.deleteMemo(index: widget.index);
+                        trashCanMemoController.deleteCtr(index: widget.index);
                         Navigator.pop(context);
                       },
                       child: const Text('복원'),
@@ -99,7 +99,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                     TextButton(
                         onPressed: () {
                           // 완전히 삭제
-                          trashCanMemoController.deleteMemo(index: widget.index);
+                          trashCanMemoController.deleteCtr(index: widget.index);
                           Navigator.pop(context);
                         },
                         child: const Text('완전히 삭제')),

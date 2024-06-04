@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/controller/hive_helper_category.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
@@ -9,6 +8,7 @@ import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/trash_can.dart';
+import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
 // note: 휴지통에 들어간 메모를 복원하기 위해서 update 하는 과정
@@ -264,7 +264,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 if (widget.currentContact.title == title &&
                                     widget.currentContact.mainText == mainText &&
                                     widget.currentContact.selectedCategory != _dropdownValue) {
-                                  trashCanMemoController.updateMemo(
+                                  trashCanMemoController.updateCtr(
                                     index: widget.index,
                                     createdAt: time,
                                     title: title,
@@ -281,7 +281,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                                 else if (formKeyState.validate()) {
                                   formKeyState.save();
-                                  trashCanMemoController.updateMemo(
+                                  trashCanMemoController.updateCtr(
                                     index: widget.index,
                                     createdAt: time,
                                     title: title,
@@ -307,7 +307,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     // 예: 누르면, 메모를 복원한다.
                                     TextButton(
                                       onPressed: () async {
-                                        memoController.addMemo(
+                                        memoController.addCtr(
                                           createdAt: widget.currentContact.createdAt,
                                           title: title,
                                           mainText: mainText,
@@ -315,7 +315,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                           isFavoriteMemo: false,
                                         );
                                         // trash_can_memo_controller.delete
-                                        trashCanMemoController.deleteMemo(index: widget.index);
+                                        trashCanMemoController.deleteCtr(index: widget.index);
                                         setState(() {
                                           Navigator.of(context).pop();
                                           Navigator.of(context).pop();

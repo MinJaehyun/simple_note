@@ -13,24 +13,24 @@ class TrashCanMemoController extends GetxController {
   void onInit() {
     super.onInit();
     _trashCanMemoRepository = TrashCanMemoRepository();
-    loadMemo();
+    loadMemoCtr();
   }
 
   // 미사용
-  void loadMemo() async {
+  void loadMemoCtr() async {
     isLoading(true);
     try {
-      var memos = await _trashCanMemoRepository.getAllMemo();
+      var memos = await _trashCanMemoRepository.getAllMemoRepo();
       trashCanMemoList(memos);
     } catch (e) {
-      errorMessage('Failed to load memos: $e');
+      errorMessage('Failed to load trash can memo list: $e');
     } finally {
       isLoading(false);
     }
   }
 
   // add
-  void addMemo({
+  void addCtr({
     required DateTime createdAt,
     required String title,
     String? mainText,
@@ -46,17 +46,17 @@ class TrashCanMemoController extends GetxController {
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
       );
-      await _trashCanMemoRepository.addMemo(memo);
-      loadMemo();
+      await _trashCanMemoRepository.addRepo(memo);
+      loadMemoCtr();
     } catch (e) {
-      errorMessage('Failed to add memo: $e');
+      errorMessage('Failed to add trash can memo : $e');
     } finally {
       isLoading(false);
     }
   }
 
   // update
-  void updateMemo({
+  void updateCtr({
     required index,
     required DateTime createdAt,
     required String title,
@@ -73,24 +73,24 @@ class TrashCanMemoController extends GetxController {
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
       );
-      await _trashCanMemoRepository.updateMemo(index, memo);
+      await _trashCanMemoRepository.updateRepo(index, memo);
       // 메모 추가 후 다시 로드하여 목록 업데이트
-      loadMemo();
+      loadMemoCtr();
     } catch (e) {
-      errorMessage('Failed to add memo: $e');
+      errorMessage('Failed to update trash can memo : $e');
     } finally {
       isLoading(false);
     }
   }
 
   // delete
-  void deleteMemo({required int index}) async {
+  void deleteCtr({required int index}) async {
     isLoading(true);
     try {
-      await _trashCanMemoRepository.delete(index);
-      loadMemo(); // 메모 삭제 후 다시 로드하여 목록 업데이트
+      await _trashCanMemoRepository.deleteRepo(index);
+      loadMemoCtr(); // 메모 삭제 후 다시 로드하여 목록 업데이트
     } catch (e) {
-      errorMessage('Failed to delete memo: $e');
+      errorMessage('Failed to delete trash can memo : $e');
     } finally {
       isLoading(false);
     }

@@ -20,12 +20,12 @@ class TrashCanMemoRepository {
 
   // note: CRUD
   // 미사용
-  Future<List<TrashCanModel>> getAllMemo() async {
+  Future<List<TrashCanModel>> getAllMemoRepo() async {
     return trashCanBox!.values.toList();
   }
 
   // add: MemoRepository는 데이터 접근 및 저장만을 담당하도록 설계함.
-  Future<void> addMemo(TrashCanModel memo) async {
+  Future<void> addRepo(TrashCanModel memo) async {
     if (trashCanBox == null) {
       await openBox();
     }
@@ -33,12 +33,12 @@ class TrashCanMemoRepository {
   }
 
   // update
-  Future<void> updateMemo(int index, TrashCanModel memo) async {
+  Future<void> updateRepo(int index, TrashCanModel memo) async {
     await trashCanBox!.putAt(index, memo);
   }
 
   // delete
-  Future delete(int index) async {
+  Future deleteRepo(int index) async {
     trashCanBox!.deleteAt(index);
   }
 }

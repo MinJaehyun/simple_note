@@ -131,7 +131,7 @@ class _TrashSearchState extends State<TrashSearch> {
                                         child: const Text('수정'),
                                       ),
                                       PopupMenuItem<SampleItem>(
-                                        onTap: () => trashCanMemoController.deleteMemo(index: index),
+                                        onTap: () => trashCanMemoController.deleteCtr(index: index),
                                         value: SampleItem.deleteMemo,
                                         child: const Text('삭제'),
                                       ),
