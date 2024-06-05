@@ -29,6 +29,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- 테스트 중 -->
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
+<!--            android:value="{여기에 앱 ID를 입력하기!}"-->
+<!--        />-->
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility?hl=en and
