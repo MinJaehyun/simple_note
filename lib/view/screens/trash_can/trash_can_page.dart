@@ -9,6 +9,7 @@ import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_pa
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:simple_note/view/widgets/trash/trash_search.dart';
 
+// 생성한 순서가 아닌, 삭제한 순서대로 휴지통에 들어가며 정렬된다
 class TrashCanPage extends StatefulWidget {
   const TrashCanPage({super.key});
 
@@ -29,8 +30,6 @@ class _TrashCanPageState extends State<TrashCanPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TextStyle style = TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary);
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -38,19 +37,21 @@ class _TrashCanPageState extends State<TrashCanPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            // title: Text('Simple Note', style: style),
-            actions: [
-              // 정렬
-              IconButton(
-                  visualDensity: const VisualDensity(horizontal: -4),
-                  // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
-                  onPressed: () {
-                    setState(() {
-                      isCurrentSortVal = !isCurrentSortVal;
-                    });
-                  },
-                  icon: const Icon(Icons.sort)),
-            ],
+            // todo: 앱바 배경색 추후 변경하기
+            backgroundColor: Colors.grey[100],
+            // actions: [
+              // // 정렬
+              // IconButton(
+              //   visualDensity: const VisualDensity(horizontal: -4),
+              //   // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
+              //   onPressed: () {
+              //     setState(() {
+              //       isCurrentSortVal = !isCurrentSortVal;
+              //     });
+              //   },
+              //   icon: const Icon(Icons.sort),
+              // ),
+            // ],
           ),
           body: Column(
             children: [
@@ -123,15 +124,15 @@ class _TrashCanPageState extends State<TrashCanPage> {
                           shrinkWrap: true,
                           itemCount: box.values.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-                            childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
-                            mainAxisSpacing: 0, //수평 Padding
-                            crossAxisSpacing: 0, //수직 Padding
+                            crossAxisCount: 2,
+                            childAspectRatio: 1 / 1,
+                            mainAxisSpacing: 0,
+                            crossAxisSpacing: 0,
                           ),
                           itemBuilder: (BuildContext context, int index) {
                             // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
                             // note: *** 아래처럼 TrashCanModel? currentContact 설정하면 제대로 index 각각 가져오는데, 상단에 TrashCanModel? currentContact 작성하고 currentContact = box.getAt(index); 처리하면 각각의 요소 가져오지 못한다. 이유는? ***
-                            TrashCanModel? currentContact = box.getAt(index);
+                            // TrashCanModel? currentContact = box.getAt(index);
                             TrashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
                             // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
@@ -153,7 +154,10 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                       MaterialPageRoute(builder: (context) {
                                         // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
                                         return UpdateTrashCanMemoPage(
-                                            index: index, currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!);
+                                          index: index,
+                                          // currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!,
+                                          currentContact: reversedCurrentContact,
+                                        );
                                       }),
                                     );
                                   },
@@ -180,13 +184,15 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                 const SizedBox(width: 10.0),
                                                 Expanded(
                                                   child: Text(
-                                                    isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
+                                                    // isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
+                                                    reversedCurrentContact!.title,
                                                     overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                                                   ),
                                                 ),
-                                                // note: card() 수정 및 복원 버튼
-                                                PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
+                                                // card() 수정 및 복원 버튼
+                                                // PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
+                                                PopupTrashCanButtonWidget(index, reversedCurrentContact),
                                               ],
                                             ),
                                           ),
@@ -196,8 +202,8 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                               Expanded(
                                                 child: Text(
                                                   FormatDate().formatSimpleTimeKor(
-                                                    isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt,
-                                                  ),
+                                                      // 변경 전: isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt,
+                                                      reversedCurrentContact.createdAt),
                                                   style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                                 ),
                                               ),
