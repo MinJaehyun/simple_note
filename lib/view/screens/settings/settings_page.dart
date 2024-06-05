@@ -23,7 +23,7 @@ class _SettingsState extends State<Settings> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('환경 설정'),
+          title: const Text('환경 설정', style: TextStyle(fontSize: 26)),
         ),
         body: SingleChildScrollView(
           child: Padding(

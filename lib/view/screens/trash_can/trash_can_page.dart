@@ -38,7 +38,8 @@ class _TrashCanPageState extends State<TrashCanPage> {
         child: Scaffold(
           appBar: AppBar(
             // todo: 앱바 배경색 추후 변경하기
-            backgroundColor: Colors.grey[100],
+            backgroundColor: Colors.transparent,
+
             // actions: [
               // // 정렬
               // IconButton(
