@@ -27,17 +27,15 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // TextStyle style = TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary);
-
     return AppBar(
-      // title: Text('Simple Note', style: style),
       actions: [
         IconButton(
-            visualDensity: const VisualDensity(horizontal: -4),
-            icon: const Icon(Icons.sort),
-            onPressed: () {
-              popupSort(context);
-            }),
+          visualDensity: const VisualDensity(horizontal: -4),
+          icon: const Icon(Icons.sort),
+          onPressed: () {
+            popupSort(context);
+          },
+        ),
       ],
     );
   }
@@ -45,6 +43,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
   // 메모: 상단 정렬 버튼
   Future popupSort(context) {
     return Get.dialog(
+      // ValueListenable 가 리스너로 등록되어, 값이 변경 될때마다 업데이트 된 값으로 builder 를 호출하는 위젯
       ValueListenableBuilder(
         valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
         builder: (context, Box<MemoModel> box, _) {
@@ -61,9 +60,9 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    title: const Text('작성일 내림차순(최신순)'),
+                    title: const Text('작성일 오름차순'),
                     leading: Radio<SortedTime>(
-                      value: SortedTime.lastTime,
+                      value: SortedTime.firstTime,
                       groupValue: settingsController.sortedTime.value,
                       onChanged: (SortedTime? value) {
                         settingsController.updateSortedName(value!);
@@ -71,9 +70,9 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
                     ),
                   ),
                   ListTile(
-                    title: const Text('작성일 오름차순'),
+                    title: const Text('작성일 내림차순 (최신순)'),
                     leading: Radio<SortedTime>(
-                      value: SortedTime.firstTime,
+                      value: SortedTime.lastTime,
                       groupValue: settingsController.sortedTime.value,
                       onChanged: (SortedTime? value) {
                         settingsController.updateSortedName(value!);
@@ -86,17 +85,12 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
             actions: [
               TextButton(
                   onPressed: () {
-                    // note: 화면 즉시 재구성하기 위해 페이지 전체를 리로드
-                    // note: 아래 적용되지 않을 때가 있으므로 위에 pushReplacement 사용한다
-                    // Get.off(MemoPage()); // (= pushReplacement)
-                    Navigator.pop(context);
-
-                    // todo: MemoPage() 인지, TrashCanPage() 인지 구별해서 설정해야 한다. 방법은 ?
-                    if(widget.index == 2) {
+                    // 즉시 화면 재구성하기 위해 페이지 전체를 리로드
+                    if (widget.index == 2) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                         return const MemoPage();
                       }));
-                    } else if(widget.index == 3) {
+                    } else if (widget.index == 3) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                         return const TrashCanPage();
                       }));
