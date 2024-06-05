@@ -24,6 +24,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
+    Box<MemoModel> memoBox = Hive.box<MemoModel>(MemoBox);
 
     return ValueListenableBuilder(
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
@@ -42,7 +43,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
               crossAxisSpacing: 0, //수직 Padding
             ),
             itemBuilder: (BuildContext context, int index) {
-              // note: 정렬 설정 - firstTime: 오래된 순서로 정렬, lastTime: 생성된 순서로 정렬.
+              // 정렬 설정: firstTime는 오래된 순서로 정렬, lastTime는 생성된 순서로 정렬
               MemoModel? currentContact = box.getAt(index);
               MemoModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
               MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
@@ -62,8 +63,8 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
-                          // fix: 업데이트 할 때에는 currentContact: sortedCard 넣으면 에러
-                          return UpdateMemoPage(index: index, currentContact: currentContact!);
+                          // 업데이트 시, 선택한 정렬에 따른 sortedCard 넣어서 출력
+                          return UpdateMemoPage(index: index, currentContact: sortedCard);
                         }),
                       );
                     },
@@ -79,9 +80,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                               children: [
                                 // todo: 추후, 구글 로그인 이미지 넣기
                                 IconButton(
-                                  onPressed: (){
-
-                                  },
+                                  onPressed: (){},
                                   icon: const Icon(Icons.account_box),
                                   padding: EdgeInsets.zero, // 패딩 설정
                                   constraints: const BoxConstraints(),
@@ -96,12 +95,11 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                     style: style,
                                   ),
                                 ),
-                                // todo: 메뉴바를 흐릿하게 처리하는 방법? 가로로 나타내는 방법?
-                                // note: card() 내 수정, 삭제 버튼
+                                // card() 내 수정, 삭제 버튼
                                 MemoCalendarPopupButtonWidget(index, sortedCard),
                               ],
                             ),
-                            // todo: 아래 내용 넣기
+                            // todo: 아래 ?내용 넣기
                             const SizedBox(height: 90.0),
                             Row(
                               children: [
@@ -111,20 +109,20 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
-                                // note: 배경 즐찾 처리
+                                // 배경 즐찾 처리
                                 IconButton(
                                   onPressed: () {
                                     memoController.updateCtr(
-                                      index: index,
-                                      createdAt: currentContact!.createdAt,
-                                      title: currentContact.title,
-                                      mainText: currentContact.mainText,
-                                      selectedCategory: currentContact.selectedCategory,
-                                      isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                      index: settingsController.sortedTime == SortedTime.firstTime ? index : memoBox.values.length - index - 1,
+                                      createdAt: sortedCard.createdAt,
+                                      title: sortedCard.title,
+                                      mainText: sortedCard.mainText,
+                                      selectedCategory: sortedCard.selectedCategory,
+                                      isFavoriteMemo: !sortedCard.isFavoriteMemo!,
                                     );
                                   },
-                                  // note: 동적 처리 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-                                  icon: currentContact?.isFavoriteMemo == false
+                                  // 동적 처리
+                                  icon: sortedCard.isFavoriteMemo == false
                                       ? const Icon(Icons.star_border_sharp, color: null)
                                       : const Icon(Icons.star, color: Colors.red),
                                 ),
