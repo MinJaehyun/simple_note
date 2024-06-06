@@ -1,27 +1,39 @@
 # Release notes
 
 ## 배포 후:
-- pubspec.yaml 전체 패키지는 프로젝트 완료 전에 업데이트 하기 (매년 6월 마다 업데이트)
-- 달력: 시간 기능 구현 (+ add_memo, update_memo, update_trash_can) (시작 시간, 종료 시간 설정하고, 하단에 v체크 표시로 완료했으면 빨강 진하게 체크하고, 미완이면 빈체크표시 흐릿하게 나타내기)
+- pubspec.yaml 전체 패키지 매년 6월 업데이트
+- figma: 와이어 프레임 업데이트
 - 설정: google drive 구현
 ## 베포 전: 
-- 리펙토링: const 설정 
-- 리펙토링: var, dynamic, nullable(?) 변수의 타입 상세히 명시하기 및 불필요한 변수 찾아서 제거하기
-- 리펙토링: crud 위젯 분리 (현재 변경되는 코드 변경이 잦아서 막바지에 작업하기)
-- figma: 와이어 프레임 업데이트
-- 광고: 넣고 바로 어플 등록 진행 할건지? (검색)
-- 모든: 페이지에 기능 구현되어 있는지부터 확인하기
-## todo: 중요하면서 긴급하면서 간단한 것을 우선 처리하자!
-- 즐겨 찾기 페이지
-- (ing)
+- refactoring: const 적용
+- refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
+- refactoring: crud 위젯 분리
+- 모든 페이지: 기능 테스트(필수 2일 정도) 
+## todo:
+- (ing) 달력: 시간 구현 (+ add_memo, update_memo, update_trash_can)
+- 메모 및 휴지통 모델에 속성 추가 및 제네레이트, 관련 UI 내외부 우선 정적으로 설정,
+- (ing) 광고 넣을 곳 찾기 (메모: 최하단, 범주: 최하단, 달력: 최하단, 설정: 최하단, add_memo: 내용과 저장 버튼 사이에, update_memo: 내용과 저장 버튼 사이에, update_trash_can_memo: 내용과 저장 버튼 사이에)
+- (ing) settings: 의견 보내기
+- (ing) settings: 앱 정보 구현
+- (ing) 즐겨 찾기
+- (ing) 광고 승인 대기 중, 승인 후 배포 코드 설정 및 배포 작업
+### Bug Fixes
+- 메모: 역정렬 후, 삭제 시 잘못된 index를 삭제하고 있다
+
+
+## 2024-06-06
+### Features
+- 개발자 계정 등록 완료
+### Bug Fixes
+- emulate 데이터 초기화(wipe data) 후, 격자 에러 발생 (변수 isGridMode는 박스에서 null)
+
 
 ## 2024-06-05
 ### Features
 - 휴지통: 정렬 기능 제거 
 - 휴지통: 생성한 순서가 아닌, 삭제한 순서대로 휴지통에 들어가도록 정렬함
-- (ing) settings: 개선 (하단: 정보: 개선 사항 문의하기, 앱 리뷰하기, 앱 정보) ㅡ UI 구상하기
 ### Bug Fixes
-- fix: 역정렬 시, 화면 내부와 외부에 메모 카드에 즐찾 수정: 내림차순 정렬하고 작성된 메모장 누르면 정렬 전(오름차순(기본)) 내용을 나타내기
+- 역정렬 시, 화면 내부와 외부에 메모 카드에 즐찾 수정: 내림차순 정렬하고 작성된 메모장 누르면 정렬 전(오름차순(기본)) 내용을 나타내기
 - 테마 변경 시, 배경색 자동 설정
 - 테마 변경 시, 에러 발생 (RxBool. Did you forget to register an adapter?)
 
