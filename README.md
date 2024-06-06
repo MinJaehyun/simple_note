@@ -8,6 +8,7 @@
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
 - refactoring: crud 위젯 분리
+- (ing) 내려받는 요소 리펙토링하기 (GetX로)
 - 모든 페이지: 기능 테스트(필수 2일 정도) 
 ## todo:
 - (ing) 달력: 시간 구현 (+ add_memo, update_memo, update_trash_can)
@@ -17,8 +18,6 @@
 - (ing) settings: 앱 정보 구현
 - (ing) 즐겨 찾기
 - (ing) 광고 승인 대기 중, 승인 후 배포 코드 설정 및 배포 작업
-### Bug Fixes
-- 메모: 역정렬 후, 삭제 시 잘못된 index를 삭제하고 있다
 
 
 ## 2024-06-06
@@ -26,6 +25,7 @@
 - 개발자 계정 등록 완료
 ### Bug Fixes
 - emulate 데이터 초기화(wipe data) 후, 격자 에러 발생 (변수 isGridMode는 박스에서 null)
+- 메모: 역정렬 후, 삭제 시 잘못된 index를 삭제하고 있다 (반대로 삭제하면 된다. (box.length - 1 - index))
 
 
 ## 2024-06-05
