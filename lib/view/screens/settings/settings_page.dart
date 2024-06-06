@@ -262,7 +262,7 @@ class _SettingsState extends State<Settings> {
                     ),
                   ],
                 ),
-                // note: 정보: 개선 사항 문의하기/앱 리뷰하기/앱 정보
+                // 정보: 의견 보내기 / 앱 정보
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -277,17 +277,12 @@ class _SettingsState extends State<Settings> {
                       child: Column(
                         children: [
                           ListTile(
-                            leading: const Icon(Icons.flutter_dash),
-                            title: const Text('개선 사항 문의하기'),
+                            leading: const Icon(Icons.mail),
+                            title: const Text('의견 보내기'),
                             onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
                           ),
                           ListTile(
-                            leading: const Icon(Icons.flutter_dash),
-                            title: const Text('앱 리뷰하기'),
-                            onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.flutter_dash),
+                            leading: const Icon(Icons.info),
                             title: const Text('앱 정보'),
                             onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
                           ),

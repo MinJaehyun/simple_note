@@ -24,12 +24,16 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
-    Box<MemoModel> memoBox = Hive.box<MemoModel>(MemoBox);
-
     return ValueListenableBuilder(
       valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
       builder: (context, Box<MemoModel> box, _) {
-        if (box.values.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+        if (box.values.isEmpty)
+          return Column(
+            children: [
+              SizedBox(height: 200),
+              Text('메모를 생성해 주세요'),
+            ],
+          );
 
         return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
@@ -80,9 +84,10 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                               children: [
                                 // todo: 추후, 구글 로그인 이미지 넣기
                                 IconButton(
-                                  onPressed: (){},
+                                  onPressed: () {},
                                   icon: const Icon(Icons.account_box),
-                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  padding: EdgeInsets.zero,
+                                  // 패딩 설정
                                   constraints: const BoxConstraints(),
                                   iconSize: 50,
                                   color: Colors.grey,
@@ -113,7 +118,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                 IconButton(
                                   onPressed: () {
                                     memoController.updateCtr(
-                                      index: settingsController.sortedTime == SortedTime.firstTime ? index : memoBox.values.length - index - 1,
+                                      index: settingsController.sortedTime == SortedTime.firstTime ? index : box.values.length - index - 1,
                                       createdAt: sortedCard.createdAt,
                                       title: sortedCard.title,
                                       mainText: sortedCard.mainText,
