@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/main.dart';
 
+// todo: 코드 개선하기 (isGridVisible는 격자 설정 변수로써, controll => repository 사용하여 리펙토링하기)
 class GridPainter extends CustomPainter {
+  // final settingsCtr = Get.find<SettingsController>();
   // themeModeBox는 여러 종류이므로 dynamic 설정함
   Box<dynamic> box = Hive.box(themeModeBox);
-  bool? isGridVisible;
+  bool isGridVisible = true;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -16,7 +18,7 @@ class GridPainter extends CustomPainter {
 
     final paint = Paint()
       // note: 다크모드면 연한 흰색 나타내기
-      ..color = Hive.box(themeModeBox).values.first == false ? Colors.black12 : Colors.white12
+      ..color = box.values.first == false ? Colors.black12 : Colors.white12
       ..strokeWidth = 1.0;
 
     const double gridSize = 20.0;
@@ -36,12 +38,12 @@ class GridPainter extends CustomPainter {
     // 가로 선 그리기
     for (double i = 0; i < size.height; i += gridSize) {
       // canvas.drawLine(Offset(0, i), Offset(size.width, i), paint); // 변경 전
-      isGridVisible! ? canvas.drawLine(Offset(0, i), Offset(size.width, i), paint) : null;
+      isGridVisible ? canvas.drawLine(Offset(0, i), Offset(size.width, i), paint) : null;
     }
     // 세로 선 그리기
     for (double i = 0; i < size.width; i += gridSize) {
       // canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
-      isGridVisible! ? canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint) : null;
+      isGridVisible ? canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint) : null;
     }
   }
 
