@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/popup_trash_can_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -113,7 +113,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                 ),
               ),
               // todo: 임시 배너 넣기:
-              BannerAdWidget(),
+              // BannerAdWidget(),
               // const SizedBox(height: 75),
               Expanded(
                 child: ValueListenableBuilder(

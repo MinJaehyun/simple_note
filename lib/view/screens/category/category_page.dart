@@ -95,7 +95,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   if (box.values.isEmpty) {
                     return const Center(
                         child: Column(
-                      children: [SizedBox(height: 200), Text('하단 버튼을 클릭하면 범주를 생성할 수 있습니다.')],
+                      children: [SizedBox(height: 200), Text('범주를 생성할 수 있습니다.')],
                     ));
                   }
                   return SizedBox(
@@ -119,7 +119,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             key: UniqueKey(),
                             background: Container(
                               color: Colors.red,
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Icon(Icons.cancel),
