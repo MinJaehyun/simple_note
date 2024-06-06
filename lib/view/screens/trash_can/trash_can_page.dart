@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/popup_trash_can_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -41,17 +42,17 @@ class _TrashCanPageState extends State<TrashCanPage> {
             backgroundColor: Colors.transparent,
 
             // actions: [
-              // // 정렬
-              // IconButton(
-              //   visualDensity: const VisualDensity(horizontal: -4),
-              //   // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
-              //   onPressed: () {
-              //     setState(() {
-              //       isCurrentSortVal = !isCurrentSortVal;
-              //     });
-              //   },
-              //   icon: const Icon(Icons.sort),
-              // ),
+            // // 정렬
+            // IconButton(
+            //   visualDensity: const VisualDensity(horizontal: -4),
+            //   // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
+            //   onPressed: () {
+            //     setState(() {
+            //       isCurrentSortVal = !isCurrentSortVal;
+            //     });
+            //   },
+            //   icon: const Icon(Icons.sort),
+            // ),
             // ],
           ),
           body: Column(
@@ -111,8 +112,9 @@ class _TrashCanPageState extends State<TrashCanPage> {
                   ],
                 ),
               ),
-              // todo: 빈공간 배너 넣기: height: 20
-              const SizedBox(height: 75),
+              // todo: 임시 배너 넣기:
+              BannerAdWidget(),
+              // const SizedBox(height: 75),
               Expanded(
                 child: ValueListenableBuilder(
                   valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
