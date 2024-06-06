@@ -24,13 +24,14 @@ class MemoModelAdapter extends TypeAdapter<MemoModel> {
       startTime: fields[4] as DateTime?,
       endTime: fields[5] as DateTime?,
       isFavoriteMemo: fields[6] as bool?,
+      isCheckedTodo: fields[7] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MemoModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.createdAt)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class MemoModelAdapter extends TypeAdapter<MemoModel> {
       ..writeByte(5)
       ..write(obj.endTime)
       ..writeByte(6)
-      ..write(obj.isFavoriteMemo);
+      ..write(obj.isFavoriteMemo)
+      ..writeByte(7)
+      ..write(obj.isCheckedTodo);
   }
 
   @override
