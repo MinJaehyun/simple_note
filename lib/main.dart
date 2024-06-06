@@ -14,7 +14,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:simple_note/repository/local_data_source/trash_can_memo_repository.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // todo: 추후 hive_helper_dark_mode 파일로 분리하기
 const themeModeBox = 'themeModel';
@@ -27,7 +27,7 @@ void main() async {
   await initialization();
 
   // 광고 기능 초기화
-  // MobileAds.instance.initialize();
+  MobileAds.instance.initialize();
 
   // note: hive 설정
   await Hive.initFlutter();
