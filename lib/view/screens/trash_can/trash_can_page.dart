@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/helper/grid_painter.dart';
@@ -114,7 +114,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
               ),
               // todo: 임시 배너 넣기:
               // BannerAdWidget(),
-              // const SizedBox(height: 75),
+              const SizedBox(height: 75),
               Expanded(
                 child: ValueListenableBuilder(
                   valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),

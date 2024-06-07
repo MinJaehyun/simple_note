@@ -255,9 +255,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                       Row(
                         children: [
                           Expanded(
-                            child: ElevatedButton.icon(
-                              label: const Text('저장'),
-                              icon: const Icon(Icons.check),
+                            child: ElevatedButton(
+                              child: const Text('저장'),
                               onPressed: () {
                                 final formKeyState = _formKey.currentState!;
                                 // note: 범주 변경하고, 제목이나, 내용 변경하지 않으면 변경된 범주가 저장되지 않는다
@@ -296,9 +295,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                           ),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: ElevatedButton.icon(
-                              label: const Text('복원'),
-                              icon: const Icon(Icons.restore),
+                            child: ElevatedButton(
+                              child: const Text('복원'),
                               onPressed: () => showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
@@ -335,9 +333,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                           ),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: ElevatedButton.icon(
-                              label: const Text('취소'),
-                              icon: const Icon(Icons.close),
+                            child: ElevatedButton(
+                              child: const Text('취소'),
                               onPressed: () => showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(

@@ -309,9 +309,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                         ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: ElevatedButton.icon(
-                          label: const Text('저장'),
-                          icon: const Icon(Icons.check),
+                        child: ElevatedButton(
+                          child: const Text('저장'),
                           onPressed: () {
                             final formKeyState = _formKey.currentState!;
                             // note: 이전 입력 값과, 변경한 값(title, mainText)이 둘 다 같은 경우, 변경 사항이 없으므로 저장 눌러도 그대로 저장되도록 한다.
@@ -336,9 +335,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                       ),
                       const SizedBox(width: 15),
                       Expanded(
-                        child: ElevatedButton.icon(
-                          label: const Text('취소'),
-                          icon: const Icon(Icons.close),
+                        child: ElevatedButton(
+                          child: const Text('취소'),
                           onPressed: () => showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(

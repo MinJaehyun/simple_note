@@ -218,7 +218,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                         keyboardType: TextInputType.multiline,
                                         maxLines: 100,
                                         onChanged: (value) {
-                                            mainText = value;
+                                          mainText = value;
                                         },
                                         decoration: const InputDecoration(
                                           hintText: '내용을 입력해 주세요',
@@ -247,7 +247,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       Row(
                         children: [
                           TextButton(
-                            child: _isFavorite == false ? const Icon(Icons.star_border_sharp, color: null) : const Icon(Icons.star, color: Colors.red),
+                            child:
+                                _isFavorite == false ? const Icon(Icons.star_border_sharp, color: null) : const Icon(Icons.star, color: Colors.red),
                             onPressed: () {
                               setState(() {
                                 _isFavorite = !_isFavorite!;
@@ -256,9 +257,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           ),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: ElevatedButton.icon(
-                              label: const Text('저장'),
-                              icon: const Icon(Icons.check),
+                            child: ElevatedButton(
+                              child: const Text('저장'),
                               onPressed: () {
                                 final formKeyState = _formKey.currentState!;
                                 if (formKeyState.validate()) {
@@ -277,9 +277,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           ),
                           const SizedBox(width: 15),
                           Expanded(
-                            child: ElevatedButton.icon(
-                              label: const Text('취소'),
-                              icon: const Icon(Icons.close),
+                            child: ElevatedButton(
+                              child: const Text('취소'),
                               onPressed: () => showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
