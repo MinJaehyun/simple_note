@@ -11,7 +11,7 @@
 - 내려받는 요소 리펙토링하기 (GetX로)
 - 모든 페이지: 기능 테스트(필수 2일 정도) 
 ## todo:
-- 달력: 타임 라인 구현 (??: + add_memo, update_memo, update_trash_can)
+- 설정: 개발자 ? 기능 구현 - 타임 라인 구현
 - 광고 넣을 곳 찾기 (메모: 최하단, 범주: 최하단, 달력: 최하단, 설정: 최하단, add_memo: 내용과 저장 버튼 사이에, update_memo: 내용과 저장 버튼 사이에, update_trash_can_memo: 내용과 저장 버튼 사이에)
 - settings: 의견 보내기
 - settings: 앱 정보 구현
@@ -27,6 +27,7 @@
 ## 2024-06-08
 ### Features
 - 메모 체크 기능 구현 (add memo, update memo, memo card, memo selected category, memo search)
+- 달력: 체크 기능 구현
 ### Bug Fixes
 - 크리티컬 이슈: 정렬 맟 역정렬 시, 즐겨찾기 및 todo 체크버튼 및 범주가 엉켜서 나타낸다 (관련 코드 전체 검사) 
 
