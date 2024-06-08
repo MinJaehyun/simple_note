@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_note/const/colors.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -28,7 +30,7 @@ class _CalendarPageState extends State<CalendarPage> {
   List<String> textTitle = [];
   late List<DateTime> dateTimeUtc;
   Map<DateTime, List<dynamic>> eventsList = {};
-  bool isAlarmColor = false;
+  final memoCtr = Get.find<MemoController>();
 
   @override
   void initState() {
@@ -59,8 +61,6 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TextStyle style = TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary);
-
     int getHashCode(DateTime key) {
       return key.day * 1000000 + key.month * 10000 + key.year;
     }
@@ -135,11 +135,8 @@ class _CalendarPageState extends State<CalendarPage> {
                 selectedBuilder: (context, day, focusedDay) {
                   return Center(
                     child: Container(
-                      decoration: BoxDecoration(
-                        color: PRIMARY_COLOR.withOpacity(0.5),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(4)
-                      ),
+                      decoration:
+                          BoxDecoration(color: PRIMARY_COLOR.withOpacity(0.5), shape: BoxShape.rectangle, borderRadius: BorderRadius.circular(4)),
                       child: Center(
                         child: Text(
                           '${day.day}',
@@ -169,7 +166,6 @@ class _CalendarPageState extends State<CalendarPage> {
                   return Center(
                     child: Container(
                       decoration: const BoxDecoration(
-                        // color: Colors.grey,
                         shape: BoxShape.rectangle,
                       ),
                       child: Center(
@@ -215,6 +211,11 @@ class _CalendarPageState extends State<CalendarPage> {
                   return FormatDate().formatDayEng(item.createdAt) == FormatDate().formatDayEng(_selectedDay!);
                 }).toList();
 
+                var isCheckedTodoTrue = box.values.where((item) {
+                  print(item.isCheckedTodo == true);
+                  return item.isCheckedTodo == true;
+                }).toList();
+
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Column(
@@ -223,7 +224,6 @@ class _CalendarPageState extends State<CalendarPage> {
                         painter: GridPainter(),
                         child: SizedBox(
                           height: 50,
-                          // color: Colors.cyan,
                           child: Row(
                             children: [
                               // note: 달력 선택하면 선택한 날짜(_selectedDay)를 나타낸다
@@ -233,7 +233,13 @@ class _CalendarPageState extends State<CalendarPage> {
                                   child: Text(FormatDate().formatDefaultDateKor(_selectedDay!)),
                                 ),
                               ),
-                              Text('총 ${classifiedTimeMemo.length} 개'),
+                              Text('체크한 메모 '),
+                              // todo:
+                              Text('${isCheckedTodoTrue.length}', style: TextStyle(color: Colors.redAccent)),
+                              Text('개'),
+                              Text('  |  금일 작성한 메모 '),
+                              Text('${classifiedTimeMemo.length}', style: TextStyle(color: Colors.redAccent)),
+                              Text('개'),
                             ],
                           ),
                         ),
@@ -247,20 +253,53 @@ class _CalendarPageState extends State<CalendarPage> {
                             MemoModel? currentContact = classifiedTimeMemo[index];
                             return Card(
                               child: ListTile(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
-                                      return UpdateMemoPage(index: index, currentContact: currentContact);
-                                    }),
-                                  );
-                                },
-                                leading: isAlarmColor
-                                    ? const Icon(Icons.access_alarm, color: Colors.red)
-                                    : const Icon(Icons.access_alarm, color: Colors.green),
-                                title: Text(currentContact.title),
+                                title: memoCtr.memoList[index].isCheckedTodo == true
+                                    ? Text(currentContact.title, style: TextStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                  decorationColor: Colors.red,  // 취소선 색상 설정
+                                  decorationThickness: 3,  // 취소선 두께 설정
+                                ),)
+                                    : Text(currentContact.title),
                                 subtitle:
                                     Text(FormatDate().formatDotDateTimeKor(currentContact.createdAt), style: TextStyle(color: Colors.grey[500])),
                                 dense: true,
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return UpdateMemoPage(index: index, sortedCard: currentContact);
+                                    }),
+                                  );
+                                },
+                                // note: 체크한 메모이면 빨강, 아니면 녹색 나타내기
+                                leading: memoCtr.memoList[index].isCheckedTodo == true
+                                    ? IconButton(
+                                        icon: Icon(Icons.check_box, color: Colors.red),
+                                        onPressed: () {
+                                          memoCtr.updateCtr(
+                                            index: index,
+                                            createdAt: currentContact.createdAt,
+                                            title: currentContact.title,
+                                            selectedCategory: currentContact.selectedCategory,
+                                            mainText: currentContact.mainText,
+                                            isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
+                                            isCheckedTodo: false,
+                                          );
+                                        },
+                                      )
+                                    : IconButton(
+                                        icon: Icon(Icons.check_box_outline_blank, color: Colors.green),
+                                        onPressed: () {
+                                          memoCtr.updateCtr(
+                                            index: index,
+                                            createdAt: currentContact.createdAt,
+                                            title: currentContact.title,
+                                            selectedCategory: currentContact.selectedCategory,
+                                            mainText: currentContact.mainText,
+                                            isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
+                                            isCheckedTodo: true,
+                                          );
+                                        },
+                                      ),
                                 trailing: MemoCalendarPopupButtonWidget(index, currentContact),
                               ),
                             );
@@ -283,11 +322,11 @@ class _CalendarPageState extends State<CalendarPage> {
   // 미사용: 위에 직접 설정 넣음
   HeaderStyle buildHeaderStyle() {
     return const HeaderStyle(
-      // note: 2week 기능
-      // formatButtonVisible: true,
-      // titleCentered: true,
-      // titleTextStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-    );
+        // note: 2week 기능
+        // formatButtonVisible: true,
+        // titleCentered: true,
+        // titleTextStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        );
   }
 
   // 사용: 위에 부분적으로 사용중
