@@ -1,4 +1,4 @@
-# Release notes
+# Development notes
 
 ## 배포 후:
 - pubspec.yaml 전체 패키지 매년 6월 업데이트
@@ -8,17 +8,33 @@
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
 - refactoring: crud 위젯 분리
-- (ing) 내려받는 요소 리펙토링하기 (GetX로)
+- 내려받는 요소 리펙토링하기 (GetX로)
 - 모든 페이지: 기능 테스트(필수 2일 정도) 
 ## todo:
-- (ing) 달력: 시간 구현 (+ add_memo, update_memo, update_trash_can)
-- 메모 및 휴지통 모델에 속성 추가 및 제네레이트, 관련 UI 내외부 우선 정적으로 설정,
-- (ing) 광고 넣을 곳 찾기 (메모: 최하단, 범주: 최하단, 달력: 최하단, 설정: 최하단, add_memo: 내용과 저장 버튼 사이에, update_memo: 내용과 저장 버튼 사이에, update_trash_can_memo: 내용과 저장 버튼 사이에)
-- (ing) settings: 의견 보내기
-- (ing) settings: 앱 정보 구현
-- (ing) 즐겨 찾기
-- (ing) 광고 승인 대기 중, 승인 후 배포 코드 설정 및 배포 작업
+- 달력: 타임 라인 구현 (??: + add_memo, update_memo, update_trash_can)
+- 광고 넣을 곳 찾기 (메모: 최하단, 범주: 최하단, 달력: 최하단, 설정: 최하단, add_memo: 내용과 저장 버튼 사이에, update_memo: 내용과 저장 버튼 사이에, update_trash_can_memo: 내용과 저장 버튼 사이에)
+- settings: 의견 보내기
+- settings: 앱 정보 구현
+- 즐겨 찾기
+- 광고 승인 대기 중, 승인 후 배포 코드 설정 및 배포 작업
+- 검색 버튼 누르면 ( D/EGL_emulation(13615): app_time_stats: avg=500.93ms min=500.50ms max=501.36ms count=2 ) 상태로 계속 유지되는데, 효율이 떨어지는 이유는?  
 
+
+## 2024-06-10
+### Features
+
+
+## 2024-06-08
+### Features
+- 메모 체크 기능 구현 (add memo, update memo, memo card, memo selected category, memo search)
+### Bug Fixes
+- 크리티컬 이슈: 정렬 맟 역정렬 시, 즐겨찾기 및 todo 체크버튼 및 범주가 엉켜서 나타낸다 (관련 코드 전체 검사) 
+
+
+## 2024-06-07
+### Features
+- 메모 및 휴지통 모델에 속성 추가 및 제네레이트, 관련 UI 내외부 우선 정적으로 설정
+ 
 
 ## 2024-06-06
 ### Features
