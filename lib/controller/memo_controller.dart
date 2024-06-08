@@ -67,6 +67,7 @@ class MemoController extends GetxController {
     String? mainText,
     String? selectedCategory,
     bool isFavoriteMemo = false,
+    bool isCheckedTodo = false,
   }) async {
     isLoading(true);
     try {
@@ -76,6 +77,7 @@ class MemoController extends GetxController {
         mainText: mainText,
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
+        isCheckedTodo: isCheckedTodo,
       );
       await _memoRepository.addMemoRepo(memo);
       // 메모 추가 후 다시 로드하여 목록 업데이트
@@ -95,6 +97,7 @@ class MemoController extends GetxController {
     String? selectedCategory,
     String? mainText,
     bool isFavoriteMemo = false,
+    bool isCheckedTodo = false,
   }) async {
     isLoading(true);
     try {
@@ -104,6 +107,7 @@ class MemoController extends GetxController {
         mainText: mainText,
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
+          isCheckedTodo: isCheckedTodo,
       );
       await _memoRepository.updateRepo(index, memo);
       loadMemoCtr();
@@ -117,7 +121,6 @@ class MemoController extends GetxController {
   // delete
   void deleteCtr({required int index}) async {
     isLoading(true);
-
     try {
       await _memoRepository.deleteRepo(index);
       loadMemoCtr(); // 메모 삭제 후 다시 로드하여 목록 업데이트
@@ -127,5 +130,4 @@ class MemoController extends GetxController {
       isLoading(false);
     }
   }
-
 }

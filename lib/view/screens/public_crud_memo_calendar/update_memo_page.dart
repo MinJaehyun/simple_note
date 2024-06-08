@@ -12,12 +12,12 @@ import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 
 class UpdateMemoPage extends StatefulWidget {
-  const UpdateMemoPage({required this.index, required this.currentContact, super.key});
+  const UpdateMemoPage({required this.index, required this.sortedCard, super.key});
 
   final int index;
 
   // err: final MemoModel currentContact; 처리하면 MemoModel만 사용하게 되므로 TrashCanModel은 사용할 수 없다.. 일단 제거하고 진행하기
-  final MemoModel currentContact;
+  final MemoModel sortedCard;
 
   @override
   State<UpdateMemoPage> createState() => _UpdateMemoPageState();
@@ -29,22 +29,25 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
   late String title;
   late String? mainText;
   late String? _dropdownValue;
-  late bool? _isFavorite;
+  late bool _isFavorite = false;
+  late bool _isCheckedTodo = false;
 
   bool _showScrollToTopButton = false;
   final ScrollController _scrollController = ScrollController();
   final settingsController = Get.find<SettingsController>();
   final memoController = Get.find<MemoController>();
+  var memoBox = Hive.box<MemoModel>(MemoBox);
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
-    time = widget.currentContact.createdAt;
-    title = widget.currentContact.title;
-    mainText = widget.currentContact.mainText;
-    _dropdownValue = widget.currentContact.selectedCategory;
-    _isFavorite = widget.currentContact.isFavoriteMemo;
+    time = widget.sortedCard.createdAt;
+    title = widget.sortedCard.title;
+    mainText = widget.sortedCard.mainText;
+    _dropdownValue = widget.sortedCard.selectedCategory;
+    _isFavorite = widget.sortedCard.isFavoriteMemo!;
+    _isCheckedTodo = widget.sortedCard.isCheckedTodo!;
   }
 
   @override
@@ -81,23 +84,31 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
     );
   }
 
+  // *** note: 두 상태가 변경될 때 memoController.updateCtr 메서드를 함께 호출하여, 동시에 상태를 업데이트하도록 할 수 있습니다. 이를 위해서는 _updateMemo 메서드를 개선함 ***
+  void _updateMemo({
+    bool? isFavoriteMemo,
+    bool? isCheckedTodo,
+  }) {
+    memoController.updateCtr(
+      index: widget.index,
+      createdAt: time,
+      title: title,
+      mainText: mainText,
+      selectedCategory: _dropdownValue,
+      isFavoriteMemo: isFavoriteMemo ?? _isFavorite,
+      isCheckedTodo: isCheckedTodo ?? _isCheckedTodo,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    var memoBox = Hive.box<MemoModel>(MemoBox);
-    // memoBox: Instance of 'BoxImpl<MemoModel>'
-    // memoBox.key: (251, 252, 253, 254, 255)
-    // memoBox.length: 5
-    // memoBox.values: (Instance of 'MemoModel', Instance of 'MemoModel', Instance of 'MemoModel', Instance of 'MemoModel', Instance of 'MemoModel')
-    // memoBox.values.first: Instance of 'MemoModel'
-    // memoBox.values.first.isFavoriteMemo: false
-    // print('memoBox: ${memoBox.values.first.isFavoriteMemo}');
-
     // ui에 나타낼 _dropdownValue 변경함
     void dropdownCallback(String? selectedValue) {
       if (selectedValue is String) {
         setState(() {
           _dropdownValue = selectedValue;
         });
+        _updateMemo();
       }
     }
 
@@ -138,7 +149,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                           // 시간
                           Expanded(
                             child: Text(
-                              FormatDate().formatDotDateTimeKor(widget.currentContact.createdAt),
+                              FormatDate().formatDotDateTimeKor(widget.sortedCard.createdAt),
                               style: const TextStyle(fontSize: 18),
                             ),
                           ),
@@ -199,7 +210,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     cursorWidth: 3,
                                     // 커서 노출 여부
                                     showCursor: true,
-                                    initialValue: widget.currentContact.title,
+                                    initialValue: widget.sortedCard.title,
                                     onChanged: (value) {
                                       setState(() {
                                         title = value;
@@ -234,10 +245,10 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     cursorWidth: 3,
                                     // 커서 노출 여부
                                     showCursor: true,
-                                    initialValue: widget.currentContact.mainText,
+                                    initialValue: widget.sortedCard.mainText,
                                     keyboardType: TextInputType.multiline,
                                     // 입력값 무제한 설정하는 방법 - maxLines: null
-                                    maxLines: widget.currentContact.mainText != null ? 100 : null,
+                                    maxLines: widget.sortedCard.mainText != null ? 100 : null,
                                     onChanged: (value) {
                                       setState(() {
                                         mainText = value;
@@ -269,44 +280,38 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                   // 하단: 즐찾 및 저장 및 취소
                   Row(
                     children: [
-                      if (settingsController.sortedTime == SortedTime.firstTime)
-                        TextButton(
-                          child: memoController.memoList[widget.index].isFavoriteMemo == false
-                              ? const Icon(Icons.star_border_sharp, color: null)
-                              : const Icon(Icons.star, color: Colors.red),
-                          onPressed: () {
-                            setState(() {
-                              _isFavorite = !_isFavorite!;
-                            });
-                            memoController.updateCtr(
-                              index: settingsController.sortedTime == SortedTime.firstTime ? widget.index : memoBox.values.length - widget.index - 1,
-                              createdAt: time,
-                              title: title,
-                              mainText: mainText,
-                              selectedCategory: _dropdownValue,
-                              isFavoriteMemo: _isFavorite!,
-                            );
-                          },
-                        ),
-                      if (settingsController.sortedTime == SortedTime.lastTime)
-                        TextButton(
-                          child: memoController.memoList[memoBox.values.length - 1 - widget.index].isFavoriteMemo == false
-                              ? const Icon(Icons.star_border_sharp, color: null)
-                              : const Icon(Icons.star, color: Colors.red),
-                          onPressed: () {
-                            setState(() {
-                              _isFavorite = !_isFavorite!;
-                            });
-                            memoController.updateCtr(
-                              index: settingsController.sortedTime == SortedTime.firstTime ? widget.index : memoBox.values.length - widget.index - 1,
-                              createdAt: time,
-                              title: title,
-                              mainText: mainText,
-                              selectedCategory: _dropdownValue,
-                              isFavoriteMemo: _isFavorite!,
-                            );
-                          },
-                        ),
+                      IconButton(
+                        // 아이콘 버튼 내부의 패딩 제거
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        // 기본 제약조건 제거
+                        visualDensity: VisualDensity(horizontal: -4.0),
+                        icon: _isCheckedTodo == false ? const Icon(Icons.check_box_outline_blank) : const Icon(Icons.check_box, color: Colors.red),
+                        onPressed: () {
+                          setState(() {
+                            _isCheckedTodo = !_isCheckedTodo;
+                          });
+                          _updateMemo(isCheckedTodo: _isCheckedTodo);
+                        },
+                      ),
+                      // 즐겨 찾기
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        // visualDensity: VisualDensity(horizontal: -4.0),
+                        icon: _isFavorite == false
+                            ? const Icon(Icons.star_border_sharp, color: null)
+                            : const Icon(
+                                Icons.star,
+                                color: Colors.red,
+                              ),
+                        onPressed: () {
+                          setState(() {
+                            _isFavorite = !_isFavorite;
+                          });
+                          _updateMemo(isFavoriteMemo: _isFavorite);
+                        },
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: ElevatedButton(
@@ -314,20 +319,13 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                           onPressed: () {
                             final formKeyState = _formKey.currentState!;
                             // note: 이전 입력 값과, 변경한 값(title, mainText)이 둘 다 같은 경우, 변경 사항이 없으므로 저장 눌러도 그대로 저장되도록 한다.
-                            if (widget.currentContact.title == title && widget.currentContact.mainText == mainText) {
+                            if (widget.sortedCard.title == title && widget.sortedCard.mainText == mainText) {
                               Navigator.of(context).pop();
                             }
                             // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                             else if (formKeyState.validate()) {
                               formKeyState.save();
-                              memoController.updateCtr(
-                                index: settingsController.sortedTime == SortedTime.firstTime ? widget.index : memoBox.values.length - widget.index - 1,
-                                createdAt: time,
-                                title: title,
-                                mainText: mainText!,
-                                selectedCategory: _dropdownValue!,
-                                isFavoriteMemo: _isFavorite!,
-                              );
+                              _updateMemo();
                               Navigator.of(context).pop();
                             }
                           },

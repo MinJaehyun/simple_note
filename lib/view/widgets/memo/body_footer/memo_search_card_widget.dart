@@ -79,7 +79,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
-                          return UpdateMemoPage(index: index, currentContact: sortedCard);
+                          return UpdateMemoPage(index: index, sortedCard: sortedCard);
                         }),
                       );
                     },
@@ -118,7 +118,6 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                       ),
                                     ),
                                   ),
-                                  // todo: 메뉴바를 흐릿하게 처리하는 방법? 가로로 나타내는 방법?
                                   // note: card() 내 수정, 삭제 버튼
                                   MemoCalendarPopupButtonWidget(index, sortedCard),
                                 ],
@@ -133,15 +132,41 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
+                                // 체크 버튼
+                                IconButton(
+                                  padding: EdgeInsets.zero,
+                                  // 아이콘 버튼 내부의 패딩 제거
+                                  constraints: BoxConstraints(),
+                                  // 기본 제약조건 제거
+                                  visualDensity: VisualDensity(horizontal: -4.0),
+                                  icon: sortedCard.isCheckedTodo == false
+                                      ? Icon(Icons.check_box_outline_blank)
+                                      : Icon(Icons.check_box, color: Colors.red),
+                                  onPressed: () {
+                                    memoController.updateCtr(
+                                      index: settingsController.sortedTime == SortedTime.firstTime ? index : box.values.length - index - 1,
+                                      createdAt: sortedCard.createdAt,
+                                      title: sortedCard.title,
+                                      mainText: sortedCard.mainText,
+                                      selectedCategory: sortedCard.selectedCategory,
+                                      isFavoriteMemo: sortedCard.isFavoriteMemo!,
+                                      isCheckedTodo: !sortedCard.isCheckedTodo!,
+                                    );
+                                  },
+                                ),
+                                // 즐겨 찾기
                                 IconButton(
                                   onPressed: () {
                                     memoController.updateCtr(
-                                      index: selectedIndices[index],
-                                      createdAt: currentContact.createdAt,
-                                      title: currentContact.title,
-                                      mainText: currentContact.mainText,
-                                      selectedCategory: currentContact.selectedCategory,
-                                      isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                      index: settingsController.sortedTime == SortedTime.firstTime
+                                          ? selectedIndices[index]
+                                          : selectedIndices.length - 1 - index,
+                                      createdAt: sortedCard.createdAt,
+                                      title: sortedCard.title,
+                                      mainText: sortedCard.mainText,
+                                      selectedCategory: sortedCard.selectedCategory,
+                                      isFavoriteMemo: !sortedCard.isFavoriteMemo!,
+                                      isCheckedTodo: sortedCard.isCheckedTodo!,
                                     );
                                   },
                                   icon: currentContact.isFavoriteMemo == false

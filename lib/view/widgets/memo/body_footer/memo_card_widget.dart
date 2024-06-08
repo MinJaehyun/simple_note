@@ -51,6 +51,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
               MemoModel? currentContact = box.getAt(index);
               MemoModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
               MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+              int sortedIndex = settingsController.sortedTime == SortedTime.firstTime ? index : box.values.length - 1 - index;
 
               return Card(
                 shape: RoundedRectangleBorder(
@@ -68,7 +69,9 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
                           // 업데이트 시, 선택한 정렬에 따른 sortedCard 넣어서 출력
-                          return UpdateMemoPage(index: index, currentContact: sortedCard);
+                          return UpdateMemoPage(
+                              index: sortedIndex,
+                              sortedCard: sortedCard);
                         }),
                       );
                     },
@@ -114,8 +117,37 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
-                                // 배경 즐찾 처리
+                                // 체크 버튼
                                 IconButton(
+                                  padding: EdgeInsets.zero,
+                                  // 아이콘 버튼 내부의 패딩 제거
+                                  constraints: BoxConstraints(),
+                                  // 기본 제약조건 제거
+                                  visualDensity: VisualDensity(horizontal: -4.0),
+                                  icon: sortedCard.isCheckedTodo == false
+                                      ? const Icon(Icons.check_box_outline_blank)
+                                      : const Icon(Icons.check_box, color: Colors.red),
+                                  onPressed: () {
+                                    memoController.updateCtr(
+                                      index: settingsController.sortedTime == SortedTime.firstTime ? index : box.values.length - index - 1,
+                                      createdAt: sortedCard.createdAt,
+                                      title: sortedCard.title,
+                                      mainText: sortedCard.mainText,
+                                      selectedCategory: sortedCard.selectedCategory,
+                                      isFavoriteMemo: sortedCard.isFavoriteMemo!,
+                                      isCheckedTodo: !sortedCard.isCheckedTodo!,
+                                    );
+                                  },
+                                ),
+                                // 즐겨 찾기
+                                IconButton(
+                                  padding: EdgeInsets.zero, // 아이콘 버튼 내부의 패딩 제거
+                                  constraints: BoxConstraints(), // 기본 제약조건 제거
+                                  // visualDensity: VisualDensity(horizontal: -4.0),
+                                  // 동적 처리
+                                  icon: sortedCard.isFavoriteMemo == false
+                                      ? const Icon(Icons.star_border_sharp, color: null)
+                                      : const Icon(Icons.star, color: Colors.red),
                                   onPressed: () {
                                     memoController.updateCtr(
                                       index: settingsController.sortedTime == SortedTime.firstTime ? index : box.values.length - index - 1,
@@ -124,12 +156,9 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                       mainText: sortedCard.mainText,
                                       selectedCategory: sortedCard.selectedCategory,
                                       isFavoriteMemo: !sortedCard.isFavoriteMemo!,
+                                      isCheckedTodo: sortedCard.isCheckedTodo!,
                                     );
                                   },
-                                  // 동적 처리
-                                  icon: sortedCard.isFavoriteMemo == false
-                                      ? const Icon(Icons.star_border_sharp, color: null)
-                                      : const Icon(Icons.star, color: Colors.red),
                                 ),
                               ],
                             ),

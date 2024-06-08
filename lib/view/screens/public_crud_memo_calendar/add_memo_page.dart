@@ -24,7 +24,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
   late String _dropdownValue;
   bool _showScrollToTopButton = false;
   final ScrollController _scrollController = ScrollController();
-  late bool? _isFavorite = false;
+  late bool _isFavorite = false;
+  late bool _isCheckedTodo = false;
   final settingsController = Get.find<SettingsController>();
   final memoController = Get.find<MemoController>();
 
@@ -158,7 +159,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       // 스크롤러 적용을 위한 설정: NotificationListener<ScrollNotification>
                       NotificationListener<ScrollNotification>(
                         onNotification: (scrollNotification) {
-                          // print(scrollNotification.metrics.pixels); // 0 / 484.1428571428571
                           return true;
                         },
                         child: Expanded(
@@ -243,19 +243,30 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         ),
                       ),
 
-                      // 하단: 저장 및 취소
+                      // 하단: 할일체크 및 즐겨찾기 및 저장 및 취소
                       Row(
                         children: [
+                          // 할일체크
+                          TextButton(
+                            child:
+                            _isCheckedTodo == false ? const Icon(Icons.check_box_outline_blank, color: null) : const Icon(Icons.check_box, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                _isCheckedTodo = !_isCheckedTodo;
+                              });
+                            },
+                          ),
+                          // 즐겨찾기
                           TextButton(
                             child:
                                 _isFavorite == false ? const Icon(Icons.star_border_sharp, color: null) : const Icon(Icons.star, color: Colors.red),
                             onPressed: () {
                               setState(() {
-                                _isFavorite = !_isFavorite!;
+                                _isFavorite = !_isFavorite;
                               });
                             },
                           ),
-                          const SizedBox(width: 10),
+                          // 저장 및 취소
                           Expanded(
                             child: ElevatedButton(
                               child: const Text('저장'),
@@ -268,7 +279,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     title: title,
                                     mainText: mainText,
                                     selectedCategory: _dropdownValue,
-                                    isFavoriteMemo: _isFavorite!,
+                                    isFavoriteMemo: _isFavorite,
+                                    isCheckedTodo: _isCheckedTodo,
                                   );
                                   Navigator.of(context).pop();
                                 }
