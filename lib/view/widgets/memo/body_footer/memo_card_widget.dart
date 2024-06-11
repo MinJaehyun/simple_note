@@ -25,15 +25,28 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
   late bool _isCheckedTodo;
   late bool _isFavoriteMemo;
 
+  List<MemoModel> sortedMemoList = [];
+  List<MemoModel> reverseSortedMemoList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    updateSortedLists();
+  }
+
+  void updateSortedLists() {
+    sortedMemoList = List.from(memoController.memoList)
+      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    reverseSortedMemoList = List.from(memoController.memoList)
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
 
-    return ValueListenableBuilder(
-      valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
-      builder: (context, Box<MemoModel> box, _) {
-    // return Obx(() {
-        if (box.values.isEmpty) {
+    return Obx(() {
+        if (memoController.memoList.isEmpty) {
           return Column(
             children: [
               SizedBox(height: 200),
@@ -42,9 +55,8 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
           );
         }
 
-        // fixme: 정렬은 아래처럼 하는게 아니다.. 시간 순으로 정렬하는 것이다.. 대규모 수정 예상..
-        List<MemoModel> sortedMemoList = List.from(memoController.memoList)..sort((a, b) => a.createdAt.compareTo(b.createdAt));
-        List<MemoModel> reverseSortedMemoList = List.from(memoController.memoList)..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        // note: 상단 함수를 실행해야, 리로드 된다
+        updateSortedLists();
         // note: 선택된 정렬에 따라 올바른 리스트를 선택합니다.
         List<MemoModel> selectedMemoList = settingsController.sortedTime == SortedTime.firstTime
             ? sortedMemoList : reverseSortedMemoList;
@@ -126,7 +138,6 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
-                                // fixme ================================================
                                 // 체크 버튼
                                 IconButton(
                                   padding: EdgeInsets.zero,
@@ -134,14 +145,10 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                   constraints: BoxConstraints(),
                                   // 기본 제약조건 제거
                                   visualDensity: VisualDensity(horizontal: -4.0),
-                                  //   icon: _isCheckedTodo == false
                                   icon: currentContact.isCheckedTodo == false
                                       ? const Icon(Icons.check_box_outline_blank)
                                       : const Icon(Icons.check_box, color: Colors.red),
                                   onPressed: () {
-                                    // setState(() {
-                                    //   _isCheckedTodo = !memoController.memoList[index].isCheckedTodo!;
-                                    // });
                                     memoController.updateCtr(
                                       index: memoController.memoList.indexOf(currentContact),
                                       createdAt: currentContact.createdAt,
@@ -153,12 +160,10 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                     );
                                   },
                                 ),
-                                // fixme ================================================
                                 // 즐겨 찾기
                                 IconButton(
-                                  padding: EdgeInsets.zero, // 아이콘 버튼 내부의 패딩 제거
-                                  constraints: BoxConstraints(), // 기본 제약조건 제거
-                                  // 동적 처리
+                                  padding: EdgeInsets.zero,
+                                  constraints: BoxConstraints(),
                                   icon: currentContact.isFavoriteMemo == false
                                       ? const Icon(Icons.star_border_sharp, color: null)
                                       : const Icon(Icons.star, color: Colors.red),
