@@ -22,7 +22,7 @@ class _MemoPageState extends State<MemoPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         // note: index 2번을 넣어줘서 MemoPage를 리로드 하려한다
         appBar: const AppBarSortWidget(2),
-        body: const MemoTopWidget(),
+        body: MemoTopWidget(),
         bottomNavigationBar: const FooterNavigationBarWidget(2),
         // note: 하단 add
         floatingActionButton: buildFloatingActionButton(context),
