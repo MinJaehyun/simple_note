@@ -135,8 +135,8 @@ class _TrashCanPageState extends State<TrashCanPage> {
                           itemBuilder: (BuildContext context, int index) {
                             // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
                             // note: *** 아래처럼 TrashCanModel? currentContact 설정하면 제대로 index 각각 가져오는데, 상단에 TrashCanModel? currentContact 작성하고 currentContact = box.getAt(index); 처리하면 각각의 요소 가져오지 못한다. 이유는? ***
-                            // TrashCanModel? currentContact = box.getAt(index);
-                            TrashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
+                            TrashCanModel? currentContact = box.getAt(index);
+                            // T선rashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
                             // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
 
                             // 모든 휴지통 내용 출력
@@ -159,7 +159,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                         return UpdateTrashCanMemoPage(
                                           index: index,
                                           // currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!,
-                                          currentContact: reversedCurrentContact,
+                                          currentContact: currentContact!,
                                         );
                                       }),
                                     );
@@ -188,14 +188,14 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                 Expanded(
                                                   child: Text(
                                                     // isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
-                                                    reversedCurrentContact!.title,
+                                                    currentContact!.title,
                                                     overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                                                   ),
                                                 ),
                                                 // card() 수정 및 복원 버튼
                                                 // PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
-                                                PopupTrashCanButtonWidget(index, reversedCurrentContact),
+                                                PopupTrashCanButtonWidget(index, currentContact),
                                               ],
                                             ),
                                           ),
@@ -206,7 +206,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                 child: Text(
                                                   FormatDate().formatSimpleTimeKor(
                                                       // 변경 전: isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt,
-                                                      reversedCurrentContact.createdAt),
+                                                      currentContact.createdAt),
                                                   style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                                 ),
                                               ),
