@@ -10,7 +10,9 @@ import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/add_memo_page.dart';
+import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
+import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 
@@ -25,7 +27,7 @@ class _CalendarPageState extends State<CalendarPage> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  List<MemoModel> classifiedTimeMemo = [];
+  List<MemoModel> sameSelectedDayMemo = [];
   List<MemoModel> todayIsCheckedTodoList = [];
   List<String> textTitle = [];
   late List<DateTime> dateTimeUtc;
@@ -220,12 +222,12 @@ class _CalendarPageState extends State<CalendarPage> {
                 }
 
                 // note: 선택한 날짜와 == 작성된 날짜가 같은 모든 인스턴스
-                classifiedTimeMemo = box.values.where((item) {
+                sameSelectedDayMemo = box.values.where((item) {
                   return FormatDate().formatDayEng(item.createdAt) == FormatDate().formatDayEng(_selectedDay!);
                 }).toList();
 
                 // note: 모든 박스에서 접근하면 안된다. 선택한 날짜에 해당하는 모든 메모에 접근해야 한다..
-                todayIsCheckedTodoList = classifiedTimeMemo.where((item) {
+                todayIsCheckedTodoList = sameSelectedDayMemo.where((item) {
                   return item.isCheckedTodo == true;
                 }).toList();
 
@@ -255,7 +257,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               Text('${todayIsCheckedTodoList.length}', style: TextStyle(color: Colors.redAccent)),
                               Text('개'),
                               Text('  |  금일 작성한 메모 '),
-                              Text('${classifiedTimeMemo.length}', style: TextStyle(color: Colors.redAccent)),
+                              Text('${sameSelectedDayMemo.length}', style: TextStyle(color: Colors.redAccent)),
                               Text('개'),
                             ],
                           ),
@@ -265,12 +267,11 @@ class _CalendarPageState extends State<CalendarPage> {
                         height: 205,
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: classifiedTimeMemo.length,
+                          itemCount: sameSelectedDayMemo.length,
                           itemBuilder: (context, index) {
-                            MemoModel? currentContact = classifiedTimeMemo[index];
+                            MemoModel? currentContact = sameSelectedDayMemo[index];
                               return Card(
                                 child: ListTile(
-                                  // title: memoCtr.memoList[index].isCheckedTodo == true
                                   title: currentContact.isCheckedTodo == true
                                       ? Text(
                                           currentContact.title,
@@ -285,56 +286,45 @@ class _CalendarPageState extends State<CalendarPage> {
                                       Text(FormatDate().formatDotDateTimeKor(currentContact.createdAt), style: TextStyle(color: Colors.grey[500])),
                                   dense: true,
                                   onTap: () {
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       // fixme: 어제 9일 0번 인덱스 체크 변경하면, 9일에 1번 인덱스가 생성되고 있다.
-                                    //       // todo : 3번 제목의 인덱스를 아래에 내려주면 된다.
-                                    //       // return UpdateMemoPage(index: index, sortedCard: memoController.memoList[index]);
-                                    //       // return UpdateMemoPage(index: index, sortedCard: currentContact);
-                                    //       // 메모 박스 전체 인덱스 개수 가져오기
-                                    //       //
-                                    //       // return UpdateMemoPage(index: index, sortedCard: currentContact);
-                                    //       return UpdateMemoPage(index: index, sortedCard: currentContact);
-                                    //     },
-                                    //   ),
-                                    // );
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return UpdateMemoPage(index: index, sortedCard: currentContact);
+                                        },
+                                      ),
+                                    );
                                   },
-
                                   // note: 전체 메모에 접근하는게 아닌, 금일 메모에 접근해야 한다.
-                                  // leading: memoCtr.memoList[index].isCheckedTodo == true
                                   leading: currentContact.isCheckedTodo == true
                                       ? IconButton(
                                           icon: Icon(Icons.check_box, color: Colors.red),
-                                          onPressed: null,
-                                          // onPressed: () {
-                                          //   memoCtr.updateCtr(
-                                          //     index: index,
-                                          //     createdAt: currentContact.createdAt,
-                                          //     title: currentContact.title,
-                                          //     selectedCategory: currentContact.selectedCategory,
-                                          //     mainText: currentContact.mainText,
-                                          //     isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
-                                          //     isCheckedTodo: false,
-                                          //   );
-                                          // },
+                                          onPressed: () {
+                                            memoController.updateCtr(
+                                              index: index,
+                                              createdAt: currentContact.createdAt,
+                                              title: currentContact.title,
+                                              selectedCategory: currentContact.selectedCategory,
+                                              mainText: currentContact.mainText,
+                                              isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
+                                              isCheckedTodo: false,
+                                            );
+                                          },
                                         )
                                       : IconButton(
                                           icon: Icon(Icons.check_box_outline_blank, color: Colors.green),
-                                          onPressed: null,
-                                          // onPressed: () {
-                                          //   memoCtr.updateCtr(
-                                          //     index: index,
-                                          //     createdAt: currentContact.createdAt,
-                                          //     title: currentContact.title,
-                                          //     selectedCategory: currentContact.selectedCategory,
-                                          //     mainText: currentContact.mainText,
-                                          //     isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
-                                          //     isCheckedTodo: true,
-                                          //   );
+                                          onPressed: () {
+                                            memoController.updateCtr(
+                                              index: index,
+                                              createdAt: currentContact.createdAt,
+                                              title: currentContact.title,
+                                              selectedCategory: currentContact.selectedCategory,
+                                              mainText: currentContact.mainText,
+                                              isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
+                                              isCheckedTodo: true,
+                                            );
+                                          },
                                         ),
-                                  // fixme: err
-                                  // trailing: MemoCalendarPopupButtonWidget(index, currentContact),
+                                  trailing: MemoCalendarPopupButtonWidget(index, currentContact),
                                 ),
                               );
                           },
