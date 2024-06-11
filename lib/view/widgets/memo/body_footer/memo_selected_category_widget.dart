@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/memo_controller.dart';
-import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -12,6 +10,7 @@ import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widge
 
 enum SampleItem { updateMemo, deleteMemo }
 
+// note: 메모 상단에 사용자가 선택한 범주를 내려받고 있다
 class MemoSelectedCategoryWidget extends StatefulWidget {
   const MemoSelectedCategoryWidget(this.selectedCategory, {super.key});
 
@@ -30,29 +29,26 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
 
-    return ValueListenableBuilder(
-      valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
-      builder: (context, Box<MemoModel> box, _) {
-        if (box.values.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+    return Obx(
+      () {
+        if (memoController.memoList.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
 
-        List<MemoModel> memo = box.values.where((item) {
+        // note: 메모 상단에 사용자가 선택한 범주와 메모장에 범주가 같은 것만 나타내기
+        List<MemoModel> sameCategoryMemo = memoController.memoList.where((item) {
           return item.selectedCategory == widget.selectedCategory;
         }).toList();
 
-        // note: 선택한 카테고리의 원조 모든 메모에 인덱스를 가져오는 방법
-        List<MemoModel> memoList = box.values.toList();
-        List<int> selectedIndices = [];
-        for (int i = 0; i < memoList.length; i++) {
-          if (memoList[i].selectedCategory == widget.selectedCategory) {
-            selectedIndices.add(i);
-          }
-        }
+        // note: 선택한 범주'만' 정렬하여 나타내기
+        List<MemoModel> sortedSelectedCategoryMemo = List.from(sameCategoryMemo)..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+        List<MemoModel> reversedSelectedCategoryMemo = List.from(sameCategoryMemo)..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        List<MemoModel> selectedMemoList =
+            settingsController.sortedTime == SortedTime.firstTime ? sortedSelectedCategoryMemo : reversedSelectedCategoryMemo;
 
         return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
-            itemCount: memo.length,
+            itemCount: sameCategoryMemo.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1 / 1,
@@ -60,13 +56,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
               crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
-              MemoModel? currentContact = memo[index];
-              MemoModel? reversedCurrentContact = memo[memo.length - 1 - index];
-              MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
-              // 변경 전:
-              // int sortedCategory = settingsController.sortedTime == SortedTime.firstTime ? selectedIndices[index] : selectedIndices.length - 1 - index;
-              // 변경 후:
-              int sortedCategory = settingsController.sortedTime == SortedTime.firstTime ? selectedIndices[index] : selectedIndices[selectedIndices.length - 1 - index];
+              MemoModel? currentContact = selectedMemoList[index];
+              int sortedIndex = memoController.memoList.indexOf(currentContact);
 
               return Card(
                 shape: RoundedRectangleBorder(
@@ -82,10 +73,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                        return UpdateMemoPage(
-                          index: sortedCategory,
-                          sortedCard: sortedCard,
-                        );
+                        return UpdateMemoPage(index: sortedIndex, sortedCard: currentContact);
                       }));
                     },
                     child: Padding(
@@ -103,7 +91,6 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                   onPressed: () {},
                                   icon: const Icon(Icons.account_box),
                                   padding: EdgeInsets.zero,
-                                  // 패딩 설정
                                   constraints: const BoxConstraints(),
                                   iconSize: 50,
                                   color: Colors.grey,
@@ -111,13 +98,12 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                 const SizedBox(width: 10.0),
                                 Expanded(
                                   child: Text(
-                                    sortedCard.title,
+                                    currentContact.title,
                                     overflow: TextOverflow.ellipsis,
                                     style: style,
                                   ),
                                 ),
-                                // todo: 아래 2번째 인자가 다르다
-                                MemoCalendarPopupButtonWidget(sortedCategory, sortedCard),
+                                MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
                               ],
                             ),
                             const SizedBox(height: 90.0),
@@ -125,7 +111,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                               children: [
                                 Expanded(
                                   child: Text(
-                                    FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
+                                    FormatDate().formatSimpleTimeKor(currentContact.createdAt),
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
@@ -136,18 +122,16 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                   visualDensity: VisualDensity(horizontal: -4.0),
                                   onPressed: () {
                                     memoController.updateCtr(
-                                      index: settingsController.sortedTime == SortedTime.firstTime
-                                          ? selectedIndices[index]
-                                          : selectedIndices.length - 1 - index,
-                                      createdAt: sortedCard.createdAt,
-                                      title: sortedCard.title,
-                                      mainText: sortedCard.mainText,
-                                      selectedCategory: sortedCard.selectedCategory,
-                                      isFavoriteMemo: sortedCard.isFavoriteMemo!,
-                                      isCheckedTodo: !sortedCard.isCheckedTodo!,
+                                      index: sortedIndex,
+                                      createdAt: currentContact.createdAt,
+                                      title: currentContact.title,
+                                      mainText: currentContact.mainText,
+                                      selectedCategory: currentContact.selectedCategory,
+                                      isFavoriteMemo: currentContact.isFavoriteMemo!,
+                                      isCheckedTodo: !currentContact.isCheckedTodo!,
                                     );
                                   },
-                                  icon: sortedCard.isCheckedTodo == false
+                                  icon: currentContact.isCheckedTodo == false
                                       ? const Icon(Icons.check_box_outline_blank, color: null)
                                       : const Icon(Icons.check_box, color: Colors.red),
                                 ),
@@ -155,18 +139,16 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                 IconButton(
                                   onPressed: () {
                                     memoController.updateCtr(
-                                      index: settingsController.sortedTime == SortedTime.firstTime
-                                          ? selectedIndices[index]
-                                          : selectedIndices.length - 1 - index,
-                                      createdAt: sortedCard.createdAt,
-                                      title: sortedCard.title,
-                                      mainText: sortedCard.mainText,
-                                      selectedCategory: sortedCard.selectedCategory,
-                                      isFavoriteMemo: !sortedCard.isFavoriteMemo!,
-                                      isCheckedTodo: sortedCard.isCheckedTodo!,
+                                      index: sortedIndex,
+                                      createdAt: currentContact.createdAt,
+                                      title: currentContact.title,
+                                      mainText: currentContact.mainText,
+                                      selectedCategory: currentContact.selectedCategory,
+                                      isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                      isCheckedTodo: currentContact.isCheckedTodo!,
                                     );
                                   },
-                                  icon: sortedCard.isFavoriteMemo == false
+                                  icon: currentContact.isFavoriteMemo == false
                                       ? const Icon(Icons.star_border_sharp, color: null)
                                       : const Icon(Icons.star, color: Colors.red),
                                 ),
