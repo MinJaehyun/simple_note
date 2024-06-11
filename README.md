@@ -20,12 +20,20 @@
 - 검색 버튼 누르면 ( D/EGL_emulation(13615): app_time_stats: avg=500.93ms min=500.50ms max=501.36ms count=2 ) 상태로 계속 유지되는데, 효율이 떨어지는 이유는?  
 
 
+
+## 2024-06-12
+### Features
+### Bug Fixes
+- 오류 첮기
+
+
 ## 2024-06-11
 ### Features
 ### Bug Fixes
-- 오류 개선 중
+- 오류 첮기
 - (2/2) 메모: 정렬 오류 해결
 - 메모: delete 클릭 시 즉시 UI에 반영하지 않는 오류 해결 (ValueListenableBuilder 내에서 변수를 추적하여 해결)
+- ing: 메모: 최초 delete 클릭 시, 즉시 UI에 반영하지 않고 있다.. 처음에는 반영하지 않고, 2번째 이후로는 잘 반영한다.. 왜??
 
 
 ## 2024-06-10
