@@ -12,8 +12,8 @@ import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:simple_note/repository/local_data_source/trash_can_memo_repository.dart';
-import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:simple_note/view/screens/memo/memo_page.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // todo: 추후 hive_helper_dark_mode 파일로 분리하기
@@ -67,16 +67,6 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: Hive.box(themeModeBox).listenable(),
       builder: (context, box, widget) {
-        // print(Hive.box(themeModeBox).values); //  (false, 28.0, true, 5)
-        // print(Hive.box(themeModeBox).values.);
-        // var box = Hive.box(themeModeBox);
-
-        // 모든 키를 가져와서 반복하면서 값을 가져옴
-        // box.keys.forEach((key) {
-        //   var value = box.get(key);
-        //   print('$key: $value');
-        // });
-
         bool darkMode = box.get('darkMode', defaultValue: true); // Hive
         // RxBool darkMode = settingsController.isDarkMode; // getx
         String selectedFont = settingsController.selectedFont.value.name; // enum의 name을 사용
