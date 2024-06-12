@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
+import 'package:simple_note/view/screens/timeline_status_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 
 
@@ -249,14 +250,6 @@ class _SettingsState extends State<Settings> {
                             title: const Text('백업 설정'),
                             onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
                           ),
-                          // ListTile(
-                          //   leading: Icon(Icons.collections),
-                          //   title: Text('??? 설정'),
-                          // ),
-                          // ListTile(
-                          //   leading: Icon(Icons.text_format),
-                          //   title: Text('??? 설정'),
-                          // ),
                         ],
                       ),
                     ),
@@ -276,6 +269,13 @@ class _SettingsState extends State<Settings> {
                     Card(
                       child: Column(
                         children: [
+                          ListTile(
+                            leading: const Icon(Icons.calendar_today_outlined),
+                            title: const Text('개발 로드맵'),
+                            onTap: () {
+                              Get.to(TimelineStatusPage());
+                            },
+                          ),
                           ListTile(
                             leading: const Icon(Icons.mail),
                             title: const Text('의견 보내기'),
