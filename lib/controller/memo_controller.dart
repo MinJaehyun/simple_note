@@ -16,7 +16,6 @@ class MemoController extends GetxController {
     loadMemoCtr();
   }
 
-  // 미사용
   void loadMemoCtr() async {
     isLoading(true);
     try {
