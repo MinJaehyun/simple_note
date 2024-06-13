@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
-import 'package:simple_note/view/screens/timeline_status_page.dart';
+import 'package:simple_note/view/screens/settings/timeline_status_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:simple_note/view/widgets/settings/send_mail.dart';
 
