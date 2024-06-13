@@ -28,6 +28,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
   final trashCanMemoController = Get.find<TrashCanMemoController>();
   List<TrashCanModel> sortedMemoList = [];
   List<TrashCanModel> reverseSortedMemoList = [];
+  List<TrashCanModel> selectedMemoList = [];
 
   @override
   void initState() {
@@ -42,19 +43,14 @@ class _TrashCanPageState extends State<TrashCanPage> {
   }
 
   void updateSortedLists() {
-    sortedMemoList = List.from(trashCanMemoController.trashCanMemoList)
-      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
-    reverseSortedMemoList = List.from(trashCanMemoController.trashCanMemoList)
-      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    sortedMemoList = List.from(trashCanMemoController.trashCanMemoList)..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    reverseSortedMemoList = List.from(trashCanMemoController.trashCanMemoList)..sort((a, b) => b.createdAt.compareTo(a.createdAt));
   }
 
   @override
   Widget build(BuildContext context) {
-    // note: 상단 함수를 실행해야, 리로드 된다
-    updateSortedLists();
     // note: 선택된 정렬에 따라 올바른 리스트를 선택합니다.
-    List<TrashCanModel> selectedMemoList = settingsController.sortedTime == SortedTime.firstTime
-        ? sortedMemoList : reverseSortedMemoList;
+    selectedMemoList = settingsController.sortedTime == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
 
     return GestureDetector(
       onTap: () {
@@ -66,21 +62,21 @@ class _TrashCanPageState extends State<TrashCanPage> {
             // todo: 앱바 배경색 추후 변경하기
             backgroundColor: Colors.transparent,
             actions: [
-            // 정렬
-            IconButton(
-              visualDensity: const VisualDensity(horizontal: -4),
-              // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
-              onPressed: () {
-                setState(() {
-                  if(settingsController.sortedTime == SortedTime.firstTime) {
-                    settingsController.updateSortedName(SortedTime.lastTime);
-                  } else {
-                    settingsController.updateSortedName(SortedTime.firstTime);
-                  }
-                });
-              },
-              icon: const Icon(Icons.sort),
-            ),
+              // 정렬
+              IconButton(
+                visualDensity: const VisualDensity(horizontal: -4),
+                // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
+                onPressed: () {
+                  setState(() {
+                    if (settingsController.sortedTime == SortedTime.firstTime) {
+                      settingsController.updateSortedName(SortedTime.lastTime);
+                    } else {
+                      settingsController.updateSortedName(SortedTime.firstTime);
+                    }
+                  });
+                },
+                icon: const Icon(Icons.sort),
+              ),
             ],
           ),
           body: Column(
@@ -143,119 +139,115 @@ class _TrashCanPageState extends State<TrashCanPage> {
               // todo: 임시 배너 넣기:
               // BannerAdWidget(),
               const SizedBox(height: 75),
-              Expanded(
-                child: ValueListenableBuilder(
-                  valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
-                  builder: (context, Box<TrashCanModel> box, _) {
-                    // 휴지통 분기문 시작점
-                    if (searchControllerText == null || searchControllerText == '') {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height - 200,
-                        child: GridView.builder(
-                          shrinkWrap: true,
-                          itemCount: box.values.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1 / 1,
-                            mainAxisSpacing: 0,
-                            crossAxisSpacing: 0,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            TrashCanModel? currentContact = selectedMemoList[index];
-                            int sortedIndex = trashCanMemoController.trashCanMemoList.indexOf(currentContact);
+              // 휴지통 분기문 시작점
+              if (searchControllerText == null || searchControllerText == '')
+                Expanded(
+                  child: Obx(
+                    () => SizedBox(
+                      height: MediaQuery.of(context).size.height - 200,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: trashCanMemoController.trashCanMemoList.length,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1 / 1,
+                          mainAxisSpacing: 0,
+                          crossAxisSpacing: 0,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          TrashCanModel? currentContact = selectedMemoList[index];
+                          int sortedIndex = trashCanMemoController.trashCanMemoList.indexOf(currentContact);
 
-                            // 모든 휴지통 내용 출력
-                            return Card(
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 0.1,
-                                ),
-                                borderRadius: BorderRadius.circular(4.0),
+                          // 모든 휴지통 내용 출력
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: Colors.grey,
+                                width: 0.1,
                               ),
-                              clipBehavior: Clip.antiAlias,
-                              child: CustomPaint(
-                                painter: GridPainter(),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                        return UpdateTrashCanMemoPage(
-                                          index: sortedIndex,
-                                          currentContact: currentContact,
-                                        );
-                                      }),
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ListTile(
-                                      titleAlignment: ListTileTitleAlignment.titleHeight,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                                      title: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {},
-                                                  icon: const Icon(Icons.account_box),
-                                                  padding: EdgeInsets.zero,
-                                                  // 패딩 설정
-                                                  constraints: const BoxConstraints(),
-                                                  iconSize: 50,
-                                                  color: Colors.grey,
-                                                ),
-                                                const SizedBox(width: 10.0),
-                                                Expanded(
-                                                  child: Text(
-                                                    currentContact.title,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
-                                                  ),
-                                                ),
-                                                // card() 수정 및 복원 버튼
-                                                PopupTrashCanButtonWidget(sortedIndex, currentContact),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 90.0),
-                                          Row(
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: CustomPaint(
+                              painter: GridPainter(),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return UpdateTrashCanMemoPage(
+                                        index: sortedIndex,
+                                        currentContact: currentContact,
+                                      );
+                                    }),
+                                  );
+
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: ListTile(
+                                    titleAlignment: ListTileTitleAlignment.titleHeight,
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                                    title: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Row(
                                             children: [
+                                              IconButton(
+                                                onPressed: () {},
+                                                icon: const Icon(Icons.account_box),
+                                                padding: EdgeInsets.zero,
+                                                // 패딩 설정
+                                                constraints: const BoxConstraints(),
+                                                iconSize: 50,
+                                                color: Colors.grey,
+                                              ),
+                                              const SizedBox(width: 10.0),
                                               Expanded(
                                                 child: Text(
-                                                  FormatDate().formatSimpleTimeKor(
-                                                      // 변경 전: isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt,
-                                                      currentContact.createdAt),
-                                                  style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                                  currentContact.title,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                                                 ),
                                               ),
-                                              const IconButton(
-                                                onPressed: null,
-                                                icon: SizedBox.shrink(), // 비어있는 아이콘 버튼
-                                              ),
+                                              // card() 수정 및 복원 버튼
+                                              PopupTrashCanButtonWidget(sortedIndex, currentContact),
                                             ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        const SizedBox(height: 90.0),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                FormatDate().formatSimpleTimeKor(
+                                                    // 변경 전: isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt,
+                                                    currentContact.createdAt),
+                                                style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                              ),
+                                            ),
+                                            const IconButton(
+                                              onPressed: null,
+                                              icon: SizedBox.shrink(), // 비어있는 아이콘 버튼
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      );
-                    }
-                    // 휴지통에서 검색된 내용만 출력
-                    else if (searchControllerText != null) {
-                      return TrashSearch(searchControllerText!);
-                    }
-                    return const Center(child: Text('휴지통이 비었습니다'));
-                  },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+
+              // 휴지통에서 검색된 내용만 출력
+              if (searchControllerText != null) TrashSearch(searchControllerText!),
+              Center(child: Text('휴지통이 비었습니다'))
             ],
           ),
           bottomNavigationBar: const FooterNavigationBarWidget(3),
