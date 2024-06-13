@@ -4,6 +4,7 @@
 - pubspec.yaml 전체 패키지 매년 6월 업데이트
 - figma: 와이어 프레임 업데이트
 - 설정: google drive 구현
+- 휴지통: 추후 요일/주/달 삭제 기능 구현하기
 ## 베포 전: 
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
@@ -11,7 +12,7 @@
 - 내려받는 요소 리펙토링하기 (GetX로)
 - 모든 페이지: 기능 테스트
 ## todo:
-- ing: 중요: 휴지통: 일단 전체 삭제 기능 만들기 (전체 삭제 기능 / 요일 삭제 기능 / 주 삭제 기능 / 달 삭제 기능)
+
 - 즐겨 찾기
 - settings: 앱 정보 구현
 - ValueListenable 걷어내고, Obx 적용하기
@@ -22,7 +23,11 @@
 ## 2024-06-13
 ### Features
 - settings: flutter_email_sender 설치 및 관련 설정 및 구현
- 
+- 휴지통: 정렬 기능 개선
+- ing - 휴지통: 전체 삭제 기능 구현
+### Bug Fixes
+- 오류 첮기
+- 휴지통: 변경한 내용을 즉시 UI에 반영하지 않고 있다. (controller 사용하므로 obx 적용하기)
 
 
 ## 2024-06-12
