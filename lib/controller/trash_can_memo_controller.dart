@@ -95,4 +95,18 @@ class TrashCanMemoController extends GetxController {
       isLoading(false);
     }
   }
+
+  // All delete
+  Future<void> allDeleteCtr() async {
+    isLoading(true);
+    try {
+      await _trashCanMemoRepository.allDeleteRepo();
+      loadMemoCtr(); // 메모 삭제 후 다시 로드하여 목록 업데이트
+    } catch (e) {
+      errorMessage('Failed to All delete trash can memo : $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
 }

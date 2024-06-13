@@ -1,14 +1,12 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/popup_trash_can_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/repository/local_data_source/trash_can_memo_repository.dart';
 import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:simple_note/view/widgets/trash/trash_search.dart';
@@ -61,6 +59,35 @@ class _TrashCanPageState extends State<TrashCanPage> {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             actions: [
+              // 간단하게 전체 삭제
+              IconButton(
+                visualDensity: const VisualDensity(horizontal: -4),
+                onPressed: () {
+                  Get.dialog(
+                    AlertDialog(
+                      title: Text('휴지통의 메모를 모두 삭제 하시겠습니까?', style: TextStyle(fontSize: 16)),
+                      content: const Text('더이상 휴지통의 메모를 복구할 수 없습니다', style: TextStyle(fontSize: 12)),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('취소'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            trashCanMemoController.allDeleteCtr();
+                            updateSortedLists();
+                            Get.back();
+                          },
+                          child: const Text('삭제', style: TextStyle(color: Colors.red, fontSize: 14)),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.delete, color: Colors.redAccent),
+              ),
               // 정렬
               IconButton(
                 visualDensity: const VisualDensity(horizontal: -4),
@@ -138,7 +165,9 @@ class _TrashCanPageState extends State<TrashCanPage> {
               // todo: 배너
               // BannerAdWidget(),
               const SizedBox(height: 75),
-              // 휴지통 분기문 시작점
+              // note: 빈휴지통 분기문 시작점
+              if (trashCanMemoController.trashCanMemoList.isEmpty) Center(child: Text('휴지통이 비었습니다')),
+              // note: 검색어가 없을 시, 메모 나타내기
               if (searchControllerText == null || searchControllerText == '')
                 Expanded(
                   child: Obx(() {
@@ -181,7 +210,6 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                       );
                                     }),
                                   );
-
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(4.0),
@@ -221,8 +249,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                FormatDate().formatSimpleTimeKor(
-                                                    currentContact.createdAt),
+                                                FormatDate().formatSimpleTimeKor(currentContact.createdAt),
                                                 style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                               ),
                                             ),
@@ -244,10 +271,8 @@ class _TrashCanPageState extends State<TrashCanPage> {
                     );
                   }),
                 ),
-
-              // 휴지통에서 검색된 내용만 출력
+              // note: 휴지통에서 검색 내용만 출력
               if (searchControllerText != null) TrashSearch(searchControllerText!),
-              if (trashCanMemoController.trashCanMemoList.isEmpty) Center(child: Text('휴지통이 비었습니다'))
             ],
           ),
           bottomNavigationBar: const FooterNavigationBarWidget(3),

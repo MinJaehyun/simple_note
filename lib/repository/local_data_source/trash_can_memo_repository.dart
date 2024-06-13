@@ -41,4 +41,9 @@ class TrashCanMemoRepository {
   Future deleteRepo(int index) async {
     trashCanBox!.deleteAt(index);
   }
+
+  // All delete
+  Future allDeleteRepo() async {
+    trashCanBox!.clear();
+  }
 }
