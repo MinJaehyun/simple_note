@@ -4,6 +4,7 @@ import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
+import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
 
 enum SampleItem { updateMemo, deleteMemo, restoreMemo }
 
@@ -71,6 +72,8 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                         );
                         trashCanMemoController.deleteCtr(index: widget.index);
                         Navigator.pop(context);
+                        // fix: 복원 후 리로드
+                        Get.offAll(TrashCanPage());
                       },
                       child: const Text('복원'),
                     ),
@@ -101,6 +104,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                           // 완전히 삭제
                           trashCanMemoController.deleteCtr(index: widget.index);
                           Navigator.pop(context);
+                          Get.offAll(TrashCanPage());
                         },
                         child: const Text('완전히 삭제')),
                     TextButton(
