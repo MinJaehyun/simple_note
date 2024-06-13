@@ -75,10 +75,10 @@ class _TrashCanPageState extends State<TrashCanPage> {
                           child: const Text('취소'),
                         ),
                         TextButton(
-                          onPressed: () {
-                            trashCanMemoController.allDeleteCtr();
-                            updateSortedLists();
+                          onPressed: () async {
+                            await trashCanMemoController.allDeleteCtr();
                             Get.back();
+                            updateSortedLists();
                           },
                           child: const Text('삭제', style: TextStyle(color: Colors.red, fontSize: 14)),
                         ),
@@ -272,7 +272,10 @@ class _TrashCanPageState extends State<TrashCanPage> {
                   }),
                 ),
               // note: 휴지통에서 검색 내용만 출력
-              if (searchControllerText != null) TrashSearch(searchControllerText!),
+              if (searchControllerText != null)
+                Expanded(
+                  child: TrashSearch(searchControllerText!),
+                ),
             ],
           ),
           bottomNavigationBar: const FooterNavigationBarWidget(3),
