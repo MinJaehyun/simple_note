@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/view/screens/timeline_status_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
+import 'package:simple_note/view/widgets/settings/send_mail.dart';
 
 
 class Settings extends StatefulWidget {
@@ -276,11 +277,7 @@ class _SettingsState extends State<Settings> {
                               Get.to(TimelineStatusPage());
                             },
                           ),
-                          ListTile(
-                            leading: const Icon(Icons.mail),
-                            title: const Text('의견 보내기'),
-                            onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
-                          ),
+                          SendMail(),
                           ListTile(
                             leading: const Icon(Icons.info),
                             title: const Text('앱 정보'),

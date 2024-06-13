@@ -1,7 +1,19 @@
+buildscript {
+    ext.kotlin_version = '1.8.10' // 원하는 Kotlin 버전으로 설정
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+
+    // android/build.gradle 파일에서 의존성 분해 전략을 추가하여 모든 Kotlin 라이브러리가 동일한 버전을 사용하도록 강제합니다
+    configurations.all {
+        resolutionStrategy {
+            force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+            force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+        }
     }
 }
 
