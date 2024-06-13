@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/repository/local_data_source/trash_can_memo_repository.dart';
 import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
@@ -27,12 +25,10 @@ class _TrashSearchState extends State<TrashSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: Hive.box<TrashCanModel>(TrashCanBox).listenable(),
-      builder: (context, Box<TrashCanModel> box, _) {
-        if (box.values.isEmpty) return const Center(child: Text('휴지통에 검색한 제목이나 내용이 없습니다'));
+    return Obx(() {
+        if (trashCanMemoController.trashCanMemoList.isEmpty) return const Center(child: Text('휴지통에 검색한 제목이나 내용이 없습니다'));
 
-        boxSearchTitleAndMainText = box.values.where((item) {
+        boxSearchTitleAndMainText = trashCanMemoController.trashCanMemoList.where((item) {
           return item.title.contains(widget.searchControllerText) || item.mainText!.contains(widget.searchControllerText);
         }).toList();
 
@@ -91,7 +87,6 @@ class _TrashSearchState extends State<TrashSearch> {
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: SubstringHighlight(
-                                      // text: sortedCard.title,
                                       text: currentContact.title,
                                       // 검색한 내용 가져오기
                                       term: widget.searchControllerText,
@@ -99,7 +94,7 @@ class _TrashSearchState extends State<TrashSearch> {
                                       textStyle: const TextStyle(
                                         color: Colors.grey,
                                         overflow: TextOverflow.ellipsis,
-                                        height: 1.0, // 여기에서 높이를 조절합니다.
+                                        height: 1.0,
                                       ),
                                       // highlight style
                                       textStyleHighlight: const TextStyle(
@@ -151,7 +146,8 @@ class _TrashSearchState extends State<TrashSearch> {
                                 ),
                                 const IconButton(
                                   onPressed: null,
-                                  icon: SizedBox.shrink(), // 비어있는 아이콘 버튼
+                                  // 비어있는 아이콘 버튼
+                                  icon: SizedBox.shrink(),
                                 ),
                               ],
                             ),
@@ -165,6 +161,7 @@ class _TrashSearchState extends State<TrashSearch> {
             },
           ),
         );
+
       },
     );
   }
