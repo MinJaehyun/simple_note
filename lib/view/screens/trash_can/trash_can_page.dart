@@ -59,7 +59,6 @@ class _TrashCanPageState extends State<TrashCanPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            // todo: 앱바 배경색 추후 변경하기
             backgroundColor: Colors.transparent,
             actions: [
               // 정렬
@@ -136,14 +135,16 @@ class _TrashCanPageState extends State<TrashCanPage> {
                   ],
                 ),
               ),
-              // todo: 임시 배너 넣기:
+              // todo: 배너
               // BannerAdWidget(),
               const SizedBox(height: 75),
               // 휴지통 분기문 시작점
               if (searchControllerText == null || searchControllerText == '')
                 Expanded(
-                  child: Obx(
-                    () => SizedBox(
+                  child: Obx(() {
+                    // fix: 휴지통 업데이트 메모 변경 후, 리스트 리로드
+                    updateSortedLists();
+                    return SizedBox(
                       height: MediaQuery.of(context).size.height - 200,
                       child: GridView.builder(
                         shrinkWrap: true,
@@ -210,7 +211,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                   style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                                                 ),
                                               ),
-                                              // card() 수정 및 복원 버튼
+                                              // card() 수정 및 복원 및 완전히 삭제
                                               PopupTrashCanButtonWidget(sortedIndex, currentContact),
                                             ],
                                           ),
@@ -221,7 +222,6 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                             Expanded(
                                               child: Text(
                                                 FormatDate().formatSimpleTimeKor(
-                                                    // 변경 전: isCurrentSortVal ? reversedCurrentContact!.createdAt : currentContact!.createdAt,
                                                     currentContact.createdAt),
                                                 style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                               ),
@@ -241,13 +241,13 @@ class _TrashCanPageState extends State<TrashCanPage> {
                           );
                         },
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                 ),
 
               // 휴지통에서 검색된 내용만 출력
               if (searchControllerText != null) TrashSearch(searchControllerText!),
-              Center(child: Text('휴지통이 비었습니다'))
+              if (trashCanMemoController.trashCanMemoList.isEmpty) Center(child: Text('휴지통이 비었습니다'))
             ],
           ),
           bottomNavigationBar: const FooterNavigationBarWidget(3),
