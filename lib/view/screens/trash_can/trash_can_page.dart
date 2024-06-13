@@ -1,6 +1,9 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/controller/settings_controller.dart';
+import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/popup_trash_can_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -21,7 +24,16 @@ class TrashCanPage extends StatefulWidget {
 class _TrashCanPageState extends State<TrashCanPage> {
   String? searchControllerText;
   TextEditingController searchController = TextEditingController();
-  bool isCurrentSortVal = false;
+  final settingsController = Get.find<SettingsController>();
+  final trashCanMemoController = Get.find<TrashCanMemoController>();
+  List<TrashCanModel> sortedMemoList = [];
+  List<TrashCanModel> reverseSortedMemoList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    updateSortedLists();
+  }
 
   @override
   void dispose() {
@@ -29,8 +41,21 @@ class _TrashCanPageState extends State<TrashCanPage> {
     super.dispose();
   }
 
+  void updateSortedLists() {
+    sortedMemoList = List.from(trashCanMemoController.trashCanMemoList)
+      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    reverseSortedMemoList = List.from(trashCanMemoController.trashCanMemoList)
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
   @override
   Widget build(BuildContext context) {
+    // note: 상단 함수를 실행해야, 리로드 된다
+    updateSortedLists();
+    // note: 선택된 정렬에 따라 올바른 리스트를 선택합니다.
+    List<TrashCanModel> selectedMemoList = settingsController.sortedTime == SortedTime.firstTime
+        ? sortedMemoList : reverseSortedMemoList;
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -40,20 +65,23 @@ class _TrashCanPageState extends State<TrashCanPage> {
           appBar: AppBar(
             // todo: 앱바 배경색 추후 변경하기
             backgroundColor: Colors.transparent,
-
-            // actions: [
-            // // 정렬
-            // IconButton(
-            //   visualDensity: const VisualDensity(horizontal: -4),
-            //   // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
-            //   onPressed: () {
-            //     setState(() {
-            //       isCurrentSortVal = !isCurrentSortVal;
-            //     });
-            //   },
-            //   icon: const Icon(Icons.sort),
-            // ),
-            // ],
+            actions: [
+            // 정렬
+            IconButton(
+              visualDensity: const VisualDensity(horizontal: -4),
+              // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
+              onPressed: () {
+                setState(() {
+                  if(settingsController.sortedTime == SortedTime.firstTime) {
+                    settingsController.updateSortedName(SortedTime.lastTime);
+                  } else {
+                    settingsController.updateSortedName(SortedTime.firstTime);
+                  }
+                });
+              },
+              icon: const Icon(Icons.sort),
+            ),
+            ],
           ),
           body: Column(
             children: [
@@ -133,11 +161,8 @@ class _TrashCanPageState extends State<TrashCanPage> {
                             crossAxisSpacing: 0,
                           ),
                           itemBuilder: (BuildContext context, int index) {
-                            // firstTime이면 오래된 순서로 정렬하고, lastTime이면 생성된 순서로 정렬한다.
-                            // note: *** 아래처럼 TrashCanModel? currentContact 설정하면 제대로 index 각각 가져오는데, 상단에 TrashCanModel? currentContact 작성하고 currentContact = box.getAt(index); 처리하면 각각의 요소 가져오지 못한다. 이유는? ***
-                            TrashCanModel? currentContact = box.getAt(index);
-                            // T선rashCanModel? reversedCurrentContact = box.getAt(box.values.length - 1 - index);
-                            // sortedCard = widget.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+                            TrashCanModel? currentContact = selectedMemoList[index];
+                            int sortedIndex = trashCanMemoController.trashCanMemoList.indexOf(currentContact);
 
                             // 모든 휴지통 내용 출력
                             return Card(
@@ -155,11 +180,9 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
-                                        // UpdateMemo 는 memoModel 타입으로 들어가도록 설정되어 있다.
                                         return UpdateTrashCanMemoPage(
-                                          index: index,
-                                          // currentContact: isCurrentSortVal ? reversedCurrentContact! : currentContact!,
-                                          currentContact: currentContact!,
+                                          index: sortedIndex,
+                                          currentContact: currentContact,
                                         );
                                       }),
                                     );
@@ -187,15 +210,13 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                 const SizedBox(width: 10.0),
                                                 Expanded(
                                                   child: Text(
-                                                    // isCurrentSortVal ? reversedCurrentContact!.title : currentContact!.title,
-                                                    currentContact!.title,
+                                                    currentContact.title,
                                                     overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                                                   ),
                                                 ),
                                                 // card() 수정 및 복원 버튼
-                                                // PopupTrashCanButtonWidget(index, isCurrentSortVal ? reversedCurrentContact! : currentContact!),
-                                                PopupTrashCanButtonWidget(index, currentContact),
+                                                PopupTrashCanButtonWidget(sortedIndex, currentContact),
                                               ],
                                             ),
                                           ),
