@@ -302,7 +302,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 builder: (BuildContext context) => AlertDialog(
                                   title: const Text('메모를 복원 하시겠습니까?'),
                                   actions: <Widget>[
-                                    // 예: 누르면, 메모를 복원한다.
+                                    // 예: 메모 복원
                                     TextButton(
                                       onPressed: () async {
                                         memoController.addCtr(
@@ -312,7 +312,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                           selectedCategory: _dropdownValue!,
                                           isFavoriteMemo: false,
                                         );
-                                        // trash_can_memo_controller.delete
+                                        // todo: 정렬된 인덱스 내려주는게 아닌 휴지통의 리스트의 인덱스를 내려줘야 한다?
                                         trashCanMemoController.deleteCtr(index: widget.index);
                                         setState(() {
                                           Navigator.of(context).pop();
@@ -321,7 +321,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                       },
                                       child: const Text('메모를 복원'),
                                     ),
-                                    // 아니오: 누르면, 메모장으로 빠져나간다.
+                                    // 아니오: 메모장으로 빠져나가기
                                     TextButton(
                                       onPressed: () => Navigator.pop(context, 'OK'),
                                       child: const Text('메모장 돌아가기'),
