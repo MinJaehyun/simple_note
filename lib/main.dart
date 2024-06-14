@@ -63,29 +63,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FlutterNativeSplash.remove();
-    // note: 다크 모드을 위한 ValueListenableBuilder
-    return ValueListenableBuilder(
-      valueListenable: Hive.box(themeModeBox).listenable(),
-      builder: (context, box, widget) {
-        bool darkMode = box.get('darkMode', defaultValue: true); // Hive
-        // RxBool darkMode = settingsController.isDarkMode; // getx
+    return Obx(
+      () {
+        RxBool darkMode = settingsController.isThemeMode;
         String selectedFont = settingsController.selectedFont.value.name; // enum의 name을 사용
 
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          // 다크모드 설정
-          themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
-          // theme 내에 3가지 설정 (폰트 설정, colorScheme, textTheme)
+          themeMode: darkMode == true ? ThemeMode.dark : ThemeMode.light,
+          // theme 내 3가지 설정 (폰트, colorScheme, textTheme)
           theme: ThemeData(
-            // fontFamily: 'NanumSquareNeo', // 변경 전
             fontFamily: selectedFont,
             colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.white,
               brightness: Brightness.light,
             ),
-            scaffoldBackgroundColor: Colors.grey[100], // 전체 배경색을 회색으로 설정
+            scaffoldBackgroundColor: Colors.grey[100], // 전체 배경색 회색 설정
             appBarTheme: AppBarTheme(
-              backgroundColor: Colors.grey[100], // AppBar의 배경색을 회색으로 설정
+              backgroundColor: Colors.grey[100], // AppBar 배경색 회색 설정
             ),
           ),
           darkTheme: ThemeData(

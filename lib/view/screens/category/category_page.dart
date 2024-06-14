@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/model/category.dart';
@@ -23,8 +25,8 @@ class _CategoryPageState extends State<CategoryPage> {
   CategoriesItem? categoriesItem;
   TextEditingController categoryController = TextEditingController();
   String? selectedCategory;
-
   late List<MemoModel> classifiedMemo = [];
+  final memoController = Get.find<MemoController>();
 
   @override
   void dispose() {
@@ -57,19 +59,15 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
         appBar: AppBar(
             // title: Text('Simple Note', style: style),
-            // centerTitle: true,
+            // centerTitle: true
             ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               // note: 모든, 미분류
-              ValueListenableBuilder(
-                valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
-                builder: (context, Box<MemoModel> box, _) {
+              Obx(() {
                   // note: 미분류 메모: unclassifiedMemo 는 해당 ValueListenableBuilder 내에서만 사용할 것이므로 변수 타입 선언
-                  List<MemoModel> unclassifiedMemo = box.values.toList().where((item) => item.selectedCategory == '미분류').toList();
-                  // note: 분류된 메모 - err: 기능 오류인 이유? var를 밖에 선언하고 다른 ValueListenableBuilder에서 사용하면 에러난다!
-                  // classifiedMemo = box.values.where((item) => item.selectedCategory == selectedCategory).toList();
+                  List<MemoModel> unclassifiedMemo = memoController.memoList.where((item) => item.selectedCategory == '미분류').toList();
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +79,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
                         ),
                       ),
-                      Card(child: ListTile(title: Text('모든 (${box.values.length})', style: style))),
+                      Card(child: ListTile(title: Text('모든 (${memoController.memoList.length})', style: style))),
                       Card(child: ListTile(title: Text('미분류 (${unclassifiedMemo.length})', style: style))),
                     ],
                   );
@@ -89,6 +87,7 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
 
               // note: 생성한 카테고리 목록
+              // todo: 아래 ValueListenableBuilder의 box는 사용중이므로 추후, 리펙토링하기
               ValueListenableBuilder(
                 valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
                 builder: (context, Box<CategoryModel> box, _) {

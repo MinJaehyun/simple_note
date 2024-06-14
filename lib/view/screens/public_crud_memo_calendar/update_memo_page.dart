@@ -155,21 +155,23 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                           ),
                           // 범주
                           Expanded(
+                            // note: 이하 box 사용중이므로 일단 대기..
                             child: ValueListenableBuilder(
-                                valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
-                                builder: (context, Box<CategoryModel> box, _) {
-                                  // if (box.values.isEmpty) return Center(child: Text('test update memo'));
-                                  return TextButton(
-                                    // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
-                                    style: TextButton.styleFrom(
-                                      minimumSize: Size.zero,
-                                      padding: EdgeInsets.zero,
-                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                    ),
-                                    onPressed: () {},
-                                    child: dropdownButtonWidget(box),
-                                  );
-                                }),
+                              valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
+                              builder: (context, Box<CategoryModel> box, _) {
+                                // if (box.values.isEmpty) return Center(child: Text('test update memo'));
+                                return TextButton(
+                                  // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
+                                  style: TextButton.styleFrom(
+                                    minimumSize: Size.zero,
+                                    padding: EdgeInsets.zero,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  onPressed: () {},
+                                  child: dropdownButtonWidget(box),
+                                );
+                              },
+                            ),
                           ),
                           // 범주 생성 버튼
                           IconButton(

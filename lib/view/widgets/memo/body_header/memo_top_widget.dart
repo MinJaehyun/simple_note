@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/repository/local_data_source/category_repository.dart';
@@ -20,6 +21,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
   String? searchControllerText;
   TextEditingController searchController = TextEditingController();
   final settingsController = Get.find<SettingsController>();
+  final categoryController = Get.find<CategoryController>();
 
   @override
   void dispose() {
@@ -155,15 +157,9 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                   ),
                                 ),
                                 // note: [] 내에서 ...box 사용하여 ListView 대신 반복하는 방법: SingleChildScrollView 내에 ListView 사용 시 충돌함!
-                                // child: ListView.separated(
-                                //   scrollDirection: Axis.horizontal,
-                                //   separatorBuilder: (context, index) {
-                                //     return const SizedBox();
-                                //   },
-                                //   itemCount: box.values.length,
-                                //   itemBuilder: (context, index) {
-                                //     CategoryModel? categoryContact = box.getAt(index);
-                                ...box.values.map(
+                                // note: 변경 전
+                                // ...box.values.map(
+                                   ...categoryController.categoryList.map(
                                   (categoryContact) {
                                     return Card(
                                       shape: RoundedRectangleBorder(
