@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
-import 'package:simple_note/model/category.dart';
-import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/view/widgets/memo/memo_body_footer_control_statements_widget.dart';
 
 class MemoTopWidget extends StatefulWidget {
@@ -37,10 +34,8 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
       },
       child: Column(
         children: [
-          // body_top: 검색창 및 범주
-          ValueListenableBuilder(
-            valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
-            builder: (context, Box<CategoryModel> box, _) {
+          // // body_top: 검색창 및 범주
+          Obx(() {
               return SingleChildScrollView(
                 child: SizedBox(
                   height: 155,
