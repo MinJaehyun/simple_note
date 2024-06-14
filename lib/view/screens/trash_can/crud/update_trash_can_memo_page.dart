@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
@@ -36,6 +37,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
   final settingsController = Get.find<SettingsController>();
   final memoController = Get.find<MemoController>();
   final trashCanMemoController = Get.find<TrashCanMemoController>();
+  final categoryController = Get.find<CategoryController>();
 
   @override
   void initState() {
@@ -88,7 +90,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
       }
     }
 
-    DropdownButton<String> dropdownButtonWidget(Box<CategoryModel> box) {
+    DropdownButton<String> dropdownButtonWidget(categoryList) {
       return DropdownButton(
         style: const TextStyle(color: Colors.green),
         underline: Container(height: 2, color: Colors.green[100]),
@@ -96,7 +98,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
         // ui에 나타낼 _dropdownValue 나타냄
         hint: Text('$_dropdownValue'),
         onChanged: dropdownCallback,
-        items: box.values.toList().map<DropdownMenuItem<String>>((value) {
+        items: categoryList.map<DropdownMenuItem<String>>((value) {
           return DropdownMenuItem<String>(
             value: value.categories,
             // todo: 아래 test3 고민하기
@@ -111,11 +113,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          body: ValueListenableBuilder(
-            valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
-            builder: (context, Box<CategoryModel> box, _) {
-              if (box.values.isEmpty) return const Center(child: Text('test update memo'));
-
+          body: Obx(() {
+              if (categoryController.categoryList.isEmpty) return const Center(child: Text('test update memo'));
               return Stack(
                 children: [
                   Column(
@@ -143,7 +142,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 onPressed: () {},
-                                child: dropdownButtonWidget(box),
+                                child: dropdownButtonWidget(categoryController.categoryList),
                               ),
                               // 범주 생성 버튼
                               IconButton(

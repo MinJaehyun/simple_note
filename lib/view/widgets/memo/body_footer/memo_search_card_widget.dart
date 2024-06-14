@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/memo_controller.dart';
-import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -30,16 +28,14 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: Hive.box<MemoModel>(MemoBox).listenable(),
-      builder: (context, Box<MemoModel> box, _) {
-        if (box.values.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
-        boxSearchTitleAndMainText = box.values.where((item) {
+    return Obx(() {
+        if (memoController.memoList.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
+        boxSearchTitleAndMainText = memoController.memoList.where((item) {
           return item.title.contains(widget.searchControllerText!) || item.mainText!.contains(widget.searchControllerText!);
         }).toList();
 
         // note: 검색한 제목이나 내용의 원조 모든 메모에 인덱스를 가져오는 방법
-        List<MemoModel> memoList = box.values.toList();
+        List<MemoModel> memoList = memoController.memoList;
         List<int> selectedIndices = [];
         for (int i = 0; i < memoList.length; i++) {
           if (memoList[i].title.contains(widget.searchControllerText!) || memoList[i].mainText!.contains(widget.searchControllerText!)) {
@@ -144,7 +140,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                       : Icon(Icons.check_box, color: Colors.red),
                                   onPressed: () {
                                     memoController.updateCtr(
-                                      index: settingsController.sortedTime == SortedTime.firstTime ? index : box.values.length - index - 1,
+                                      index: settingsController.sortedTime == SortedTime.firstTime ? index : memoController.memoList.length - index - 1,
                                       createdAt: sortedCard.createdAt,
                                       title: sortedCard.title,
                                       mainText: sortedCard.mainText,
