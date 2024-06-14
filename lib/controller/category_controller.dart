@@ -47,6 +47,23 @@ class CategoryController extends GetxController {
     }
   }
 
+  // 미사용: addAll
+  // note: addCtr 메서드에서 CategoryModel 객체를 생성하지 않고, 문자열을 그대로 addRepo 메서드에 전달함!
+  void addAllCtr(List<CategoryModel>? category) async {
+    if (category == null || category.isEmpty) {
+      errorMessage('Category cannot be null or empty');
+      return;
+    }
+    isLoading(true);
+    try {
+      await _categoryRepository.addAllRepo(category);
+    } catch (e) {
+      errorMessage('Failed to add category: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
   // update
   void updateCtr(int index, String? category) async {
     if (category == null || category.isEmpty) {
@@ -72,6 +89,18 @@ class CategoryController extends GetxController {
       loadCategories();
     } catch (e) {
       errorMessage('Failed to delete category: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  // 미사용: all delete
+  void allDeleteCtr() async {
+    isLoading(true);
+    try {
+      await _categoryRepository.allDeleteRepo();
+    } catch(e) {
+      errorMessage('Failed to All delete category: $e');
     } finally {
       isLoading(false);
     }

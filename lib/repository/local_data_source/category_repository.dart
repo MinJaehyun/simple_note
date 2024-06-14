@@ -36,6 +36,19 @@ class CategoryRepository {
     return;
   }
 
+  // 미사용: addAll
+  Future<void> addAllRepo(List<CategoryModel> category) async {
+    if (categoriesBox == null) {
+      await openBox();
+    }
+    // await categoriesBox!.add(category);
+    List<CategoryModel> containedCategories = categoriesBox!.values.where((item) => item.categories == category).toList();
+    if (containedCategories.isEmpty) {
+      categoriesBox?.addAll((category));
+    }
+    return;
+  }
+
   // update
   Future<void> updateRepo(int index, CategoryModel category) async {
     await categoriesBox!.putAt(index, category);
@@ -44,5 +57,10 @@ class CategoryRepository {
   // delete
   Future deleteRepo(int index) async {
     await categoriesBox!.deleteAt(index);
+  }
+
+  // 미사용: all delete
+  Future allDeleteRepo() async {
+    await categoriesBox!.clear();
   }
 }
