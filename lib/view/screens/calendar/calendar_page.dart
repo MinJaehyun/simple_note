@@ -60,7 +60,6 @@ class _CalendarPageState extends State<CalendarPage> {
         eventsList[date] = [title];
       }
     }
-
     setState(() {});
   }
 
@@ -230,6 +229,10 @@ class _CalendarPageState extends State<CalendarPage> {
                   return item.isCheckedTodo == true;
                 }).toList();
 
+                // 정렬된 리스트를 생성하여 사용
+                var sortedMemoList = List<MemoModel>.from(memoController.memoList)
+                  ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
                 var result = [];
                 for (int i = 0; i < eventsList.values.first.first.length; i++) {
                   result.add(i);
@@ -269,6 +272,8 @@ class _CalendarPageState extends State<CalendarPage> {
                           itemCount: sameSelectedDayMemo.length,
                           itemBuilder: (context, index) {
                             MemoModel? currentContact = sameSelectedDayMemo[index];
+                            // print(sortedMemoList.indexOf(sameSelectedDayMemo[index]));
+
                             return Card(
                               child: ListTile(
                                 title: currentContact.isCheckedTodo == true
@@ -288,45 +293,42 @@ class _CalendarPageState extends State<CalendarPage> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return UpdateMemoPage(index: index, sortedCard: currentContact);
+                                        // return UpdateMemoPage(index: index, sortedCard: currentContact);
+                                        return UpdateMemoPage(index: sortedMemoList.indexOf(sameSelectedDayMemo[index]), sortedCard: currentContact);
                                       },
                                     ),
                                   );
                                 },
-                                // note: 전체 메모에 접근하는게 아닌, 금일 메모에 접근해야 한다.
-                                // fixme:
                                 leading: currentContact.isCheckedTodo == true
                                     ? IconButton(
                                         icon: Icon(Icons.check_box, color: Colors.red),
                                         onPressed: () {
-                                          // fixme:
-                                          // memoController.updateCtr(
-                                          //   index: index,
-                                          //   createdAt: currentContact.createdAt,
-                                          //   title: currentContact.title,
-                                          //   selectedCategory: currentContact.selectedCategory,
-                                          //   mainText: currentContact.mainText,
-                                          //   isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
-                                          //   isCheckedTodo: false,
-                                          // );
+                                          memoController.updateCtr(
+                                            index: sortedMemoList.indexOf(sameSelectedDayMemo[index]),
+                                            createdAt: currentContact.createdAt,
+                                            title: currentContact.title,
+                                            selectedCategory: currentContact.selectedCategory,
+                                            mainText: currentContact.mainText,
+                                            isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
+                                            isCheckedTodo: false,
+                                          );
                                         },
                                       )
-                                // fixme:
                                     : IconButton(
                                         icon: Icon(Icons.check_box_outline_blank, color: Colors.green),
                                         onPressed: () {
-                                          // memoController.updateCtr(
-                                          //   index: index,
-                                          //   createdAt: currentContact.createdAt,
-                                          //   title: currentContact.title,
-                                          //   selectedCategory: currentContact.selectedCategory,
-                                          //   mainText: currentContact.mainText,
-                                          //   isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
-                                          //   isCheckedTodo: true,
-                                          // );
+                                          memoController.updateCtr(
+                                            index: sortedMemoList.indexOf(sameSelectedDayMemo[index]),
+                                            createdAt: currentContact.createdAt,
+                                            title: currentContact.title,
+                                            selectedCategory: currentContact.selectedCategory,
+                                            mainText: currentContact.mainText,
+                                            isFavoriteMemo: currentContact.isFavoriteMemo ?? false,
+                                            isCheckedTodo: true,
+                                          );
                                         },
                                       ),
-                                trailing: MemoCalendarPopupButtonWidget(index, currentContact),
+                                trailing: MemoCalendarPopupButtonWidget(sortedMemoList.indexOf(sameSelectedDayMemo[index]), currentContact),
                               ),
                             );
                           },
