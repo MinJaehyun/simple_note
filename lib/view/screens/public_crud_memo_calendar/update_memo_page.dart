@@ -266,7 +266,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                       ),
                                     ),
                                     style: TextStyle(
-                                      color: settingsController.isThemeMode.isTrue ? Colors.white : Colors.black,
+                                      color: settingsController.isThemeMode.isFalse ? Colors.white : Colors.black,
                                       fontSize: settingsController.fontSizeSlider.toDouble(),
                                     ),
                                   ),
