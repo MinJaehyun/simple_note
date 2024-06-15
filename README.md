@@ -1,29 +1,37 @@
 # Development notes
 
 ## 배포 후:
-- pubspec.yaml 전체 패키지 매년 6월 업데이트
 - figma: 와이어 프레임 업데이트
-- 설정: google drive 구현
-- 휴지통: 추후 요일/주/달 삭제 기능 구현하기
 ## 베포 전: 
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
-- refactoring: crud 위젯 분리
-- 내려받는 요소 리펙토링하기 (GetX로)
 - 모든 페이지: 기능 테스트
 ## todo:
-- ValueListenable 걷어내고, Obx 적용하기
-- 즐겨 찾기
-- settings: 앱 정보 구현
 - 광고 넣을 곳 찾기 (메모: 최하단, 범주: 최하단, 달력: 최하단, 설정: 최하단, add_memo: 내용과 저장 버튼 사이에, update_memo: 내용과 저장 버튼 사이에, update_trash_can_memo: 내용과 저장 버튼 사이에)
-- 광고 승인 대기 중, 승인 후 배포 코드 설정 및 배포 작업 
+- 광고 승인 대기 중, 승인 후 배포 코드 설정 및 배포 작업
+- 메모: user image 필요한지? 필요없다. (필요 있을 때, 날짜 바로 위에 놓고 크기 원형에 작게 설정하고 옆에 작성한 user name 넣기) / 제목만 넣기, 추후 이미지 기능 생기면 이미지를 메모 안에 상단에 나타내기 
+## Bug Fixes
 - 추후: 휴지통: 전체 삭제: 한번 클릭 시 반영되지 않는다.. 2번째는 된다
-- 달력: 첫 번째 인덱스 체크 누르면 다른 날짜에 0번째 인덱스가 사라지고 오늘날짜에 인덱스 마지막으로 생성된다 (임시 기능 중지)
+- 추후: 달력: 메모 추가 시, A RenderFlex overflowed by 220 pixels on the bottom
+
+
+## 2024-06-16
+### Features
+- (2/2) 즐겨 찾기
+
+
+## 2024-06-15
+### Features
+- ~~settings: 버전 정보 설정~~
+- (1/2) 즐겨 찾기    
+### Bug Fixes
+- 오류 찾기
+- ~~달력: index 오류 해결 (체크, 업데이트 메모 기능 재구현)~~
 
 
 ## 2024-06-14
 ### Features
-- (2/3) ValueListenableBuilder to Obx
+- (2/2) ValueListenableBuilder to Obx
 ### Bug Fixes
 - 오류 찾기
 
