@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
@@ -21,11 +22,21 @@ class AppBarSortWidget extends StatefulWidget implements PreferredSizeWidget {
 
 class _AppBarSortWidgetState extends State<AppBarSortWidget> {
   final settingsController = Get.find<SettingsController>();
+  final memoController = Get.find<MemoController>();
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       actions: [
+        Obx(
+          () => IconButton(
+            visualDensity: const VisualDensity(horizontal: -4),
+            icon: settingsController.isAppbarFavoriteMemo == true ? Icon(Icons.star, color: Colors.red) : Icon(Icons.star_border_sharp),
+            onPressed: () {
+              settingsController.updateAppbarFavoriteMemo();
+            },
+          ),
+        ),
         IconButton(
           visualDensity: const VisualDensity(horizontal: -4),
           icon: const Icon(Icons.sort),
