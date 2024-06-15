@@ -37,7 +37,6 @@ void main() async {
   await MemoRepository().openBox();
   await TrashCanMemoRepository().openBox();
   await CategoryRepository().openBox();
-
   // note: themeModeBox(dark/light mode, gridPaingter(on/off)
   await Hive.openBox(themeModeBox);
   // note: intl 초기화
@@ -70,7 +69,7 @@ class MyApp extends StatelessWidget {
 
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          themeMode: darkMode == true ? ThemeMode.dark : ThemeMode.light,
+          themeMode: darkMode == true ? ThemeMode.light : ThemeMode.dark,
           // theme 내 3가지 설정 (폰트, colorScheme, textTheme)
           theme: ThemeData(
             fontFamily: selectedFont,
