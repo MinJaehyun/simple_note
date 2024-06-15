@@ -14,60 +14,68 @@ class SettingsController extends GetxController {
   RxDouble fontSizeSlider = 20.0.obs;
   Rx<SelectedFont> selectedFont = SelectedFont.pretendard.obs;
   Rx<SortedTime> sortedTime = SortedTime.firstTime.obs;
-
-  Box<dynamic> box = Hive.box('themeModel');
+  RxBool isAppbarFavoriteMemo = false.obs;
+  Box<dynamic> themeBox = Hive.box('themeModel');
 
   @override
   void onInit() {
     super.onInit();
-    // Box<dynamic> box = Hive.box('themeModel');
 
-    // isDarkMode.value = box.get('darkMode', defaultValue: false);
-    // isDarkMode 값을 가져올 때 double 값이 할당되지 않도록 확인
-    bool darkModeValue = box.get('darkMode', defaultValue: false);
+    bool darkModeValue = themeBox.get('isThemeMode', defaultValue: false);
     if (darkModeValue) {
       isThemeMode.value = darkModeValue;
     } else {
-      isThemeMode.value = false; // 기본값으로 설정
+      isThemeMode.value = false;
     }
 
-    // gridMode 값을 가져올 때 double 값이 할당되지 않도록 확인
-    bool gridModeValue = box.get('gridMode', defaultValue: false);
+    // note: 초기 설정 없으면 기본값으로 풀린다.
+    bool gridModeValue = themeBox.get('isGridMode', defaultValue: false);
     if (gridModeValue) {
       isGridMode.value = gridModeValue;
     } else {
-      isGridMode.value = false; // 기본값으로 설정
+      isGridMode.value = false;
     }
     
-    int selectedFontValue = box.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
+    int selectedFontValue = themeBox.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
     selectedFont.value = SelectedFont.values[selectedFontValue];
 
-    double fontSizeValue = box.get('fontSizeSlide', defaultValue: 20.0);
+    double fontSizeValue = themeBox.get('fontSizeSlider', defaultValue: 20.0);
     fontSizeSlider.value = fontSizeValue;
+  }
+
+  void updateAppbarFavoriteMemo() {
+    isAppbarFavoriteMemo.value = !isAppbarFavoriteMemo.value;
+    themeBox.put('isAppbarFavoriteMemo', isAppbarFavoriteMemo.value);
   }
 
   // sort
   void updateSortedName(SortedTime value) {
     sortedTime.value = value;
-    box.put('sortedTime', value.index);
+    themeBox.put('sortedTime', value.index);
   }
 
   void updateFontSlider(double value) {
     fontSizeSlider.value = value;
-    box.put('fontSizeSlide', value);
+    themeBox.put('fontSizeSlider', value);
   }
 
   void updateFont(SelectedFont font) {
     selectedFont.value = font;
-    box.put('selectedFont', font.index);
+    themeBox.put('selectedFont', font.index);
   }
 
   void toggleDarkMode(bool value) {
     // 변경 전:
     // isThemeMode.toggle();
-    // box.put('darkMode', isThemeMode.toggle());
+    // themeBox.put('darkMode', isThemeMode.toggle());
     // 변경 후: bool는 .toggle() 기능으로 간편하게 처리할 수 있지만, 에러 문구 출력하므로 이전 코드 사용
     isThemeMode.value = !isThemeMode.value;
-    box.put('darkMode', isThemeMode.value);
+    themeBox.put('isThemeMode', isThemeMode.value);
   }
+
+  void toggleGridMode(bool value) {
+    isGridMode.value = !isGridMode.value;
+    themeBox.put('isGridMode', isGridMode.value);
+  }
+
 }
