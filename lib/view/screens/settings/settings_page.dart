@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/view/screens/settings/timeline_status_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:simple_note/view/widgets/settings/send_mail.dart';
-
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -45,40 +43,45 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     Card(
-                      child: ValueListenableBuilder(
-                        // valueListenable: Hive.box('themeModel').listenable(keys: ['darkMode']), // 변경 전: 불필요한 요소 제거?
-                        valueListenable: Hive.box('themeModel').listenable(),
-                        builder: (context, box, child) {
+                      child: Obx(
+                        () {
                           // note: RxBool 인지 bool 인지에 따라 , Hive Box에서 가져왔는지 GetX controller에서 가져왔는지 확인이 가능하다..
-                          bool darkMode = box.get('darkMode', defaultValue: false);
-                          bool gridMode = box.get('gridMode', defaultValue: false);
-
+                          // bool darkMode = box.get('darkMode', defaultValue: false);
+                          // bool gridMode = box.get('gridMode', defaultValue: false);
                           return Column(
                             children: [
                               // note: 테마 설정
                               ListTile(
-                                leading: darkMode ? const Icon(Icons.dark_mode_outlined) : const Icon(Icons.light_mode_outlined),
+                                leading: settingsController.isThemeMode == true
+                                    ? const Icon(Icons.light_mode_outlined)
+                                    : const Icon(Icons.dark_mode_outlined),
                                 title: const Text('테마 설정'),
                                 trailing: Switch(
-                                  value: darkMode,
+                                  value: settingsController.isThemeMode == false,
                                   activeColor: Colors.pinkAccent,
                                   onChanged: (bool value) {
-                                    settingsController.toggleDarkMode(value);
-                                      // note: darkMode = value 대신 분기문 처리하여 darkMode 키에 bool 값 변경함
-                                      darkMode == false ? box.put('darkMode', true) : box.put('darkMode', false);
+                                    // settingsController.toggleDarkMode(value);
+                                    // note: dar  kMode = value 대신 분기문 처리하여 darkMode 키에 bool 값 변경함
+                                    settingsController.isThemeMode == false
+                                        ? settingsController.toggleDarkMode(true)
+                                        : settingsController.toggleDarkMode(false);
                                   },
                                 ),
                               ),
 
                               // note: 격자 설정
                               ListTile(
-                                leading: gridMode ? const Icon(Icons.apps) : const Icon(Icons.crop_din),
+                                leading: settingsController.isGridMode == true
+                                    ? const Icon(Icons.apps)
+                                    : const Icon(Icons.crop_din),
                                 title: const Text('격자 설정'),
                                 trailing: Switch(
-                                  value: gridMode,
+                                  value: settingsController.isGridMode == true,
                                   activeColor: Colors.pinkAccent,
                                   onChanged: (bool value) {
-                                      gridMode == false ? box.put('gridMode', true) : box.put('gridMode', false);
+                                    settingsController.isGridMode == true
+                                        ? settingsController.toggleGridMode(false)
+                                        : settingsController.toggleGridMode(true);
                                   },
                                 ),
                               ),
