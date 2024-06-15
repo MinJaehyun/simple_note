@@ -280,8 +280,13 @@ class _SettingsState extends State<Settings> {
                           SendMail(),
                           ListTile(
                             leading: const Icon(Icons.info),
-                            title: const Text('앱 정보'),
-                            onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
+                            title: Row(
+                              children: [
+                                const Text('버전 정보'),
+                                Spacer(),
+                                const Text('1.0.0'),
+                              ],
+                            ),
                           ),
                         ],
                       ),
