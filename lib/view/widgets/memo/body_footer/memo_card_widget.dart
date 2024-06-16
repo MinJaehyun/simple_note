@@ -112,15 +112,15 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                 Row(
                                   children: [
                                     // todo: 추후, 구글 로그인 이미지 넣기: memoController.memoList[index]
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.account_box),
-                                      padding: EdgeInsets.zero,
-                                      // 패딩 설정
-                                      constraints: const BoxConstraints(),
-                                      iconSize: 50,
-                                      color: Colors.grey,
-                                    ),
+                                    // IconButton(
+                                    //   onPressed: () {},
+                                    //   icon: const Icon(Icons.account_box),
+                                    //   padding: EdgeInsets.zero,
+                                    //   // 패딩 설정
+                                    //   constraints: const BoxConstraints(),
+                                    //   iconSize: 50,
+                                    //   color: Colors.grey,
+                                    // ),
                                     const SizedBox(width: 10.0),
                                     Expanded(
                                       child: Text(
@@ -246,15 +246,15 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                             Row(
                               children: [
                                 // todo: 추후, 구글 로그인 이미지 넣기: memoController.memoList[index]
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.account_box),
-                                  padding: EdgeInsets.zero,
-                                  // 패딩 설정
-                                  constraints: const BoxConstraints(),
-                                  iconSize: 50,
-                                  color: Colors.grey,
-                                ),
+                                // IconButton(
+                                //   onPressed: () {},
+                                //   icon: const Icon(Icons.account_box),
+                                //   padding: EdgeInsets.zero,
+                                //   // 패딩 설정
+                                //   constraints: const BoxConstraints(),
+                                //   iconSize: 50,
+                                //   color: Colors.grey,
+                                // ),
                                 const SizedBox(width: 10.0),
                                 Expanded(
                                   child: Text(

@@ -222,15 +222,15 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                         Expanded(
                                           child: Row(
                                             children: [
-                                              IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(Icons.account_box),
-                                                padding: EdgeInsets.zero,
-                                                // 패딩 설정
-                                                constraints: const BoxConstraints(),
-                                                iconSize: 50,
-                                                color: Colors.grey,
-                                              ),
+                                              // IconButton(
+                                              //   onPressed: () {},
+                                              //   icon: const Icon(Icons.account_box),
+                                              //   padding: EdgeInsets.zero,
+                                              //   // 패딩 설정
+                                              //   constraints: const BoxConstraints(),
+                                              //   iconSize: 50,
+                                              //   color: Colors.grey,
+                                              // ),
                                               const SizedBox(width: 10.0),
                                               Expanded(
                                                 child: Text(

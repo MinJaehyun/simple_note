@@ -91,7 +91,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                               child: Row(
                                 children: [
                                   // todo: 추후, 구글 로그인 이미지 넣기
-                                  const Icon(Icons.account_box, size: 50, color: Colors.grey),
+                                  // const Icon(Icons.account_box, size: 50, color: Colors.grey),
                                   const SizedBox(width: 10.0),
                                   Expanded(
                                     // todo: 아래 부분만 다르므로, 이를 위젯으로 처리하면 리펙토링 가능할 듯
