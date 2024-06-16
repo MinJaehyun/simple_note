@@ -245,15 +245,13 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                           children: [
                             Row(
                               children: [
-                                // todo: 추후, 구글 로그인 이미지 넣기: memoController.memoList[index]
-                                // IconButton(
-                                //   onPressed: () {},
-                                //   icon: const Icon(Icons.account_box),
-                                //   padding: EdgeInsets.zero,
-                                //   // 패딩 설정
-                                //   constraints: const BoxConstraints(),
-                                //   iconSize: 50,
-                                //   color: Colors.grey,
+                                // todo: 1. 추후, stack 내에 stack 으로 배경 이미지 있으면 띄우고, 없으면 나머지 요소들은 그대로 나타낸다. 2. 배경이미지는 카드 전체를 채운다.
+                                // Image(
+                                //     image: NetworkImage(
+                                //       // 'https://cdn.pixabay.com/photo/2017/12/10/13/37/christmas-3009949_1280.jpg',
+                                //       'https://picsum.photos/250/250'
+                                //     ),
+                                //     fit: BoxFit.cover,
                                 // ),
                                 const SizedBox(width: 10.0),
                                 Expanded(

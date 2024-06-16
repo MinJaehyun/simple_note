@@ -106,8 +106,8 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                 Card(
                                   shape: RoundedRectangleBorder(
                                     side: const BorderSide(
-                                      color: Colors.grey,
-                                      width: 0.1,
+                                      color: Colors.black,
+                                      width: 0.3,
                                     ),
                                     borderRadius: BorderRadius.circular(4.0),
                                   ),
