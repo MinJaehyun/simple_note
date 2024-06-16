@@ -19,9 +19,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-<!--            android:value="ca-app-pub-3008191467059442~3268385803" />-->
+        <!-- banner AdMob -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3008191467059442~3268385803" />
     </application>
     <queries>
         <!-- send email package -->
