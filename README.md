@@ -6,8 +6,8 @@
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
 ## todo:
-- 광고 넣을 곳 찾기 (메모: 최하단, 범주: 최하단, 달력: 최하단, 설정: 최하단, add_memo: 내용과 저장 버튼 사이에, update_memo: 내용과 저장 버튼 사이에, update_trash_can_memo: 내용과 저장 버튼 사이에)
-- 광고 승인 대기 중, 승인 후 배포 코드 설정 및 배포 작업
+- 광고 승인 후, 배포 작업
+- 모든 페이지: 기능 테스트
 ## Bug Fixes
 - 추후: 휴지통: 전체 삭제: 한번 클릭 시 반영되지 않는다.. 2번째는 된다
 - 추후: 달력: 메모 추가 시, A RenderFlex overflowed by 220 pixels on the bottom
@@ -15,15 +15,22 @@
 
 ## 2024-06-17
 ### Features
-- 모든 페이지: 기능 테스트
+- 광고 설정
+- ㄴ 메모: 최하단 
+- ㄴ 범주: 최하단 
+- ㄴ 달력: 최하단 
+- ㄴ 설정: 최하단 
+- ㄴ add_memo: 내용과 저장 버튼 사이에 
+- ㄴ update_memo: 내용과 저장 버튼 사이에 
+- ㄴ ~~update_trash_can_memo: 내용과 저장 버튼 사이에~~
 
 
 ## 2024-06-16
 ### Features
-- ~~(2/2) 즐겨 찾기~~
-- ~~obx 적용 및 grid 오류 해결~~
-- ~~메모: UI 고민~~
-- ~~메모: user image 넣는 곳은 사용되고 있지 않으므로 제거하기~~
+- (2/2) 즐겨 찾기
+- obx 적용 및 grid 오류 해결
+- 메모: UI 고민
+- 메모: user image 넣는 곳은 사용되고 있지 않으므로 제거하기
 
 
 ## 2024-06-15
