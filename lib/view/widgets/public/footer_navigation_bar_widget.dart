@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:get/route_manager.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/view/screens/calendar/calendar_page.dart';
 import 'package:simple_note/view/screens/category/category_page.dart';
@@ -123,28 +122,6 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
                 return const Settings();
               },
             ));
-            // Get.offAll(() => const Settings());
-
-            // Get.snackbar(
-            //   '공지: ',
-            //   '업데이트 준비 중: \n'
-            //       '1. 백업 및 복원 (google drive), \n'
-            //       '2. 메모장 스킨 \n'
-            //       '3. 태그 \n'
-            //       '4. 메모 알람 및 달력 타임 라인 \n \n'
-            //       '등등 많은 기능을 다듬고 있습니다. 좀 더 기다려 주세요 :) \n',
-            //   colorText: Colors.blue,
-            //   snackPosition: SnackPosition.BOTTOM,
-            //   forwardAnimationCurve: Curves.elasticInOut,
-            //   reverseAnimationCurve: Curves.easeOut,
-            //   duration: const Duration(seconds: 6),
-            //   mainButton: TextButton(
-            //     onPressed: () {
-            //       Get.back(); // Closes the snackbar
-            //     },
-            //     child: const Text('Close', style: TextStyle(color: Colors.red)),
-            //   ),
-            // );
           },
           iconSize: 25,
           color: currentIndex == 4 ? Colors.cyan : Colors.grey,

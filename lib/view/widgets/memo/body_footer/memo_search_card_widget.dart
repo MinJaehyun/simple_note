@@ -132,12 +132,12 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                 IconButton(
                                   padding: EdgeInsets.zero,
                                   // 아이콘 버튼 내부의 패딩 제거
-                                  constraints: BoxConstraints(),
+                                  constraints: const BoxConstraints(),
                                   // 기본 제약조건 제거
-                                  visualDensity: VisualDensity(horizontal: -4.0),
+                                  visualDensity: const VisualDensity(horizontal: -4.0),
                                   icon: sortedCard.isCheckedTodo == false
-                                      ? Icon(Icons.check_box_outline_blank)
-                                      : Icon(Icons.check_box, color: Colors.red),
+                                      ? const Icon(Icons.check_box_outline_blank)
+                                      : const Icon(Icons.check_box, color: Colors.red),
                                   onPressed: () {
                                     memoController.updateCtr(
                                       index: settingsController.sortedTime == SortedTime.firstTime ? index : memoController.memoList.length - index - 1,

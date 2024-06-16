@@ -1,4 +1,3 @@
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/settings_controller.dart';
@@ -65,7 +64,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                 onPressed: () {
                   Get.dialog(
                     AlertDialog(
-                      title: Text('휴지통의 메모를 모두 삭제 하시겠습니까?', style: TextStyle(fontSize: 16)),
+                      title: const Text('휴지통의 메모를 모두 삭제 하시겠습니까?', style: TextStyle(fontSize: 16)),
                       content: const Text('더이상 휴지통의 메모를 복구할 수 없습니다', style: TextStyle(fontSize: 12)),
                       actions: [
                         TextButton(
@@ -166,7 +165,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
               // BannerAdWidget(),
               const SizedBox(height: 75),
               // note: 빈휴지통 분기문 시작점
-              if (trashCanMemoController.trashCanMemoList.isEmpty) Center(child: Text('휴지통이 비었습니다')),
+              if (trashCanMemoController.trashCanMemoList.isEmpty) const Center(child: Text('휴지통이 비었습니다')),
               // note: 검색어가 없을 시, 메모 나타내기
               if (searchControllerText == null || searchControllerText == '')
                 Expanded(

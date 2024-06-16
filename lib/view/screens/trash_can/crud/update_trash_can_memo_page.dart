@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
-import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
 // note: 휴지통에 들어간 메모를 복원하기 위해서 update 하는 과정

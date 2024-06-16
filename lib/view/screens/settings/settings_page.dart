@@ -277,17 +277,17 @@ class _SettingsState extends State<Settings> {
                             leading: const Icon(Icons.calendar_today_outlined),
                             title: const Text('개발 로드맵'),
                             onTap: () {
-                              Get.to(TimelineStatusPage());
+                              Get.to(const TimelineStatusPage());
                             },
                           ),
-                          SendMail(),
-                          ListTile(
-                            leading: const Icon(Icons.info),
+                          const SendMail(),
+                          const ListTile(
+                            leading: Icon(Icons.info),
                             title: Row(
                               children: [
-                                const Text('버전 정보'),
+                                Text('버전 정보'),
                                 Spacer(),
-                                const Text('1.0.0'),
+                                Text('1.0.0'),
                               ],
                             ),
                           ),

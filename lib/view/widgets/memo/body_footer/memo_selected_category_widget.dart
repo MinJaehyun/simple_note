@@ -118,8 +118,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                 // 체크 todolist
                                 IconButton(
                                   padding: EdgeInsets.zero,
-                                  constraints: BoxConstraints(),
-                                  visualDensity: VisualDensity(horizontal: -4.0),
+                                  constraints: const BoxConstraints(),
+                                  visualDensity: const VisualDensity(horizontal: -4.0),
                                   onPressed: () {
                                     memoController.updateCtr(
                                       index: sortedIndex,

@@ -197,7 +197,7 @@ class _CalendarPageState extends State<CalendarPage> {
             Obx(
               () {
                 if (memoController.memoList.isEmpty) {
-                  return Column(
+                  return const Column(
                     children: [
                       SizedBox(height: 100),
                       Text('메모를 생성해 주세요'),
@@ -255,12 +255,12 @@ class _CalendarPageState extends State<CalendarPage> {
                                   child: Text(FormatDate().formatDefaultDateKor(_selectedDay!)),
                                 ),
                               ),
-                              Text('체크한 메모 '),
-                              Text('${todayIsCheckedTodoList.length}', style: TextStyle(color: Colors.redAccent)),
-                              Text('개'),
-                              Text('  |  금일 작성한 메모 '),
-                              Text('${sameSelectedDayMemo.length}', style: TextStyle(color: Colors.redAccent)),
-                              Text('개'),
+                              const Text('체크한 메모 '),
+                              Text('${todayIsCheckedTodoList.length}', style: const TextStyle(color: Colors.redAccent)),
+                              const Text('개'),
+                              const Text('  |  금일 작성한 메모 '),
+                              Text('${sameSelectedDayMemo.length}', style: const TextStyle(color: Colors.redAccent)),
+                              const Text('개'),
                             ],
                           ),
                         ),
@@ -279,7 +279,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                 title: currentContact.isCheckedTodo == true
                                     ? Text(
                                         currentContact.title,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           decoration: TextDecoration.lineThrough,
                                           decorationColor: Colors.red, // 취소선 색상 설정
                                           decorationThickness: 3, // 취소선 두께 설정
@@ -301,7 +301,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                 },
                                 leading: currentContact.isCheckedTodo == true
                                     ? IconButton(
-                                        icon: Icon(Icons.check_box, color: Colors.red),
+                                        icon: const Icon(Icons.check_box, color: Colors.red),
                                         onPressed: () {
                                           memoController.updateCtr(
                                             index: sortedMemoList.indexOf(sameSelectedDayMemo[index]),
@@ -315,7 +315,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                         },
                                       )
                                     : IconButton(
-                                        icon: Icon(Icons.check_box_outline_blank, color: Colors.green),
+                                        icon: const Icon(Icons.check_box_outline_blank, color: Colors.green),
                                         onPressed: () {
                                           memoController.updateCtr(
                                             index: sortedMemoList.indexOf(sameSelectedDayMemo[index]),
