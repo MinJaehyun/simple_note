@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/settings_controller.dart';
+import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/view/screens/settings/timeline_status_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:simple_note/view/widgets/settings/send_mail.dart';
@@ -22,8 +23,12 @@ class _SettingsState extends State<Settings> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('환경 설정', style: TextStyle(fontSize: 26)),
+        // appBar: AppBar(
+        //   title: const Text('환경 설정', style: TextStyle(fontSize: 26)),
+        // ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(100),
+          child: BannerAdWidget(),
         ),
         body: SingleChildScrollView(
           child: Padding(

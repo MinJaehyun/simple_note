@@ -57,6 +57,11 @@ class _TrashCanPageState extends State<TrashCanPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            // appBar: PreferredSize(
+            //   preferredSize: const Size.fromHeight(100),
+            //   child: BannerAdWidget(),
+            // ),
+            title: BannerAdWidget(),
             backgroundColor: Colors.transparent,
             actions: [
               // 간단하게 전체 삭제
@@ -162,9 +167,9 @@ class _TrashCanPageState extends State<TrashCanPage> {
                   ],
                 ),
               ),
-              // todo: 배너
-              BannerAdWidget(),
-              // const SizedBox(height: 75),
+              // note: 배너
+              // BannerAdWidget(),
+              const SizedBox(height: 75),
               // note: 빈휴지통 분기문 시작점
               if (trashCanMemoController.trashCanMemoList.isEmpty) const Center(child: Text('휴지통이 비었습니다')),
               // note: 검색어가 없을 시, 메모 나타내기

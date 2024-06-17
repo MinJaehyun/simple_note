@@ -4,6 +4,7 @@ import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
+import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
@@ -246,7 +247,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                           ),
                         ),
                       ),
-
+                      BannerAdWidget(),
                       // 하단: 저장 및 취소
                       Row(
                         children: [

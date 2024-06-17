@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:simple_note/const/colors.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
+import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -88,9 +89,10 @@ class _CalendarPageState extends State<CalendarPage> {
           },
           label: const Text('메모 만들기'),
         ),
-        appBar: AppBar(
-            // title: Text('Simple Note', style: style),
-            ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(100),
+          child: BannerAdWidget(),
+        ),
         body: Column(
           children: [
             TableCalendar(
@@ -266,7 +268,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 205,
+                        height: 190,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: sameSelectedDayMemo.length,

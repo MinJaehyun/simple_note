@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
+import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
@@ -278,7 +279,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                       ),
                     ),
                   ),
-
+                  BannerAdWidget(),
                   // 하단: 즐찾 및 저장 및 취소
                   Row(
                     children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
+import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
@@ -27,6 +28,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      title: BannerAdWidget(),
       actions: [
         Obx(
           () => IconButton(

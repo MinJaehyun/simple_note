@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
+import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
@@ -236,7 +237,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         ),
                       ),
                     ),
-
+                    BannerAdWidget(),
                     // 하단: 할일체크 및 즐겨찾기 및 저장 및 취소
                     Row(
                       children: [
