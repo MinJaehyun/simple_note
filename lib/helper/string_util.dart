@@ -6,6 +6,16 @@ class FormatDate {
     return DateFormat.yMEd().format(datetime);
   }
 
+  String yearMonthFormat(DateTime datetime) {
+    // 2024.06
+    return DateFormat('yyyy.MM').format(DateTime.now());
+  }
+
+  String formatSimpleTimeKor(DateTime datetime) {
+    // 24.05.17
+    return DateFormat("yy.MM.dd").format(datetime);
+  }
+
   String formatDefaultDateKor(DateTime datetime) {
     // '2024.05.01
     return DateFormat('yyyy.MM.dd').format(datetime);
@@ -16,9 +26,4 @@ class FormatDate {
     return DateFormat('yyyy.MM.dd. ').add_Hm().format(datetime);
   }
 
-  String formatSimpleTimeKor(DateTime datetime) {
-    // 24.05.17
-    return DateFormat("yy.MM.dd").format(datetime);
-  }
-  
 }
