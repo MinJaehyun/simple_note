@@ -6,23 +6,35 @@
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
 ## todo:
-- 광고 승인 후, 배포 작업
-- 모든 페이지: 기능 테스트
+- 내부 테스터 모집하기 6월 24일 계정 등록하기(2명)
 ## Bug Fixes
 - 추후: 휴지통: 전체 삭제: 한번 클릭 시 반영되지 않는다.. 2번째는 된다
 - 추후: 달력: 메모 추가 시, A RenderFlex overflowed by 220 pixels on the bottom
 
 
+## 2024-06-19
+### Features
+- (2/2) 개선: 코드 정리
+
+
+## 2024-06-18
+### Features
+- ~~내부 테스트 20명 모집하기: 현재 18명~~ 
+- (1/2) 개선: 코드 정리
+
+
 ## 2024-06-17
 ### Features
-- 광고 설정
+- 광고 설정: 
 - ㄴ 메모: 최하단 
 - ㄴ 범주: 최하단 
 - ㄴ 달력: 최하단 
 - ㄴ 설정: 최하단 
 - ㄴ add_memo: 내용과 저장 버튼 사이에 
 - ㄴ update_memo: 내용과 저장 버튼 사이에 
-- ㄴ ~~update_trash_can_memo: 내용과 저장 버튼 사이에~~
+- ㄴ update_trash_can_memo: 내용과 저장 버튼 사이에
+- (1/2) 모든 기능 테스트
+- 내부 테스트 20명 모집하기: 현재 8명 (내부 테스터는 시간 소요되므로, 개발하기 전부터 모집하기)
 
 
 ## 2024-06-16
@@ -54,7 +66,7 @@
 - settings: flutter_email_sender 설치 및 관련 설정 및 구현
 - 휴지통: 정렬 기능 개선
 - 휴지통: 전체 삭제 기능 구현 (다시 한번 삭제할건지 묻는 dialog 띄우기)
-- (1/3) ValueListenableBuilder 걷어내고, Obx 적용하기
+- (1/2) ValueListenableBuilder 걷어내고, Obx 적용하기
 ### Bug Fixes
 - 오류 찾기
 - 휴지통: 변경한 내용을 즉시 UI에 반영하지 않고 있다. (controller 사용하므로 obx 적용하기)
