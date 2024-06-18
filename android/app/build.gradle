@@ -22,11 +22,12 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-//def keystoreProperties = new Properties()
-//def keystorePropertiesFile = rootProject.file('key.properties')
-//if (keystorePropertiesFile.exists()) {
-//    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-//}
+// note: 배포 설정 - 1: 디버깅 시, 있어도 상관없다
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     namespace "ai.mjhfactory.simple_note"
@@ -55,26 +56,25 @@ android {
         versionName flutterVersionName
     }
 
-//    signingConfigs {
-//        release {
-//            // 변경 후:
-//            keyAlias keystoreProperties['keyAlias']
-//            keyPassword keystoreProperties['keyPassword']
-//            storeFile keystoreProperties['storeFile']
-//                    ? file(keystoreProperties['storeFile'])
-//                    : null
-//            storePassword keystoreProperties['storePassword']
-//        }
-//    }
-//
-//    buildTypes {
-//        release {
-//            // 디버그 사용 시:
-//            // signingConfig signingConfigs.debug
-//            // 배포 시:
-//          signingConfig signingConfigs.release
-//        }
-//    }
+    // note: 배포 설정 - 2: 디버깅 시, 있어도 상관없다
+    signingConfigs {
+        release {
+            // 변경 후:
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    // note: 배포 설정 - 2: 디버깅 시, 있어도 상관없다
+    buildTypes {
+        release {
+            // 디버그 사용 시:
+//            signingConfig signingConfigs.debug
+            // 배포 시:
+            signingConfig signingConfigs.release
+        }
+    }
 
 //    flavorDimensions "environment"
 //    productFlavors {
