@@ -15,7 +15,6 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final settingsController = Get.find<SettingsController>();
-  // double _fontSize = 20.0; // 초기 글자 크기
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +22,6 @@ class _SettingsState extends State<Settings> {
 
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('환경 설정', style: TextStyle(fontSize: 26)),
-        // ),
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(100),
           child: BannerAdWidget(),
@@ -50,9 +46,6 @@ class _SettingsState extends State<Settings> {
                     Card(
                       child: Obx(
                         () {
-                          // note: RxBool 인지 bool 인지에 따라 , Hive Box에서 가져왔는지 GetX controller에서 가져왔는지 확인이 가능하다..
-                          // bool darkMode = box.get('darkMode', defaultValue: false);
-                          // bool gridMode = box.get('gridMode', defaultValue: false);
                           return Column(
                             children: [
                               // note: 테마 설정
@@ -65,8 +58,6 @@ class _SettingsState extends State<Settings> {
                                   value: settingsController.isThemeMode == false,
                                   activeColor: Colors.pinkAccent,
                                   onChanged: (bool value) {
-                                    // settingsController.toggleDarkMode(value);
-                                    // note: dar  kMode = value 대신 분기문 처리하여 darkMode 키에 bool 값 변경함
                                     settingsController.isThemeMode == false
                                         ? settingsController.toggleDarkMode(true)
                                         : settingsController.toggleDarkMode(false);
@@ -96,7 +87,6 @@ class _SettingsState extends State<Settings> {
                                 leading: const Icon(Icons.text_format),
                                 title: const Text('폰트 설정'),
                                 onTap: () {
-                                  // Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
                                   Get.dialog(
                                     AlertDialog(
                                       title: const Column(
@@ -114,15 +104,7 @@ class _SettingsState extends State<Settings> {
                                             () => RadioListTile.adaptive(
                                               title: const Text('기본 폰트'),
                                               value: SelectedFont.pretendard,
-                                              // 변경 전
                                               groupValue: settingsController.selectedFont.value,
-                                              // groupValue: controller.selectedFont.value,
-                                              // 변경 전:
-                                              // onChanged: (SelectedFont? value) {
-                                              //   setState(() {
-                                              //     _selectedFont = value!;
-                                              //   });
-                                              // },
                                               onChanged: (SelectedFont? value) {
                                                 if (value != null) {
                                                   settingsController.updateFont(value);
@@ -292,7 +274,7 @@ class _SettingsState extends State<Settings> {
                               children: [
                                 Text('버전 정보'),
                                 Spacer(),
-                                Text('1.0.0'),
+                                Text('1.0.4'),
                               ],
                             ),
                           ),

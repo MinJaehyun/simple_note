@@ -164,7 +164,6 @@ class _CategoryPageState extends State<CategoryPage> {
                                           child: const Text('수정'),
                                         ),
                                         PopupMenuItem<CategoriesItem>(
-                                          // todo: index 는 위에 범주 index 이고, 메모의 index를 가져와야 한다..
                                           onTap: () => showDeletePopupDialog(context, index),
                                           value: CategoriesItem.delete,
                                           child: const Text('삭제'),

@@ -274,7 +274,6 @@ class _CalendarPageState extends State<CalendarPage> {
                           itemCount: sameSelectedDayMemo.length,
                           itemBuilder: (context, index) {
                             MemoModel? currentContact = sameSelectedDayMemo[index];
-                            // print(sortedMemoList.indexOf(sameSelectedDayMemo[index]));
 
                             return Card(
                               child: ListTile(
@@ -295,7 +294,6 @@ class _CalendarPageState extends State<CalendarPage> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        // return UpdateMemoPage(index: index, sortedCard: currentContact);
                                         return UpdateMemoPage(index: sortedMemoList.indexOf(sameSelectedDayMemo[index]), sortedCard: currentContact);
                                       },
                                     ),
