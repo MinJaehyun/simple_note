@@ -225,7 +225,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                         ),
                                       ),
                                       style: TextStyle(
-                                        color: settingsController.isThemeMode.isTrue ? Colors.white : Colors.black,
                                         fontSize: settingsController.fontSizeSlider.toDouble(),
                                       ),
                                     ),
