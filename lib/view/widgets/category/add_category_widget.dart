@@ -33,7 +33,6 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('중복으로 범주를 추가할 수 없습니다', style: TextStyle(color: Colors.grey[600])),
           const SizedBox(height: 10),
           TextField(
             maxLength: 17,
@@ -51,10 +50,24 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
             textStyle: Theme.of(context).textTheme.labelLarge,
           ),
           onPressed: () {
-            if (_textController.text.isNotEmpty) {
+            var isDuplicate = false;
+            for (var category in _categoryController.categoryList)
+              if (category.categories! == _textController.text) {
+                isDuplicate = true;
+                break;
+              }
+            if (!isDuplicate) {
               _categoryController.addCtr(_textController.text);
               _textController.clear();
+            } else {
+              Get.snackbar(
+                '오류',
+                '이미 존재하는 범주입니다.',
+                snackPosition: SnackPosition.BOTTOM,
+                duration: Duration(seconds: 2),
+              );
             }
+
             Navigator.of(context).pop();
           },
           child: const Text('저장'),
