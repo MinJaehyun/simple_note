@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
-import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/view/widgets/memo/memo_body_footer_control_statements_widget.dart';
 
 class MemoTopWidget extends StatefulWidget {
@@ -12,17 +11,16 @@ class MemoTopWidget extends StatefulWidget {
 }
 
 class _MemoTopWidgetState extends State<MemoTopWidget> {
+  TextEditingController _textController = TextEditingController();
+  final categoryController = Get.find<CategoryController>();
   late String searchedTitle;
   String? searchedMainText;
   String? selectedCategory;
   String? searchControllerText;
-  TextEditingController searchController = TextEditingController();
-  final settingsController = Get.find<SettingsController>();
-  final categoryController = Get.find<CategoryController>();
 
   @override
   void dispose() {
-    searchController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -49,7 +47,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                           child: Form(
                             child: TextFormField(
                               autofocus: false,
-                              controller: searchController,
+                              controller: _textController,
                               decoration: InputDecoration(
                                 focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -68,7 +66,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                 suffixIcon: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      searchController.clear();
+                                      _textController.clear();
                                       searchControllerText = null;
                                     });
                                   },
@@ -85,9 +83,9 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                               onChanged: (value) {
                                 setState(() {
                                   // 변경 전: 자음 한개씩 가져오는게 아닌, 전체를 가져오도록 변경
-                                  // searchController.text = value;
+                                  // _textController.text = value;
                                   // 변경 후
-                                  searchControllerText = searchController.text;
+                                  searchControllerText = _textController.text;
                                 });
                               },
                               onTap: () {},
@@ -118,7 +116,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                       setState(() {
                                         selectedCategory = null;
                                         searchControllerText = null;
-                                        searchController.clear();
+                                        _textController.clear();
                                       });
                                     },
                                     child: Text(
@@ -142,7 +140,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                       setState(() {
                                         selectedCategory = '미분류';
                                         searchControllerText = null;
-                                        searchController.clear();
+                                        _textController.clear();
                                       });
                                     },
                                     child: Text(
@@ -170,7 +168,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                         onPressed: () {
                                           setState(() {
                                             searchControllerText = null;
-                                            searchController.clear();
+                                            _textController.clear();
                                             selectedCategory = categoryContact.categories;
                                           });
                                         },

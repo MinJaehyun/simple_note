@@ -269,7 +269,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text: '체크한 메모  ',
+                                  text: '체크한 메모  ', style: TextStyle(color: settingsController.isThemeMode.isTrue ? Colors.black : Colors.white),
                                   children: <TextSpan>[
                                     TextSpan(
                                         text: '${todayIsCheckedTodoList.length}', style: TextStyle(color: RED_ACCENT, fontWeight: FontWeight.bold)),
@@ -279,7 +279,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text: '  |  금일 작성한 메모 ',
+                                  text: '  |  금일 작성한 메모 ', style: TextStyle(color: settingsController.isThemeMode.isTrue ? Colors.black : Colors.white),
                                   children: <TextSpan>[
                                     TextSpan(text: '${sameSelectedDayMemo.length}', style: TextStyle(color: RED_ACCENT, fontWeight: FontWeight.bold)),
                                     TextSpan(text: ' 개'),

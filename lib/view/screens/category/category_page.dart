@@ -22,22 +22,12 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  // note: enum 정해지지 않은 상태이므로 ?처리.
-  CategoriesItem? categoriesItem;
-  TextEditingController categoryController = TextEditingController();
-  String? selectedCategory;
-  late List<MemoModel> classifiedMemo = [];
   final memoController = Get.find<MemoController>();
+  late List<MemoModel> classifiedMemo = [];
+  CategoriesItem? categoriesItem; // note: enum은 정한 상태가 아니므로 ? 처리
+  String? selectedCategory;
 
-  @override
-  void dispose() {
-    categoryController.dispose();
-    super.dispose();
-  }
-
-  /* note: 함수 내에서 setState 호출이 WidgetsBinding.instance.addPostFrameCallback를 사용하여 현재 프레임이 끝난 후에 실행되도록 하였습니다.
-  이로 인해 setState가 안전하게 호출되며, 빌드 중에 상태가 변경되는 문제를 피할 수 있습니다.
-  */
+  // note: 함수 내에서 setState가 안전하게 호출될 수 있도록 WidgetsBinding.instance.addPostFrameCallback를 사용하여 현재 프레임이 끝난 후에 실행되도록 하였습니다. 이로인해 빌드 중에 상태가 변경되는 문제를 피할 수 있습니다.
   void updateClassifiedMemo() {
     if (selectedCategory != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -66,7 +56,8 @@ class _CategoryPageState extends State<CategoryPage> {
           child: Column(
             children: [
               // note: 모든, 미분류
-              Obx(() {
+              Obx(
+                () {
                   // note: 미분류 메모: unclassifiedMemo 는 해당 ValueListenableBuilder 내에서만 사용할 것이므로 변수 타입 선언
                   List<MemoModel> unclassifiedMemo = memoController.memoList.where((item) => item.selectedCategory == '미분류').toList();
 
@@ -80,8 +71,22 @@ class _CategoryPageState extends State<CategoryPage> {
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
                         ),
                       ),
-                      Card(child: ListTile(title: Text('모든 (${memoController.memoList.length})', style: style))),
-                      Card(child: ListTile(title: Text('미분류 (${unclassifiedMemo.length})', style: style))),
+                      Card(
+                          child: ListTile(
+                              title: Row(
+                        children: [
+                          Text('모든 ', style: style),
+                          Text('(${memoController.memoList.length})', style: TextStyle(color: Colors.redAccent)),
+                        ],
+                      ))),
+                      Card(
+                          child: ListTile(
+                              title: Row(
+                        children: [
+                          Text('미분류 ', style: style),
+                          Text('(${unclassifiedMemo.length})', style: TextStyle(color: Colors.redAccent)),
+                        ],
+                      ))),
                     ],
                   );
                 },
@@ -127,7 +132,6 @@ class _CategoryPageState extends State<CategoryPage> {
                                 ],
                               ),
                             ),
-
                             onDismissed: (direction) async {
                               // Delete the category and associated memos
                               final categoryToDelete = box.getAt(index)!;
@@ -150,9 +154,14 @@ class _CategoryPageState extends State<CategoryPage> {
                                   updateClassifiedMemo();
                                 },
                                 leading: const Icon(Icons.menu),
-                                title: Text(
-                                    '${box.getAt(index)!.categories} (${Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == box.getAt(index)!.categories).length})',
-                                    style: style),
+                                title: Row(
+                                  children: [
+                                    Text('${box.getAt(index)!.categories} ', style: style),
+                                    Text(
+                                        '(${Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == box.getAt(index)!.categories).length})',
+                                        style: TextStyle(color: Colors.redAccent)),
+                                  ],
+                                ),
                                 trailing: Column(
                                   children: [
                                     PopupMenuButton<CategoriesItem>(

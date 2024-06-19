@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
 
+// note: 특징: showAddPopupDialog() 함수는 공통적으로 가져오는 곳이 많으므로 분리하여 효율적으로 사용함.
+Future<void> showAddPopupDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (_) {
+      return AddCategoryWidget(context);
+    },
+  );
+}
+
 class AddCategoryWidget extends StatefulWidget {
   const AddCategoryWidget(this.context, {super.key});
 
@@ -12,8 +22,7 @@ class AddCategoryWidget extends StatefulWidget {
 }
 
 class _AddCategoryWidgetState extends State<AddCategoryWidget> {
-  final TextEditingController categoryController = TextEditingController();
-  String? category;
+  final TextEditingController _textController = TextEditingController();
   final _categoryController = Get.find<CategoryController>();
 
   @override
@@ -28,15 +37,10 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
           const SizedBox(height: 10),
           TextField(
             maxLength: 17,
-            controller: categoryController,
+            controller: _textController,
             decoration: const InputDecoration(
               hintText: '범주를 입력해 주세요',
             ),
-            onChanged: (value) {
-              if (value.isNotEmpty) {
-                category = value;
-              }
-            },
             autofocus: true,
           ),
         ],
@@ -47,10 +51,9 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
             textStyle: Theme.of(context).textTheme.labelLarge,
           ),
           onPressed: () {
-            if (categoryController.text.isNotEmpty) {
-              _categoryController.addCtr(category);
-              categoryController.text = '';
-              // categoryController.clear(); // 위 대신 이거 사용해보기
+            if (_textController.text.isNotEmpty) {
+              _categoryController.addCtr(_textController.text);
+              _textController.clear();
             }
             Navigator.of(context).pop();
           },
@@ -66,14 +69,4 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
       ],
     );
   }
-}
-
-// note: 특징: 소문자 함수를 위젯으로 분리하여 가져올 수 있다
-Future<void> showAddPopupDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (_) {
-      return AddCategoryWidget(context);
-    },
-  );
 }
