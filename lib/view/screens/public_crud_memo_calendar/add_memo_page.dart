@@ -17,17 +17,18 @@ class AddMemoPage extends StatefulWidget {
 
 class _AddMemoPageState extends State<AddMemoPage> {
   final _formKey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
+  final memoController = Get.find<MemoController>();
+  final categoryController = Get.find<CategoryController>();
+  final settingsController = Get.find<SettingsController>();
+
   DateTime time = DateTime.now();
   String title = '';
   String mainText = '';
   late String _dropdownValue;
-  bool _showScrollToTopButton = false;
-  final ScrollController _scrollController = ScrollController();
   late bool _isFavorite = false;
   late bool _isCheckedTodo = false;
-  final settingsController = Get.find<SettingsController>();
-  final memoController = Get.find<MemoController>();
-  final categoryController = Get.find<CategoryController>();
+  bool _showScrollToTopButton = false;
 
   @override
   void initState() {
@@ -70,35 +71,35 @@ class _AddMemoPageState extends State<AddMemoPage> {
     );
   }
 
+  void dropdownCallback(String? selectedValue) {
+    if (selectedValue != null) {
+      setState(() {
+        _dropdownValue = selectedValue;
+      });
+    }
+  }
+
+  // todo: dropdownButtonWidget는 update_memo 와 동일한 구조 사용
+  DropdownButton<String> dropdownButtonWidget(controllerCategoryList) {
+    return DropdownButton(
+      style: const TextStyle(color: Colors.green),
+      underline: Container(height: 2, color: Colors.green[100]),
+      value: null,
+      hint: Text(_dropdownValue),
+      onChanged: dropdownCallback,
+      items: controllerCategoryList.toList().map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value.categories,
+          // todo: 아래 test 고민하기
+          child: Text(value.categories!.isEmpty ? 'test' : value.categories!),
+        );
+      }).toList(),
+      iconSize: 35,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    void dropdownCallback(String? selectedValue) {
-      if (selectedValue != null) {
-        setState(() {
-          _dropdownValue = selectedValue;
-        });
-      }
-    }
-
-    // todo: dropdownButtonWidget는 update_memo 와 동일한 구조 사용
-    DropdownButton<String> dropdownButtonWidget(controllerCategoryList) {
-      return DropdownButton(
-        style: const TextStyle(color: Colors.green),
-        underline: Container(height: 2, color: Colors.green[100]),
-        value: null,
-        hint: Text(_dropdownValue),
-        onChanged: dropdownCallback,
-        items: controllerCategoryList.toList().map<DropdownMenuItem<String>>((value) {
-          return DropdownMenuItem<String>(
-            value: value.categories,
-            // todo: 아래 test 고민하기
-            child: Text(value.categories!.isEmpty ? 'test' : value.categories!),
-          );
-        }).toList(),
-        iconSize: 35,
-      );
-    }
-
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -115,14 +116,12 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         height: 80,
                         child: Row(
                           children: [
-                            // 시간
                             Expanded(
                               child: Text(
                                 FormatDate().formatDefaultDateKor(DateTime.now()),
                                 style: const TextStyle(fontSize: 18),
                               ),
                             ),
-                            // 범주
                             TextButton(
                               // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
                               style: TextButton.styleFrom(
@@ -133,7 +132,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                               onPressed: () {},
                               child: dropdownButtonWidget(categoryController.categoryList),
                             ),
-                            // 범주 생성 버튼
                             IconButton(
                               // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
                               // visualDensity: VisualDensity.compact,
@@ -151,11 +149,9 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     ),
 
                     // 중단: 입력창 (제목/내용)
-                    // 스크롤러 적용을 위한 설정: NotificationListener<ScrollNotification>
+                    // 스크롤러 적용을 위한 설정
                     NotificationListener<ScrollNotification>(
-                      onNotification: (scrollNotification) {
-                        return true;
-                      },
+                      onNotification: (scrollNotification) => true,
                       child: Expanded(
                         child: Form(
                           key: _formKey,
@@ -207,7 +203,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                       maxLength: 5000,
                                       cursorColor: Colors.orange,
                                       cursorWidth: 3,
-                                      // 커서 노출 여부
                                       showCursor: true,
                                       initialValue: "",
                                       keyboardType: TextInputType.multiline,
@@ -236,11 +231,13 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         ),
                       ),
                     ),
+
+                    // 배너
                     BannerAdWidget(),
+
                     // 하단: 할일체크 및 즐겨찾기 및 저장 및 취소
                     Row(
                       children: [
-                        // 할일체크
                         TextButton(
                           child: _isCheckedTodo == false
                               ? const Icon(Icons.check_box_outline_blank, color: null)
@@ -251,7 +248,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                             });
                           },
                         ),
-                        // 즐겨찾기
                         TextButton(
                           child: _isFavorite == false ? const Icon(Icons.star_border_sharp, color: null) : const Icon(Icons.star, color: Colors.red),
                           onPressed: () {
@@ -293,8 +289,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                   // 예: 누르면, 메모장을 빠져나간다.
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.of(context).pop(); // 여기서 팝 처리하고 대화 상자를 닫습니다.
-                                      Navigator.of(context).pop(); // 이전 페이지로 돌아갑니다.
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
                                     },
                                     child: const Text('변경을 취소'),
                                   ),
@@ -312,6 +308,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     ),
                   ],
                 ),
+
                 // 상단, 하단 이동하는 하단 우측 버튼
                 Positioned(
                   bottom: 70,
