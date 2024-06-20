@@ -32,7 +32,14 @@ class _DeleteCategoryWidgetState extends State<DeleteCategoryWidget> {
     for (MemoModel memo in memosToUpdate) {
       int memoIndex = _memoController.memoList.toList().indexOf(memo);
       _memoController.updateCtr(
-          index: memoIndex, createdAt: memo.createdAt, title: memo.title, mainText: memo.mainText, selectedCategory: '미분류');
+        index: memoIndex,
+        createdAt: memo.createdAt,
+        title: memo.title,
+        mainText: memo.mainText,
+        selectedCategory: '미분류',
+        isFavoriteMemo: memo.isFavoriteMemo ?? false,
+        isCheckedTodo: memo.isCheckedTodo ?? false,
+      );
     }
     _categoryController.deleteCtr(index: widget.index);
   }
