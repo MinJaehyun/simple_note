@@ -126,12 +126,32 @@ class _CategoryPageState extends State<CategoryPage> {
                               color: Colors.red,
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Icon(Icons.cancel),
-                                  SizedBox(width: 35),
-                                ],
+                                children: [Icon(Icons.cancel), SizedBox(width: 35)],
                               ),
                             ),
+                            // note: 삭제 확인 dialog
+                            confirmDismiss: (direction) async {
+                              bool? result = await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("삭제 확인"),
+                                    content: Text("정말로 삭제하시겠습니까?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(true),
+                                        child: Text("삭제"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(false),
+                                        child: Text("취소"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              return result;
+                            },
                             onDismissed: (direction) async {
                               // Delete the category and associated memos
                               final categoryToDelete = box.getAt(index)!;
