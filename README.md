@@ -12,6 +12,11 @@
 - 추후: 달력: 메모 추가 시, A RenderFlex overflowed by 220 pixels on the bottom
 
 
+## 2024-06-20
+### Features
+- 범주 변경 시, 중복 범주로 변경하지 못하게 설정함
+
+
 ## 2024-06-19
 ### Features
 - (2/2) 개선: 코드 정리
