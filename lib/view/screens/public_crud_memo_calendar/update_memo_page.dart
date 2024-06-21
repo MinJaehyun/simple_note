@@ -8,7 +8,6 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/repository/local_data_source/category_repository.dart';
-import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 
@@ -16,8 +15,6 @@ class UpdateMemoPage extends StatefulWidget {
   const UpdateMemoPage({required this.index, required this.sortedCard, super.key});
 
   final int index;
-
-  // err: final MemoModel currentContact; 처리하면 MemoModel만 사용하게 되므로 TrashCanModel은 사용할 수 없다.. 일단 제거하고 진행하기
   final MemoModel sortedCard;
 
   @override
@@ -26,18 +23,17 @@ class UpdateMemoPage extends StatefulWidget {
 
 class _UpdateMemoPageState extends State<UpdateMemoPage> {
   final _formKey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
+  final settingsController = Get.find<SettingsController>();
+  final memoController = Get.find<MemoController>();
+
   late DateTime time;
   late String title;
   late String? mainText;
   late String? _dropdownValue;
-  late bool _isFavorite = false;
-  late bool _isCheckedTodo = false;
-
+  late bool _isFavorite;
+  late bool _isCheckedTodo;
   bool _showScrollToTopButton = false;
-  final ScrollController _scrollController = ScrollController();
-  final settingsController = Get.find<SettingsController>();
-  final memoController = Get.find<MemoController>();
-  var memoBox = Hive.box<MemoModel>(MemoBox);
 
   @override
   void initState() {
@@ -69,26 +65,10 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
     }
   }
 
-  void _scrollToTop() {
-    _scrollController.animateTo(
-      0.0,
-      duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void _scrollToDown() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
-
   // *** note: 두 상태가 변경될 때 memoController.updateCtr 메서드를 함께 호출하여, 동시에 상태를 업데이트하도록 할 수 있습니다. 이를 위해서는 _updateMemo 메서드를 개선함 ***
   void _updateMemo({
-    bool? isFavoriteMemo,
-    bool? isCheckedTodo,
+    final bool? isFavoriteMemo,
+    final bool? isCheckedTodo,
   }) {
     memoController.updateCtr(
       index: widget.index,
@@ -103,35 +83,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    // ui에 나타낼 _dropdownValue 변경함
-    void dropdownCallback(String? selectedValue) {
-      if (selectedValue is String) {
-        setState(() {
-          _dropdownValue = selectedValue;
-        });
-        _updateMemo();
-      }
-    }
-
-    DropdownButton<String> dropdownButtonWidget(Box<CategoryModel> box) {
-      return DropdownButton(
-        style: const TextStyle(color: Colors.green),
-        underline: Container(height: 2, color: Colors.green[100]),
-        value: null,
-        // ui에 나타낼 _dropdownValue 나타냄
-        hint: Text('$_dropdownValue', overflow: TextOverflow.ellipsis),
-        onChanged: dropdownCallback,
-        items: box.values.toList().map<DropdownMenuItem<String>>((value) {
-          return DropdownMenuItem<String>(
-            value: value.categories,
-            // todo: 아래 test3 고민하기
-            child: Text(value.categories ?? 'test3'),
-          );
-        }).toList(),
-        iconSize: 35,
-      );
-    }
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
@@ -147,20 +98,14 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                       height: 80,
                       child: Row(
                         children: [
-                          // 시간
                           Expanded(
-                            child: Text(
-                              FormatDate().formatDotDateTimeKor(widget.sortedCard.createdAt),
-                              style: const TextStyle(fontSize: 18),
-                            ),
+                            child: Text(FormatDate().formatDotDateTimeKor(widget.sortedCard.createdAt), style: const TextStyle(fontSize: 18)),
                           ),
-                          // 범주
                           Expanded(
                             // note: 이하 box 사용중이므로 일단 대기..
                             child: ValueListenableBuilder(
                               valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
                               builder: (context, Box<CategoryModel> box, _) {
-                                // if (box.values.isEmpty) return Center(child: Text('test update memo'));
                                 return TextButton(
                                   // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
                                   style: TextButton.styleFrom(
@@ -168,13 +113,12 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     padding: EdgeInsets.zero,
                                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: null,
                                   child: dropdownButtonWidget(box),
                                 );
                               },
                             ),
                           ),
-                          // 범주 생성 버튼
                           IconButton(
                             // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
                             // visualDensity: VisualDensity.compact,
@@ -193,9 +137,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
 
                   // 중단: 입력창 (제목/내용): 스크롤 버튼 처리하기 위한 설정
                   NotificationListener<ScrollNotification>(
-                    onNotification: (scrollNotification) {
-                      return true;
-                    },
+                    onNotification: (scrollNotification) => true,
                     child: Expanded(
                       child: Form(
                         key: _formKey,
@@ -211,7 +153,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                   child: TextFormField(
                                     cursorColor: Colors.orange,
                                     cursorWidth: 3,
-                                    // 커서 노출 여부
                                     showCursor: true,
                                     initialValue: widget.sortedCard.title,
                                     onChanged: (value) {
@@ -246,7 +187,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     maxLength: 5000,
                                     cursorColor: Colors.orange,
                                     cursorWidth: 3,
-                                    // 커서 노출 여부
                                     showCursor: true,
                                     initialValue: widget.sortedCard.mainText,
                                     keyboardType: TextInputType.multiline,
@@ -279,6 +219,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                       ),
                     ),
                   ),
+                  // 배너
                   BannerAdWidget(),
                   // 하단: 즐찾 및 저장 및 취소
                   Row(
@@ -297,7 +238,6 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                           _updateMemo(isCheckedTodo: _isCheckedTodo);
                         },
                       ),
-                      // 즐겨 찾기
                       IconButton(
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
@@ -381,6 +321,51 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0.0,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _scrollToDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  // ui에 나타낼 _dropdownValue 변경함
+  void dropdownCallback(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(() {
+        _dropdownValue = selectedValue;
+      });
+      _updateMemo();
+    }
+  }
+
+  DropdownButton<String> dropdownButtonWidget(Box<CategoryModel> box) {
+    return DropdownButton(
+      style: const TextStyle(color: Colors.green),
+      underline: Container(height: 2, color: Colors.green[100]),
+      value: null,
+      // ui에 나타낼 _dropdownValue 나타냄
+      hint: Text('$_dropdownValue', overflow: TextOverflow.ellipsis),
+      onChanged: dropdownCallback,
+      items: box.values.toList().map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value.categories,
+          // todo: 아래 test3 고민하기
+          child: Text(value.categories ?? 'test3'),
+        );
+      }).toList(),
+      iconSize: 35,
     );
   }
 }

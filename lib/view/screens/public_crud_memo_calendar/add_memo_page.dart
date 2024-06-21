@@ -28,74 +28,32 @@ class _AddMemoPageState extends State<AddMemoPage> {
   late String _dropdownValue;
   late bool _isFavorite = false;
   late bool _isCheckedTodo = false;
-  bool _showScrollToTopButton = false;
+  bool showScrollToTopButton = false; // #
 
   @override
   void initState() {
     super.initState();
     _dropdownValue = '미분류';
-    _scrollController.addListener(_scrollListener);
+    _scrollController.addListener(_scrollListener); // #
+  }
+
+  // #
+  void _scrollListener() {
+    if (_scrollController.offset >= 200 && !showScrollToTopButton) {
+      setState(() {
+        showScrollToTopButton = true;
+      });
+    } else if (_scrollController.offset < 200 && showScrollToTopButton) {
+      setState(() {
+        showScrollToTopButton = false;
+      });
+    }
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void _scrollListener() {
-    if (_scrollController.offset >= 200 && !_showScrollToTopButton) {
-      setState(() {
-        _showScrollToTopButton = true;
-      });
-    } else if (_scrollController.offset < 200 && _showScrollToTopButton) {
-      setState(() {
-        _showScrollToTopButton = false;
-      });
-    }
-  }
-
-  void _scrollToTop() {
-    _scrollController.animateTo(
-      0.0,
-      duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void _scrollToDown() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue != null) {
-      setState(() {
-        _dropdownValue = selectedValue;
-      });
-    }
-  }
-
-  // todo: dropdownButtonWidget는 update_memo 와 동일한 구조 사용
-  DropdownButton<String> dropdownButtonWidget(controllerCategoryList) {
-    return DropdownButton(
-      style: const TextStyle(color: Colors.green),
-      underline: Container(height: 2, color: Colors.green[100]),
-      value: null,
-      hint: Text(_dropdownValue),
-      onChanged: dropdownCallback,
-      items: controllerCategoryList.toList().map<DropdownMenuItem<String>>((value) {
-        return DropdownMenuItem<String>(
-          value: value.categories,
-          // todo: 아래 test 고민하기
-          child: Text(value.categories!.isEmpty ? 'test' : value.categories!),
-        );
-      }).toList(),
-      iconSize: 35,
-    );
   }
 
   @override
@@ -231,10 +189,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         ),
                       ),
                     ),
-
                     // 배너
                     BannerAdWidget(),
-
                     // 하단: 할일체크 및 즐겨찾기 및 저장 및 취소
                     Row(
                       children: [
@@ -256,7 +212,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                             });
                           },
                         ),
-                        // 저장 및 취소
                         Expanded(
                           child: ElevatedButton(
                             child: const Text('저장'),
@@ -308,7 +263,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     ),
                   ],
                 ),
-
                 // 상단, 하단 이동하는 하단 우측 버튼
                 Positioned(
                   bottom: 70,
@@ -316,9 +270,9 @@ class _AddMemoPageState extends State<AddMemoPage> {
                   child: IconButton.filledTonal(
                     hoverColor: Colors.orange,
                     focusColor: Colors.orangeAccent,
-                    icon: _showScrollToTopButton ? const Icon(Icons.arrow_upward) : const Icon(Icons.arrow_downward),
+                    icon: showScrollToTopButton ? const Icon(Icons.arrow_upward) : const Icon(Icons.arrow_downward),
                     onPressed: () {
-                      _showScrollToTopButton ? _scrollToTop() : _scrollToDown();
+                      showScrollToTopButton ? _scrollToTop() : _scrollToDown();
                     },
                   ),
                 ),
@@ -327,6 +281,41 @@ class _AddMemoPageState extends State<AddMemoPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(0.0, duration: const Duration(seconds: 1), curve: Curves.easeInOut);
+  }
+
+  void _scrollToDown() {
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(seconds: 1), curve: Curves.easeInOut);
+  }
+
+  void dropdownCallback(String? selectedValue) {
+    if (selectedValue != null) {
+      setState(() {
+        _dropdownValue = selectedValue;
+      });
+    }
+  }
+
+  // todo: dropdownButtonWidget는 update_memo 와 동일한 구조 사용
+  DropdownButton<String> dropdownButtonWidget(controllerCategoryList) {
+    return DropdownButton(
+      style: const TextStyle(color: Colors.green),
+      underline: Container(height: 2, color: Colors.green[100]),
+      value: null,
+      hint: Text(_dropdownValue),
+      onChanged: dropdownCallback,
+      items: controllerCategoryList.toList().map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value.categories,
+          // todo: 아래 test 고민하기 ???
+          child: Text(value.categories!.isEmpty ? 'test' : value.categories!),
+        );
+      }).toList(),
+      iconSize: 35,
     );
   }
 }
