@@ -21,14 +21,32 @@ class MemoSearchCardWidget extends StatefulWidget {
 }
 
 class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
-  SampleItem? selectedItem;
-  late List<MemoModel> boxSearchTitleAndMainText;
-  final settingsController = Get.find<SettingsController>();
   final memoController = Get.find<MemoController>();
+  final settingsController = Get.find<SettingsController>();
+  List<MemoModel> boxSearchTitleAndMainText = [];
+  SampleItem? selectedItem;
+
+  void updateMemoFunc(
+    index,
+    sortedCard, {
+    final bool? isFavoriteMemo,
+    final bool? isCheckedTodo,
+  }) {
+    memoController.updateCtr(
+      index: settingsController.sortedTime == SortedTime.firstTime ? index : memoController.memoList.length - index - 1,
+      createdAt: sortedCard.createdAt,
+      title: sortedCard.title,
+      mainText: sortedCard.mainText,
+      selectedCategory: sortedCard.selectedCategory,
+      isFavoriteMemo: isFavoriteMemo ?? false,
+      isCheckedTodo: isCheckedTodo ?? false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
+    return Obx(
+      () {
         if (memoController.memoList.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
         boxSearchTitleAndMainText = memoController.memoList.where((item) {
           return item.title.contains(widget.searchControllerText!) || item.mainText!.contains(widget.searchControllerText!);
@@ -55,7 +73,6 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
               crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
-              // note: MemoModel? currentContact = box.getAt(index);
               MemoModel currentContact = boxSearchTitleAndMainText[index];
               MemoModel? reversedCurrentContact = boxSearchTitleAndMainText[boxSearchTitleAndMainText.length - 1 - index];
               MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
@@ -72,13 +89,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                 child: CustomPaint(
                   painter: GridPainter(),
                   child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) {
-                          return UpdateMemoPage(index: index, sortedCard: sortedCard);
-                        }),
-                      );
-                    },
+                    onTap: () => Get.to(UpdateMemoPage(index: index, sortedCard: sortedCard)),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: ListTile(
@@ -90,11 +101,8 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                             Expanded(
                               child: Row(
                                 children: [
-                                  // todo: 추후, 구글 로그인 이미지 넣기
-                                  // const Icon(Icons.account_box, size: 50, color: Colors.grey),
                                   const SizedBox(width: 10.0),
                                   Expanded(
-                                    // todo: 아래 부분만 다르므로, 이를 위젯으로 처리하면 리펙토링 가능할 듯
                                     child: SubstringHighlight(
                                       text: sortedCard.title,
                                       // 검색한 내용 가져오기
@@ -131,39 +139,21 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                 // 체크 버튼
                                 IconButton(
                                   padding: EdgeInsets.zero,
-                                  // 아이콘 버튼 내부의 패딩 제거
                                   constraints: const BoxConstraints(),
-                                  // 기본 제약조건 제거
                                   visualDensity: const VisualDensity(horizontal: -4.0),
                                   icon: sortedCard.isCheckedTodo == false
                                       ? const Icon(Icons.check_box_outline_blank)
                                       : const Icon(Icons.check_box, color: Colors.red),
                                   onPressed: () {
-                                    memoController.updateCtr(
-                                      index: settingsController.sortedTime == SortedTime.firstTime ? index : memoController.memoList.length - index - 1,
-                                      createdAt: sortedCard.createdAt,
-                                      title: sortedCard.title,
-                                      mainText: sortedCard.mainText,
-                                      selectedCategory: sortedCard.selectedCategory,
-                                      isFavoriteMemo: sortedCard.isFavoriteMemo!,
-                                      isCheckedTodo: !sortedCard.isCheckedTodo!,
-                                    );
+                                    updateMemoFunc(index, sortedCard,
+                                        isFavoriteMemo: sortedCard.isFavoriteMemo!, isCheckedTodo: !sortedCard.isCheckedTodo!);
                                   },
                                 ),
                                 // 즐겨 찾기
                                 IconButton(
                                   onPressed: () {
-                                    memoController.updateCtr(
-                                      index: settingsController.sortedTime == SortedTime.firstTime
-                                          ? selectedIndices[index]
-                                          : selectedIndices.length - 1 - index,
-                                      createdAt: sortedCard.createdAt,
-                                      title: sortedCard.title,
-                                      mainText: sortedCard.mainText,
-                                      selectedCategory: sortedCard.selectedCategory,
-                                      isFavoriteMemo: !sortedCard.isFavoriteMemo!,
-                                      isCheckedTodo: sortedCard.isCheckedTodo!,
-                                    );
+                                    updateMemoFunc(index, sortedCard,
+                                        isFavoriteMemo: !sortedCard.isFavoriteMemo!, isCheckedTodo: sortedCard.isCheckedTodo!);
                                   },
                                   icon: currentContact.isFavoriteMemo == false
                                       ? const Icon(Icons.star_border_sharp, color: null)
