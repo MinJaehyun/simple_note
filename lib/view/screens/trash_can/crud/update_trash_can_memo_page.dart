@@ -10,13 +10,10 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 
-// note: 휴지통에 들어간 메모를 복원하기 위해서 update 하는 과정
 class UpdateTrashCanMemoPage extends StatefulWidget {
   const UpdateTrashCanMemoPage({required this.index, required this.currentContact, super.key});
 
   final int index;
-
-  // err: final MemoModel currentContact; 처리하면 MemoModel만 사용하게 되므로 TrashCanModel은 사용할 수 없다.. 일단 제거하고 진행하기
   final TrashCanModel currentContact;
 
   @override
@@ -25,22 +22,27 @@ class UpdateTrashCanMemoPage extends StatefulWidget {
 
 class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
   final _formKey = GlobalKey<FormState>();
-  late DateTime time = widget.currentContact.createdAt;
-  late String title = widget.currentContact.title;
-  late String? mainText = widget.currentContact.mainText;
-  late String? _dropdownValue = widget.currentContact.selectedCategory;
+  final ScrollController _scrollController = ScrollController();
+  final categoryController = Get.find<CategoryController>();
+  final memoController = Get.find<MemoController>();
+  final settingsController = Get.find<SettingsController>();
+  final trashCanMemoController = Get.find<TrashCanMemoController>();
+
+  late String title;
+  late String? mainText;
+  late DateTime time;
+  late String? _dropdownValue;
 
   bool _showScrollToTopButton = false;
-  final ScrollController _scrollController = ScrollController();
-  final settingsController = Get.find<SettingsController>();
-  final memoController = Get.find<MemoController>();
-  final trashCanMemoController = Get.find<TrashCanMemoController>();
-  final categoryController = Get.find<CategoryController>();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
+    title = widget.currentContact.title;
+    mainText = widget.currentContact.mainText;
+    time = widget.currentContact.createdAt;
+    _dropdownValue = widget.currentContact.selectedCategory;
   }
 
   @override
@@ -61,52 +63,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
     }
   }
 
-  void _scrollToTop() {
-    _scrollController.animateTo(
-      0.0,
-      duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void _scrollToDown() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    // ui에 나타낼 _dropdownValue 변경함
-    void dropdownCallback(String? selectedValue) {
-      if (selectedValue != null) {
-        setState(() {
-          _dropdownValue = selectedValue;
-        });
-      }
-    }
-
-    DropdownButton<String> dropdownButtonWidget(categoryList) {
-      return DropdownButton(
-        style: const TextStyle(color: Colors.green),
-        underline: Container(height: 2, color: Colors.green[100]),
-        value: null,
-        // ui에 나타낼 _dropdownValue 나타냄
-        hint: Text('$_dropdownValue'),
-        onChanged: dropdownCallback,
-        items: categoryList.map<DropdownMenuItem<String>>((value) {
-          return DropdownMenuItem<String>(
-            value: value.categories,
-            // todo: 아래 test3 고민하기
-            child: Text(value.categories ?? 'test3'),
-          );
-        }).toList(),
-        iconSize: 35,
-      );
-    }
-
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -124,16 +82,13 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                           height: 80,
                           child: Row(
                             children: [
-                              // 시간
                               Expanded(
                                 child: Text(
                                   FormatDate().formatDotDateTimeKor(widget.currentContact.createdAt),
                                   style: const TextStyle(fontSize: 18),
                                 ),
                               ),
-                              // 범주
                               TextButton(
-                                // TextButton 간격 줄이기 위해 패딩과 마진값을 제거
                                 style: TextButton.styleFrom(
                                   minimumSize: Size.zero,
                                   padding: EdgeInsets.zero,
@@ -142,10 +97,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 onPressed: () {},
                                 child: dropdownButtonWidget(categoryController.categoryList),
                               ),
-                              // 범주 생성 버튼
                               IconButton(
-                                // IconButton 간격 줄이기 위해 패딩과 마진값을 제거
-                                // visualDensity: VisualDensity.compact,
                                 visualDensity: const VisualDensity(horizontal: -4),
                                 onPressed: () => showAddPopupDialog(context),
                                 icon: const Icon(Icons.category),
@@ -158,12 +110,9 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                           ),
                         ),
                       ),
-
                       // 중단: 입력창 (제목/내용)
                       NotificationListener<ScrollNotification>(
-                        onNotification: (scrollNotification) {
-                          return true;
-                        },
+                        onNotification: (scrollNotification) => true,
                         child: Expanded(
                           child: Form(
                             key: _formKey,
@@ -179,7 +128,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                       child: TextFormField(
                                         cursorColor: Colors.orange,
                                         cursorWidth: 3,
-                                        // 커서 노출 여부
                                         showCursor: true,
                                         initialValue: widget.currentContact.title,
                                         onChanged: (value) {
@@ -214,11 +162,9 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                         maxLength: 5000,
                                         cursorColor: Colors.orange,
                                         cursorWidth: 3,
-                                        // 커서 노출 여부
                                         showCursor: true,
                                         initialValue: widget.currentContact.mainText,
                                         keyboardType: TextInputType.multiline,
-                                        // 입력값 무제한 설정하는 방법 - maxLines: null
                                         maxLines: widget.currentContact.mainText != null ? 100 : null,
                                         onChanged: (value) {
                                           setState(() {
@@ -265,7 +211,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     title: title,
                                     mainText: mainText!,
                                     selectedCategory: _dropdownValue!,
-                                    // isFavoriteMemo: false,
                                   );
                                   Navigator.of(context).pop();
                                 }
@@ -298,7 +243,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 builder: (BuildContext context) => AlertDialog(
                                   title: const Text('메모를 복원 하시겠습니까?'),
                                   actions: <Widget>[
-                                    // 예: 메모 복원
                                     TextButton(
                                       onPressed: () async {
                                         memoController.addCtr(
@@ -317,7 +261,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                       },
                                       child: const Text('메모를 복원'),
                                     ),
-                                    // 아니오: 메모장으로 빠져나가기
                                     TextButton(
                                       onPressed: () => Navigator.pop(context, 'OK'),
                                       child: const Text('메모장 돌아가기'),
@@ -336,7 +279,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 builder: (BuildContext context) => AlertDialog(
                                   title: const Text('변경 사항을 취소 하시겠습니까?'),
                                   actions: <Widget>[
-                                    // 예: 누르면, 메모장을 빠져나간다.
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
@@ -344,7 +286,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                       },
                                       child: const Text('변경을 취소'),
                                     ),
-                                    // 아니오: 누르면, 메모장으로 빠져나간다.
                                     TextButton(
                                       onPressed: () => Navigator.pop(context, 'OK'),
                                       child: const Text('메모장 돌아가기'),
@@ -378,4 +319,49 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
       ),
     );
   }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0.0,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _scrollToDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  // ui에 나타낼 _dropdownValue 변경함
+  void dropdownCallback(String? selectedValue) {
+    if (selectedValue != null) {
+      setState(() {
+        _dropdownValue = selectedValue;
+      });
+    }
+  }
+
+  DropdownButton<String> dropdownButtonWidget(categoryList) {
+    return DropdownButton(
+      style: const TextStyle(color: Colors.green),
+      underline: Container(height: 2, color: Colors.green[100]),
+      value: null,
+      // ui에 나타낼 _dropdownValue 나타냄
+      hint: Text('$_dropdownValue'),
+      onChanged: dropdownCallback,
+      items: categoryList.map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value.categories,
+          // todo: 아래 test3 고민하기
+          child: Text(value.categories ?? 'test3'),
+        );
+      }).toList(),
+      iconSize: 35,
+    );
+  }
+
 }
