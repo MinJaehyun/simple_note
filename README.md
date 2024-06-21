@@ -12,6 +12,11 @@
 - 추후: 달력: 메모 추가 시, A RenderFlex overflowed by 220 pixels on the bottom
 
 
+## 2024-06-22
+### Features
+- memo_card_widget: 상단 즐겨찾기 클릭 시, 관련 내용만 나타내야 하는데, 그렇지 않고 있다
+
+
 ## 2024-06-21
 ### Features
 - 코드 개선 
