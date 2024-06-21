@@ -21,9 +21,23 @@ class MemoSelectedCategoryWidget extends StatefulWidget {
 }
 
 class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget> {
-  SampleItem? selectedItem;
-  final settingsController = Get.find<SettingsController>();
   final memoController = Get.find<MemoController>();
+  final settingsController = Get.find<SettingsController>();
+
+  void updateMemo(sortedIndex, currentContact, {
+    final bool? isFavoriteMemo,
+    final bool? isCheckedTodo,
+  }) {
+    memoController.updateCtr(
+      index: sortedIndex,
+      createdAt: currentContact.createdAt,
+      title: currentContact.title,
+      mainText: currentContact.mainText,
+      selectedCategory: currentContact.selectedCategory,
+      isFavoriteMemo: isFavoriteMemo ?? false,
+      isCheckedTodo: !isCheckedTodo!,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +46,6 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
     return Obx(
       () {
         if (memoController.memoList.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
-
         // note: 메모 상단에 사용자가 선택한 범주와 메모장에 범주가 같은 것만 나타내기
         List<MemoModel> sameCategoryMemo = memoController.memoList.where((item) {
           return item.selectedCategory == widget.selectedCategory;
@@ -71,11 +84,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                 child: CustomPaint(
                   painter: GridPainter(),
                   child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                        return UpdateMemoPage(index: sortedIndex, sortedCard: currentContact);
-                      }));
-                    },
+                    onTap: () => Get.to(UpdateMemoPage(index: sortedIndex, sortedCard: currentContact)),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: ListTile(
@@ -86,23 +95,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                           children: [
                             Row(
                               children: [
-                                // todo: 추후, 구글 로그인 이미지 넣기
-                                // IconButton(
-                                //   onPressed: () {},
-                                //   icon: const Icon(Icons.account_box),
-                                //   padding: EdgeInsets.zero,
-                                //   constraints: const BoxConstraints(),
-                                //   iconSize: 50,
-                                //   color: Colors.grey,
-                                // ),
                                 const SizedBox(width: 10.0),
-                                Expanded(
-                                  child: Text(
-                                    currentContact.title,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: style,
-                                  ),
-                                ),
+                                Expanded(child: Text(currentContact.title, overflow: TextOverflow.ellipsis, style: style)),
                                 MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
                               ],
                             ),
@@ -121,15 +115,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                   constraints: const BoxConstraints(),
                                   visualDensity: const VisualDensity(horizontal: -4.0),
                                   onPressed: () {
-                                    memoController.updateCtr(
-                                      index: sortedIndex,
-                                      createdAt: currentContact.createdAt,
-                                      title: currentContact.title,
-                                      mainText: currentContact.mainText,
-                                      selectedCategory: currentContact.selectedCategory,
-                                      isFavoriteMemo: currentContact.isFavoriteMemo!,
-                                      isCheckedTodo: !currentContact.isCheckedTodo!,
-                                    );
+                                    updateMemo(sortedIndex, currentContact, isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
                                   },
                                   icon: currentContact.isCheckedTodo == false
                                       ? const Icon(Icons.check_box_outline_blank, color: null)
@@ -138,15 +124,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                 // 즐겨 찾기
                                 IconButton(
                                   onPressed: () {
-                                    memoController.updateCtr(
-                                      index: sortedIndex,
-                                      createdAt: currentContact.createdAt,
-                                      title: currentContact.title,
-                                      mainText: currentContact.mainText,
-                                      selectedCategory: currentContact.selectedCategory,
-                                      isFavoriteMemo: !currentContact.isFavoriteMemo!,
-                                      isCheckedTodo: currentContact.isCheckedTodo!,
-                                    );
+                                    updateMemo(sortedIndex, currentContact, isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
                                   },
                                   icon: currentContact.isFavoriteMemo == false
                                       ? const Icon(Icons.star_border_sharp, color: null)
