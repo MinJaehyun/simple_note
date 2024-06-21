@@ -4,6 +4,16 @@ import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/model/memo.dart';
 
+// note: 실행되며, 위젯을 호출한다
+Future<void> showUpdatePopupDialog(BuildContext context, int index, dynamic currentContact) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return UpdatePopupDialog(index, currentContact);
+    },
+  );
+}
+
 // 함수가 호출되고 아래 위젯이 호출되는 구조인 이유는?
 // note: showDialog는 build 메서드 내에서 호출되지 않으므로, 다이얼로그를 표시하는 전용 함수를 만들어 호출해야하기 때문이다.
 class UpdatePopupDialog extends StatefulWidget {
@@ -25,9 +35,8 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
   @override
   void initState() {
     super.initState();
-    category = widget.currentContact?.categories.toString();
     categoryToUpdate = _categoryController.categoryList[widget.index].categories;
-    // print(categoryToUpdate);
+    category = widget.currentContact?.categories.toString();
   }
 
   @override
@@ -93,14 +102,4 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
       ],
     );
   }
-}
-
-// note: 실행되며, 위에 위젯을 호출한다
-Future<void> showUpdatePopupDialog(BuildContext context, int index, dynamic currentContact) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return UpdatePopupDialog(index, currentContact);
-    },
-  );
 }
