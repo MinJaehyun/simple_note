@@ -4,6 +4,15 @@ import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/model/memo.dart';
 
+Future<void> showDeletePopupDialog(BuildContext context, int index) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return DeleteCategoryWidget(context, index);
+    },
+  );
+}
+
 class DeleteCategoryWidget extends StatefulWidget {
   const DeleteCategoryWidget(this.context, this.index, {super.key});
 
@@ -70,13 +79,4 @@ class _DeleteCategoryWidgetState extends State<DeleteCategoryWidget> {
       ],
     );
   }
-}
-
-Future<void> showDeletePopupDialog(BuildContext context, int index) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return DeleteCategoryWidget(context, index);
-    },
-  );
 }
