@@ -236,7 +236,6 @@ class _CalendarPageState extends State<CalendarPage> {
                 void _updateMemo(
                   index,
                   currentContact, {
-                  // bool? isFavoriteMemo,
                   bool? isCheckedTodo,
                 }) {
                   memoController.updateCtr(
@@ -245,7 +244,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     title: currentContact.title,
                     selectedCategory: currentContact.selectedCategory,
                     mainText: currentContact.mainText,
-                    isFavoriteMemo: !currentContact.isFavoriteMemo,
+                    isFavoriteMemo: currentContact.isFavoriteMemo,
                     isCheckedTodo: !currentContact.isCheckedTodo,
                   );
                 }
