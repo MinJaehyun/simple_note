@@ -90,20 +90,20 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
         ),
         actions: [
           TextButton(
-              onPressed: () {
-                // 즉시 화면 재구성하기 위해 페이지 전체를 리로드
-                if (widget.index == 2) {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                    return const MemoPage();
-                  }));
-                } else if (widget.index == 3) {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                    return const TrashCanPage();
-                  }));
-                }
-              },
-              child: const Text('적용')),
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('취소')),
+            onPressed: () {
+              // 즉시 화면 재구성하기 위해 페이지 전체를 리로드
+              if (widget.index == 2) {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+                  return const MemoPage();
+                }));
+              } else if (widget.index == 3) {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+                  return const TrashCanPage();
+                }));
+              }
+            },
+            child: const Text('닫기'),
+          ),
         ],
         elevation: 24.0,
       ),

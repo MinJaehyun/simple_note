@@ -152,7 +152,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                               searchText = textSearchController.text;
                             });
                           },
-                          onTap: () {},
+                          onTap: null,
                         ),
                       ),
                     ),
