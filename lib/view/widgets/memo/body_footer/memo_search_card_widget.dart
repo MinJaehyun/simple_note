@@ -9,8 +9,6 @@ import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_p
 import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
-enum SampleItem { updateMemo, deleteMemo }
-
 class MemoSearchCardWidget extends StatefulWidget {
   const MemoSearchCardWidget(this.searchControllerText, {super.key});
 
@@ -23,8 +21,21 @@ class MemoSearchCardWidget extends StatefulWidget {
 class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
   final memoController = Get.find<MemoController>();
   final settingsController = Get.find<SettingsController>();
-  List<MemoModel> boxSearchTitleAndMainText = [];
-  SampleItem? selectedItem;
+  List<MemoModel> sortedMemoList = [];
+  List<MemoModel> reverseSortedMemoList = [];
+  List<MemoModel> searchList = [];
+  List<MemoModel> searchAndFavoriteList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    updateSortedLists();
+  }
+
+  void updateSortedLists() {
+    sortedMemoList = List.from(memoController.memoList)..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    reverseSortedMemoList = List.from(memoController.memoList)..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
 
   void updateMemoFunc(
     index,
@@ -48,24 +59,23 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
     return Obx(
       () {
         if (memoController.memoList.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
-        boxSearchTitleAndMainText = memoController.memoList.where((item) {
+
+        List<MemoModel> selectedMemoList = settingsController.sortedTime == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
+        List<MemoModel> favoriteMemoList = selectedMemoList.where((item) => item.isFavoriteMemo == true).toList();
+
+        searchList = memoController.memoList.where((item) {
           return item.title.contains(widget.searchControllerText!) || item.mainText!.contains(widget.searchControllerText!);
         }).toList();
 
-        // note: 검색한 제목이나 내용의 원조 모든 메모에 인덱스를 가져오는 방법
-        List<MemoModel> memoList = memoController.memoList;
-        List<int> selectedIndices = [];
-        for (int i = 0; i < memoList.length; i++) {
-          if (memoList[i].title.contains(widget.searchControllerText!) || memoList[i].mainText!.contains(widget.searchControllerText!)) {
-            selectedIndices.add(i);
-          }
-        }
+        searchAndFavoriteList = favoriteMemoList.where((item) {
+          return item.title.contains(widget.searchControllerText!) || item.mainText!.contains(widget.searchControllerText!);
+        }).toList();
 
         return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
-            itemCount: boxSearchTitleAndMainText.length,
+            itemCount: settingsController.isAppbarFavoriteMemo == true ? searchAndFavoriteList.length : searchList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1 / 1,
@@ -73,9 +83,8 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
               crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
-              MemoModel currentContact = boxSearchTitleAndMainText[index];
-              MemoModel? reversedCurrentContact = boxSearchTitleAndMainText[boxSearchTitleAndMainText.length - 1 - index];
-              MemoModel? sortedCard = settingsController.sortedTime == SortedTime.firstTime ? currentContact : reversedCurrentContact;
+              MemoModel? currentContact = settingsController.isAppbarFavoriteMemo == true ? searchAndFavoriteList[index] : searchList[index];
+              int sortedIndex = memoController.memoList.indexOf(currentContact);
 
               return Card(
                 shape: RoundedRectangleBorder(
@@ -89,7 +98,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                 child: CustomPaint(
                   painter: GridPainter(),
                   child: InkWell(
-                    onTap: () => Get.to(UpdateMemoPage(index: index, sortedCard: sortedCard)),
+                    onTap: () => Get.to(UpdateMemoPage(index: sortedIndex, sortedCard: currentContact)),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: ListTile(
@@ -104,7 +113,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                   const SizedBox(width: 10.0),
                                   Expanded(
                                     child: SubstringHighlight(
-                                      text: sortedCard.title,
+                                      text: currentContact.title,
                                       // 검색한 내용 가져오기
                                       term: widget.searchControllerText,
                                       // non-highlight style
@@ -123,7 +132,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                     ),
                                   ),
                                   // note: card() 내 수정, 삭제 버튼
-                                  MemoCalendarPopupButtonWidget(index, sortedCard),
+                                  MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
                                 ],
                               ),
                             ),
@@ -132,7 +141,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    FormatDate().formatSimpleTimeKor(sortedCard.createdAt),
+                                    FormatDate().formatSimpleTimeKor(currentContact.createdAt),
                                     style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                   ),
                                 ),
@@ -141,19 +150,19 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                   padding: EdgeInsets.zero,
                                   constraints: const BoxConstraints(),
                                   visualDensity: const VisualDensity(horizontal: -4.0),
-                                  icon: sortedCard.isCheckedTodo == false
+                                  icon: currentContact.isCheckedTodo == false
                                       ? const Icon(Icons.check_box_outline_blank)
                                       : const Icon(Icons.check_box, color: Colors.red),
                                   onPressed: () {
-                                    updateMemoFunc(index, sortedCard,
-                                        isFavoriteMemo: sortedCard.isFavoriteMemo!, isCheckedTodo: !sortedCard.isCheckedTodo!);
+                                    updateMemoFunc(index, currentContact,
+                                        isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
                                   },
                                 ),
                                 // 즐겨 찾기
                                 IconButton(
                                   onPressed: () {
-                                    updateMemoFunc(index, sortedCard,
-                                        isFavoriteMemo: !sortedCard.isFavoriteMemo!, isCheckedTodo: sortedCard.isCheckedTodo!);
+                                    updateMemoFunc(index, currentContact,
+                                        isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
                                   },
                                   icon: currentContact.isFavoriteMemo == false
                                       ? const Icon(Icons.star_border_sharp, color: null)

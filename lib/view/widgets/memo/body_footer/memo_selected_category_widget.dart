@@ -35,7 +35,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
       mainText: currentContact.mainText,
       selectedCategory: currentContact.selectedCategory,
       isFavoriteMemo: isFavoriteMemo ?? false,
-      isCheckedTodo: !isCheckedTodo!,
+      isCheckedTodo: isCheckedTodo ?? false,
     );
   }
 
@@ -56,12 +56,15 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
         List<MemoModel> reversedSelectedCategoryMemo = List.from(sameCategoryMemo)..sort((a, b) => b.createdAt.compareTo(a.createdAt));
         List<MemoModel> selectedMemoList =
             settingsController.sortedTime == SortedTime.firstTime ? sortedSelectedCategoryMemo : reversedSelectedCategoryMemo;
+        List<MemoModel> favoriteMemoList = selectedMemoList.where((item) {
+          return item.isFavoriteMemo == true;
+        }).toList();
 
         return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
-            itemCount: sameCategoryMemo.length,
+            itemCount: settingsController.isAppbarFavoriteMemo == true ? favoriteMemoList.length : sameCategoryMemo.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1 / 1,
@@ -69,7 +72,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
               crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
-              MemoModel? currentContact = selectedMemoList[index];
+              // MemoModel? currentContact = selectedMemoList[index];
+              MemoModel? currentContact = settingsController.isAppbarFavoriteMemo == true ? favoriteMemoList[index] : selectedMemoList[index];
               int sortedIndex = memoController.memoList.indexOf(currentContact);
 
               return Card(

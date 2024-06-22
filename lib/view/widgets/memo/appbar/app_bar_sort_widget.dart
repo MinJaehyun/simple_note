@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/helper/banner_ad_widget.dart';
-import 'package:simple_note/view/screens/memo/memo_page.dart';
 import 'package:simple_note/controller/settings_controller.dart';
-import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
 
 //ignore: must_be_immutable
 class AppBarSortWidget extends StatefulWidget implements PreferredSizeWidget {
@@ -91,16 +89,18 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
         actions: [
           TextButton(
             onPressed: () {
+              // fix: 범주 선택 시, 화면 리로드 기능 불필요 하므로 제거
               // 즉시 화면 재구성하기 위해 페이지 전체를 리로드
-              if (widget.index == 2) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const MemoPage();
-                }));
-              } else if (widget.index == 3) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const TrashCanPage();
-                }));
-              }
+              // if (widget.index == 2) {
+              //   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+              //     return const MemoPage();
+              //   }));
+              // } else if (widget.index == 3) {
+              //   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+              //     return const TrashCanPage();
+              //   }));
+              // }
+              Get.back();
             },
             child: const Text('닫기'),
           ),

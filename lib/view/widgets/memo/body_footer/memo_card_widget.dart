@@ -37,20 +37,17 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
     TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
     return Obx(
       () {
-        // note: 상단 함수를 실행해야, 리로드 된다
-        updateSortedLists();
-        // note: 주의: 아래 설정은 build 이하에 작성하면 error 발생한다.
-        // note: 선택된 정렬에 따라 올바른 리스트를 선택합니다.
-        List<MemoModel> selectedMemoList = settingsController.sortedTime == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
-        List<MemoModel> favoriteMemoList = memoController.memoList.where((item) {
-          return item.isFavoriteMemo == true;
-        }).toList();
-
         if (memoController.memoList.isEmpty) {
           return Column(
             children: [SizedBox(height: 200), Text('메모를 생성해 주세요')],
           );
         }
+        // note: 상단 함수를 실행해야, 리로드 된다
+        updateSortedLists();
+        // note: 주의: 아래 설정은 build 이하에 작성하면 error 발생한다.
+        // note: 선택된 정렬에 따라 올바른 리스트를 선택합니다.
+        List<MemoModel> selectedMemoList = settingsController.sortedTime == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
+        List<MemoModel> favoriteMemoList = selectedMemoList.where((item) => item.isFavoriteMemo == true).toList();
 
         return SizedBox(
           height: MediaQuery.of(context).size.height - 200,
@@ -65,7 +62,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
               crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
-              MemoModel? currentContact = selectedMemoList[index];
+              MemoModel? currentContact = settingsController.isAppbarFavoriteMemo == true ? favoriteMemoList[index] : selectedMemoList[index];
               int sortedIndex = memoController.memoList.indexOf(currentContact);
 
               return Card(
