@@ -13,8 +13,7 @@ class MemoTopWidget extends StatefulWidget {
 class _MemoTopWidgetState extends State<MemoTopWidget> {
   TextEditingController _textController = TextEditingController();
   final categoryController = Get.find<CategoryController>();
-  late String searchedTitle;
-  String? searchedMainText;
+
   String? selectedCategory;
   String? searchControllerText;
 
@@ -27,13 +26,12 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Column(
         children: [
-          // // body_top: 검색창 및 범주
-          Obx(() {
+          // body_top: 검색창 및 범주
+          Obx(
+            () {
               return SingleChildScrollView(
                 child: SizedBox(
                   height: 155,
@@ -50,17 +48,11 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                               controller: _textController,
                               decoration: InputDecoration(
                                 focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.orange,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.orange, width: 1),
                                 ),
                                 prefixIcon: GestureDetector(
-                                  onTap: () {},
-                                  child: const Icon(
-                                    Icons.search,
-                                    size: 24,
-                                  ),
+                                  onTap: null,
+                                  child: const Icon(Icons.search, size: 24),
                                 ),
                                 prefixIconColor: Colors.grey,
                                 suffixIcon: GestureDetector(
@@ -75,20 +67,17 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                 suffixIconColor: Colors.grey,
                                 hintText: '검색',
                                 contentPadding: const EdgeInsets.all(12),
-                                hintStyle: const TextStyle(
-                                  fontSize: 14,
-                                ),
+                                hintStyle: const TextStyle(fontSize: 14),
                               ),
                               cursorColor: Colors.grey,
                               onChanged: (value) {
                                 setState(() {
                                   // 변경 전: 자음 한개씩 가져오는게 아닌, 전체를 가져오도록 변경
                                   // _textController.text = value;
-                                  // 변경 후
                                   searchControllerText = _textController.text;
                                 });
                               },
-                              onTap: () {},
+                              onTap: null,
                             ),
                           ),
                         ),
@@ -103,10 +92,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                               children: [
                                 Card(
                                   shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      color: Colors.black,
-                                      width: 0.3,
-                                    ),
+                                    side: const BorderSide(color: Colors.black, width: 0.3),
                                     borderRadius: BorderRadius.circular(4.0),
                                   ),
                                   // note: 선택한 범주가 '모든(null)' 이면 빨강 박스로
@@ -128,10 +114,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                 ),
                                 Card(
                                   shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
+                                    side: const BorderSide(color: Colors.grey, width: 1.0),
                                     borderRadius: BorderRadius.circular(4.0),
                                   ),
                                   color: selectedCategory == '미분류' ? Colors.red : null,
@@ -150,16 +133,11 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                   ),
                                 ),
                                 // note: [] 내에서 ...box 사용하여 ListView 대신 반복하는 방법: SingleChildScrollView 내에 ListView 사용 시 충돌함!
-                                // note: 변경 전
-                                // ...box.values.map(
-                                   ...categoryController.categoryList.map(
+                                ...categoryController.categoryList.map(
                                   (categoryContact) {
                                     return Card(
                                       shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          color: Colors.grey,
-                                          width: 1.0,
-                                        ),
+                                        side: const BorderSide(color: Colors.grey, width: 1.0),
                                         borderRadius: BorderRadius.circular(4.0),
                                       ),
                                       color: selectedCategory == categoryContact.categories ? Colors.red : null,
