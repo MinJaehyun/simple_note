@@ -84,8 +84,8 @@ class _CalendarPageState extends State<CalendarPage> {
           onPressed: () => Get.to(const AddMemoPage()),
           label: const Text('메모 만들기'),
         ),
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(100),
           child: BannerAdWidget(),
         ),
         body: Column(
@@ -233,7 +233,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 }
 
                 // *** note: 두 상태가 변경될 때 memoController.updateCtr 메서드를 함께 호출하여, 동시에 상태를 업데이트하도록 할 수 있습니다. 이를 위해서는 _updateMemo 메서드를 개선함 ***
-                void _updateMemo(
+                void updateMemo(
                   index,
                   currentContact, {
                   bool? isCheckedTodo,
@@ -272,7 +272,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                   children: <TextSpan>[
                                     TextSpan(
                                         text: '${todayIsCheckedTodoList.length}', style: TextStyle(color: RED_ACCENT, fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' 개'),
+                                    const TextSpan(text: ' 개'),
                                   ],
                                 ),
                               ),
@@ -281,7 +281,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                   text: '  |  금일 작성한 메모 ', style: TextStyle(color: settingsController.isThemeMode.isTrue ? Colors.black : Colors.white),
                                   children: <TextSpan>[
                                     TextSpan(text: '${sameSelectedDayMemo.length}', style: TextStyle(color: RED_ACCENT, fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' 개'),
+                                    const TextSpan(text: ' 개'),
                                   ],
                                 ),
                               )
@@ -317,13 +317,13 @@ class _CalendarPageState extends State<CalendarPage> {
                                     ? IconButton(
                                         icon: Icon(Icons.check_box, color: RED_ACCENT),
                                         onPressed: () {
-                                          _updateMemo(index, currentContact, isCheckedTodo: false);
+                                          updateMemo(index, currentContact, isCheckedTodo: false);
                                         },
                                       )
                                     : IconButton(
                                         icon: const Icon(Icons.check_box_outline_blank, color: Colors.green),
                                         onPressed: () {
-                                          _updateMemo(index, currentContact, isCheckedTodo: true);
+                                          updateMemo(index, currentContact, isCheckedTodo: true);
                                         },
                                       ),
                                 trailing: MemoCalendarPopupButtonWidget(

@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
 
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          themeMode: darkMode == true ? ThemeMode.light : ThemeMode.dark,
+          themeMode: darkMode.value == true ? ThemeMode.light : ThemeMode.dark,
           // theme 내 3가지 설정 (폰트, colorScheme, textTheme)
           theme: ThemeData(
             fontFamily: selectedFont,

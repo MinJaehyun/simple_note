@@ -51,11 +51,12 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
           ),
           onPressed: () {
             var isDuplicate = false;
-            for (var category in _categoryController.categoryList)
+            for (var category in _categoryController.categoryList) {
               if (category.categories! == _textController.text) {
                 isDuplicate = true;
                 break;
               }
+            }
             if (!isDuplicate) {
               _categoryController.addCtr(_textController.text);
               _textController.clear();
@@ -64,7 +65,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
                 '오류',
                 '이미 존재하는 범주입니다.',
                 snackPosition: SnackPosition.BOTTOM,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
               );
             }
 

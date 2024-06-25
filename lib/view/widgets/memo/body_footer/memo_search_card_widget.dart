@@ -44,7 +44,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
     final bool? isCheckedTodo,
   }) {
     memoController.updateCtr(
-      index: settingsController.sortedTime == SortedTime.firstTime ? index : memoController.memoList.length - index - 1,
+      index: settingsController.sortedTime.value == SortedTime.firstTime ? index : memoController.memoList.length - index - 1,
       createdAt: sortedCard.createdAt,
       title: sortedCard.title,
       mainText: sortedCard.mainText,
@@ -60,7 +60,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
       () {
         if (memoController.memoList.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
 
-        List<MemoModel> selectedMemoList = settingsController.sortedTime == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
+        List<MemoModel> selectedMemoList = settingsController.sortedTime.value == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
         List<MemoModel> favoriteMemoList = selectedMemoList.where((item) => item.isFavoriteMemo == true).toList();
 
         searchList = memoController.memoList.where((item) {
@@ -75,7 +75,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
           height: MediaQuery.of(context).size.height - 200,
           child: GridView.builder(
             shrinkWrap: true,
-            itemCount: settingsController.isAppbarFavoriteMemo == true ? searchAndFavoriteList.length : searchList.length,
+            itemCount: settingsController.isAppbarFavoriteMemo.value == true ? searchAndFavoriteList.length : searchList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1 / 1,
@@ -83,7 +83,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
               crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
-              MemoModel? currentContact = settingsController.isAppbarFavoriteMemo == true ? searchAndFavoriteList[index] : searchList[index];
+              MemoModel? currentContact = settingsController.isAppbarFavoriteMemo.value == true ? searchAndFavoriteList[index] : searchList[index];
               int sortedIndex = memoController.memoList.indexOf(currentContact);
 
               return Card(

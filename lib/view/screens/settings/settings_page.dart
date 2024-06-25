@@ -40,8 +40,8 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(100),
           child: BannerAdWidget(),
         ),
         body: SingleChildScrollView(
@@ -65,15 +65,15 @@ class _SettingsState extends State<Settings> {
                             children: [
                               // note: 테마 설정
                               ListTile(
-                                leading: settingsController.isThemeMode == true
+                                leading: settingsController.isThemeMode.value == true
                                     ? const Icon(Icons.light_mode_outlined)
                                     : const Icon(Icons.dark_mode_outlined),
                                 title: const Text('테마 설정'),
                                 trailing: Switch(
-                                  value: settingsController.isThemeMode == false,
+                                  value: settingsController.isThemeMode.value == false,
                                   activeColor: Colors.pinkAccent,
                                   onChanged: (bool value) {
-                                    settingsController.isThemeMode == false
+                                    settingsController.isThemeMode.value == false
                                         ? settingsController.toggleDarkMode(true)
                                         : settingsController.toggleDarkMode(false);
                                   },
@@ -81,13 +81,13 @@ class _SettingsState extends State<Settings> {
                               ),
                               // note: 격자 설정
                               ListTile(
-                                leading: settingsController.isGridMode == true ? const Icon(Icons.apps) : const Icon(Icons.crop_din),
+                                leading: settingsController.isGridMode.value == true ? const Icon(Icons.apps) : const Icon(Icons.crop_din),
                                 title: const Text('격자 설정'),
                                 trailing: Switch(
-                                  value: settingsController.isGridMode == true,
+                                  value: settingsController.isGridMode.value == true,
                                   activeColor: Colors.pinkAccent,
                                   onChanged: (bool value) {
-                                    settingsController.isGridMode == true
+                                    settingsController.isGridMode.value == true
                                         ? settingsController.toggleGridMode(false)
                                         : settingsController.toggleGridMode(true);
                                   },

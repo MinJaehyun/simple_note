@@ -48,8 +48,8 @@ class _CategoryPageState extends State<CategoryPage> {
           onPressed: () => showAddPopupDialog(context),
           label: const Text('범주 만들기'),
         ),
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(100),
           child: BannerAdWidget(),
         ),
         body: SingleChildScrollView(
@@ -76,7 +76,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               title: Row(
                         children: [
                           Text('모든 ', style: style),
-                          Text('(${memoController.memoList.length})', style: TextStyle(color: Colors.redAccent)),
+                          Text('(${memoController.memoList.length})', style: const TextStyle(color: Colors.redAccent)),
                         ],
                       ))),
                       Card(
@@ -84,7 +84,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               title: Row(
                         children: [
                           Text('미분류 ', style: style),
-                          Text('(${unclassifiedMemo.length})', style: TextStyle(color: Colors.redAccent)),
+                          Text('(${unclassifiedMemo.length})', style: const TextStyle(color: Colors.redAccent)),
                         ],
                       ))),
                     ],
@@ -135,16 +135,16 @@ class _CategoryPageState extends State<CategoryPage> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Text("삭제 확인"),
-                                    content: Text("정말로 삭제하시겠습니까?"),
+                                    title: const Text("삭제 확인"),
+                                    content: const Text("정말로 삭제하시겠습니까?"),
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.of(context).pop(true),
-                                        child: Text("삭제"),
+                                        child: const Text("삭제"),
                                       ),
                                       TextButton(
                                         onPressed: () => Navigator.of(context).pop(false),
-                                        child: Text("취소"),
+                                        child: const Text("취소"),
                                       ),
                                     ],
                                   );
@@ -179,7 +179,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                     Text('${box.getAt(index)!.categories} ', style: style),
                                     Text(
                                         '(${Hive.box<MemoModel>(MemoBox).values.where((item) => item.selectedCategory == box.getAt(index)!.categories).length})',
-                                        style: TextStyle(color: Colors.redAccent)),
+                                        style: const TextStyle(color: Colors.redAccent)),
                                   ],
                                 ),
                                 trailing: Column(

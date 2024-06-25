@@ -12,10 +12,14 @@
 - 추후: 달력: 메모 추가 시, A RenderFlex overflowed by 220 pixels on the bottom
 
 
+## 2024-06-25
+### Features
+- const 적용 및 RxBool 타입에 값에 .value 적용하여 '==' 활성화 하기
+
+
 ## 2024-06-22
 ### Features
 - 모든 범주와, 그외 선택한 범주와, 검색창에 입력한 내용에서의, 정렬 및 즐겨 찾기 기능 구현
-- 
 
 
 ## 2024-06-21

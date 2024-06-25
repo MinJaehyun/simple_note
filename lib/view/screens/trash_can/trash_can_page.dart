@@ -45,7 +45,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
   void updateSortedLists() {
     sortedMemoList = List.from(trashCanMemoController.trashCanMemoList)..sort((a, b) => a.createdAt.compareTo(b.createdAt));
     reverseSortedMemoList = List.from(trashCanMemoController.trashCanMemoList)..sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    selectedMemoList = settingsController.sortedTime == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
+    selectedMemoList = settingsController.sortedTime.value == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
   }
 
   @override
@@ -55,7 +55,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: BannerAdWidget(),
+            title: const BannerAdWidget(),
             backgroundColor: Colors.transparent,
             actions: [
               // note: 전체 삭제
@@ -92,7 +92,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                 icon: const Icon(Icons.sort),
                 onPressed: () {
                   setState(() {
-                    if (settingsController.sortedTime == SortedTime.firstTime) {
+                    if (settingsController.sortedTime.value == SortedTime.firstTime) {
                       settingsController.updateSortedName(SortedTime.lastTime);
                     } else {
                       settingsController.updateSortedName(SortedTime.firstTime);

@@ -11,7 +11,7 @@ class MemoTopWidget extends StatefulWidget {
 }
 
 class _MemoTopWidgetState extends State<MemoTopWidget> {
-  TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
   final categoryController = Get.find<CategoryController>();
 
   String? selectedCategory;

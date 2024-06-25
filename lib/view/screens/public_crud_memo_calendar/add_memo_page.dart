@@ -190,7 +190,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       ),
                     ),
                     // 배너
-                    BannerAdWidget(),
+                    const BannerAdWidget(),
                     // 하단: 할일체크 및 즐겨찾기 및 저장 및 취소
                     Row(
                       children: [

@@ -178,5 +178,5 @@ enum _TimelineStatus {
 }
 
 extension on _TimelineStatus {
-  bool get done => this == _TimelineStatus.done;
+  // bool get done => this == _TimelineStatus.done;
 }

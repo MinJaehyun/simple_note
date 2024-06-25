@@ -30,7 +30,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
           ad.dispose();
         },
       ),
-      request: AdRequest(),
+      request: const AdRequest(),
     );
 
     // 광고를 로딩

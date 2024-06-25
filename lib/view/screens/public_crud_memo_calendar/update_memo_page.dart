@@ -220,7 +220,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                     ),
                   ),
                   // 배너
-                  BannerAdWidget(),
+                  const BannerAdWidget(),
                   // 하단: 즐찾 및 저장 및 취소
                   Row(
                     children: [

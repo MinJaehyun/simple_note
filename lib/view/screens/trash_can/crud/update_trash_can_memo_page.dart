@@ -192,7 +192,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                           ),
                         ),
                       ),
-                      BannerAdWidget(),
+                      const BannerAdWidget(),
                       // 하단: 저장 및 취소
                       Row(
                         children: [

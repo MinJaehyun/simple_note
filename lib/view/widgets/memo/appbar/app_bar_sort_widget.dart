@@ -26,12 +26,12 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: BannerAdWidget(),
+      title: const BannerAdWidget(),
       actions: [
         Obx(
           () => IconButton(
             visualDensity: const VisualDensity(horizontal: -4),
-            icon: settingsController.isAppbarFavoriteMemo == true ? const Icon(Icons.star, color: Colors.red) : const Icon(Icons.star_border_sharp),
+            icon: settingsController.isAppbarFavoriteMemo.value == true ? const Icon(Icons.star, color: Colors.red) : const Icon(Icons.star_border_sharp),
             onPressed: () {
               settingsController.updateAppbarFavoriteMemo();
             },

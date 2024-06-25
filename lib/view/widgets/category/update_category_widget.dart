@@ -56,15 +56,15 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
       ),
       actions: [
         TextButton(
-          child: const Text('저장'),
           style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
           onPressed: () {
             var isDuplicate = false;
-            for (var categories in _categoryController.categoryList)
+            for (var categories in _categoryController.categoryList) {
               if (categories.categories! == category) {
                 isDuplicate = true;
                 break;
               }
+            }
             if (!isDuplicate) {
               if (categoryToUpdate != null) {
                 _categoryController.updateCtr(widget.index, category!);
@@ -86,11 +86,12 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
                 '오류',
                 '이미 존재하는 범주입니다.',
                 snackPosition: SnackPosition.BOTTOM,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
               );
             }
             Navigator.of(context).pop();
           },
+          child: const Text('저장'),
         ),
         TextButton(
           style: TextButton.styleFrom(
