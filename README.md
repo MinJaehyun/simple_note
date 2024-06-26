@@ -6,10 +6,15 @@
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
 ## todo:
-- 내부 테스터 모집하기 6월 24일 계정 등록하기(2명)
 ## Bug Fixes
 - 추후: 휴지통: 전체 삭제: 한번 클릭 시 반영되지 않는다.. 2번째는 된다
 - 추후: 달력: 메모 추가 시, A RenderFlex overflowed by 220 pixels on the bottom
+
+
+## 2024-06-26
+### Features
+- 구글 플레이 스토어: 비공개 테스터 20명 모집 완료
+- 구글 플레이 스토어: 프로젝트 제목 변경 및 개발자 이름 변경
 
 
 ## 2024-06-25
