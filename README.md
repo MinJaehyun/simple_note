@@ -6,6 +6,7 @@
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
 ## todo:
+- 메모장: 이미지 등록 기능
 ## Bug Fixes
 - 추후: 휴지통: 전체 삭제: 한번 클릭 시 반영되지 않는다.. 2번째는 된다
 - 추후: 달력: 메모 추가 시, A RenderFlex overflowed by 220 pixels on the bottom
@@ -15,7 +16,10 @@
 
 ## 2024-06-27
 ### Features
+- 1일 1버그 찾기 
 - 구글 플레이 스토어: 그래픽 이미지 개선
+- 배포 후 테스트 하기: splash: 앱 실행 시, 최초 이미지 흰 배경에 프로젝트 아이콘 띄우기
+- 배포 후 테스트 하기: 앱 아이콘 기본 플루터 아이콘을 내 프로젝트 아이콘으로 변경하기
 
 
 ## 2024-06-26
