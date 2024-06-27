@@ -2,7 +2,7 @@ name: simple_note
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.1+6
+version: 1.0.1+7
 
 environment:
   sdk: '>=3.3.3 <4.0.0'
@@ -24,6 +24,7 @@ dependencies:
   timelines: ^0.1.0
   flutter_email_sender: ^6.0.3
   google_mobile_ads: ^5.1.0
+  flutter_launcher_icons: ^0.13.1
 
 
 dev_dependencies:
@@ -81,7 +82,23 @@ flutter_native_splash:
   image: assets/icons64.png # 추가할 이미지 파일 경로를 추가
   android: true
   ios: true
-  web: false
+  web: fa
 
 
-
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons64.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "path/to/image.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "path/to/image.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "path/to/image.png"
