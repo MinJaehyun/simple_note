@@ -40,8 +40,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/first_loading_logo.png
-  #   - images/a_dot_ham.jpeg
+   - assets/icons64.png
 
   fonts:
     - family: PretendardBold
@@ -78,8 +77,8 @@ flutter:
 
 
 flutter_native_splash:
-  color: "#ffffff" # background color
-  image: assets/first_loading_logo.png # 추가할 이미지 파일 경로를 추가
+  color: "#FFFFFF" # background color
+  image: assets/icons64.png # 추가할 이미지 파일 경로를 추가
   android: true
   ios: true
   web: false

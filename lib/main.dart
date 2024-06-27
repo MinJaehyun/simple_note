@@ -61,7 +61,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FlutterNativeSplash.remove();
     return Obx(
       () {
         RxBool darkMode = settingsController.isThemeMode;
@@ -70,24 +69,21 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: darkMode.value == true ? ThemeMode.light : ThemeMode.dark,
-          // theme 내 3가지 설정 (폰트, colorScheme, textTheme)
+          // note: theme 3가지 설정(폰트, colorScheme, textTheme)
           theme: ThemeData(
             fontFamily: selectedFont,
             colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.white,
               brightness: Brightness.light,
             ),
-            scaffoldBackgroundColor: Colors.grey[100], // 전체 배경색 회색 설정
-            appBarTheme: AppBarTheme(
-              backgroundColor: Colors.grey[100], // AppBar 배경색 회색 설정
-            ),
+            scaffoldBackgroundColor: Colors.grey[100],
+            appBarTheme: AppBarTheme(backgroundColor: Colors.grey[100]),
           ),
           darkTheme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: const Color(0xff00ff00),
               brightness: Brightness.dark,
             ),
-            // scaffoldBackgroundColor: Colors.grey[900], // 다크 모드의 경우 더 진한 회색으로 설정
           ),
           home: const MemoPage(),
         );
