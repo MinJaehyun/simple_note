@@ -30,7 +30,7 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
   final _categoryController = Get.find<CategoryController>();
   final _memoController = Get.find<MemoController>();
   late String? category;
-  late final categoryToUpdate;
+  late String? categoryToUpdate;
 
   @override
   void initState() {
@@ -70,6 +70,7 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
                 _categoryController.updateCtr(widget.index, category!);
                 List<MemoModel> memosToUpdate = _memoController.memoList.where((memo) => memo.selectedCategory == categoryToUpdate).toList();
 
+                // fix: 범주 업데이트 시, 즐겨찾기와 체크 풀리는 현상 해결
                 for (MemoModel memo in memosToUpdate) {
                   int memoIndex = _memoController.memoList.indexOf(memo);
                   _memoController.updateCtr(
@@ -78,6 +79,8 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
                     title: memo.title,
                     mainText: memo.mainText,
                     selectedCategory: category,
+                    isFavoriteMemo: memo.isFavoriteMemo ?? false,
+                    isCheckedTodo: memo.isCheckedTodo ?? false,
                   );
                 }
               }
