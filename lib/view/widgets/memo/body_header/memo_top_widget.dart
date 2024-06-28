@@ -34,7 +34,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
             () {
               return SingleChildScrollView(
                 child: SizedBox(
-                  height: 155,
+                  height: 165,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -67,7 +67,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                 suffixIconColor: Colors.grey,
                                 hintText: '검색',
                                 contentPadding: const EdgeInsets.all(12),
-                                hintStyle: const TextStyle(fontSize: 14),
+                                hintStyle: const TextStyle(fontSize: 20),
                               ),
                               cursorColor: Colors.grey,
                               onChanged: (value) {

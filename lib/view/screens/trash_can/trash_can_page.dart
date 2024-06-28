@@ -144,7 +144,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                             hintText: '검색',
                             contentPadding: const EdgeInsets.all(12),
                             hintStyle: const TextStyle(
-                              fontSize: 14,
+                              fontSize: 20,
                             ),
                           ),
                           cursorColor: Colors.grey,
