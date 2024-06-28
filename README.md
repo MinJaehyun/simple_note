@@ -11,6 +11,12 @@
 ### Bug Fixes
 
 
+## 2024-06-29
+### Bug Fixes: 1일 1버그 찾기
+- 내 핸드폰에서 설정 화면 들어가면 흰색 화면만 나타낸다.
+
+
+
 ## 2024-06-28
 ### Bug Fixes: 1일 1버그 찾기
 - ~~달력: 하단 A RenderFlex overflowed by 50 pixels on the bottom~~

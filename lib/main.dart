@@ -23,7 +23,7 @@ void main() async {
   // note: flutter_native_splash 설정 중 필요한 세팅
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // 스플래시 화면을 보여주기 위해 5초간 대기
+  // 스플래시 화면을 보여주기 위해 3초간 대기
   await initialization();
 
   // 광고 기능 초기화
