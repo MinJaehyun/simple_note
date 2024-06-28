@@ -360,7 +360,7 @@ class _CalendarPageState extends State<CalendarPage> {
       ),
       formatButtonTextStyle: const TextStyle(
         // 텍스트 크기 조절
-        fontSize: 24.0,
+        fontSize: 28.0,
       ),
     );
   }
