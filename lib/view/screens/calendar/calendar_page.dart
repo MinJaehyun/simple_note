@@ -182,14 +182,13 @@ class _CalendarPageState extends State<CalendarPage> {
                 headerTitleBuilder: (context, day) {
                   return Text(
                     FormatDate().yearMonthFormat(DateTime.now()),
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 30),
                   );
                 },
               ),
 
-              // note: 이하 style
-              // note: 위 headerTitleBuilder 와 아래 headerStyle을 함께 적용할 수 없다.
-              // headerStyle: buildHeaderStyle(),
+              // note: 이하 style이며, 위 headerTitleBuilder 와 아래 headerStyle을 함께 적용할 수 있다.
+              headerStyle: buildHeaderStyle(),
               calendarStyle: buildCalendarStyle(),
             ),
             Obx(
@@ -268,7 +267,8 @@ class _CalendarPageState extends State<CalendarPage> {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text: '체크한 메모  ', style: TextStyle(color: settingsController.isThemeMode.isTrue ? Colors.black : Colors.white),
+                                  text: '체크한 메모  ',
+                                  style: TextStyle(color: settingsController.isThemeMode.isTrue ? Colors.black : Colors.white),
                                   children: <TextSpan>[
                                     TextSpan(
                                         text: '${todayIsCheckedTodoList.length}', style: TextStyle(color: RED_ACCENT, fontWeight: FontWeight.bold)),
@@ -278,7 +278,8 @@ class _CalendarPageState extends State<CalendarPage> {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text: '  |  금일 작성한 메모 ', style: TextStyle(color: settingsController.isThemeMode.isTrue ? Colors.black : Colors.white),
+                                  text: '  |  금일 작성한 메모 ',
+                                  style: TextStyle(color: settingsController.isThemeMode.isTrue ? Colors.black : Colors.white),
                                   children: <TextSpan>[
                                     TextSpan(text: '${sameSelectedDayMemo.length}', style: TextStyle(color: RED_ACCENT, fontWeight: FontWeight.bold)),
                                     const TextSpan(text: ' 개'),
@@ -348,14 +349,20 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  // 미사용
+  // note: 2week 설정
   HeaderStyle buildHeaderStyle() {
-    return const HeaderStyle(
-        // note: 2week 기능
-        // formatButtonVisible: true,
-        // titleCentered: true,
-        // titleTextStyle: TextStyle(fontWeight: WEIGHT_600, fontSize: 16),
-        );
+    return HeaderStyle(
+      formatButtonVisible: true,
+      formatButtonShowsNext: false,
+      formatButtonDecoration: BoxDecoration(
+        border: Border.all(color: Colors.transparent),
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      formatButtonTextStyle: const TextStyle(
+        // 텍스트 크기 조절
+        fontSize: 24.0,
+      ),
+    );
   }
 
   // 사용: 위에 부분적으로 사용중
