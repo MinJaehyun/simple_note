@@ -292,7 +292,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 190,
+                        height: 180,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: sameSelectedDayMemo.length,
