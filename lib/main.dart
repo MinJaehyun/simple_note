@@ -80,6 +80,8 @@ class MyApp extends StatelessWidget {
             appBarTheme: AppBarTheme(backgroundColor: Colors.grey[100]),
           ),
           darkTheme: ThemeData(
+            // fix: 다크 모드 시, 폰트 적용
+            fontFamily: selectedFont,
             colorScheme: ColorScheme.fromSeed(
               seedColor: const Color(0xff00ff00),
               brightness: Brightness.dark,

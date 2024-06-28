@@ -55,15 +55,11 @@ class SettingsController extends GetxController {
   }
 
   void updateFontSlider(double value) {
-    print(value);
     fontSizeSlider.value = value;
-    print(fontSizeSlider.value);
     themeBox.put('fontSizeSlider', fontSizeSlider.value);
   }
 
   void updateFont(SelectedFont font) {
-    // print(font);
-    // print(selectedFont.value);
     selectedFont.value = font;
     themeBox.put('selectedFont', selectedFont.value.index);
   }
