@@ -83,13 +83,13 @@ class _TrashCanPageState extends State<TrashCanPage> {
                     ),
                   );
                 },
-                icon: const Icon(Icons.delete, color: Colors.redAccent),
+                icon: const Icon(Icons.delete_outline, size: 32),
               ),
               // 정렬
               IconButton(
                 visualDensity: const VisualDensity(horizontal: -4),
                 // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
-                icon: const Icon(Icons.sort),
+                icon: const Icon(Icons.low_priority, size: 32),
                 onPressed: () {
                   setState(() {
                     if (settingsController.sortedTime.value == SortedTime.firstTime) {

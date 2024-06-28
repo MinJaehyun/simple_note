@@ -31,7 +31,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
         Obx(
           () => IconButton(
             visualDensity: const VisualDensity(horizontal: -4),
-            icon: settingsController.isAppbarFavoriteMemo.value == true ? const Icon(Icons.star, color: Colors.red) : const Icon(Icons.star_border_sharp),
+            icon: settingsController.isAppbarFavoriteMemo.value == true ? const Icon(Icons.star, color: Colors.red, size: 32) : const Icon(Icons.star_border_sharp, size: 32),
             onPressed: () {
               settingsController.updateAppbarFavoriteMemo();
             },
@@ -39,7 +39,7 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
         ),
         IconButton(
           visualDensity: const VisualDensity(horizontal: -4),
-          icon: const Icon(Icons.sort),
+          icon: const Icon(Icons.low_priority, size: 32),
           onPressed: () {
             popupSort(context);
           },
