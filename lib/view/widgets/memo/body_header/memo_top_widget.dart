@@ -62,7 +62,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                                       searchControllerText = null;
                                     });
                                   },
-                                  child: searchControllerText != null ? const Icon(Icons.close, size: 24) : const Icon(Icons.transit_enterexit),
+                                  child: searchControllerText != null ? const Icon(Icons.close, size: 24) : const Icon(Icons.close, color: Colors.transparent),
                                 ),
                                 suffixIconColor: Colors.grey,
                                 hintText: '검색',
