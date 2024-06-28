@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/view/screens/settings/timeline_status_page.dart';
@@ -20,7 +21,9 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     super.initState();
-    selectedFont = settingsController.fontSizeSlider.value.toDouble();
+    // fix: setting 의 controller는 개발 중입니다.
+    // selectedFont = settingsController.fontSizeSlider.value.toDouble();
+    selectedFont = Hive.box('themeModel').get('fontSizeSlider');
   }
 
   radioListTileFunc({required String title, required SelectedFont value}) {
@@ -148,6 +151,7 @@ class _SettingsState extends State<Settings> {
                                       label: '$selectedFont',
                                       onChanged: (double value) {
                                         setState(() {
+                                          selectedFont = value;
                                           settingsController.updateFontSlider(value);
                                         });
                                       },

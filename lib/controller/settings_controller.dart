@@ -39,8 +39,8 @@ class SettingsController extends GetxController {
     int selectedFontValue = themeBox.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
     selectedFont.value = SelectedFont.values[selectedFontValue];
 
-    double fontSizeValue = themeBox.get('fontSizeSlider', defaultValue: 20.0);
-    fontSizeSlider.value = fontSizeValue;
+    // double fontSizeValue = themeBox.get('fontSizeSlider', defaultValue: 20.0);
+    // fontSizeSlider.value = fontSizeValue;
   }
 
   void updateAppbarFavoriteMemo() {
@@ -55,13 +55,17 @@ class SettingsController extends GetxController {
   }
 
   void updateFontSlider(double value) {
+    print(value);
     fontSizeSlider.value = value;
-    themeBox.put('fontSizeSlider', value);
+    print(fontSizeSlider.value);
+    themeBox.put('fontSizeSlider', fontSizeSlider.value);
   }
 
   void updateFont(SelectedFont font) {
+    // print(font);
+    // print(selectedFont.value);
     selectedFont.value = font;
-    themeBox.put('selectedFont', font.index);
+    themeBox.put('selectedFont', selectedFont.value.index);
   }
 
   void toggleDarkMode(bool value) {
@@ -69,12 +73,12 @@ class SettingsController extends GetxController {
     // isThemeMode.toggle();
     // themeBox.put('darkMode', isThemeMode.toggle());
     // 변경 후: bool는 .toggle() 기능으로 간편하게 처리할 수 있지만, 에러 문구 출력하므로 이전 코드 사용
-    isThemeMode.value = !isThemeMode.value;
+    isThemeMode.value = value;
     themeBox.put('isThemeMode', isThemeMode.value);
   }
 
   void toggleGridMode(bool value) {
-    isGridMode.value = !isGridMode.value;
+    isGridMode.value = value;
     themeBox.put('isGridMode', isGridMode.value);
   }
 
