@@ -182,24 +182,27 @@ class _CategoryPageState extends State<CategoryPage> {
                                         style: const TextStyle(color: Colors.redAccent)),
                                   ],
                                 ),
-                                trailing: Column(
-                                  children: [
-                                    PopupMenuButton<CategoriesItem>(
-                                      initialValue: categoriesItem,
-                                      itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
-                                        PopupMenuItem<CategoriesItem>(
-                                          onTap: () => showUpdatePopupDialog(context, index, box.getAt(index)!),
-                                          value: CategoriesItem.update,
-                                          child: const Text('수정'),
-                                        ),
-                                        PopupMenuItem<CategoriesItem>(
-                                          onTap: () => showDeletePopupDialog(context, index),
-                                          value: CategoriesItem.delete,
-                                          child: const Text('삭제'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                trailing: Semantics(
+                                  label: '범주 수정 및 삭제',
+                                  child: Column(
+                                    children: [
+                                      PopupMenuButton<CategoriesItem>(
+                                        initialValue: categoriesItem,
+                                        itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
+                                          PopupMenuItem<CategoriesItem>(
+                                            onTap: () => showUpdatePopupDialog(context, index, box.getAt(index)!),
+                                            value: CategoriesItem.update,
+                                            child: const Text('수정'),
+                                          ),
+                                          PopupMenuItem<CategoriesItem>(
+                                            onTap: () => showDeletePopupDialog(context, index),
+                                            value: CategoriesItem.delete,
+                                            child: const Text('삭제'),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

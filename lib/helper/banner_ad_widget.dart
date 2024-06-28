@@ -48,7 +48,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
 
     return SizedBox(
       // 광고 높이 지정
-      height: 75,
+      height: 85,
       // 광고 위젯에 banner 변수를 입력한다
       child: AdWidget(ad: banner),
     );

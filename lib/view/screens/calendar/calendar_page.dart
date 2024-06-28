@@ -185,6 +185,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     style: const TextStyle(fontSize: 30),
                   );
                 },
+
               ),
 
               // note: 이하 style이며, 위 headerTitleBuilder 와 아래 headerStyle을 함께 적용할 수 있다.
