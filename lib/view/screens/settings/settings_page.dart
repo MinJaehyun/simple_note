@@ -207,7 +207,7 @@ class _SettingsState extends State<Settings> {
                               children: [
                                 Text('버전 정보'),
                                 Spacer(),
-                                Text('1.0.0'),
+                                Text('1.0.2+10'),
                               ],
                             ),
                           ),

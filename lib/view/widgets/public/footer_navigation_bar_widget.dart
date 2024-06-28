@@ -40,121 +40,107 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
       color: Theme.of(context).colorScheme.onPrimary,
       items: [
         // note: 캘린더
-        Column(
-          children: [
-            const SizedBox(height: 5),
-            IconButton(
-              tooltip: '달력',
-              icon: const Icon(Icons.calendar_month),
-              onPressed: () {
-                setState(() {
-                  setTappedAndIndex(0);
-                });
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) {
-                    return const CalendarPage();
-                  },
-                ));
-              },
-              iconSize: 25,
-              color: currentIndex == 0 ? Colors.cyan : Colors.grey,
-            ),
-            const Text('달력'),
-          ],
+        Semantics(
+          label: '달력',
+          child: IconButton(
+            tooltip: '달력',
+            icon: const Icon(Icons.calendar_month),
+            onPressed: () {
+              setState(() {
+                setTappedAndIndex(0);
+              });
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) {
+                  return const CalendarPage();
+                },
+              ));
+            },
+            iconSize: 25,
+            color: currentIndex == 0 ? Colors.cyan : Colors.grey,
+          ),
         ),
         // note: 범주
-        Column(
-          children: [
-            const SizedBox(height: 5),
-            IconButton(
-              tooltip: '범주',
-              icon: const Icon(Icons.category),
-              onPressed: () {
-                setState(() {
-                  setTappedAndIndex(1);
-                });
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) {
-                    return const CategoryPage();
-                  },
-                ));
-              },
-              iconSize: 25,
-              color: currentIndex == 1 ? Colors.cyan : Colors.grey,
-            ),
-            const Text('범주'),
-          ],
+        Semantics(
+          label: '범주',
+          child: IconButton(
+            tooltip: '범주',
+            icon: const Icon(Icons.category),
+            onPressed: () {
+              setState(() {
+                setTappedAndIndex(1);
+              });
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) {
+                  return const CategoryPage();
+                },
+              ));
+            },
+            iconSize: 25,
+            color: currentIndex == 1 ? Colors.cyan : Colors.grey,
+          ),
         ),
+
         // note: 모든 메모
-        Column(
-          children: [
-            const SizedBox(height: 5),
-            IconButton(
-              tooltip: '모든 메모',
-              icon: const Icon(Icons.edit_note),
-              onPressed: () {
-                setState(() {
-                  setTappedAndIndex(2);
-                });
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) {
-                    return const MemoPage();
-                  },
-                ));
-              },
-              iconSize: 25,
-              color: currentIndex == 2 ? Colors.cyan : Colors.grey,
-            ),
-            const Text('메모장'),
-          ],
+        Semantics(
+          label: '메모장',
+          child: IconButton(
+            tooltip: '메모장',
+            icon: const Icon(Icons.edit_note),
+            onPressed: () {
+              setState(() {
+                setTappedAndIndex(2);
+              });
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) {
+                  return const MemoPage();
+                },
+              ));
+            },
+            iconSize: 25,
+            color: currentIndex == 2 ? Colors.cyan : Colors.grey,
+          ),
         ),
         // note: 휴지통
-        Column(
-          children: [
-            const SizedBox(height: 5),
-            IconButton(
-              tooltip: '휴지통',
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                setState(() {
-                  isTapped = true;
-                  currentIndex = 3;
-                });
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) {
-                    return const TrashCanPage();
-                  },
-                ));
-              },
-              iconSize: 25,
-              color: currentIndex == 3 ? Colors.cyan : Colors.grey,
-            ),
-            const Text('휴지통'),
-          ],
+        Semantics(
+          label: '휴지통',
+          child: IconButton(
+            tooltip: '휴지통',
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              setState(() {
+                isTapped = true;
+                currentIndex = 3;
+              });
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) {
+                  return const TrashCanPage();
+                },
+              ));
+            },
+            iconSize: 25,
+            color: currentIndex == 3 ? Colors.cyan : Colors.grey,
+          ),
         ),
         // note: 설정
-        Column(
-          children: [
-            const SizedBox(height: 5),
-            IconButton(
-              tooltip: '설정',
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                setState(() {
-                  isTapped = true;
-                  currentIndex = 4;
-                });
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) {
-                    return const Settings();
-                  },
-                ));
-              },
-              iconSize: 25,
-              color: currentIndex == 4 ? Colors.cyan : Colors.grey,
-            ),
-            const Text('설정'),
-          ],
+        Semantics(
+          label: '설정',
+          child: IconButton(
+            tooltip: '설정',
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              setState(() {
+                isTapped = true;
+                currentIndex = 4;
+              });
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) {
+                  return const Settings();
+                },
+              ));
+            },
+            iconSize: 25,
+            color: currentIndex == 4 ? Colors.cyan : Colors.grey,
+          ),
         ),
       ],
       onTap: (index) {
