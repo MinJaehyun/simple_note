@@ -99,7 +99,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Text(FormatDate().formatDotDateTimeKor(widget.sortedCard.createdAt), style: const TextStyle(fontSize: 18)),
+                            child: Text(FormatDate().formatDotDateTimeKor(widget.sortedCard.createdAt), style: const TextStyle(fontSize: 20)),
                           ),
                           Expanded(
                             // note: 이하 box 사용중이므로 일단 대기..
@@ -125,7 +125,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                             visualDensity: const VisualDensity(horizontal: -4),
                             onPressed: () => showAddPopupDialog(context),
                             icon: const Icon(Icons.category),
-                            iconSize: 18,
+                            iconSize: 32,
                             tooltip: '범주 생성',
                             hoverColor: Colors.orange,
                             focusColor: Colors.orange,

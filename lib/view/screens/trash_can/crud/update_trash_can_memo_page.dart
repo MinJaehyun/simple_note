@@ -85,7 +85,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                               Expanded(
                                 child: Text(
                                   FormatDate().formatDotDateTimeKor(widget.currentContact.createdAt),
-                                  style: const TextStyle(fontSize: 18),
+                                  style: const TextStyle(fontSize: 20),
                                 ),
                               ),
                               TextButton(
@@ -101,7 +101,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                 visualDensity: const VisualDensity(horizontal: -4),
                                 onPressed: () => showAddPopupDialog(context),
                                 icon: const Icon(Icons.category),
-                                iconSize: 18,
+                                iconSize: 32,
                                 tooltip: '범주 생성',
                                 hoverColor: Colors.orange,
                                 focusColor: Colors.orange,
