@@ -16,14 +16,15 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final settingsController = Get.find<SettingsController>();
-  late double selectedFont;
+  late int selectedFont;
+  late double selectedSlider;
 
   @override
   void initState() {
     super.initState();
-    // fix: setting 의 controller는 개발 중입니다.
-    // selectedFont = settingsController.fontSizeSlider.value.toDouble();
-    selectedFont = Hive.box('themeModel').get('fontSizeSlider');
+    // error, // fix: setting 의 controller는 개발 중입니다.
+    selectedFont = Hive.box('themeModel').get('selectedFont');
+    selectedSlider = Hive.box('themeModel').get('fontSizeSlider');
   }
 
   radioListTileFunc({required String title, required SelectedFont value}) {
@@ -144,14 +145,14 @@ class _SettingsState extends State<Settings> {
                                       ],
                                     ),
                                     Slider(
-                                      value: selectedFont,
+                                      value: selectedSlider,
                                       min: 10.0,
                                       max: 40.0,
                                       divisions: 10,
                                       label: '$selectedFont',
                                       onChanged: (double value) {
                                         setState(() {
-                                          selectedFont = value;
+                                          selectedSlider = value;
                                           settingsController.updateFontSlider(value);
                                         });
                                       },
@@ -211,7 +212,7 @@ class _SettingsState extends State<Settings> {
                               children: [
                                 Text('버전 정보'),
                                 Spacer(),
-                                Text('1.0.2+13'),
+                                Text('1.0.2+14'),
                               ],
                             ),
                           ),
