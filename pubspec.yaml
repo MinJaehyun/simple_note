@@ -77,12 +77,13 @@ flutter:
         - asset: assets/fonts/NanumSquareNeo/NanumSquareNeo-bRg.ttf
 
 
-flutter_native_splash:
-  color: "#FFFFFF" # background color
-  image: assets/icons64.png # 추가할 이미지 파일 경로를 추가
-  android: true
-  ios: true
-  web: fa
+#flutter_native_splash:
+#  color: "#3B303E"
+#  image: assets/icons64.png # 추가할 이미지 파일 경로를 추가
+#  fullscreen: true
+#  android_12:
+#    color: "#3B303E"
+#    image: assets/icons64.png
 
 
 flutter_launcher_icons:
