@@ -11,7 +11,6 @@ class BannerAdWidget extends StatefulWidget {
 class _BannerAdWidgetState extends State<BannerAdWidget> {
   late final BannerAd banner;
 
-
   @override
   void initState() {
     super.initState();
@@ -45,10 +44,9 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       // 광고 높이 지정
-      height: 85,
+      height: 48,
       // 광고 위젯에 banner 변수를 입력한다
       child: AdWidget(ad: banner),
     );
