@@ -138,7 +138,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                   searchText = null;
                                 });
                               },
-                              child: searchText != null ? const Icon(Icons.close, size: 24) : const Icon(Icons.close, color: Colors.transparent),
+                              child: searchText != null ? const Icon(Icons.close, size: 24) : const SizedBox.shrink(),
                             ),
                             suffixIconColor: Colors.grey,
                             hintText: '검색',
