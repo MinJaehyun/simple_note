@@ -147,7 +147,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                         ),
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return '한 글자 이상 입력해 주세요';
+                                            return '반드시 한 글자 이상 입력해 주세요(Please be sure to enter a title)';
                                           } else if (value.trimLeft() != value) {
                                             return '앞에 공백을 제거해 주세요';
                                           }
