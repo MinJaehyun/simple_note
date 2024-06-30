@@ -28,10 +28,9 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
     return AppBar(
       title: const BannerAdWidget(),
       actions: [
-        Obx(
-          () => Semantics(
-            label: '즐겨 찾기',
-            child: IconButton(
+        Semantics(
+          child: Obx(
+            () => IconButton(
               visualDensity: const VisualDensity(horizontal: -4),
               icon: settingsController.isAppbarFavoriteMemo.value == true ? const Icon(Icons.star, color: Colors.red, size: 32) : const Icon(Icons.star_border_sharp, size: 32),
               onPressed: () {
@@ -42,12 +41,14 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
         ),
         Semantics(
           label: '정렬',
-          child: IconButton(
-            visualDensity: const VisualDensity(horizontal: -4),
-            icon: const Icon(Icons.low_priority, size: 32),
-            onPressed: () {
-              popupSort(context);
-            },
+          child: ExcludeSemantics(
+            child: IconButton(
+              visualDensity: const VisualDensity(horizontal: -4),
+              icon: const Icon(Icons.low_priority, size: 32),
+              onPressed: () {
+                popupSort(context);
+              },
+            ),
           ),
         ),
       ],
