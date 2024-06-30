@@ -16,15 +16,14 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final settingsController = Get.find<SettingsController>();
-  late int selectedFont;
-  late double selectedSlider;
+  late Rx<SelectedFont> selectedFont;
+  late RxDouble selectedSlider;
 
   @override
   void initState() {
     super.initState();
-    // error, // fix: setting 의 controller는 개발 중입니다.
-    selectedFont = Hive.box('themeModel').get('selectedFont');
-    selectedSlider = Hive.box('themeModel').get('fontSizeSlider');
+    selectedFont = settingsController.selectedFont;
+    selectedSlider = settingsController.fontSizeSlider;
   }
 
   radioListTileFunc({required String title, required SelectedFont value}) {
@@ -145,14 +144,14 @@ class _SettingsState extends State<Settings> {
                                       ],
                                     ),
                                     Slider(
-                                      value: selectedSlider,
+                                      value: selectedSlider.value,
                                       min: 10.0,
                                       max: 40.0,
                                       divisions: 10,
                                       label: '$selectedFont',
                                       onChanged: (double value) {
                                         setState(() {
-                                          selectedSlider = value;
+                                          selectedSlider = value as RxDouble;
                                           settingsController.updateFontSlider(value);
                                         });
                                       },

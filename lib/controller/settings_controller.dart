@@ -36,8 +36,8 @@ class SettingsController extends GetxController {
       isGridMode.value = false;
     }
     
-    int selectedFontValue = themeBox.get('selectedFont', defaultValue: SelectedFont.pretendard.index);
-    selectedFont.value = SelectedFont.values[selectedFontValue];
+    // int selectedFontValue = themeBox.get('selectedFont', defaultValue: SelectedFont.pretendard);
+    // selectedFont.value = SelectedFont.values[selectedFontValue];
 
     // double fontSizeValue = themeBox.get('fontSizeSlider', defaultValue: 20.0);
     // fontSizeSlider.value = fontSizeValue;
