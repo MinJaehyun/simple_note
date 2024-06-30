@@ -122,8 +122,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     updateMemo(sortedIndex, currentContact, isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
                                   },
                                   icon: currentContact.isCheckedTodo == false
-                                      ? const Icon(Icons.check_box_outline_blank, color: null)
-                                      : const Icon(Icons.check_box, color: Colors.red),
+                                      ? const Icon(Icons.check_box_outline_blank, color: null, size: 32)
+                                      : const Icon(Icons.check_box, color: Colors.red, size: 32),
                                 ),
                                 // 즐겨 찾기
                                 IconButton(
@@ -131,8 +131,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     updateMemo(sortedIndex, currentContact, isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
                                   },
                                   icon: currentContact.isFavoriteMemo == false
-                                      ? const Icon(Icons.star_border_sharp, color: null)
-                                      : const Icon(Icons.star, color: Colors.red),
+                                      ? const Icon(Icons.star_border_sharp, color: null, size: 32)
+                                      : const Icon(Icons.star, color: Colors.red, size: 32),
                                 ),
                               ],
                             ),

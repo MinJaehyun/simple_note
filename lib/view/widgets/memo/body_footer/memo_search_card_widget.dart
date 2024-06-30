@@ -151,8 +151,8 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                   constraints: const BoxConstraints(),
                                   visualDensity: const VisualDensity(horizontal: -4.0),
                                   icon: currentContact.isCheckedTodo == false
-                                      ? const Icon(Icons.check_box_outline_blank)
-                                      : const Icon(Icons.check_box, color: Colors.red),
+                                      ? const Icon(Icons.check_box_outline_blank, size: 32)
+                                      : const Icon(Icons.check_box, color: Colors.red, size: 32),
                                   onPressed: () {
                                     updateMemoFunc(index, currentContact,
                                         isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
@@ -165,8 +165,8 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                         isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
                                   },
                                   icon: currentContact.isFavoriteMemo == false
-                                      ? const Icon(Icons.star_border_sharp, color: null)
-                                      : const Icon(Icons.star, color: Colors.red),
+                                      ? const Icon(Icons.star_border_sharp, color: null, size: 32)
+                                      : const Icon(Icons.star, color: Colors.red, size: 32),
                                 ),
                               ],
                             ),
