@@ -2,13 +2,20 @@
 
 ## 배포 후:
 - figma: 와이어 프레임 업데이트
+- 앱 접근성: 사용자 1만 이상되면 설정하기
 ## 베포 전: 
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
 ## todo:
 - 메모장: 이미지 등록 기능
-- 앱 접근성 위해: Semantics() 위젯 모든 영역에 설정하는거 고려하기 - 내용 검색하기
 ### Bug Fixes
+
+
+## 2024-06-30
+### Bug Fixes: 1일 1버그 찾기
+- ~~(1/2) 내 핸드폰에서 설정 화면 들어가면 흰색 화면만 나타낸다~~
+- ~~ㄴ Git 관련 코드는? setting page, settings_controller,~~
+- ~~ㄴ 실기기 디버깅 테스트 중.. 맥북과 안드로이드폰 연결함, 설정 페이지 접근 시 Null is note a subtype of type int 에러 발생, 두 개의 속성이 hive에 접근하여 데이터를 가져오도록 설정한 부분을 controller에서 처리하여 해결~~
 
 
 ## 2024-06-29
@@ -18,9 +25,9 @@
 - ~~배경화면 앱 아이콘 설정~~
 - ~~빈아이콘 설정~~
 - ~~스크린 리더가 휴지통 라벨을 읽지 못하는 문제: IconButton을 ExcludeSemantics로 감싸서 내부 Icon 위젯에 대한 설명을 제외하고, Semantics 위젯에서 제공하는 label만 사용하도록 설정모다~~
-- ~~모든 영역에 배너 크기 42 -> 48dp로 변경하기 ??
-- 내 핸드폰에서 설정 화면 들어가면 흰색 화면만 나타낸다.
-- ㄴ $ flutter clean 하여 캐쉬 정리 후 재빌드
+- ~~(1/2) 내 핸드폰에서 설정 화면 들어가면 흰색 화면만 나타낸다~~
+- ~~ㄴ$ flutter clean 하여 캐쉬 정리 후 재빌드 (안됨)~~
+- ~~ㄴGit 관련 코드는? setting page, settings_controller~~ 
 
 
 ## 2024-06-28
