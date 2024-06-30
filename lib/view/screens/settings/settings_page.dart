@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/view/screens/settings/timeline_status_page.dart';
@@ -148,10 +147,10 @@ class _SettingsState extends State<Settings> {
                                       min: 10.0,
                                       max: 40.0,
                                       divisions: 10,
-                                      label: '$selectedFont',
+                                      label: '${selectedSlider.value}',
                                       onChanged: (double value) {
                                         setState(() {
-                                          selectedSlider = value as RxDouble;
+                                          selectedSlider.value = value;
                                           settingsController.updateFontSlider(value);
                                         });
                                       },
