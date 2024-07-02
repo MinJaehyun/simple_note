@@ -25,13 +25,14 @@ class TrashCanModelAdapter extends TypeAdapter<TrashCanModel> {
       endTime: fields[5] as DateTime?,
       isFavoriteMemo: fields[6] as bool?,
       isCheckedTodo: fields[7] as bool?,
+      imagePath: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, TrashCanModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.createdAt)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class TrashCanModelAdapter extends TypeAdapter<TrashCanModel> {
       ..writeByte(6)
       ..write(obj.isFavoriteMemo)
       ..writeByte(7)
-      ..write(obj.isCheckedTodo);
+      ..write(obj.isCheckedTodo)
+      ..writeByte(8)
+      ..write(obj.imagePath);
   }
 
   @override

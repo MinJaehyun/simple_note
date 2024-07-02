@@ -28,6 +28,9 @@ class TrashCanModel {
   @HiveField(7)
   final bool? isCheckedTodo;
 
+  @HiveField(8)
+  final String? imagePath;
+
   TrashCanModel({
     required this.createdAt,
     required this.title,
@@ -37,6 +40,7 @@ class TrashCanModel {
     this.endTime,
     this.isFavoriteMemo = false,
     this.isCheckedTodo = false,
+    this.imagePath,
   });
 
   TrashCanModel.fromJson(Map<String, dynamic> json)
@@ -47,5 +51,6 @@ class TrashCanModel {
         startTime = json['startTime'] != null ? DateTime.parse(json['startTime']) : null,
         endTime = json['endTime'] != null ? DateTime.parse(json['endTime']) : null,
         isFavoriteMemo = json['isFavoriteMemo'] as bool? ?? false,
-        isCheckedTodo = json['isCheckedTodo'] as bool? ?? false;
+        isCheckedTodo = json['isCheckedTodo'] as bool? ?? false,
+        imagePath = json['imagePath'];
 }
