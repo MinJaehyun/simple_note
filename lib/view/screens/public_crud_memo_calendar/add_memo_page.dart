@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
@@ -7,6 +9,7 @@ import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddMemoPage extends StatefulWidget {
   const AddMemoPage({super.key});
@@ -30,6 +33,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
   late bool _isCheckedTodo = false;
   bool showScrollToTopButton = false; // #
 
+  File? pickedImage;
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +42,22 @@ class _AddMemoPageState extends State<AddMemoPage> {
     _scrollController.addListener(_scrollListener); // #
   }
 
-  // #
+  Future<void> _pickedImage() async {
+    final imagePicker = ImagePicker();
+    final XFile? pickedImageFile = await imagePicker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 50,
+      maxHeight: 150,
+    );
+
+    if (pickedImageFile != null) {
+      setState(() {
+        // 상태를 업데이트하여 이미지를 즉시 화면에 반영
+        pickedImage = File(pickedImageFile.path);
+      });
+    }
+  }
+
   void _scrollListener() {
     if (_scrollController.offset >= 200 && !showScrollToTopButton) {
       setState(() {
@@ -67,7 +87,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
               children: [
                 Column(
                   children: [
-                    // 상단: 시간 및 범주 메뉴
+                    // note: 상단: 시간 및 범주 메뉴
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -119,6 +139,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                               controller: _scrollController,
                               child: Column(
                                 children: [
+                                  // 제목
                                   const SizedBox(height: 10),
                                   CustomPaint(
                                     painter: GridPainter(),
@@ -133,8 +154,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                         });
                                       },
                                       decoration: const InputDecoration(
-                                        suffixIcon: Icon(Icons.clear),
                                         labelText: '제목',
+                                        hintText: '제목을 입력해 주세요',
                                         border: OutlineInputBorder(),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -155,6 +176,69 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     ),
                                   ),
                                   const SizedBox(height: 20),
+                                  // note: 이미지 추가 시, 제목과 내용 사이에 이미지 위치한다
+                                  if (pickedImage != null)
+                                    GestureDetector(
+                                      onTap: () {
+                                        // 삭제할 건지? dialog 띄우고 삭제 누르면 삭제하기(pickedImage = null)
+                                        Get.dialog(
+                                          AlertDialog(
+                                            title: Text('이미지를 제거 하시겠습니까?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    pickedImage = null;
+                                                    Get.back();
+                                                  });
+                                                },
+                                                child: const Text('제거'),
+                                              ),
+                                              TextButton(
+                                                onPressed: Get.back,
+                                                child: const Text('닫기'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            width: 2.0,
+                                          ),
+                                        ),
+                                        child: Image.file(
+                                          pickedImage!,
+                                          width: 300,
+                                          height: 300,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+
+                                  // note: 이미지 있는 경우와 없는 경우의 textformfield 설정
+                                  if (pickedImage == null)
+                                    TextFormField(
+                                      decoration: InputDecoration(
+                                        labelText: '대표 이미지를 넣으려면 하단 이미지 버튼을 클릭',
+                                        labelStyle: TextStyle(
+                                          fontSize: 18.0,
+                                        ),
+                                        enabled: false,
+                                        border: const OutlineInputBorder(),
+                                        focusedBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.orange,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  // 내용
+                                  const SizedBox(height: 20),
                                   CustomPaint(
                                     painter: GridPainter(),
                                     child: TextFormField(
@@ -168,14 +252,17 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                       onChanged: (value) {
                                         mainText = value;
                                       },
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
+                                        labelText: '내용',
                                         hintText: '내용을 입력해 주세요',
-                                        border: OutlineInputBorder(),
-                                        focusedBorder: OutlineInputBorder(
+                                        border: const OutlineInputBorder(),
+                                        focusedBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Colors.orange,
                                           ),
                                         ),
+                                        // note: 상단에 '내용' 위치 시킴
+                                        alignLabelWithHint: true,
                                       ),
                                       style: TextStyle(
                                         fontSize: settingsController.fontSizeSlider.toDouble(),
@@ -226,6 +313,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                   selectedCategory: _dropdownValue,
                                   isFavoriteMemo: _isFavorite,
                                   isCheckedTodo: _isCheckedTodo,
+                                  imagePath: pickedImage,
                                 );
                                 Navigator.of(context).pop();
                               }
@@ -263,9 +351,43 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     ),
                   ],
                 ),
-                // 상단, 하단 이동하는 하단 우측 버튼
+                // note: 이미지 등록 버튼
                 Positioned(
-                  bottom: 70,
+                  bottom: 100,
+                  right: 70,
+                  child: IconButton.filledTonal(
+                    onPressed: () {
+                      Get.dialog(
+                        AlertDialog(
+                          title: Text('이미지를 생성하거나 삭제 해주세요'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                _pickedImage();
+                                Get.back();
+                              },
+                              child: const Text('생성'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pickedImage = null;
+                                  Get.back();
+                                });
+                              },
+                              child: const Text('제거'),
+                            ),
+                          ],
+                        ),
+                      );
+
+                    },
+                    icon: const Icon(Icons.image),
+                  ),
+                ),
+                // note: 상단, 하단 이동하는 하단 우측 버튼
+                Positioned(
+                  bottom: 100,
                   right: 20,
                   child: IconButton.filledTonal(
                     hoverColor: Colors.orange,
