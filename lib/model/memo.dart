@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:hive/hive.dart';
 
 part 'memo.g.dart';
@@ -29,6 +31,9 @@ class MemoModel extends HiveObject {
   @HiveField(7)
   final bool? isCheckedTodo;
 
+  @HiveField(8)
+  final String? imagePath;
+
   // 변경 전: 사용 가능하나, this.createdAt, this.title는 positional parameter 이므로 가독성이 좋지 않다.
   // MemoModel(this.createdAt, this.title, {this.mainText, this.selectedCategory, this.startTime, this.endTime});
 
@@ -42,6 +47,7 @@ class MemoModel extends HiveObject {
     this.endTime,
     this.isFavoriteMemo = false,
     this.isCheckedTodo = false,
+    this.imagePath,
   });
 
   MemoModel.fromJson(Map<String, dynamic> json)
@@ -52,5 +58,6 @@ class MemoModel extends HiveObject {
         startTime = json['startTime'] != null ? DateTime.parse(json['startTime']) : null,
         endTime = json['endTime'] != null ? DateTime.parse(json['endTime']) : null,
         isFavoriteMemo = json['isFavoriteMemo'] as bool? ?? false,
-        isCheckedTodo = json['isCheckedTodo'] as bool? ?? false;
+        isCheckedTodo = json['isCheckedTodo'] as bool? ?? false,
+        imagePath = json['imagePath'];
 }
