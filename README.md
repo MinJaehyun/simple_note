@@ -10,9 +10,23 @@
 ### Bug Fixes
 
 
+## 2024-07-03
+### Features
+- (3/3) 사진 생성하고, 메모 작성하면, 첫 화면에 아예 메모가 작성되지 않는다...
+
+
+## 2024-07-02
+### Features
+- ~~(2/3) 메모장: 여러 이미지 등록 기능 구현: add_memo 완료~~
+- ~~ㄴ image 설정을 위해 사용하는 모델에 속성 추가~~
+- ~~ㄴ 
+- 흐름: add_memo -> update_memo -> memo_card_widget -> update_trash_can_memo -> memo_search_card -> memo_selected_category
+- trash_can_page, -> trash_search ?
+
+
 ## 2024-07-01
-### Bug Fixes: 1일 1버그 찾기
-- (1/2) 메모장: 이미지 등록 기능: 현재는 1장의 사진만 등록할 수 있게 만들기 (추후, 여러장 만들어서 메모장에 등록할 수 있게 만들기)
+### Features
+- (1/3) 메모장: 이미지 등록 기능: 현재는 1장의 사진만 등록할 수 있게 만들기 (추후, 여러장 만들어서 메모장에 등록할 수 있게 만들기)
 
 
 ## 2024-06-30
