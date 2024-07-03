@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
@@ -34,6 +36,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
   late String? _dropdownValue;
 
   bool _showScrollToTopButton = false;
+  File? pickedImage;
 
   @override
   void initState() {
@@ -43,6 +46,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
     mainText = widget.currentContact.mainText;
     time = widget.currentContact.createdAt;
     _dropdownValue = widget.currentContact.selectedCategory;
+    pickedImage = widget.currentContact.imagePath != null ? File(widget.currentContact.imagePath!) : null;
   }
 
   @override
@@ -69,7 +73,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          body: Obx(() {
+          body: Obx(
+            () {
               if (categoryController.categoryList.isEmpty) return const Center(child: Text('test update memo'));
               return Stack(
                 children: [
@@ -155,6 +160,72 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                         },
                                       ),
                                     ),
+
+                                    const SizedBox(height: 20),
+                                    // note: 이미지 추가 시, 제목과 내용 사이에 이미지 위치한다
+                                    // if (widget.sortedCard.imagePath != null)
+                                    if (pickedImage != null)
+                                      GestureDetector(
+                                        onTap: () {
+                                          // 삭제할 건지? dialog 띄우고 삭제 누르면 삭제하기(pickedImage = null)
+                                          Get.dialog(
+                                            AlertDialog(
+                                              title: Text('이미지를 제거 하시겠습니까?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      pickedImage = null;
+                                                      Get.back();
+                                                    });
+                                                  },
+                                                  child: const Text('제거'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: Get.back,
+                                                  child: const Text('닫기'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                              width: 2.0,
+                                            ),
+                                          ),
+                                          child: Image.file(
+                                            pickedImage!,
+                                            // File(widget.sortedCard.imagePath!),
+                                            width: 300,
+                                            height: 300,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+
+                                    // note: 이미지 있는 경우와 없는 경우의 textformfield 설정
+                                    // if (widget.sortedCard.imagePath == null)
+                                    if (pickedImage == null)
+                                      TextFormField(
+                                        decoration: InputDecoration(
+                                          labelText: '대표 이미지를 넣으려면 하단 이미지 버튼을 클릭',
+                                          labelStyle: TextStyle(
+                                            fontSize: 18.0,
+                                          ),
+                                          enabled: false,
+                                          border: const OutlineInputBorder(),
+                                          focusedBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.orange,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
                                     const SizedBox(height: 25),
                                     CustomPaint(
                                       painter: GridPainter(),
@@ -211,6 +282,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     title: title,
                                     mainText: mainText!,
                                     selectedCategory: _dropdownValue!,
+                                    imagePath: pickedImage,
                                   );
                                   Navigator.of(context).pop();
                                 }
@@ -244,6 +316,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                   title: const Text('메모를 복원 하시겠습니까?'),
                                   actions: <Widget>[
                                     TextButton(
+                                      child: const Text('메모를 복원'),
                                       onPressed: () async {
                                         memoController.addCtr(
                                           createdAt: widget.currentContact.createdAt,
@@ -251,6 +324,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                           mainText: mainText,
                                           selectedCategory: _dropdownValue!,
                                           isFavoriteMemo: false,
+                                          imagePath: pickedImage,
                                         );
                                         // todo: 정렬된 인덱스 내려주는게 아닌 휴지통의 리스트의 인덱스를 내려줘야 한다?
                                         trashCanMemoController.deleteCtr(index: widget.index);
@@ -259,7 +333,6 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                           Navigator.of(context).pop();
                                         });
                                       },
-                                      child: const Text('메모를 복원'),
                                     ),
                                     TextButton(
                                       onPressed: () => Navigator.pop(context, 'OK'),
@@ -363,5 +436,4 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
       iconSize: 35,
     );
   }
-
 }
