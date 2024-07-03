@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
@@ -48,6 +50,7 @@ class _DeleteCategoryWidgetState extends State<DeleteCategoryWidget> {
         selectedCategory: '미분류',
         isFavoriteMemo: memo.isFavoriteMemo ?? false,
         isCheckedTodo: memo.isCheckedTodo ?? false,
+        imagePath: File(memo.imagePath!),
       );
     }
     _categoryController.deleteCtr(index: widget.index);

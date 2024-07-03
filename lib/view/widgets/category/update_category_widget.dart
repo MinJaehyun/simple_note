@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
@@ -81,6 +83,7 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
                     selectedCategory: category,
                     isFavoriteMemo: memo.isFavoriteMemo ?? false,
                     isCheckedTodo: memo.isCheckedTodo ?? false,
+                    imagePath: File(memo.imagePath!),
                   );
                 }
               }
