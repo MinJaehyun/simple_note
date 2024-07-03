@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/settings_controller.dart';
@@ -212,45 +215,65 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: ListTile(
-                                      titleAlignment: ListTileTitleAlignment.titleHeight,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                                      title: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                const SizedBox(width: 10.0),
-                                                Expanded(
-                                                  child: Text(
-                                                    currentContact.title,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          decoration: currentContact.imagePath != null
+                                              ? BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: FileImage(File(currentContact.imagePath!)),
+                                                    fit: BoxFit.cover,
                                                   ),
-                                                ),
-                                                // card() 수정 및 복원 및 완전히 삭제
-                                                PopupTrashCanButtonWidget(sortedIndex, currentContact),
-                                              ],
-                                            ),
+                                                )
+                                              : const BoxDecoration(),
+                                        ),
+                                        if (currentContact.imagePath != null)
+                                          // note: BackdropFilter 위젯 사용하면 흐릿한(이미지 색상 및 전체 색상) 이미지로 처리할 수 있다
+                                          BackdropFilter(
+                                            filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                                            child: Container(color: Colors.black.withOpacity(0.2)),
                                           ),
-                                          const SizedBox(height: 90.0),
-                                          Row(
+                                        ListTile(
+                                          titleAlignment: ListTileTitleAlignment.titleHeight,
+                                          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                                          title: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Expanded(
-                                                child: Text(
-                                                  FormatDate().formatSimpleTimeKor(currentContact.createdAt),
-                                                  style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                                child: Row(
+                                                  children: [
+                                                    const SizedBox(width: 10.0),
+                                                    Expanded(
+                                                      child: Text(
+                                                        currentContact.title,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+                                                      ),
+                                                    ),
+                                                    // card() 수정 및 복원 및 완전히 삭제
+                                                    PopupTrashCanButtonWidget(sortedIndex, currentContact),
+                                                  ],
                                                 ),
                                               ),
-                                              const IconButton(
-                                                onPressed: null,
-                                                icon: SizedBox.shrink(), // 비어있는 아이콘 버튼
+                                              const SizedBox(height: 90.0),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      FormatDate().formatSimpleTimeKor(currentContact.createdAt),
+                                                      style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                                    ),
+                                                  ),
+                                                  const IconButton(
+                                                    onPressed: null,
+                                                    icon: SizedBox.shrink(), // 비어있는 아이콘 버튼
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
