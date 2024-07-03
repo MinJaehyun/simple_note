@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
@@ -38,7 +40,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
       onSelected: (SampleItem item) async {
         setState(() => selectedItem = item);
 
-        switch(item) {
+        switch (item) {
           case SampleItem.updateMemo:
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) {
@@ -70,6 +72,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
                               mainText: widget.sortedCard.mainText,
                               selectedCategory: _dropdownValue,
                               isFavoriteMemo: false,
+                              imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
                             );
 
                             Navigator.pop(context, true); // 삭제 확인
@@ -93,7 +96,6 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
             break;
         }
       },
-
       itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
         const PopupMenuItem<SampleItem>(
           value: SampleItem.updateMemo,
