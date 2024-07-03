@@ -42,10 +42,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
     _scrollController.addListener(_scrollListener); // #
   }
 
-  Future<void> _pickedImage() async {
+  Future<void> _pickedImage(ImageSource source) async {
     final imagePicker = ImagePicker();
     final XFile? pickedImageFile = await imagePicker.pickImage(
-      source: ImageSource.camera,
+      source: source,
       imageQuality: 50,
       maxHeight: 150,
     );
@@ -363,10 +363,17 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                _pickedImage();
+                                _pickedImage(ImageSource.gallery);
                                 Get.back();
                               },
-                              child: const Text('생성'),
+                              child: const Text('사진 가져오기'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _pickedImage(ImageSource.camera);
+                                Get.back();
+                              },
+                              child: const Text('사진 찍기'),
                             ),
                             TextButton(
                               onPressed: () {
