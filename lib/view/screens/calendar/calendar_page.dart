@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -246,6 +248,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     mainText: currentContact.mainText,
                     isFavoriteMemo: currentContact.isFavoriteMemo,
                     isCheckedTodo: !currentContact.isCheckedTodo,
+                    imagePath: File(currentContact.imagePath),
                   );
                 }
 

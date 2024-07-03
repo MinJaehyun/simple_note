@@ -45,6 +45,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
     sortedCard, {
     final bool? isFavoriteMemo,
     final bool? isCheckedTodo,
+    final File? imagePath,
   }) {
     memoController.updateCtr(
       index: settingsController.sortedTime.value == SortedTime.firstTime ? index : memoController.memoList.length - index - 1,
@@ -54,6 +55,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
       selectedCategory: sortedCard.selectedCategory,
       isFavoriteMemo: isFavoriteMemo ?? false,
       isCheckedTodo: isCheckedTodo ?? false,
+      imagePath: sortedCard.imagePath != null ? File(sortedCard.imagePath!) : null,
     );
   }
 
@@ -175,15 +177,25 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                           ? const Icon(Icons.check_box_outline_blank, size: 32)
                                           : const Icon(Icons.check_box, color: Colors.red, size: 32),
                                       onPressed: () {
-                                        updateMemoFunc(index, currentContact,
-                                            isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
+                                        updateMemoFunc(
+                                          index,
+                                          currentContact,
+                                          isFavoriteMemo: currentContact.isFavoriteMemo!,
+                                          isCheckedTodo: !currentContact.isCheckedTodo!,
+                                          imagePath: currentContact.imagePath != null ? File(currentContact.imagePath!) : null,
+                                        );
                                       },
                                     ),
                                     // 즐겨 찾기
                                     IconButton(
                                       onPressed: () {
-                                        updateMemoFunc(index, currentContact,
-                                            isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
+                                        updateMemoFunc(
+                                          index,
+                                          currentContact,
+                                          isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                          isCheckedTodo: currentContact.isCheckedTodo!,
+                                          imagePath: currentContact.imagePath != null ? File(currentContact.imagePath!) : null,
+                                        );
                                       },
                                       icon: currentContact.isFavoriteMemo == false
                                           ? const Icon(Icons.star_border_sharp, color: null, size: 32)

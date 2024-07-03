@@ -27,9 +27,12 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
   final memoController = Get.find<MemoController>();
   final settingsController = Get.find<SettingsController>();
 
-  void updateMemo(sortedIndex, currentContact, {
+  void updateMemo(
+    sortedIndex,
+    currentContact, {
     final bool? isFavoriteMemo,
     final bool? isCheckedTodo,
+    final File? imagePath,
   }) {
     memoController.updateCtr(
       index: sortedIndex,
@@ -39,6 +42,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
       selectedCategory: currentContact.selectedCategory,
       isFavoriteMemo: isFavoriteMemo ?? false,
       isCheckedTodo: isCheckedTodo ?? false,
+      // imagePath: File(currentContact.imagePath!),
+      imagePath: currentContact.imagePath != null ? File(currentContact.imagePath) : null,
     );
   }
 
@@ -94,21 +99,20 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                     onTap: () => Get.to(UpdateMemoPage(index: sortedIndex, sortedCard: currentContact)),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
-
                       child: Stack(
                         children: [
                           Container(
                             decoration: currentContact.imagePath != null
                                 ? BoxDecoration(
-                              image: DecorationImage(
-                                image: FileImage(File(currentContact.imagePath!)),
-                                fit: BoxFit.cover,
-                              ),
-                            )
+                                    image: DecorationImage(
+                                      image: FileImage(File(currentContact.imagePath!)),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
                                 : const BoxDecoration(),
                           ),
                           if (currentContact.imagePath != null)
-                          // note: BackdropFilter 위젯 사용하면 흐릿한(이미지 색상 및 전체 색상) 이미지로 처리할 수 있다
+                            // note: BackdropFilter 위젯 사용하면 흐릿한(이미지 색상 및 전체 색상) 이미지로 처리할 수 있다
                             BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
                               child: Container(color: Colors.black.withOpacity(0.2)),
@@ -141,7 +145,13 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                       constraints: const BoxConstraints(),
                                       visualDensity: const VisualDensity(horizontal: -4.0),
                                       onPressed: () {
-                                        updateMemo(sortedIndex, currentContact, isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
+                                        updateMemo(
+                                          sortedIndex,
+                                          currentContact,
+                                          isFavoriteMemo: currentContact.isFavoriteMemo!,
+                                          isCheckedTodo: !currentContact.isCheckedTodo!,
+                                          imagePath: currentContact.imagePath != null ? File(currentContact.imagePath!) : null,
+                                        );
                                       },
                                       icon: currentContact.isCheckedTodo == false
                                           ? const Icon(Icons.check_box_outline_blank, color: null, size: 32)
@@ -150,7 +160,13 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     // 즐겨 찾기
                                     IconButton(
                                       onPressed: () {
-                                        updateMemo(sortedIndex, currentContact, isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
+                                        updateMemo(
+                                          sortedIndex,
+                                          currentContact,
+                                          isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                          isCheckedTodo: currentContact.isCheckedTodo!,
+                                          imagePath: currentContact.imagePath != null ? File(currentContact.imagePath!) : null,
+                                        );
                                       },
                                       icon: currentContact.isFavoriteMemo == false
                                           ? const Icon(Icons.star_border_sharp, color: null, size: 32)

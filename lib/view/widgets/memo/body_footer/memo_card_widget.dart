@@ -134,8 +134,12 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                           ? const Icon(Icons.check_box_outline_blank, size: 32)
                                           : const Icon(Icons.check_box, color: Colors.red, size: 32),
                                       onPressed: () {
-                                        _updateMemoFunc(currentContact,
-                                            isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
+                                        _updateMemoFunc(
+                                          currentContact,
+                                          isFavoriteMemo: currentContact.isFavoriteMemo!,
+                                          isCheckedTodo: !currentContact.isCheckedTodo!,
+                                          imagePath: currentContact.imagePath != null ? File(currentContact.imagePath!) : null,
+                                        );
                                       },
                                     ),
                                     // 즐겨 찾기
@@ -146,8 +150,12 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                           ? const Icon(Icons.star_border_sharp, color: null, size: 32)
                                           : const Icon(Icons.star, color: Colors.red, size: 32),
                                       onPressed: () {
-                                        _updateMemoFunc(currentContact,
-                                            isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
+                                        _updateMemoFunc(
+                                          currentContact,
+                                          isFavoriteMemo: !currentContact.isFavoriteMemo!,
+                                          isCheckedTodo: currentContact.isCheckedTodo!,
+                                          imagePath: currentContact.imagePath != null ? File(currentContact.imagePath!) : null,
+                                        );
                                       },
                                     ),
                                   ],
@@ -173,15 +181,17 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
     currentContact, {
     final bool? isFavoriteMemo,
     final bool? isCheckedTodo,
+    final File? imagePath,
   }) {
     memoController.updateCtr(
-      index: memoController.memoList.indexOf(currentContact),
-      createdAt: currentContact.createdAt,
-      title: currentContact.title,
-      mainText: currentContact.mainText,
-      selectedCategory: currentContact.selectedCategory,
-      isFavoriteMemo: isFavoriteMemo ?? false,
-      isCheckedTodo: isCheckedTodo ?? false,
+        index: memoController.memoList.indexOf(currentContact),
+        createdAt: currentContact.createdAt,
+        title: currentContact.title,
+        mainText: currentContact.mainText,
+        selectedCategory: currentContact.selectedCategory,
+        isFavoriteMemo: isFavoriteMemo ?? false,
+        isCheckedTodo: isCheckedTodo ?? false,
+        imagePath: currentContact.imagePath != null ? File(currentContact.imagePath) : null,
     );
   }
 }
