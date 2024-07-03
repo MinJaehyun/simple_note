@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -10,6 +12,7 @@ import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 import 'package:simple_note/controller/memo_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UpdateMemoPage extends StatefulWidget {
   const UpdateMemoPage({required this.index, required this.sortedCard, super.key});
@@ -35,6 +38,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
   late bool _isCheckedTodo;
   bool _showScrollToTopButton = false;
 
+  File? pickedImage;
+
   @override
   void initState() {
     super.initState();
@@ -45,12 +50,31 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
     _dropdownValue = widget.sortedCard.selectedCategory;
     _isFavorite = widget.sortedCard.isFavoriteMemo!;
     _isCheckedTodo = widget.sortedCard.isCheckedTodo!;
+    // fix
+    // pickedImage = File(widget.sortedCard.imagePath);
+    pickedImage = widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null;
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickedImage(ImageSource source) async {
+    final imagePicker = ImagePicker();
+    final XFile? pickedImageFile = await imagePicker.pickImage(
+      source: source,
+      imageQuality: 50,
+      maxHeight: 150,
+    );
+
+    if (pickedImageFile != null) {
+      setState(() {
+        pickedImage = File(pickedImageFile.path);
+        _updateMemo(imagePath: pickedImage);
+      });
+    }
   }
 
   void _scrollListener() {
@@ -69,6 +93,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
   void _updateMemo({
     final bool? isFavoriteMemo,
     final bool? isCheckedTodo,
+    final File? imagePath,
   }) {
     memoController.updateCtr(
       index: widget.index,
@@ -78,6 +103,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
       selectedCategory: _dropdownValue,
       isFavoriteMemo: isFavoriteMemo ?? _isFavorite,
       isCheckedTodo: isCheckedTodo ?? _isCheckedTodo,
+      imagePath: imagePath ?? pickedImage,
     );
   }
 
@@ -102,7 +128,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                             child: Text(FormatDate().formatDotDateTimeKor(widget.sortedCard.createdAt), style: const TextStyle(fontSize: 20)),
                           ),
                           Expanded(
-                            // note: 이하 box 사용중이므로 일단 대기..
+                            // note: 이하 box 사용중이므로 controller로 변경은 일단 대기
                             child: ValueListenableBuilder(
                               valueListenable: Hive.box<CategoryModel>(CategoryBox).listenable(),
                               builder: (context, Box<CategoryModel> box, _) {
@@ -180,7 +206,72 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     },
                                   ),
                                 ),
-                                const SizedBox(height: 25),
+                                const SizedBox(height: 20),
+                                // note: 이미지 추가 시, 제목과 내용 사이에 이미지 위치한다
+                                // if (widget.sortedCard.imagePath != null)
+                                if (pickedImage != null)
+                                  GestureDetector(
+                                    onTap: () {
+                                      // 삭제할 건지? dialog 띄우고 삭제 누르면 삭제하기(pickedImage = null)
+                                      Get.dialog(
+                                        AlertDialog(
+                                          title: Text('이미지를 제거 하시겠습니까?'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  pickedImage = null;
+                                                  Get.back();
+                                                });
+                                              },
+                                              child: const Text('제거'),
+                                            ),
+                                            TextButton(
+                                              onPressed: Get.back,
+                                              child: const Text('닫기'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                      child: Image.file(
+                                        pickedImage!,
+                                        // File(widget.sortedCard.imagePath!),
+                                        width: 300,
+                                        height: 300,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+
+                                // note: 이미지 있는 경우와 없는 경우의 textformfield 설정
+                                // if (widget.sortedCard.imagePath == null)
+                                if (pickedImage == null)
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: '대표 이미지를 넣으려면 하단 이미지 버튼을 클릭',
+                                      labelStyle: TextStyle(
+                                        fontSize: 18.0,
+                                      ),
+                                      enabled: false,
+                                      border: const OutlineInputBorder(),
+                                      focusedBorder: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.orange,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                const SizedBox(height: 20),
                                 CustomPaint(
                                   painter: GridPainter(),
                                   child: TextFormField(
@@ -235,7 +326,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                           setState(() {
                             _isCheckedTodo = !_isCheckedTodo;
                           });
-                          _updateMemo(isCheckedTodo: _isCheckedTodo);
+                          _updateMemo(isCheckedTodo: _isCheckedTodo, imagePath: pickedImage);
                         },
                       ),
                       IconButton(
@@ -268,7 +359,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                             // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                             else if (formKeyState.validate()) {
                               formKeyState.save();
-                              _updateMemo();
+                              _updateMemo(imagePath: pickedImage);
                               Navigator.of(context).pop();
                             }
                           },
@@ -305,8 +396,56 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                   ),
                 ],
               ),
+              // note: 이미지 등록 버튼
               Positioned(
-                bottom: 70,
+                bottom: 100,
+                right: 70,
+                child: IconButton.filledTonal(
+                  onPressed: () {
+                    Get.dialog(
+                      AlertDialog(
+                        title: Text('이미지 변경 및 삭제 기능'),
+                        content: Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                _pickedImage(ImageSource.gallery);
+                                Get.back();
+                              },
+                              child: const Text('변경'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _pickedImage(ImageSource.camera);
+                                Get.back();
+                              },
+                              child: const Text('촬영'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  pickedImage = null;
+                                  _updateMemo(imagePath: null);
+                                  Get.back();
+                                });
+                              },
+                              child: const Text('제거'),
+                            ),
+                            TextButton(
+                              onPressed: Get.back,
+                              child: const Text('닫기'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.image),
+                ),
+              ),
+              // note: 상단, 하단 이동하는 하단 우측 버튼
+              Positioned(
+                bottom: 100,
                 right: 20,
                 child: IconButton.filledTonal(
                   hoverColor: Colors.orange,
