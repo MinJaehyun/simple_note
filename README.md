@@ -2,26 +2,32 @@
 
 ## 배포 후:
 - figma: 와이어 프레임 업데이트
-- 앱 접근성: 사용자 1만 이상되면 설정하기
+- 앱 접근성: 사용자 1만 이상되면 설정
 ## 베포 전: 
 - refactoring: const 적용
 - refactoring: var, dynamic, nullable 변수 타입 상세히 명시 및 불필요한 변수 제거
 ## todo:
+- 필수: 기능 개발 할 때마다 앱 배포 후 실기기 테스트 (애뮬에 없던 버그가 배포된 실기기에 발생할 수 있다)
 ### Bug Fixes
 
 
 ## 2024-07-03
 ### Features
-- (3/3) 사진 생성하고, 메모 작성하면, 첫 화면에 아예 메모가 작성되지 않는다...
+- (3/3) image 기능 구현
+- ~~ㄴ update_memo~~
+- ~~ㄴ memo_card_widget: 카드 전체 영역에 이미지를 나타내려면?~~
+- ~~error: 범주 변경 시, 이미지 사라진다~~
+- ~~복원 시, 사진 복원 되지 않는다.~~
+- 
 
 
 ## 2024-07-02
 ### Features
-- ~~(2/3) 메모장: 여러 이미지 등록 기능 구현: add_memo 완료~~
+- ~~(2/3) image 기능 구현~~ 
 - ~~ㄴ image 설정을 위해 사용하는 모델에 속성 추가~~
-- ~~ㄴ 
-- 흐름: add_memo -> update_memo -> memo_card_widget -> update_trash_can_memo -> memo_search_card -> memo_selected_category
-- trash_can_page, -> trash_search ?
+- ~~ㄴ add_memo 완료~~
+- ~~흐름: add_memo -> update_memo -> memo_card_widget -> memo_search_card -> memo_selected_category~~
+- ~~update_trash_can_memo -> trash_can_page -> trash_search -> memo_calendar_popup_button_widget~~ 
 
 
 ## 2024-07-01
