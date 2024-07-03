@@ -103,6 +103,7 @@ class MemoController extends GetxController {
     String? mainText,
     bool isFavoriteMemo = false,
     bool isCheckedTodo = false,
+    File? imagePath,
   }) async {
     isLoading(true);
     try {
@@ -112,7 +113,8 @@ class MemoController extends GetxController {
         mainText: mainText,
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
-          isCheckedTodo: isCheckedTodo,
+        isCheckedTodo: isCheckedTodo,
+        imagePath: imagePath?.path,
       );
       await _memoRepository.updateRepo(index, memo);
       loadMemoCtr();
