@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
@@ -24,10 +26,13 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
   final memoController = Get.find<MemoController>();
   final trashCanMemoController = Get.find<TrashCanMemoController>();
 
+  File? pickedImage;
+
   @override
   void initState() {
     super.initState();
     _dropdownValue = '미분류';
+    pickedImage = widget.currentContact.imagePath != null ? File(widget.currentContact.imagePath!) : null;
   }
 
   @override
@@ -52,6 +57,8 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
           child: const Text('수정'),
         ),
         PopupMenuItem<SampleItem>(
+          child: const Text('복원'),
+          value: SampleItem.restoreMemo,
           onTap: () {
             showDialog(
               context: context,
@@ -69,6 +76,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                           // 선택한 범주를 가져오려면?
                           selectedCategory: _dropdownValue,
                           isFavoriteMemo: false,
+                          imagePath: pickedImage,
                         );
                         trashCanMemoController.deleteCtr(index: widget.index);
                         Navigator.pop(context);
@@ -88,8 +96,6 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
               },
             );
           },
-          value: SampleItem.restoreMemo,
-          child: const Text('복원'),
         ),
         PopupMenuItem<SampleItem>(
           onTap: () {
