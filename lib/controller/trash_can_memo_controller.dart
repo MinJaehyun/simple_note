@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:simple_note/repository/local_data_source/trash_can_memo_repository.dart';
@@ -36,6 +38,7 @@ class TrashCanMemoController extends GetxController {
     String? mainText,
     String? selectedCategory,
     bool isFavoriteMemo = false,
+    File? imagePath,
   }) async {
     isLoading(true);
     try {
@@ -45,6 +48,7 @@ class TrashCanMemoController extends GetxController {
         mainText: mainText,
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
+        imagePath: imagePath!.path,
       );
       await _trashCanMemoRepository.addRepo(memo);
       loadMemoCtr();
@@ -63,6 +67,7 @@ class TrashCanMemoController extends GetxController {
     String? selectedCategory,
     String? mainText,
     bool isFavoriteMemo = false,
+    File? imagePath,
   }) async {
     isLoading(true);
     try {
@@ -72,6 +77,7 @@ class TrashCanMemoController extends GetxController {
         mainText: mainText,
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
+        imagePath: imagePath!.path,
       );
       await _trashCanMemoRepository.updateRepo(index, memo);
       // 메모 추가 후 다시 로드하여 목록 업데이트
@@ -108,5 +114,4 @@ class TrashCanMemoController extends GetxController {
       isLoading(false);
     }
   }
-
 }
