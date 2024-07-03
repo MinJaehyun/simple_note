@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
@@ -101,77 +104,97 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                     onTap: () => Get.to(UpdateMemoPage(index: sortedIndex, sortedCard: currentContact)),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: ListTile(
-                        titleAlignment: ListTileTitleAlignment.titleHeight,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: 10.0),
-                                  Expanded(
-                                    child: SubstringHighlight(
-                                      text: currentContact.title,
-                                      // 검색한 내용 가져오기
-                                      term: widget.searchControllerText,
-                                      // non-highlight style
-                                      textStyle: const TextStyle(
-                                        color: Colors.grey,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      // highlight style
-                                      textStyleHighlight: const TextStyle(
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 24.0,
-                                        color: Colors.black,
-                                        backgroundColor: Colors.yellow,
-                                        // decoration: TextDecoration.underline,
-                                      ),
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: currentContact.imagePath != null
+                                ? BoxDecoration(
+                                    image: DecorationImage(
+                                      image: FileImage(File(currentContact.imagePath!)),
+                                      fit: BoxFit.cover,
                                     ),
-                                  ),
-                                  // note: card() 내 수정, 삭제 버튼
-                                  MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
-                                ],
-                              ),
+                                  )
+                                : const BoxDecoration(),
+                          ),
+                          if (currentContact.imagePath != null)
+                            // note: BackdropFilter 위젯 사용하면 흐릿한(이미지 색상 및 전체 색상) 이미지로 처리할 수 있다
+                            BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                              child: Container(color: Colors.black.withOpacity(0.2)),
                             ),
-                            const SizedBox(height: 80),
-                            Row(
+                          ListTile(
+                            titleAlignment: ListTileTitleAlignment.titleHeight,
+                            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
-                                  child: Text(
-                                    FormatDate().formatSimpleTimeKor(currentContact.createdAt),
-                                    style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(width: 10.0),
+                                      Expanded(
+                                        child: SubstringHighlight(
+                                          text: currentContact.title,
+                                          // 검색한 내용 가져오기
+                                          term: widget.searchControllerText,
+                                          // non-highlight style
+                                          textStyle: const TextStyle(
+                                            color: Colors.grey,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          // highlight style
+                                          textStyleHighlight: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 24.0,
+                                            color: Colors.black,
+                                            backgroundColor: Colors.yellow,
+                                            // decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ),
+                                      // note: card() 내 수정, 삭제 버튼
+                                      MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
+                                    ],
                                   ),
                                 ),
-                                // 체크 버튼
-                                IconButton(
-                                  padding: EdgeInsets.zero,
-                                  constraints: const BoxConstraints(),
-                                  visualDensity: const VisualDensity(horizontal: -4.0),
-                                  icon: currentContact.isCheckedTodo == false
-                                      ? const Icon(Icons.check_box_outline_blank, size: 32)
-                                      : const Icon(Icons.check_box, color: Colors.red, size: 32),
-                                  onPressed: () {
-                                    updateMemoFunc(index, currentContact,
-                                        isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
-                                  },
-                                ),
-                                // 즐겨 찾기
-                                IconButton(
-                                  onPressed: () {
-                                    updateMemoFunc(index, currentContact,
-                                        isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
-                                  },
-                                  icon: currentContact.isFavoriteMemo == false
-                                      ? const Icon(Icons.star_border_sharp, color: null, size: 32)
-                                      : const Icon(Icons.star, color: Colors.red, size: 32),
+                                const SizedBox(height: 80),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        FormatDate().formatSimpleTimeKor(currentContact.createdAt),
+                                        style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                      ),
+                                    ),
+                                    // 체크 버튼
+                                    IconButton(
+                                      padding: EdgeInsets.zero,
+                                      constraints: const BoxConstraints(),
+                                      visualDensity: const VisualDensity(horizontal: -4.0),
+                                      icon: currentContact.isCheckedTodo == false
+                                          ? const Icon(Icons.check_box_outline_blank, size: 32)
+                                          : const Icon(Icons.check_box, color: Colors.red, size: 32),
+                                      onPressed: () {
+                                        updateMemoFunc(index, currentContact,
+                                            isFavoriteMemo: currentContact.isFavoriteMemo!, isCheckedTodo: !currentContact.isCheckedTodo!);
+                                      },
+                                    ),
+                                    // 즐겨 찾기
+                                    IconButton(
+                                      onPressed: () {
+                                        updateMemoFunc(index, currentContact,
+                                            isFavoriteMemo: !currentContact.isFavoriteMemo!, isCheckedTodo: currentContact.isCheckedTodo!);
+                                      },
+                                      icon: currentContact.isFavoriteMemo == false
+                                          ? const Icon(Icons.star_border_sharp, color: null, size: 32)
+                                          : const Icon(Icons.star, color: Colors.red, size: 32),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
