@@ -256,7 +256,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       CustomPaint(
                         painter: GridPainter(),
                         child: SizedBox(
-                          height: 50,
+                          height: 60,
                           child: Row(
                             children: [
                               // note: 달력 선택하면 선택한 날짜(_selectedDay)를 나타낸다
@@ -292,7 +292,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 180,
+                        height: 220,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: sameSelectedDayMemo.length,
