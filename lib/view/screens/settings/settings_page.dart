@@ -71,28 +71,34 @@ class _SettingsState extends State<Settings> {
                                     ? const Icon(Icons.light_mode_outlined)
                                     : const Icon(Icons.dark_mode_outlined),
                                 title: const Text('테마 설정'),
-                                trailing: Switch(
-                                  value: settingsController.isThemeMode.value == false,
-                                  activeColor: Colors.pinkAccent,
-                                  onChanged: (bool value) {
-                                    settingsController.isThemeMode.value == false
-                                        ? settingsController.toggleDarkMode(true)
-                                        : settingsController.toggleDarkMode(false);
-                                  },
+                                trailing: Tooltip(
+                                  message: '테마 설정 변경',
+                                  child: Switch(
+                                    value: settingsController.isThemeMode.value == false,
+                                    activeColor: Colors.pinkAccent,
+                                    onChanged: (bool value) {
+                                      settingsController.isThemeMode.value == false
+                                          ? settingsController.toggleDarkMode(true)
+                                          : settingsController.toggleDarkMode(false);
+                                    },
+                                  ),
                                 ),
                               ),
                               // note: 격자 설정
                               ListTile(
                                 leading: settingsController.isGridMode.value == true ? const Icon(Icons.apps) : const Icon(Icons.crop_din),
                                 title: const Text('격자 설정'),
-                                trailing: Switch(
-                                  value: settingsController.isGridMode.value == true,
-                                  activeColor: Colors.pinkAccent,
-                                  onChanged: (bool value) {
-                                    settingsController.isGridMode.value == true
-                                        ? settingsController.toggleGridMode(false)
-                                        : settingsController.toggleGridMode(true);
-                                  },
+                                trailing: Tooltip(
+                                  message: '격자 설정 변경',
+                                  child: Switch(
+                                    value: settingsController.isGridMode.value == true,
+                                    activeColor: Colors.pinkAccent,
+                                    onChanged: (bool value) {
+                                      settingsController.isGridMode.value == true
+                                          ? settingsController.toggleGridMode(false)
+                                          : settingsController.toggleGridMode(true);
+                                    },
+                                  ),
                                 ),
                               ),
                               // note: 폰트 설정
