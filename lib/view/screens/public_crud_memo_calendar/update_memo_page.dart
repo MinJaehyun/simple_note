@@ -103,7 +103,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
       selectedCategory: _dropdownValue,
       isFavoriteMemo: isFavoriteMemo ?? _isFavorite,
       isCheckedTodo: isCheckedTodo ?? _isCheckedTodo,
-      imagePath: imagePath ?? pickedImage,
+      imagePath: imagePath,
+      // imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
     );
   }
 
@@ -220,7 +221,9 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                             TextButton(
                                               onPressed: () {
                                                 setState(() {
+                                                  // note: udpate에서 둘로 나눠서 처리해야 한다.
                                                   pickedImage = null;
+                                                  _updateMemo(imagePath: null);
                                                   Get.back();
                                                 });
                                               },
