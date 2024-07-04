@@ -48,7 +48,9 @@ class TrashCanMemoController extends GetxController {
         mainText: mainText,
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
-        imagePath: imagePath!.path,
+        // imagePath: imagePath!.path,
+        // fix: imagePath가 null일 때 addCtr 메서드에서 imagePath!.path 접근이 발생하기 때문입니다. null 값을 확인한 후, 해당 값이 null인 경우 적절히 처리해야 합니다.
+        imagePath: imagePath?.path,
       );
       await _trashCanMemoRepository.addRepo(memo);
       loadMemoCtr();
@@ -77,7 +79,7 @@ class TrashCanMemoController extends GetxController {
         mainText: mainText,
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
-        imagePath: imagePath!.path,
+        imagePath: imagePath?.path,
       );
       await _trashCanMemoRepository.updateRepo(index, memo);
       // 메모 추가 후 다시 로드하여 목록 업데이트
