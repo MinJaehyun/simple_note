@@ -47,9 +47,9 @@ class _AddMemoPageState extends State<AddMemoPage> {
     final XFile? pickedImageFile = await imagePicker.pickImage(
       source: source,
       // 이미지 퀄리티 및 해상도 조절
-      imageQuality: 85,
-      maxHeight: 800,
-      maxWidth: 800
+      maxWidth: 1920, // 최대 너비 설정
+      maxHeight: 1080, // 최대 높이 설정
+      imageQuality: 100, // 이미지 품질을 최대로 설정
     );
 
     if (pickedImageFile != null) {
@@ -214,9 +214,12 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                         ),
                                         child: Image.file(
                                           pickedImage!,
-                                          width: 300,
-                                          height: 300,
+                                          // width: 200,
+                                          // height: 200,
+                                          // note:
+                                          // fit: BoxFit.none,
                                           fit: BoxFit.cover,
+                                          // fit: BoxFit.contain,
                                         ),
                                       ),
                                     ),
