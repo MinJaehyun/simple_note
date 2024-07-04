@@ -75,7 +75,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
         child: Scaffold(
           body: Obx(
             () {
-              if (categoryController.categoryList.isEmpty) return const Center(child: Text('test update memo'));
+              // 불필요한 코드이다. 범주가 없는 경우, 업데이트 경로로 이동하지 못한다. 제거하기
+              // if (categoryController.categoryList.isEmpty) return const Center(child: Text('test update memo'));
               return Stack(
                 children: [
                   Column(
@@ -160,55 +161,26 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                         },
                                       ),
                                     ),
-
                                     const SizedBox(height: 20),
                                     // note: 이미지 추가 시, 제목과 내용 사이에 이미지 위치한다
-                                    // if (widget.sortedCard.imagePath != null)
                                     if (pickedImage != null)
-                                      GestureDetector(
-                                        onTap: () {
-                                          // 삭제할 건지? dialog 띄우고 삭제 누르면 삭제하기(pickedImage = null)
-                                          Get.dialog(
-                                            AlertDialog(
-                                              title: Text('이미지를 제거 하시겠습니까?'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      pickedImage = null;
-                                                      Get.back();
-                                                    });
-                                                  },
-                                                  child: const Text('제거'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: Get.back,
-                                                  child: const Text('닫기'),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 2.0,
-                                            ),
-                                          ),
-                                          child: Image.file(
-                                            pickedImage!,
-                                            // File(widget.sortedCard.imagePath!),
-                                            width: 300,
-                                            height: 300,
-                                            fit: BoxFit.cover,
+                                      Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            width: 2.0,
                                           ),
                                         ),
+                                        child: Image.file(
+                                          pickedImage!,
+                                          // File(widget.sortedCard.imagePath!),
+                                          width: 300,
+                                          height: 300,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-
                                     // note: 이미지 있는 경우와 없는 경우의 textformfield 설정
-                                    // if (widget.sortedCard.imagePath == null)
                                     if (pickedImage == null)
                                       TextFormField(
                                         decoration: InputDecoration(
