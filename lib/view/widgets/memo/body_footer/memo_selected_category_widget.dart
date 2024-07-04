@@ -133,7 +133,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                 const SizedBox(height: 80.0),
                                 Row(
                                   children: [
-                                    SizedBox(width: 14),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       child: Text(
                                         FormatDate().formatSimpleTimeKor(currentContact.createdAt),
