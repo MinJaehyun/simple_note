@@ -46,8 +46,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
     final imagePicker = ImagePicker();
     final XFile? pickedImageFile = await imagePicker.pickImage(
       source: source,
-      imageQuality: 50,
-      maxHeight: 150,
+      // 이미지 퀄리티 및 해상도 조절
+      imageQuality: 85,
+      maxHeight: 800,
+      maxWidth: 800
     );
 
     if (pickedImageFile != null) {
