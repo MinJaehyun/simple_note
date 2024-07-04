@@ -146,9 +146,10 @@ class _TrashSearchState extends State<TrashSearch> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 90),
+                                const SizedBox(height: 80),
                                 Row(
                                   children: [
+                                    SizedBox(width: 14),
                                     Expanded(
                                       child: Text(
                                         FormatDate().formatSimpleTimeKor(currentContact.createdAt),

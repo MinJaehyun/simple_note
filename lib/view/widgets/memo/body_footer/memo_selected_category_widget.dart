@@ -130,9 +130,10 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
                                   ],
                                 ),
-                                const SizedBox(height: 90.0),
+                                const SizedBox(height: 80.0),
                                 Row(
                                   children: [
+                                    SizedBox(width: 14),
                                     Expanded(
                                       child: Text(
                                         FormatDate().formatSimpleTimeKor(currentContact.createdAt),
