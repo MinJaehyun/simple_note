@@ -184,7 +184,7 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     if (pickedImage == null)
                                       TextFormField(
                                         decoration: InputDecoration(
-                                          labelText: '대표 이미지를 넣으려면 하단 이미지 버튼을 클릭',
+                                          labelText: '             대표 이미지가 없는 메모장 입니다',
                                           labelStyle: TextStyle(
                                             fontSize: 18.0,
                                           ),
@@ -254,7 +254,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     title: title,
                                     mainText: mainText!,
                                     selectedCategory: _dropdownValue!,
-                                    imagePath: pickedImage,
+                                    // fix: imagePath: pickedImage,
+                                    imagePath: pickedImage != null ? File(pickedImage!.path) : null,
                                   );
                                   Navigator.of(context).pop();
                                 }
@@ -272,6 +273,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     mainText: mainText!,
                                     selectedCategory: _dropdownValue!,
                                     isFavoriteMemo: false,
+                                    // fix: imagePath: pickedImage,
+                                    imagePath: pickedImage != null ? File(pickedImage!.path) : null, // 이미지 파일 경로를 올바르게 전달
                                   );
                                   Navigator.of(context).pop();
                                 }

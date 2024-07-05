@@ -105,8 +105,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
       selectedCategory: _dropdownValue,
       isFavoriteMemo: isFavoriteMemo ?? _isFavorite,
       isCheckedTodo: isCheckedTodo ?? _isCheckedTodo,
-      imagePath: imagePath,
-      // imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
+      // fix: imagePath: imagePath,
+      imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
     );
   }
 

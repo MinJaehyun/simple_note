@@ -318,7 +318,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                   selectedCategory: _dropdownValue,
                                   isFavoriteMemo: _isFavorite,
                                   isCheckedTodo: _isCheckedTodo,
-                                  imagePath: pickedImage,
+                                  // fix: imagePath: pickedImage,
+                                  imagePath: pickedImage != null ? File(pickedImage!.path) : null,
                                 );
                                 Navigator.of(context).pop();
                               }
@@ -439,13 +440,14 @@ class _AddMemoPageState extends State<AddMemoPage> {
     return DropdownButton(
       style: const TextStyle(color: Colors.green),
       underline: Container(height: 2, color: Colors.green[100]),
+      // note: null 처리하지 않으면 에러 발생한다
       value: null,
       hint: Text(_dropdownValue),
       onChanged: dropdownCallback,
       items: controllerCategoryList.toList().map<DropdownMenuItem<String>>((value) {
         return DropdownMenuItem<String>(
           value: value.categories,
-          // todo: 아래 test 고민하기 ???
+          // todo: 아래 test 고민하기
           child: Text(value.categories!.isEmpty ? 'test' : value.categories!),
         );
       }).toList(),
