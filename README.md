@@ -11,6 +11,13 @@
 ### Bug Fixes
 
 
+
+## 2024-07-05
+### Features
+- test: 하단 네비게이션 바 스크린 리더
+### Bug Fixes
+
+
 ## 2024-07-04
 ### Features
 ### Bug Fixes: image 기능 테스트 및 버그 찾기
