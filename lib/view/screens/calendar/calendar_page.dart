@@ -248,7 +248,12 @@ class _CalendarPageState extends State<CalendarPage> {
                     mainText: currentContact.mainText,
                     isFavoriteMemo: currentContact.isFavoriteMemo,
                     isCheckedTodo: !currentContact.isCheckedTodo,
-                    imagePath: File(currentContact.imagePath),
+                    // 이미지 있는 경우
+                    // imagePath: File(currentContact.imagePath),
+                    // 이미지 없는 경우
+                    // imagePath: currentContact.imagePath?.path,
+                    // note: currentContact.imagePath != null ? 와 currentContact.imagePath ? 의 차이
+                    imagePath: currentContact.imagePath != null ? File(currentContact.imagePath) : null,
                   );
                 }
 
