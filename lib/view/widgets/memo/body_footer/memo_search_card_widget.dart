@@ -77,7 +77,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
         }).toList();
 
         return SizedBox(
-          height: MediaQuery.of(context).size.height - 200,
+          height: MediaQuery.of(context).size.height - 270,
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: settingsController.isAppbarFavoriteMemo.value == true ? searchAndFavoriteList.length : searchList.length,

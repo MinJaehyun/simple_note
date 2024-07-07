@@ -15,7 +15,7 @@
 ### Features
 - memo_card, memo_search, memo_selected, trash_memo, trash_search: 이미지 위,아래 영역에 흐릿한 필터 적용하기
 ### Bug Fixes
-- 
+- 6개 메모 생성하면 하단에 영역이 잘린다. 하단까지 나타내기: memo cad, memo search, memo selected, trash memo, trash search
 
 
 ## 2024-07-07
