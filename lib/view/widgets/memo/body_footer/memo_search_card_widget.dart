@@ -108,22 +108,68 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                       padding: const EdgeInsets.all(4.0),
                       child: Stack(
                         children: [
+                          // Container(
+                          //   decoration: currentContact.imagePath != null
+                          //       ? BoxDecoration(
+                          //           image: DecorationImage(
+                          //             image: FileImage(File(currentContact.imagePath!)),
+                          //             fit: BoxFit.cover,
+                          //           ),
+                          //         )
+                          //       : const BoxDecoration(),
+                          // ),
+                          // if (currentContact.imagePath != null)
+                          //   // note: BackdropFilter 위젯 사용하면 흐릿한(이미지 색상 및 전체 색상) 이미지로 처리할 수 있다
+                          //   BackdropFilter(
+                          //     filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                          //     child: Container(color: Colors.black.withOpacity(0.2)),
+                          //   ),
+
                           Container(
+                            height: 200,
                             decoration: currentContact.imagePath != null
+                            // 이미지 있는 경우: 이미지만 처리
                                 ? BoxDecoration(
-                                    image: DecorationImage(
-                                      image: FileImage(File(currentContact.imagePath!)),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : const BoxDecoration(),
+                              image: DecorationImage(
+                                image: FileImage(File(currentContact.imagePath!)),
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                            // 이미지 없는 경우: 그라데이션 처리
+                                : BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: settingsController.isThemeMode.value == false
+                                    ? [Colors.white.withOpacity(0.5), Colors.transparent]
+                                    : [Colors.black.withOpacity(0.5), Colors.transparent],
+                              ),
+                            ),
                           ),
                           if (currentContact.imagePath != null)
-                            // note: BackdropFilter 위젯 사용하면 흐릿한(이미지 색상 및 전체 색상) 이미지로 처리할 수 있다
-                            BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                              child: Container(color: Colors.black.withOpacity(0.2)),
+                          // 이미지 있는 경우: 전체 블러 효과
+                            Positioned(
+                              child: Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [Colors.white12.withOpacity(1), Colors.transparent],
+                                  ),
+                                ),
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                                  child: Container(
+                                    // 상단 투명 조정
+                                    color: settingsController.isThemeMode.value == false
+                                        ? Colors.black.withOpacity(0.3)
+                                        : Colors.white.withOpacity(0.3),
+                                  ),
+                                ),
+                              ),
                             ),
+
                           ListTile(
                             titleAlignment: ListTileTitleAlignment.titleHeight,
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),

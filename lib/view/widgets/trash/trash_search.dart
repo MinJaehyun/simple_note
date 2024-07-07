@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -25,6 +26,7 @@ class _TrashSearchState extends State<TrashSearch> {
   SampleItem? selectedItem;
   late List<TrashCanModel> boxSearchTitleAndMainText;
   final trashCanMemoController = Get.find<TrashCanMemoController>();
+  late final settingsController = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -71,21 +73,67 @@ class _TrashSearchState extends State<TrashSearch> {
                       padding: const EdgeInsets.all(4.0),
                       child: Stack(
                         children: [
+                          // Container(
+                          //   decoration: currentContact.imagePath != null
+                          //       ? BoxDecoration(
+                          //           image: DecorationImage(
+                          //             image: FileImage(File(currentContact.imagePath!)),
+                          //             fit: BoxFit.cover,
+                          //           ),
+                          //         )
+                          //       : const BoxDecoration(),
+                          // ),
+                          // if (currentContact.imagePath != null)
+                          //   BackdropFilter(
+                          //     filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                          //     child: Container(color: Colors.black.withOpacity(0.2)),
+                          //   ),
+
                           Container(
+                            height: 200,
                             decoration: currentContact.imagePath != null
+                            // 이미지 있는 경우: 이미지만 처리
                                 ? BoxDecoration(
-                                    image: DecorationImage(
-                                      image: FileImage(File(currentContact.imagePath!)),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : const BoxDecoration(),
+                              image: DecorationImage(
+                                image: FileImage(File(currentContact.imagePath!)),
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                            // 이미지 없는 경우: 그라데이션 처리
+                                : BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: settingsController.isThemeMode.value == false
+                                    ? [Colors.white.withOpacity(0.5), Colors.transparent]
+                                    : [Colors.black.withOpacity(0.5), Colors.transparent],
+                              ),
+                            ),
                           ),
                           if (currentContact.imagePath != null)
-                            BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                              child: Container(color: Colors.black.withOpacity(0.2)),
+                          // 이미지 있는 경우: 전체 블러 효과
+                            Positioned(
+                              child: Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [Colors.white12.withOpacity(1), Colors.transparent],
+                                  ),
+                                ),
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                                  child: Container(
+                                    // 상단 투명 조정
+                                    color: settingsController.isThemeMode.value == false
+                                        ? Colors.black.withOpacity(0.3)
+                                        : Colors.white.withOpacity(0.3),
+                                  ),
+                                ),
+                              ),
                             ),
+
                           ListTile(
                             titleAlignment: ListTileTitleAlignment.titleHeight,
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),

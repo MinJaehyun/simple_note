@@ -11,6 +11,17 @@
 ### Bug Fixes
 
 
+## 2024-07-08
+### Features
+- memo_card, memo_search, memo_selected, trash_memo, trash_search: 이미지 위,아래 영역에 흐릿한 필터 적용하기
+### Bug Fixes
+- 
+
+
+## 2024-07-07
+### Bug Fixes
+- 이미지가 없는 메모장은 체크 클릭 안된며, 이미지 있으면 체크 클릭 된다
+
 ## 2024-07-06
 ### Bug Fixes
 - 이미지 버그 픽스
