@@ -31,7 +31,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
   late String _dropdownValue;
   late bool _isFavorite = false;
   late bool _isCheckedTodo = false;
-  bool showScrollToTopButton = false; // #
+  bool showScrollToTopButton = false;
 
   File? pickedImage;
 
@@ -128,8 +128,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       ),
                     ),
 
-                    // 중단: 입력창 (제목/내용)
-                    // 스크롤러 적용을 위한 설정
+                    // 중단: 제목 및 내용 입력창: 스크롤러 적용을 위한 설정
                     NotificationListener<ScrollNotification>(
                       onNotification: (scrollNotification) => true,
                       child: Expanded(
@@ -160,9 +159,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                         hintText: '제목을 입력해 주세요',
                                         border: OutlineInputBorder(),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.orange,
-                                          ),
+                                          borderSide: BorderSide(color: Colors.orange),
                                         ),
                                       ),
                                       validator: (value) {
@@ -182,7 +179,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                   if (pickedImage != null)
                                     GestureDetector(
                                       onTap: () {
-                                        // 삭제할 건지? dialog 띄우고 삭제 누르면 삭제하기(pickedImage = null)
                                         Get.dialog(
                                           AlertDialog(
                                             title: Text('이미지를 제거 하시겠습니까?'),
@@ -207,19 +203,11 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                       child: Container(
                                         width: double.infinity,
                                         decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.grey,
-                                            width: 2.0,
-                                          ),
+                                          border: Border.all(color: Colors.grey, width: 2.0),
                                         ),
                                         child: Image.file(
                                           pickedImage!,
-                                          // width: 200,
-                                          // height: 200,
-                                          // note:
-                                          // fit: BoxFit.none,
                                           fit: BoxFit.cover,
-                                          // fit: BoxFit.contain,
                                         ),
                                       ),
                                     ),
@@ -229,15 +217,11 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     TextFormField(
                                       decoration: InputDecoration(
                                         labelText: '대표 이미지를 넣으려면 하단 이미지 버튼을 클릭',
-                                        labelStyle: TextStyle(
-                                          fontSize: 18.0,
-                                        ),
+                                        labelStyle: TextStyle(fontSize: 18),
                                         enabled: false,
                                         border: const OutlineInputBorder(),
                                         focusedBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.orange,
-                                          ),
+                                          borderSide: BorderSide(color: Colors.orange),
                                         ),
                                       ),
                                     ),
@@ -262,9 +246,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                         hintText: '내용을 입력해 주세요',
                                         border: const OutlineInputBorder(),
                                         focusedBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.orange,
-                                          ),
+                                          borderSide: BorderSide(color: Colors.orange),
                                         ),
                                         // note: 상단에 '내용' 위치 시킴
                                         alignLabelWithHint: true,
@@ -393,7 +375,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           ],
                         ),
                       );
-
                     },
                     icon: const Icon(Icons.image),
                   ),
