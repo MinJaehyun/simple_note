@@ -301,7 +301,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                   ],
                                                 ),
                                               ),
-                                              const SizedBox(height: 80.0),
+                                              Spacer(),
                                               Row(
                                                 children: [
                                                   SizedBox(width: 10),
@@ -317,6 +317,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                   ),
                                                 ],
                                               ),
+                                              const SizedBox(height: 15.0),
                                             ],
                                           ),
                                         ),

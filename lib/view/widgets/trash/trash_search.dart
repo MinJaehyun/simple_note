@@ -194,7 +194,7 @@ class _TrashSearchState extends State<TrashSearch> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 80),
+                                Spacer(),
                                 Row(
                                   children: [
                                     SizedBox(width: 10),
@@ -211,6 +211,7 @@ class _TrashSearchState extends State<TrashSearch> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 15),
                               ],
                             ),
                           ),

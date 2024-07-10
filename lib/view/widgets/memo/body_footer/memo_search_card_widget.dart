@@ -205,7 +205,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 80),
+                                Spacer(),
                                 Row(
                                   children: [
                                     SizedBox(width: 10),
@@ -250,6 +250,7 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 15.0),
                               ],
                             ),
                           ),

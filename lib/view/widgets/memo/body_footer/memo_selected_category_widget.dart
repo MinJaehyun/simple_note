@@ -176,7 +176,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
                                   ],
                                 ),
-                                const SizedBox(height: 80.0),
+                                Spacer(),
                                 Row(
                                   children: [
                                     SizedBox(width: 10),
@@ -221,6 +221,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 15.0),
                               ],
                             ),
                           ),

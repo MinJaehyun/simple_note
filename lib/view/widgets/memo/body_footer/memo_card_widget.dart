@@ -144,7 +144,9 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                     MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
                                   ],
                                 ),
-                                const SizedBox(height: 80.0),
+                                // fix: 디바이스마다 크기가 다르므로, 동적으로 사잇 공간 넓히기 위해 Space() 처리함
+                                // const SizedBox(height: 80.0),
+                                Spacer(),
                                 Row(
                                   children: [
                                     SizedBox(width: 10),
@@ -189,6 +191,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 15.0),
                               ],
                             ),
                           ),
