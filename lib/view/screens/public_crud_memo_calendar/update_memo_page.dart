@@ -51,8 +51,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
     _dropdownValue = widget.sortedCard.selectedCategory;
     _isFavorite = widget.sortedCard.isFavoriteMemo!;
     _isCheckedTodo = widget.sortedCard.isCheckedTodo!;
-    // fix
     // pickedImage = File(widget.sortedCard.imagePath);
+    // pickedImage = widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null;
     pickedImage = widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null;
   }
 
@@ -106,8 +106,13 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
       selectedCategory: _dropdownValue,
       isFavoriteMemo: isFavoriteMemo ?? _isFavorite,
       isCheckedTodo: isCheckedTodo ?? _isCheckedTodo,
-      // fix: imagePath: imagePath,
-      imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
+      // imagePath: imagePath,
+      // imagePath: File(widget.sortedCard.imagePath!),
+      // imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
+      // imagePath: imagePath,
+      // imagePath: imagePath ?? pickedImage,
+      // note: fix: 아.. 위에 지우지 말 것!
+      imagePath: pickedImage != null ? File(imagePath!.path) : null,
     );
   }
 
@@ -354,13 +359,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                       IconButton(
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
-                        // visualDensity: VisualDensity(horizontal: -4.0),
-                        icon: _isFavorite == false
-                            ? const Icon(Icons.star_border_sharp, color: null)
-                            : const Icon(
-                                Icons.star,
-                                color: Colors.red,
-                              ),
+                        icon: _isFavorite == false ? const Icon(Icons.star_border_sharp, color: null) : const Icon(Icons.star, color: Colors.red),
                         onPressed: () {
                           setState(() {
                             _isFavorite = !_isFavorite;
@@ -380,8 +379,10 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                             }
                             // note: 위 해당 사항 없으면 validation 검사하고 저장한다
                             else if (formKeyState.validate()) {
-                              formKeyState.save();
-                              _updateMemo(imagePath: pickedImage);
+                              setState(() {
+                                formKeyState.save();
+                                _updateMemo(imagePath: pickedImage);
+                              });
                               Navigator.of(context).pop();
                             }
                           },
@@ -430,20 +431,21 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                         content: Row(
                           children: [
                             TextButton(
+                              child: const Text('변경'),
                               onPressed: () {
                                 _pickedImage(ImageSource.gallery);
                                 Get.back();
                               },
-                              child: const Text('변경'),
                             ),
                             TextButton(
+                              child: const Text('촬영'),
                               onPressed: () {
                                 _pickedImage(ImageSource.camera);
                                 Get.back();
                               },
-                              child: const Text('촬영'),
                             ),
                             TextButton(
+                              child: const Text('제거'),
                               onPressed: () {
                                 setState(() {
                                   pickedImage = null;
@@ -451,11 +453,10 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                   Get.back();
                                 });
                               },
-                              child: const Text('제거'),
                             ),
                             TextButton(
-                              onPressed: Get.back,
                               child: const Text('닫기'),
+                              onPressed: Get.back,
                             ),
                           ],
                         ),
@@ -507,7 +508,9 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
       setState(() {
         _dropdownValue = selectedValue;
       });
-      _updateMemo();
+      // fix: _updateMemo();
+      // 현재의 pickedImage를 전달
+      _updateMemo(imagePath: pickedImage);
     }
   }
 

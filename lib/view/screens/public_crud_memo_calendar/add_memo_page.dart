@@ -129,6 +129,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       ),
                     ),
 
+                    // note: 검색: 제목 또는 내용 및 ai 검색
+                    // todo:
+
+
                     // 중단: 제목 및 내용 입력창: 스크롤러 적용을 위한 설정
                     NotificationListener<ScrollNotification>(
                       onNotification: (scrollNotification) => true,
@@ -416,6 +420,16 @@ class _AddMemoPageState extends State<AddMemoPage> {
                               onPressed: () {
                                 setState(() {
                                   pickedImage = null;
+                                  memoController.addCtr(
+                                    createdAt: time,
+                                    title: title,
+                                    mainText: mainText,
+                                    selectedCategory: _dropdownValue,
+                                    isFavoriteMemo: _isFavorite,
+                                    isCheckedTodo: _isCheckedTodo,
+                                    // fix: imagePath: pickedImage,
+                                    imagePath: null,
+                                  );
                                   Get.back();
                                 });
                               },

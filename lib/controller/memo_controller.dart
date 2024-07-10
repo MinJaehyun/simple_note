@@ -114,7 +114,8 @@ class MemoController extends GetxController {
         selectedCategory: selectedCategory,
         isFavoriteMemo: isFavoriteMemo,
         isCheckedTodo: isCheckedTodo,
-        imagePath: imagePath?.path,
+        // note: fix: imagePath: imagePath?.path,
+        imagePath: imagePath != null ? imagePath.path : null,
       );
       await _memoRepository.updateRepo(index, memo);
       loadMemoCtr();
