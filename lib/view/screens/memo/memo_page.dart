@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_note/view/screens/public_crud_memo_calendar/add_memo_page.dart';
 import 'package:simple_note/view/widgets/memo/appbar/app_bar_sort_widget.dart';
-import 'package:simple_note/view/widgets/memo/body_header/memo_top_widget.dart';
+import 'package:simple_note/view/widgets/memo/body/memo_body.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 
 
@@ -22,7 +22,7 @@ class _MemoPageState extends State<MemoPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         // note: index 2번을 넣어줘서 MemoPage를 리로드 하려한다
         appBar: const AppBarSortWidget(2),
-        body: const MemoTopWidget(),
+        body: const MemoBody(),
         bottomNavigationBar: const FooterNavigationBarWidget(2),
         // note: 하단 add
         floatingActionButton: buildFloatingActionButton(context),
