@@ -173,7 +173,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                   }
                                   updateClassifiedMemo();
                                 },
-                                leading: const Icon(Icons.menu),
+                                leading: const Icon(Icons.import_export_sharp),
                                 title: Row(
                                   children: [
                                     Text('${box.getAt(index)!.categories} ', style: style),
