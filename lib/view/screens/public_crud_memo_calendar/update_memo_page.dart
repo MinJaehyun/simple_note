@@ -39,6 +39,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
   bool _showScrollToTopButton = false;
 
   File? pickedImage;
+  bool _isImageVisible = true;
 
   @override
   void initState() {
@@ -209,73 +210,88 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     },
                                   ),
                                 ),
+
                                 const SizedBox(height: 20),
+                                // note: 이미지 없는 경우
+                                // todo: 추후 refectoring: add_memo 182~ 라인부터 동일하다.
+                                if (pickedImage == null)
+                                  Container(
+                                    height: 60.0,
+                                    // TextFormField의 높이와 일치하도록 설정
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey, // 테두리 색상
+                                        width: 1.0, // 테두리 두께
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(4.0), // 테두리 모서리 둥글기
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Center(child: Text('대표 이미지 확대 또는 축소')),
+                                    ),
+                                  ),
+
                                 // note: 이미지 추가 시, 제목과 내용 사이에 이미지 위치한다
-                                // if (widget.sortedCard.imagePath != null)
-                                if (pickedImage != null)
+                                // note: 이미지 있는 경우이며 확대 상태
+                                if (pickedImage != null && _isImageVisible == true)
+                                  // if (pickedImage != null)
                                   GestureDetector(
                                     onTap: () {
-                                      // 삭제할 건지? dialog 띄우고 삭제 누르면 삭제하기(pickedImage = null)
-                                      Get.dialog(
-                                        AlertDialog(
-                                          title: Text('이미지를 제거 하시겠습니까?'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  // note: udpate에서 둘로 나눠서 처리해야 한다.
-                                                  pickedImage = null;
-                                                  _updateMemo(imagePath: null);
-                                                  Get.back();
-                                                });
-                                              },
-                                              child: const Text('제거'),
-                                            ),
-                                            TextButton(
-                                              onPressed: Get.back,
-                                              child: const Text('닫기'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
+                                      setState(() {
+                                        _isImageVisible = !_isImageVisible;
+                                      });
                                     },
-                                    child: Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                          width: 2.0,
+                                    child: AnimatedOpacity(
+                                      // 이미지가 있고, 클릭한 상태가 있다면
+                                      opacity: 1.0,
+                                      duration: Duration(seconds: 1),
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey, width: 2.0),
                                         ),
-                                      ),
-                                      child: Image.file(
-                                        pickedImage!,
-                                        // File(widget.sortedCard.imagePath!),
-                                        width: 300,
-                                        height: 300,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-
-                                // note: 이미지 있는 경우와 없는 경우의 textformfield 설정
-                                // if (widget.sortedCard.imagePath == null)
-                                if (pickedImage == null)
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: '대표 이미지를 넣으려면 하단 이미지 버튼을 클릭',
-                                      labelStyle: TextStyle(
-                                        fontSize: 18.0,
-                                      ),
-                                      enabled: false,
-                                      border: const OutlineInputBorder(),
-                                      focusedBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.orange,
+                                        child: Image.file(
+                                          pickedImage!,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
                                   ),
 
+                                // note: 이미지 있는 경우이며 축소 상태
+                                if (pickedImage != null && _isImageVisible == false)
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isImageVisible = !_isImageVisible;
+                                      });
+                                    },
+                                    child: AnimatedOpacity(
+                                      // 이미지가 있고, 클릭한 상태가 있다면
+                                      opacity: 1.0,
+                                      duration: Duration(seconds: 1),
+                                      child: Container(
+                                        // TextFormField의 높이
+                                        height: 60.0,
+                                        width: double.infinity,
+                                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey, width: 1.0),
+                                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Center(child: Text('이미지 축소 상태 입니다. 클릭하여 확대하기.')),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                // note: 내용
                                 const SizedBox(height: 20),
                                 CustomPaint(
                                   painter: GridPainter(),
@@ -315,6 +331,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                       ),
                     ),
                   ),
+
                   // 배너
                   const BannerAdWidget(),
                   // 하단: 즐찾 및 저장 및 취소

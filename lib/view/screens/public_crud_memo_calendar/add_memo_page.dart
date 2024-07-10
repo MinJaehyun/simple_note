@@ -34,6 +34,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
   bool showScrollToTopButton = false;
 
   File? pickedImage;
+  bool _isImageVisible = true;
 
   @override
   void initState() {
@@ -175,58 +176,85 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     ),
                                   ),
                                   const SizedBox(height: 20),
-                                  // note: 이미지 추가 시, 제목과 내용 사이에 이미지 위치한다
-                                  if (pickedImage != null)
+
+                                  // note: 이미지 없는 경우
+                                  if (pickedImage == null)
+                                    Container(
+                                      height: 60.0,
+                                      // TextFormField의 높이와 일치하도록 설정
+                                      width: double.infinity,
+                                      padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.grey, // 테두리 색상
+                                          width: 1.0, // 테두리 두께
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(4.0), // 테두리 모서리 둥글기
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Center(child: Text('대표 이미지 확대 또는 축소')),
+                                      ),
+                                    ),
+
+                                  // note: 이미지 있는 경우이며 확대 상태
+                                  if (pickedImage != null && _isImageVisible == true)
+                                    // if (pickedImage != null)
                                     GestureDetector(
                                       onTap: () {
-                                        Get.dialog(
-                                          AlertDialog(
-                                            title: Text('이미지를 제거 하시겠습니까?'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    pickedImage = null;
-                                                    Get.back();
-                                                  });
-                                                },
-                                                child: const Text('제거'),
-                                              ),
-                                              TextButton(
-                                                onPressed: Get.back,
-                                                child: const Text('닫기'),
-                                              ),
-                                            ],
-                                          ),
-                                        );
+                                        setState(() {
+                                          _isImageVisible = !_isImageVisible;
+                                        });
                                       },
-                                      child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey, width: 2.0),
-                                        ),
-                                        child: Image.file(
-                                          pickedImage!,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-
-                                  // note: 이미지 있는 경우와 없는 경우의 textformfield 설정
-                                  if (pickedImage == null)
-                                    TextFormField(
-                                      decoration: InputDecoration(
-                                        labelText: '대표 이미지를 넣으려면 하단 이미지 버튼을 클릭',
-                                        labelStyle: TextStyle(fontSize: 18),
-                                        enabled: false,
-                                        border: const OutlineInputBorder(),
-                                        focusedBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.orange),
+                                      child: AnimatedOpacity(
+                                        // 이미지가 있고, 클릭한 상태가 있다면
+                                        opacity: 1.0,
+                                        duration: Duration(seconds: 1),
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.grey, width: 2.0),
+                                          ),
+                                          child: Image.file(
+                                            pickedImage!,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     ),
 
-                                  // 내용
+                                  // note: 이미지 있는 경우이며 축소 상태
+                                  if (pickedImage != null && _isImageVisible == false)
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _isImageVisible = !_isImageVisible;
+                                        });
+                                      },
+                                      child: AnimatedOpacity(
+                                        // 이미지가 있고, 클릭한 상태가 있다면
+                                        opacity: 1.0,
+                                        duration: Duration(seconds: 1),
+                                        child: Container(
+                                          // TextFormField의 높이
+                                          height: 60.0,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.grey, width: 1.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Center(child: Text('이미지 축소 상태 입니다. 클릭하여 확대하기.')),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  // note: 내용
                                   const SizedBox(height: 20),
                                   CustomPaint(
                                     painter: GridPainter(),
@@ -263,6 +291,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         ),
                       ),
                     ),
+
                     // 배너
                     const BannerAdWidget(),
                     // 하단: 할일체크 및 즐겨찾기 및 저장 및 취소
@@ -339,6 +368,20 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     ),
                   ],
                 ),
+                // note: 이미지 확대 및 축소 버튼
+                Positioned(
+                  top: 197,
+                  left: 5,
+                  child: IconButton(
+                    icon: pickedImage != null && _isImageVisible ? Icon(Icons.fitness_center, size: 10, color: Colors.grey) : Icon(Icons.fitness_center, size: 24, color: Colors.grey),
+                    onPressed: () {
+                      setState(() {
+                        _isImageVisible = !_isImageVisible;
+                      });
+                    },
+                  ),
+                ),
+
                 // note: 이미지 등록 버튼
                 Positioned(
                   bottom: 100,
@@ -351,17 +394,23 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                _pickedImage(ImageSource.gallery);
+                                setState(() {
+                                  _pickedImage(ImageSource.gallery);
+                                  _isImageVisible = true;
+                                });
                                 Get.back();
                               },
-                              child: const Text('사진 가져오기'),
+                              child: const Text('갤러리'),
                             ),
                             TextButton(
                               onPressed: () {
-                                _pickedImage(ImageSource.camera);
+                                setState(() {
+                                  _pickedImage(ImageSource.camera);
+                                  _isImageVisible = true;
+                                });
                                 Get.back();
                               },
-                              child: const Text('사진 찍기'),
+                              child: const Text('촬영'),
                             ),
                             TextButton(
                               onPressed: () {
