@@ -18,17 +18,31 @@
 - 메모장: 이미지 등록하고, 제거 누르면 제거되지 않음.
 
 
+## 2024-07-15
+### Features
+- (5/5 구현) 메모장: ai 만들기
+- update_memo에 ai 기능 구현하기
+
+
+## 2024-07-14
+### Features
+- (4/4 구현) 메모장: ai 만들기
+- ~~ai 검색 기능 구현하기~~ 
+- ~~.env 파일 생성 및 apikey, apiurl 설정~~
+
+
 ## 2024-07-11
 ### Features
 - (3/3 구현) 메모장: ai 만들기
+- ~~ㄴ 검색창 위젯 호출하기 (add_memo 제목 위에 위치하기)~~
 ### Bug Fixes
-- (크리티컬 이슈) 이미지 제거한 상태에서 저장하면, 바깥 카드에 이미지 그대로 나타내고 있다. (단 한 줄 수정이지만, 두 개의 class를 이해하지 않으면 해결할 수 없는 이슈) 
+- ~~(크리티컬 이슈) 이미지 제거한 상태에서 저장하면, 바깥 카드에 이미지 그대로 나타내고 있다. (단 한 줄 수정이지만, 두 개의 class를 이해하지 않으면 해결할 수 없는 이슈)~~ 
 
 
 ## 2024-07-10
 ### Features
-- ~~이미지 확대 축소 기능 구현 (add_memo, update_memo)~~
 - (2/3 구현) 메모장: ai 만들기
+- ~~이미지 확대 축소 기능 구현 (add_memo, update_memo)~~
 - ~~리펙토링: memo body 부분: 검색창과 하단 메모 영역을 분리~~
 ### Bug Fixes
 - ~~테블릿 테스트 시, 메모장 간격 개선~~
@@ -51,24 +65,24 @@
 
 ## 2024-07-08
 ### Features
-- memo_card, memo_search, memo_selected, trash_memo, trash_search: 이미지 위,아래 영역에 흐릿한 필터 적용하기
+- ~~memo_card, memo_search, memo_selected, trash_memo, trash_search: 이미지 위,아래 영역에 흐릿한 필터 적용하기~~
 ### Bug Fixes
-- 6개 메모 생성하면 하단에 영역이 잘린다. 하단까지 나타내기: memo cad, memo search, memo selected, trash memo, trash search
+- ~~6개 메모 생성하면 하단에 영역이 잘린다. 하단까지 나타내기: memo cad, memo search, memo selected, trash memo, trash search~~
 
 
 ## 2024-07-07
 ### Bug Fixes
-- 이미지가 없는 메모장은 체크 클릭 안된며, 이미지 있으면 체크 클릭 된다
+- ~~이미지가 없는 메모장은 체크 클릭 안된며, 이미지 있으면 체크 클릭 된다~~
 
 ## 2024-07-06
 ### Bug Fixes
-- 이미지 버그 픽스
-- 앱 업데이트 설치 에러
+- ~~이미지 버그 픽스~~
+- ~~앱 업데이트 설치 에러~~
 
 
 ## 2024-07-05
 ### Features
-- test: 하단 네비게이션 바 스크린 리더
+- ~~test: 하단 네비게이션 바 스크린 리더~~
 ### Bug Fixes
 
 
