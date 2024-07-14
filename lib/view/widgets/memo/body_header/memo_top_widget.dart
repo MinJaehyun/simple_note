@@ -4,6 +4,7 @@ import 'package:simple_note/controller/category_controller.dart';
 
 class MemoTopWidget extends StatefulWidget {
   const MemoTopWidget(this.selectedCategory, this.searchControllerText, this.selectedCategoryFunc, this.searchControllerTextFunc, {super.key});
+
   final String? selectedCategory;
   final String? searchControllerText;
   final Function(String?) selectedCategoryFunc;
@@ -135,7 +136,7 @@ class _MemoTopWidgetState extends State<MemoTopWidget> {
                       ),
                       // note: [] 내에서 ...box 사용하여 ListView 대신 반복하는 방법: SingleChildScrollView 내에 ListView 사용 시 충돌함!
                       ...categoryController.categoryList.map(
-                            (categoryContact) {
+                        (categoryContact) {
                           return Card(
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(color: Colors.grey, width: 1.0),
