@@ -31,7 +31,7 @@ class _MemoBodyState extends State<MemoBody> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Column(
         children: [
-          // body_top: 검색창 및 범주
+          // body_top: 범주
           MemoTopWidget(
             selectedCategory,
             searchControllerText,
