@@ -1,0 +1,198 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+String apiKey = dotenv.get('API_KEY');
+String apiUrl = dotenv.get('API_URL');
+
+// note: 메모장 내부에 검색창
+class AddMemoSearchWidget extends StatefulWidget {
+  const AddMemoSearchWidget({super.key});
+
+  @override
+  State<AddMemoSearchWidget> createState() => _AddMemoSearchWidgetState();
+}
+
+class _AddMemoSearchWidgetState extends State<AddMemoSearchWidget> {
+  final TextEditingController _textController = TextEditingController();
+
+  String? searchControllerText;
+  String? prompt;
+  String? generatedText;
+  bool isLoading = false;
+
+  // note: 입력값 받아서 Chatgpt에게 질문하고, 답변을 출력하는 함수
+  Future<String> generateText(String prompt) async {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $apiKey',
+      },
+      body: jsonEncode({
+        "model": "gpt-3.5-turbo",
+        "messages": [
+          {"role": "system", "content": "You are a helpful assistant."},
+          {"role": "user", "content": prompt}
+        ],
+        "max_tokens": 500,
+        "temperature": 0,
+        "top_p": 1,
+        "frequency_penalty": 0,
+        "presence_penalty": 0,
+      }),
+    );
+
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> newResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      // return newResponse['choices'][0]['text'];
+      return newResponse['choices'][0]['message']['content'];
+    } else if (response.statusCode == 429) {
+      throw Exception('Quota exceeded. Please check your plan and billing details.');
+    } else {
+      throw Exception('Failed to load response :(');
+    }
+  }
+
+  void fetchGeneratedText(String prompt) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      String result = await generateText(prompt);
+      if (mounted) {
+        setState(() {
+          generatedText = result;
+        });
+      }
+    } catch (error) {
+      print('Error: $error');
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  void searchControllerTextFunc(value) {
+    setState(() {
+      searchControllerText = value;
+    });
+  }
+
+  void copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    Get.snackbar(
+      '복사 완료',
+      '내용이 클립 보드에 복사 되었습니다.',
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          // 검색창
+          SizedBox(
+            child: Form(
+              child: TextFormField(
+                autofocus: false,
+                controller: _textController,
+                decoration: InputDecoration(
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.orange, width: 1),
+                  ),
+                  prefixIconColor: Colors.grey,
+                  prefixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        print('searchControllerText: $searchControllerText');
+                        prompt = searchControllerText;
+                      });
+                      if (prompt != null) {
+                        fetchGeneratedText(prompt!);
+                      }
+                    },
+                  ),
+                  suffixIcon: GestureDetector(
+                    onTap: () {},
+                    child: Wrap(
+                      children: [
+                        IconButton(
+                          icon: searchControllerText != null ? Icon(Icons.close) : const SizedBox.shrink(),
+                          onPressed: () {
+                            setState(() {
+                              _textController.clear();
+                              searchControllerTextFunc(null);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  suffixIconColor: Colors.grey,
+                  hintText: 'AI 검색한 내용이 없습니다',
+                  hintStyle: const TextStyle(fontSize: 20),
+                ),
+                cursorColor: Colors.grey,
+                onChanged: (value) {
+                  // 변경 전: 자음 한개씩 가져오는게 아닌, 전체를 가져오도록 변경
+                  searchControllerTextFunc(value);
+                },
+              ),
+            ),
+          ),
+          isLoading
+              ? CircularProgressIndicator()
+              : generatedText != null
+                  ? GestureDetector(
+                      onTap: () {
+                        Get.snackbar(
+                          '검색 내용을 복사 하시겠습니까?',
+                          '',
+                          mainButton: TextButton(
+                            onPressed: () {
+                              copyToClipboard(generatedText!);
+                              Get.back();
+                            },
+                            child: Text('확인'),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 100,
+                              child: SingleChildScrollView(
+                                child: Text(generatedText!),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                copyToClipboard(generatedText!);
+                              },
+                              child: Text('복사'))
+                        ],
+                      ),
+                    )
+                  : SizedBox.shrink(),
+        ],
+      ),
+    );
+  }
+}
