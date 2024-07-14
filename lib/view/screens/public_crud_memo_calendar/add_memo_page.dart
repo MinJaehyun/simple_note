@@ -10,6 +10,7 @@ import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:simple_note/view/widgets/public/add_memo_search_widget.dart';
 
 class AddMemoPage extends StatefulWidget {
   const AddMemoPage({super.key});
@@ -85,6 +86,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
+          resizeToAvoidBottomInset : false,
           body: Obx(
             () => Stack(
               children: [
@@ -130,172 +132,169 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     ),
 
                     // note: 검색: 제목 또는 내용 및 ai 검색
-                    // todo:
-
+                    // note: SingleChildScrollView() 이하 내용만 위젯으로 만들고, 그 위젯 가져오기
+                    AddMemoSearchWidget(),
 
                     // 중단: 제목 및 내용 입력창: 스크롤러 적용을 위한 설정
-                    NotificationListener<ScrollNotification>(
-                      onNotification: (scrollNotification) => true,
-                      child: Expanded(
-                        child: Form(
-                          key: _formKey,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SingleChildScrollView(
-                              controller: _scrollController,
-                              child: Column(
-                                children: [
-                                  // 제목
-                                  const SizedBox(height: 10),
-                                  CustomPaint(
-                                    painter: GridPainter(),
-                                    child: TextFormField(
-                                      cursorColor: Colors.orange,
-                                      cursorWidth: 3,
-                                      showCursor: true,
-                                      initialValue: "",
-                                      onChanged: (value) {
-                                        setState(() {
-                                          title = value;
-                                        });
-                                      },
-                                      decoration: const InputDecoration(
-                                        labelText: '제목',
-                                        hintText: '제목을 입력해 주세요',
-                                        border: OutlineInputBorder(),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.orange),
-                                        ),
+                    Expanded(
+                      child: Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SingleChildScrollView(
+                            controller: _scrollController,
+                            child: Column(
+                              children: [
+                                // 제목
+                                // const SizedBox(height: 10),
+                                CustomPaint(
+                                  painter: GridPainter(),
+                                  child: TextFormField(
+                                    cursorColor: Colors.orange,
+                                    cursorWidth: 3,
+                                    showCursor: true,
+                                    initialValue: "",
+                                    onChanged: (value) {
+                                      setState(() {
+                                        title = value;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      labelText: '제목',
+                                      hintText: '제목을 입력해 주세요',
+                                      border: OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.orange),
                                       ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return '반드시 한 글자 이상 입력해 주세요(Please be sure to enter a title)';
-                                        }
-                                        // print('test' + '   asdf   '.trimLeft() + 'E');  //testasdf   E /String /앞 공백 제거
-                                        else if (value.trimLeft() != value) {
-                                          return '앞에 공백을 제거해 주세요';
-                                        }
-                                        return null;
-                                      },
                                     ),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return '반드시 한 글자 이상 입력해 주세요(Please be sure to enter a title)';
+                                      }
+                                      // print('test' + '   asdf   '.trimLeft() + 'E');  //testasdf   E /String /앞 공백 제거
+                                      else if (value.trimLeft() != value) {
+                                        return '앞에 공백을 제거해 주세요';
+                                      }
+                                      return null;
+                                    },
                                   ),
-                                  const SizedBox(height: 20),
-
-                                  // note: 이미지 없는 경우
-                                  if (pickedImage == null)
-                                    Container(
-                                      height: 60.0,
-                                      // TextFormField의 높이와 일치하도록 설정
-                                      width: double.infinity,
-                                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey, // 테두리 색상
-                                          width: 1.0, // 테두리 두께
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0), // 테두리 모서리 둥글기
-                                        ),
+                                ),
+                                const SizedBox(height: 20),
+                                // note: 이미지 없는 경우
+                                if (pickedImage == null)
+                                  Container(
+                                    height: 60.0,
+                                    // TextFormField의 높이와 일치하도록 설정
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey, // 테두리 색상
+                                        width: 1.0, // 테두리 두께
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Center(child: Text('대표 이미지 확대 또는 축소')),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(4.0), // 테두리 모서리 둥글기
                                       ),
                                     ),
-
-                                  // note: 이미지 있는 경우이며 확대 상태
-                                  if (pickedImage != null && _isImageVisible == true)
-                                    // if (pickedImage != null)
-                                    GestureDetector(
-                                      onTap: () {
+                                    // note: 이미지 확대 및 축소 버튼
+                                    child: TextButton(
+                                      child: Text('대표 이미지 확대 또는 축소'),
+                                      onPressed: () {
                                         setState(() {
                                           _isImageVisible = !_isImageVisible;
                                         });
                                       },
-                                      child: AnimatedOpacity(
-                                        // 이미지가 있고, 클릭한 상태가 있다면
-                                        opacity: 1.0,
-                                        duration: Duration(seconds: 1),
-                                        child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.grey, width: 2.0),
-                                          ),
-                                          child: Image.file(
-                                            pickedImage!,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
                                     ),
-
-                                  // note: 이미지 있는 경우이며 축소 상태
-                                  if (pickedImage != null && _isImageVisible == false)
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _isImageVisible = !_isImageVisible;
-                                        });
-                                      },
-                                      child: AnimatedOpacity(
-                                        // 이미지가 있고, 클릭한 상태가 있다면
-                                        opacity: 1.0,
-                                        duration: Duration(seconds: 1),
-                                        child: Container(
-                                          // TextFormField의 높이
-                                          height: 60.0,
-                                          width: double.infinity,
-                                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.grey, width: 1.0),
-                                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Center(child: Text('이미지 축소 상태 입니다. 클릭하여 확대하기.')),
-                                          ),
+                                  ),
+                                // note: 이미지 있는 경우이며 확대 상태
+                                if (pickedImage != null && _isImageVisible == true)
+                                  // if (pickedImage != null)
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isImageVisible = !_isImageVisible;
+                                      });
+                                    },
+                                    child: AnimatedOpacity(
+                                      // 이미지가 있고, 클릭한 상태가 있다면
+                                      opacity: 1.0,
+                                      duration: Duration(seconds: 1),
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey, width: 2.0),
                                         ),
-                                      ),
-                                    ),
-
-                                  // note: 내용
-                                  const SizedBox(height: 20),
-                                  CustomPaint(
-                                    painter: GridPainter(),
-                                    child: TextFormField(
-                                      maxLength: 5000,
-                                      cursorColor: Colors.orange,
-                                      cursorWidth: 3,
-                                      showCursor: true,
-                                      initialValue: "",
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 100,
-                                      onChanged: (value) {
-                                        mainText = value;
-                                      },
-                                      decoration: InputDecoration(
-                                        labelText: '내용',
-                                        hintText: '내용을 입력해 주세요',
-                                        border: const OutlineInputBorder(),
-                                        focusedBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.orange),
+                                        child: Image.file(
+                                          pickedImage!,
+                                          fit: BoxFit.cover,
                                         ),
-                                        // note: 상단에 '내용' 위치 시킴
-                                        alignLabelWithHint: true,
-                                      ),
-                                      style: TextStyle(
-                                        fontSize: settingsController.fontSizeSlider.toDouble(),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                // note: 이미지 있는 경우이며 축소 상태
+                                if (pickedImage != null && _isImageVisible == false)
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isImageVisible = !_isImageVisible;
+                                      });
+                                    },
+                                    child: AnimatedOpacity(
+                                      // 이미지가 있고, 클릭한 상태가 있다면
+                                      opacity: 1.0,
+                                      duration: Duration(seconds: 1),
+                                      child: Container(
+                                        // TextFormField의 높이
+                                        height: 60.0,
+                                        width: double.infinity,
+                                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey, width: 1.0),
+                                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Center(child: Text('이미지 축소 상태 입니다. 클릭하여 확대하기.')),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                // note: 내용
+                                const SizedBox(height: 20),
+                                CustomPaint(
+                                  painter: GridPainter(),
+                                  child: TextFormField(
+                                    maxLength: 5000,
+                                    cursorColor: Colors.orange,
+                                    cursorWidth: 3,
+                                    showCursor: true,
+                                    initialValue: "",
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 100,
+                                    onChanged: (value) {
+                                      mainText = value;
+                                    },
+                                    decoration: InputDecoration(
+                                      labelText: '내용',
+                                      hintText: '내용을 입력해 주세요',
+                                      border: const OutlineInputBorder(),
+                                      focusedBorder: const OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.orange),
+                                      ),
+                                      // note: 상단에 '내용' 위치 시킴
+                                      alignLabelWithHint: true,
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: settingsController.fontSizeSlider.toDouble(),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ),
                     ),
-
                     // 배너
                     const BannerAdWidget(),
                     // 하단: 할일체크 및 즐겨찾기 및 저장 및 취소
@@ -372,20 +371,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     ),
                   ],
                 ),
-                // note: 이미지 확대 및 축소 버튼
-                Positioned(
-                  top: 197,
-                  left: 5,
-                  child: IconButton(
-                    icon: pickedImage != null && _isImageVisible ? Icon(Icons.fitness_center, size: 10, color: Colors.grey) : Icon(Icons.fitness_center, size: 24, color: Colors.grey),
-                    onPressed: () {
-                      setState(() {
-                        _isImageVisible = !_isImageVisible;
-                      });
-                    },
-                  ),
-                ),
-
                 // note: 이미지 등록 버튼
                 Positioned(
                   bottom: 100,
