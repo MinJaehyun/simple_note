@@ -1,3 +1,6 @@
+# chatgpt api_key, api_url
+.env
+
 # Miscellaneous
 *.class
 *.log
