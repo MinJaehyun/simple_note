@@ -13,6 +13,7 @@ import 'package:simple_note/repository/local_data_source/category_repository.dar
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:simple_note/view/widgets/public/memo_ai_search_widget.dart';
 
 class UpdateMemoPage extends StatefulWidget {
   const UpdateMemoPage({required this.index, required this.sortedCard, super.key});
@@ -169,7 +170,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                       ),
                     ),
                   ),
-
+                  // note: ai 검색
+                  MemoAiSearchWidget(),
                   // 중단: 입력창 (제목/내용): 스크롤 버튼 처리하기 위한 설정
                   NotificationListener<ScrollNotification>(
                     onNotification: (scrollNotification) => true,
@@ -234,9 +236,12 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                         Radius.circular(4.0), // 테두리 모서리 둥글기
                                       ),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Center(child: Text('대표 이미지 확대 또는 축소')),
+                                    child: Center(
+                                      child: TextButton(child: Text('대표 이미지 확대 또는 축소'), onPressed: () {
+                                        if(pickedImage == null) {
+                                          Get.snackbar('하단 이미지 생성 버튼을 눌러\n 대표 이미지를 지정 해주세요.', '');
+                                        }
+                                      }),
                                     ),
                                   ),
 
