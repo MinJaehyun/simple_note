@@ -144,7 +144,7 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
                     ),
                   ),
                   suffixIconColor: Colors.grey,
-                  hintText: 'AI 검색한 내용이 없습니다',
+                  hintText: 'AI에게 질문 내용을 작성 해주세요',
                   hintStyle: const TextStyle(fontSize: 20),
                 ),
                 cursorColor: Colors.grey,
