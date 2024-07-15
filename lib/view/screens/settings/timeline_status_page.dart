@@ -103,9 +103,9 @@ class _Timeline extends StatelessWidget {
                   // todo: 추후, 진행 상태 나타내기
                   case _TimelineStatus.done:
                     return DotIndicator(
-                      color: Colors.blue,
+                      color: Colors.green,
                       child: Icon(
-                        Icons.sync,
+                        Icons.check,
                         color: Colors.white,
                         size: 10.0,
                       ),
