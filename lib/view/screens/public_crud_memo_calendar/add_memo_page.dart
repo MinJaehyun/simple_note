@@ -200,6 +200,9 @@ class _AddMemoPageState extends State<AddMemoPage> {
                                     child: TextButton(
                                       child: Text('대표 이미지 확대 또는 축소'),
                                       onPressed: () {
+                                        if(pickedImage == null) {
+                                          Get.snackbar('하단 이미지 생성 버튼을 눌러\n 대표 이미지를 지정 해주세요.', '');
+                                        }
                                         setState(() {
                                           _isImageVisible = !_isImageVisible;
                                         });
