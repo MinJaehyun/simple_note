@@ -10,7 +10,7 @@ import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/view/widgets/category/add_category_widget.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:simple_note/view/widgets/public/add_memo_search_widget.dart';
+import 'package:simple_note/view/widgets/public/memo_ai_search_widget.dart';
 
 class AddMemoPage extends StatefulWidget {
   const AddMemoPage({super.key});
@@ -130,11 +130,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         ),
                       ),
                     ),
-
-                    // note: 검색: 제목 또는 내용 및 ai 검색
-                    // note: SingleChildScrollView() 이하 내용만 위젯으로 만들고, 그 위젯 가져오기
-                    AddMemoSearchWidget(),
-
+                    // note: ai 검색
+                    MemoAiSearchWidget(),
                     // 중단: 제목 및 내용 입력창: 스크롤러 적용을 위한 설정
                     Expanded(
                       child: Form(
