@@ -10,14 +10,14 @@ String apiKey = dotenv.get('API_KEY');
 String apiUrl = dotenv.get('API_URL');
 
 // note: 메모장 내부에 검색창
-class AddMemoSearchWidget extends StatefulWidget {
-  const AddMemoSearchWidget({super.key});
+class MemoAiSearchWidget extends StatefulWidget {
+  const MemoAiSearchWidget({super.key});
 
   @override
-  State<AddMemoSearchWidget> createState() => _AddMemoSearchWidgetState();
+  State<MemoAiSearchWidget> createState() => _MemoAiSearchWidgetState();
 }
 
-class _AddMemoSearchWidgetState extends State<AddMemoSearchWidget> {
+class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
   final TextEditingController _textController = TextEditingController();
 
   String? searchControllerText;
@@ -177,9 +177,7 @@ class _AddMemoSearchWidgetState extends State<AddMemoSearchWidget> {
                           Expanded(
                             child: SizedBox(
                               height: 100,
-                              child: SingleChildScrollView(
-                                child: Text(generatedText!),
-                              ),
+                              child: SingleChildScrollView(child: Text(generatedText!)),
                             ),
                           ),
                           TextButton(
