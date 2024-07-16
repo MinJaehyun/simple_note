@@ -1,11 +1,21 @@
 buildscript {
-    ext.kotlin_version = '1.8.10' // 원하는 Kotlin 버전으로 설정
+    ext.kotlin_version = '1.9.0' // 원하는 Kotlin 버전으로 설정
+    repositories {
+        google()  // 이 레포지토리를 추가합니다.
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.google.gms:google-services:4.3.3' // 이 부분을 추가합니다.
+        classpath 'com.google.firebase:firebase-appdistribution-gradle:2.1.0' // 이 부분을 추가합니다.
+    }
 }
 
 allprojects {
     repositories {
         google()
         mavenCentral()
+        jcenter()
     }
 
     // android/build.gradle 파일에서 의존성 분해 전략을 추가하여 모든 Kotlin 라이브러리가 동일한 버전을 사용하도록 강제합니다

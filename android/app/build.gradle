@@ -2,6 +2,11 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+
+    // Make sure that you have the Google services Gradle plugin
+    id 'com.google.gms.google-services'
+    // Add the App Distribution Gradle plugin
+    id 'com.google.firebase.appdistribution'
 }
 
 def localProperties = new Properties()
@@ -75,29 +80,46 @@ android {
         }
     }
 
-//    flavorDimensions "environment"
-//    productFlavors {
-//        dev {
-//            dimension "environment"
-//            resValue "string", "app_name", "simple.dev"
-//            applicationIdSuffix ".dev"
-//        }
-//        local {
-//            dimension "environment"
-//            resValue "string", "app_name", "simple.local"
-//            applicationIdSuffix ".local"
-//        }
-//        prod {
-//            dimension "environment"
-//            resValue "string", "app_name", "simple.prod"
-//            applicationIdSuffix ".prod"
-//        }
-//    }
+    flutter {
+        source '../..'
+    }
+
+    buildscript {
+        repositories {
+            google()  // 플러그인 다운로드를 위한 레포지토리 추가
+            jcenter()
+        }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:4.1.0'
+            classpath 'com.google.gms:google-services:4.3.3'
+            classpath 'com.google.firebase:firebase-appdistribution-gradle:2.1.0' // 플러그인 버전 추가
+        }
+    }
+
+    allprojects {
+        repositories {
+            google()
+            jcenter()
+        }
+    }
+
+    dependencies {
+        // Import the Firebase BoM
+        implementation platform('com.google.firebase:firebase-bom:33.1.2')
+        // TODO: Add the dependencies for Firebase products you want to use
+        // When using the BoM, don't specify versions in Firebase dependencies
+        implementation 'com.google.firebase:firebase-analytics'
+    }
 }
-
-
-flutter {
-    source '../..'
-}
-
-dependencies {}
+//
+//dependencies {
+//    // Import the Firebase BoM
+//    implementation platform('com.google.firebase:firebase-bom:33.1.2')
+//    // TODO: Add the dependencies for Firebase products you want to use
+//    // When using the BoM, don't specify versions in Firebase dependencies
+//    implementation 'com.google.firebase:firebase-analytics'
+//
+//    classpath 'com.android.tools.build:gradle:4.1.0'
+//    classpath 'com.google.gms:google-services:4.3.3' // 이 부분을 추가합니다.
+//    classpath 'com.google.firebase:firebase-appdistribution-gradle:2.1.0' // 이 부분을 추가합니다.
+//}
