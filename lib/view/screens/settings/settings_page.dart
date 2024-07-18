@@ -4,6 +4,7 @@ import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/view/screens/settings/timeline_status_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
+// import 'package:simple_note/view/widgets/settings/drive_api_client.dart';
 import 'package:simple_note/view/widgets/settings/send_mail.dart';
 
 class Settings extends StatefulWidget {
@@ -185,7 +186,12 @@ class _SettingsState extends State<Settings> {
                           ListTile(
                             leading: const Icon(Icons.backup),
                             title: const Text('백업 설정'),
-                            onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange),
+                            onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange)
+                            // todo: testing...
+                            // onTap: () {
+                            //   DriveApiClient().getDriveApi(context);
+                            //   // DriveApiClient.uploadFile();
+                            // },
                           ),
                         ],
                       ),
