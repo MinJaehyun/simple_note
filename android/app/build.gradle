@@ -1,11 +1,10 @@
+// 플러그인 정의를 plugins 블록 안에 위치시킴.
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
-
-    // Make sure that you have the Google services Gradle plugin
     id 'com.google.gms.google-services'
-    // Add the App Distribution Gradle plugin
     id 'com.google.firebase.appdistribution'
 }
 
@@ -63,7 +62,6 @@ android {
     // note: 배포 설정 - 2: 디버깅 시, 있어도 상관없다
     signingConfigs {
         release {
-            // 변경 후:
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
@@ -73,9 +71,6 @@ android {
     // note: 배포 설정 - 2: 디버깅 시, 있어도 상관없다
     buildTypes {
         release {
-            // 디버그 사용 시:
-//            signingConfig signingConfigs.debug
-            // 배포 시:
             signingConfig signingConfigs.release
         }
     }
@@ -84,45 +79,8 @@ android {
         source '../..'
     }
 
-    buildscript {
-        repositories {
-            google()  // 플러그인 다운로드를 위한 레포지토리 추가
-            mavenCentral() // 필요 시 추가
-            mavenCentral()
-        }
-        dependencies {
-            classpath 'com.android.tools.build:gradle:7.2.2'
-            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-            classpath 'com.android.tools.build:gradle:4.1.3'
-            classpath 'com.google.gms:google-services:4.4.2'
-            classpath 'com.google.firebase:firebase-appdistribution-gradle:5.0.0' // 플러그인 버전 추가
-        }
-    }
-
-    allprojects {
-        repositories {
-            google()
-            mavenCentral() // 필요 시 추가
-        }
-    }
-
     dependencies {
-        // Import the Firebase BoM
         implementation platform('com.google.firebase:firebase-bom:33.1.2')
-        // TODO: Add the dependencies for Firebase products you want to use
-        // When using the BoM, don't specify versions in Firebase dependencies
         implementation 'com.google.firebase:firebase-analytics'
     }
 }
-//
-//dependencies {
-//    // Import the Firebase BoM
-//    implementation platform('com.google.firebase:firebase-bom:33.1.2')
-//    // TODO: Add the dependencies for Firebase products you want to use
-//    // When using the BoM, don't specify versions in Firebase dependencies
-//    implementation 'com.google.firebase:firebase-analytics'
-//
-//    classpath 'com.android.tools.build:gradle:4.1.0'
-//    classpath 'com.google.gms:google-services:4.3.3' // 이 부분을 추가합니다.
-//    classpath 'com.google.firebase:firebase-appdistribution-gradle:2.1.0' // 이 부분을 추가합니다.
-//}
