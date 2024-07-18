@@ -46,7 +46,7 @@ class _CategoryPageState extends State<CategoryPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => showAddPopupDialog(context),
-          label: const Text('범주 만들기'),
+          label: const Text('+ 범주'),
         ),
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(100),
@@ -192,12 +192,21 @@ class _CategoryPageState extends State<CategoryPage> {
                                           PopupMenuItem<CategoriesItem>(
                                             onTap: () => showUpdatePopupDialog(context, index, box.getAt(index)!),
                                             value: CategoriesItem.update,
-                                            child: const Text('수정'),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [Text('수정'), Icon(Icons.create_outlined)],
+                                            ),
                                           ),
                                           PopupMenuItem<CategoriesItem>(
                                             onTap: () => showDeletePopupDialog(context, index),
                                             value: CategoriesItem.delete,
-                                            child: const Text('삭제'),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('삭제', style: TextStyle(color: Colors.red)),
+                                                Icon(Icons.delete_outline, color: Colors.red)
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),

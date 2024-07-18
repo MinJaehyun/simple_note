@@ -60,7 +60,7 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
                       elevation: 24.0,
                       actions: [
                         TextButton(
-                          child: const Text('삭제'),
+                          child: Text('삭제', style: TextStyle(color: Colors.red)),
                           onPressed: () {
                             // 일반 메모장에서 삭제하기
                             memoController.deleteCtr(index: widget.index);
@@ -97,13 +97,25 @@ class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonW
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-        const PopupMenuItem<SampleItem>(
+        PopupMenuItem<SampleItem>(
           value: SampleItem.updateMemo,
-          child: Text('수정'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('수정'),
+              Icon(Icons.create_outlined),
+            ],
+          ),
         ),
-        const PopupMenuItem<SampleItem>(
+        PopupMenuItem<SampleItem>(
           value: SampleItem.deleteMemo,
-          child: Text('삭제'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('삭제', style: TextStyle(color: Colors.red)),
+              Icon(Icons.delete_outline, color: Colors.red),
+            ],
+          ),
         ),
       ],
     );

@@ -37,7 +37,7 @@ class _MemoPageState extends State<MemoPage> {
           return const AddMemoPage();
         }));
       },
-      label: const Text('메모 만들기'),
+      label: const Text('+ 메모'),
     );
   }
 }

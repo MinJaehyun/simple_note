@@ -54,10 +54,25 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
             ));
           },
           value: SampleItem.updateMemo,
-          child: const Text('수정'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('수정'),
+              SizedBox(width: 8),
+              Icon(Icons.create_outlined),
+            ],
+          ),
         ),
         PopupMenuItem<SampleItem>(
-          child: const Text('복원'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('복원', style: TextStyle(color: Colors.green)),
+              // Spacer(),
+              SizedBox(width: 8),
+              Icon(Icons.restore_from_trash_outlined, color: Colors.green)
+            ],
+          ),
           value: SampleItem.restoreMemo,
           onTap: () {
             showDialog(
@@ -105,19 +120,17 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                 return AlertDialog(
                   title: const Text("메모를 완전히 삭제 하시겠습니까?"),
                   actions: [
-                    TextButton(
-                        onPressed: () {
-                          // 완전히 삭제
-                          trashCanMemoController.deleteCtr(index: widget.index);
-                          Navigator.pop(context);
-                          Get.offAll(const TrashCanPage());
-                        },
-                        child: const Text('완전히 삭제')),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('취소')),
+                    TextButton.icon(
+                      onPressed: () {
+                        // 완전히 삭제
+                        trashCanMemoController.deleteCtr(index: widget.index);
+                        Navigator.pop(context);
+                        Get.offAll(const TrashCanPage());
+                      },
+                      icon: Icon(Icons.delete_outline, color: Colors.red),
+                      label: Text('완전히 삭제', style: TextStyle(color: Colors.red)),
+                    ),
+                    TextButton.icon(onPressed: () => Navigator.pop(context), icon: Icon(Icons.close), label: Text('취소')),
                   ],
                   elevation: 24.0,
                 );
@@ -125,7 +138,13 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
             );
           },
           value: SampleItem.deleteMemo,
-          child: const Text('완전히 삭제'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('완전히 삭제', style: TextStyle(color: Colors.red)),
+              Icon(Icons.delete_outline, color: Colors.red),
+            ],
+          ),
         ),
       ],
     );
