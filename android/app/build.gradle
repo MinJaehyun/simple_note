@@ -54,7 +54,7 @@ android {
 
     defaultConfig {
         applicationId "ai.mjhfactory.simple_note"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
