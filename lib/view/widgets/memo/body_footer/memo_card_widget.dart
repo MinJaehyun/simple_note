@@ -37,7 +37,6 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary);
     TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
 
     return Obx(
@@ -56,7 +55,9 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
 
         return SizedBox(
           // fix: height: MediaQuery.of(context).size.height - 270,
+          // todo:
           height: MediaQuery.of(context).size.height - (kBottomNavigationBarHeight * 5),
+
           child: GridView.builder(
             shrinkWrap: true,
             // note: *** 앱바 클릭 상태 유무에 따라, 즐겨찾기 또는 전체 메모의 개수만큼 내려준다 ***

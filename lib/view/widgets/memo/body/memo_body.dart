@@ -41,7 +41,9 @@ class _MemoBodyState extends State<MemoBody> {
 
           // 하단 메모장
           SizedBox(
-            height: 500,
+            // 240720: testing...
+            // height: 500,
+            // height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight*5,
             child: SingleChildScrollView(
               child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText),
             ),
