@@ -52,7 +52,6 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> newResponse = jsonDecode(utf8.decode(response.bodyBytes));
-      // return newResponse['choices'][0]['text'];
       return newResponse['choices'][0]['message']['content'];
     } else if (response.statusCode == 429) {
       throw Exception('Quota exceeded. Please check your plan and billing details.');
@@ -98,6 +97,15 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
     );
   }
 
+  void onSubmitAi() {
+    setState(() {
+      prompt = searchControllerText;
+    });
+    if (prompt != null) {
+      fetchGeneratedText(prompt!);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -108,6 +116,9 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
           SizedBox(
             child: Form(
               child: TextFormField(
+                // note: 엔터 이벤트 처리 (textInputAction, onFieldSubmitted)
+                textInputAction: TextInputAction.go,
+                onFieldSubmitted: (value) => onSubmitAi(),
                 autofocus: false,
                 controller: _textController,
                 decoration: InputDecoration(
@@ -117,15 +128,7 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
                   prefixIconColor: Colors.grey,
                   prefixIcon: IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {
-                      setState(() {
-                        print('searchControllerText: $searchControllerText');
-                        prompt = searchControllerText;
-                      });
-                      if (prompt != null) {
-                        fetchGeneratedText(prompt!);
-                      }
-                    },
+                    onPressed: () => onSubmitAi(),
                   ),
                   suffixIcon: GestureDetector(
                     onTap: () {},
@@ -157,18 +160,19 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
           ),
           isLoading
               ? CircularProgressIndicator()
-              : generatedText != null
-                  ? GestureDetector(
+              : generatedText == null
+                  ? SizedBox.shrink()
+                  : GestureDetector(
                       onTap: () {
                         Get.snackbar(
                           '검색 내용을 복사 하시겠습니까?',
                           '',
                           mainButton: TextButton(
+                            child: Text('확인'),
                             onPressed: () {
                               copyToClipboard(generatedText!);
                               Get.back();
                             },
-                            child: Text('확인'),
                           ),
                         );
                       },
@@ -181,14 +185,14 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
                             ),
                           ),
                           TextButton(
-                              onPressed: () {
-                                copyToClipboard(generatedText!);
-                              },
-                              child: Text('복사'))
+                            child: Text('복사'),
+                            onPressed: () {
+                              copyToClipboard(generatedText!);
+                            },
+                          ),
                         ],
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
         ],
       ),
     );
