@@ -65,9 +65,6 @@ class _Timeline extends StatelessWidget {
   final List<String> _timelineTexts = [
     '메모장 이미지 등록 기능 구현',
     '백업 및 복원 (google drive)',
-    '태그',
-    '메모 알람 및 달력 타임 라인',
-    '메모장 스킨',
     '매년 6월 전체 패키지(pubspec.yaml) 업데이트',
   ];
 
@@ -171,9 +168,9 @@ enum _TimelineStatus {
   done,
   sync,
   todo,
-  todo2,
-  todo3,
-  todo4,
+  // todo2,
+  // todo3,
+  // todo4,
 }
 
 extension on _TimelineStatus {
