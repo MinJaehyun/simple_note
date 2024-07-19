@@ -69,7 +69,8 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
         }).toList();
 
         return SizedBox(
-          height: MediaQuery.of(context).size.height - 270,
+          // fix: height: MediaQuery.of(context).size.height - 270,
+          height: MediaQuery.of(context).size.height - (kBottomNavigationBarHeight * 5),
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: settingsController.isAppbarFavoriteMemo.value == true ? favoriteMemoList.length : sameCategoryMemo.length,

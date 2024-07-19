@@ -39,7 +39,8 @@ class _TrashSearchState extends State<TrashSearch> {
         }).toList();
 
         return SizedBox(
-          height: MediaQuery.of(context).size.height - 270,
+          // fix: height: MediaQuery.of(context).size.height - 270,
+          height: MediaQuery.of(context).size.height - (kBottomNavigationBarHeight * 5),
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: boxSearchTitleAndMainText.length,

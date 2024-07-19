@@ -177,7 +177,8 @@ class _TrashCanPageState extends State<TrashCanPage> {
                       // fix: 휴지통 업데이트 메모 변경 후, 리스트 리로드
                       updateSortedLists();
                       return SizedBox(
-                        height: MediaQuery.of(context).size.height - 270,
+                        // fix: height: MediaQuery.of(context).size.height - 270,
+                        height: MediaQuery.of(context).size.height - (kBottomNavigationBarHeight * 5),
                         child: GridView.builder(
                           shrinkWrap: true,
                           itemCount: trashCanMemoController.trashCanMemoList.length,
