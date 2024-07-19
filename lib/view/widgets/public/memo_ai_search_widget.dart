@@ -34,13 +34,14 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
         'Authorization': 'Bearer $apiKey',
       },
       body: jsonEncode({
-        "model": "gpt-3.5-turbo",
+        // "model": "gpt-3.5-turbo",
+        "model": "gpt-4o-mini",
         "messages": [
           {"role": "system", "content": "You are a helpful assistant."},
           {"role": "user", "content": prompt}
         ],
         "max_tokens": 500,
-        "temperature": 0,
+        "temperature": 0.7,
         "top_p": 1,
         "frequency_penalty": 0,
         "presence_penalty": 0,
