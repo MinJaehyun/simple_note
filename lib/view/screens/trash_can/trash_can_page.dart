@@ -53,6 +53,8 @@ class _TrashCanPageState extends State<TrashCanPage> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
@@ -177,7 +179,6 @@ class _TrashCanPageState extends State<TrashCanPage> {
                       // fix: 휴지통 업데이트 메모 변경 후, 리스트 리로드
                       updateSortedLists();
                       return SizedBox(
-                        // fix: height: MediaQuery.of(context).size.height - 270,
                         height: MediaQuery.of(context).size.height - (kBottomNavigationBarHeight * 5),
                         child: GridView.builder(
                           shrinkWrap: true,
@@ -218,23 +219,6 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                     padding: const EdgeInsets.all(4.0),
                                     child: Stack(
                                       children: [
-                                        // Container(
-                                        //   decoration: currentContact.imagePath != null
-                                        //       ? BoxDecoration(
-                                        //           image: DecorationImage(
-                                        //             image: FileImage(File(currentContact.imagePath!)),
-                                        //             fit: BoxFit.cover,
-                                        //           ),
-                                        //         )
-                                        //       : const BoxDecoration(),
-                                        // ),
-                                        // if (currentContact.imagePath != null)
-                                        //   // note: BackdropFilter 위젯 사용하면 흐릿한(이미지 색상 및 전체 색상) 이미지로 처리할 수 있다
-                                        //   BackdropFilter(
-                                        //     filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                                        //     child: Container(color: Colors.black.withOpacity(0.2)),
-                                        //   ),
-
                                         Container(
                                           height: 200,
                                           decoration: currentContact.imagePath != null
@@ -294,7 +278,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                       child: Text(
                                                         currentContact.title,
                                                         overflow: TextOverflow.ellipsis,
-                                                        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+                                                        style: style,
                                                       ),
                                                     ),
                                                     // card() 수정 및 복원 및 완전히 삭제
@@ -309,7 +293,7 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                                   Expanded(
                                                     child: Text(
                                                       FormatDate().formatSimpleTimeKor(currentContact.createdAt),
-                                                      style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                                      style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.9)),
                                                     ),
                                                   ),
                                                   const IconButton(

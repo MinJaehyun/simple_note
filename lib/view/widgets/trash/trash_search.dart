@@ -74,22 +74,6 @@ class _TrashSearchState extends State<TrashSearch> {
                       padding: const EdgeInsets.all(4.0),
                       child: Stack(
                         children: [
-                          // Container(
-                          //   decoration: currentContact.imagePath != null
-                          //       ? BoxDecoration(
-                          //           image: DecorationImage(
-                          //             image: FileImage(File(currentContact.imagePath!)),
-                          //             fit: BoxFit.cover,
-                          //           ),
-                          //         )
-                          //       : const BoxDecoration(),
-                          // ),
-                          // if (currentContact.imagePath != null)
-                          //   BackdropFilter(
-                          //     filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                          //     child: Container(color: Colors.black.withOpacity(0.2)),
-                          //   ),
-
                           Container(
                             height: 200,
                             decoration: currentContact.imagePath != null
@@ -202,7 +186,8 @@ class _TrashSearchState extends State<TrashSearch> {
                                     Expanded(
                                       child: Text(
                                         FormatDate().formatSimpleTimeKor(currentContact.createdAt),
-                                        style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                        // style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                        style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.9)),
                                       ),
                                     ),
                                     const IconButton(

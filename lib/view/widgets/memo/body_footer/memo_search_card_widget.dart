@@ -109,23 +109,6 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                       padding: const EdgeInsets.all(4.0),
                       child: Stack(
                         children: [
-                          // Container(
-                          //   decoration: currentContact.imagePath != null
-                          //       ? BoxDecoration(
-                          //           image: DecorationImage(
-                          //             image: FileImage(File(currentContact.imagePath!)),
-                          //             fit: BoxFit.cover,
-                          //           ),
-                          //         )
-                          //       : const BoxDecoration(),
-                          // ),
-                          // if (currentContact.imagePath != null)
-                          //   // note: BackdropFilter 위젯 사용하면 흐릿한(이미지 색상 및 전체 색상) 이미지로 처리할 수 있다
-                          //   BackdropFilter(
-                          //     filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                          //     child: Container(color: Colors.black.withOpacity(0.2)),
-                          //   ),
-
                           Container(
                             height: 200,
                             decoration: currentContact.imagePath != null
@@ -213,7 +196,8 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                     Expanded(
                                       child: Text(
                                         FormatDate().formatSimpleTimeKor(currentContact.createdAt),
-                                        style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                        // style: TextStyle(color: Colors.grey.withOpacity(0.9)),
+                                        style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.9)),
                                       ),
                                     ),
                                     // 체크 버튼

@@ -37,7 +37,9 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.bold);
+    // TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary);
+    TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
+
     return Obx(
       () {
         if (memoController.memoList.isEmpty) {
