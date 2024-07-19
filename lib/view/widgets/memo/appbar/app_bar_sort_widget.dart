@@ -59,10 +59,11 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
   Future popupSort(context) {
     return Get.dialog(
       AlertDialog(
+        elevation: 24.0,
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('정렬 선택'),
+            Text('     정렬 선택'),
             Divider(),
           ],
         ),
@@ -79,9 +80,12 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
                     settingsController.updateSortedName(value!);
                   },
                 ),
+                onTap: () {
+                  settingsController.updateSortedName(SortedTime.firstTime);
+                },
               ),
               ListTile(
-                title: const Text('작성일 내림차순 (최신순)'),
+                title: const Text('작성일 내림차순(최신순)'),
                 leading: Radio<SortedTime>(
                   value: SortedTime.lastTime,
                   groupValue: settingsController.sortedTime.value,
@@ -89,30 +93,21 @@ class _AppBarSortWidgetState extends State<AppBarSortWidget> {
                     settingsController.updateSortedName(value!);
                   },
                 ),
+                onTap: () {
+                  settingsController.updateSortedName(SortedTime.lastTime);
+                },
               ),
             ],
           ),
         ),
         actions: [
           TextButton(
+            child: const Text('닫기'),
             onPressed: () {
-              // fix: 범주 선택 시, 화면 리로드 기능 불필요 하므로 제거
-              // 즉시 화면 재구성하기 위해 페이지 전체를 리로드
-              // if (widget.index == 2) {
-              //   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              //     return const MemoPage();
-              //   }));
-              // } else if (widget.index == 3) {
-              //   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              //     return const TrashCanPage();
-              //   }));
-              // }
               Get.back();
             },
-            child: const Text('닫기'),
           ),
         ],
-        elevation: 24.0,
       ),
     );
   }
