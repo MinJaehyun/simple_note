@@ -192,7 +192,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           PopupMenuItem<CategoriesItem>(
                                             onTap: () => showUpdatePopupDialog(context, index, box.getAt(index)!),
                                             value: CategoriesItem.update,
-                                            child: Row(
+                                            child: const Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                               children: [Text('수정'), Icon(Icons.create_outlined)],
                                             ),
@@ -200,7 +200,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           PopupMenuItem<CategoriesItem>(
                                             onTap: () => showDeletePopupDialog(context, index),
                                             value: CategoriesItem.delete,
-                                            child: Row(
+                                            child: const Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                               children: [
                                                 Text('삭제', style: TextStyle(color: Colors.red)),

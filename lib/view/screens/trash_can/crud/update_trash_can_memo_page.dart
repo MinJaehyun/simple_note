@@ -183,14 +183,14 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                     // note: 이미지 있는 경우와 없는 경우의 textformfield 설정
                                     if (pickedImage == null)
                                       TextFormField(
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           labelText: '             대표 이미지가 없는 메모장 입니다',
                                           labelStyle: TextStyle(
                                             fontSize: 18.0,
                                           ),
                                           enabled: false,
-                                          border: const OutlineInputBorder(),
-                                          focusedBorder: const OutlineInputBorder(
+                                          border: OutlineInputBorder(),
+                                          focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color: Colors.orange,
                                             ),

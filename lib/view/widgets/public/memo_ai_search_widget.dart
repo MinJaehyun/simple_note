@@ -128,7 +128,7 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
                   ),
                   prefixIconColor: Colors.grey,
                   prefixIcon: IconButton(
-                    icon: Icon(Icons.search),
+                    icon: const Icon(Icons.search),
                     onPressed: () => onSubmitAi(),
                   ),
                   suffixIcon: GestureDetector(
@@ -136,7 +136,7 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
                     child: Wrap(
                       children: [
                         IconButton(
-                          icon: searchControllerText != null ? Icon(Icons.close) : const SizedBox.shrink(),
+                          icon: searchControllerText != null ? const Icon(Icons.close) : const SizedBox.shrink(),
                           onPressed: () {
                             setState(() {
                               _textController.clear();
@@ -160,16 +160,16 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
             ),
           ),
           isLoading
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : generatedText == null
-                  ? SizedBox.shrink()
+                  ? const SizedBox.shrink()
                   : GestureDetector(
                       onTap: () {
                         Get.snackbar(
                           '검색 내용을 복사 하시겠습니까?',
                           '',
                           mainButton: TextButton(
-                            child: Text('확인'),
+                            child: const Text('확인'),
                             onPressed: () {
                               copyToClipboard(generatedText!);
                               Get.back();
@@ -186,7 +186,7 @@ class _MemoAiSearchWidgetState extends State<MemoAiSearchWidget> {
                             ),
                           ),
                           TextButton(
-                            child: Text('복사'),
+                            child: const Text('복사'),
                             onPressed: () {
                               copyToClipboard(generatedText!);
                             },

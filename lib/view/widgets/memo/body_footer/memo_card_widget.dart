@@ -150,10 +150,10 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                 ),
                                 // fix: 디바이스마다 크기가 다르므로, 동적으로 사잇 공간 넓히기 위해 Space() 처리함
                                 // const SizedBox(height: 80.0),
-                                Spacer(),
+                                const Spacer(),
                                 Row(
                                   children: [
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Expanded(
                                       child: Text(
                                         FormatDate().formatSimpleTimeKor(currentContact.createdAt),

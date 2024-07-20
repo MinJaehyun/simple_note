@@ -189,10 +189,10 @@ class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
                                     ],
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Row(
                                   children: [
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Expanded(
                                       child: Text(
                                         FormatDate().formatSimpleTimeKor(currentContact.createdAt),

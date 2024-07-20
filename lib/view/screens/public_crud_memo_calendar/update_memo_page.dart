@@ -171,7 +171,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                     ),
                   ),
                   // note: ai 검색
-                  MemoAiSearchWidget(),
+                  const MemoAiSearchWidget(),
                   // 중단: 입력창 (제목/내용): 스크롤 버튼 처리하기 위한 설정
                   NotificationListener<ScrollNotification>(
                     onNotification: (scrollNotification) => true,
@@ -226,18 +226,18 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     height: 60.0,
                                     // TextFormField의 높이와 일치하도록 설정
                                     width: double.infinity,
-                                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                         color: Colors.grey, // 테두리 색상
                                         width: 1.0, // 테두리 두께
                                       ),
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(4.0), // 테두리 모서리 둥글기
                                       ),
                                     ),
                                     child: Center(
-                                      child: TextButton(child: Text('대표 이미지 확대 또는 축소'), onPressed: () {
+                                      child: TextButton(child: const Text('대표 이미지 확대 또는 축소'), onPressed: () {
                                         if(pickedImage == null) {
                                           Get.snackbar('하단 이미지 생성 버튼을 눌러\n 대표 이미지를 지정 해주세요.', '');
                                         }
@@ -258,7 +258,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     child: AnimatedOpacity(
                                       // 이미지가 있고, 클릭한 상태가 있다면
                                       opacity: 1.0,
-                                      duration: Duration(seconds: 1),
+                                      duration: const Duration(seconds: 1),
                                       child: Container(
                                         width: double.infinity,
                                         decoration: BoxDecoration(
@@ -283,18 +283,18 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                     child: AnimatedOpacity(
                                       // 이미지가 있고, 클릭한 상태가 있다면
                                       opacity: 1.0,
-                                      duration: Duration(seconds: 1),
+                                      duration: const Duration(seconds: 1),
                                       child: Container(
                                         // TextFormField의 높이
                                         height: 60.0,
                                         width: double.infinity,
-                                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                         decoration: BoxDecoration(
                                           border: Border.all(color: Colors.grey, width: 1.0),
-                                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(16.0),
                                           child: Center(child: Text('이미지 축소 상태 입니다. 클릭하여 확대하기.')),
                                         ),
                                       ),
@@ -432,7 +432,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                   onPressed: () {
                     Get.dialog(
                       AlertDialog(
-                        title: Text('이미지 변경 및 삭제 기능'),
+                        title: const Text('이미지 변경 및 삭제 기능'),
                         content: Row(
                           children: [
                             TextButton(
@@ -460,8 +460,8 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                               },
                             ),
                             TextButton(
-                              child: const Text('닫기'),
                               onPressed: Get.back,
+                              child: const Text('닫기'),
                             ),
                           ],
                         ),
