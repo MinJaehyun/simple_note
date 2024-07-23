@@ -374,8 +374,8 @@ class _CalendarPageState extends State<CalendarPage> {
         borderRadius: BorderRadius.circular(5.0),
       ),
       formatButtonTextStyle: const TextStyle(
-        // 텍스트 크기 조절
-        fontSize: 28.0,
+        // month 크기 조절
+        fontSize: 20.0,
       ),
     );
   }
