@@ -63,51 +63,45 @@ class _TrashCanPageState extends State<TrashCanPage> {
             title: const BannerAdWidget(),
             backgroundColor: Colors.transparent,
             actions: [
-              Semantics(
-                label: '전체 삭제',
-                child: IconButton(
-                  visualDensity: const VisualDensity(horizontal: -4),
-                  onPressed: () {
-                    Get.dialog(
-                      AlertDialog(
-                        title: const Text('휴지통의 메모를 모두 삭제 하시겠습니까?', style: TextStyle(fontSize: 16)),
-                        content: const Text('더이상 휴지통의 메모를 복구할 수 없습니다', style: TextStyle(fontSize: 12)),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Get.back(),
-                            child: const Text('취소'),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              await trashCanMemoController.allDeleteCtr();
-                              Get.back();
-                              updateSortedLists();
-                            },
-                            child: const Text('삭제', style: TextStyle(color: Colors.red, fontSize: 14)),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.delete_outline, size: 32),
-                ),
+              IconButton(
+                visualDensity: const VisualDensity(horizontal: -4),
+                onPressed: () {
+                  Get.dialog(
+                    AlertDialog(
+                      title: const Text('휴지통의 메모를 모두 삭제 하시겠습니까?', style: TextStyle(fontSize: 16)),
+                      content: const Text('더이상 휴지통의 메모를 복구할 수 없습니다', style: TextStyle(fontSize: 12)),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Get.back(),
+                          child: const Text('취소'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            await trashCanMemoController.allDeleteCtr();
+                            Get.back();
+                            updateSortedLists();
+                          },
+                          child: const Text('삭제', style: TextStyle(color: Colors.red, fontSize: 14)),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.delete_outline, size: 32),
               ),
-              Semantics(
-                label: '정렬',
-                child: IconButton(
-                  visualDensity: const VisualDensity(horizontal: -4),
-                  // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
-                  icon: const Icon(Icons.low_priority, size: 32),
-                  onPressed: () {
-                    setState(() {
-                      if (settingsController.sortedTime.value == SortedTime.firstTime) {
-                        settingsController.updateSortedName(SortedTime.lastTime);
-                      } else {
-                        settingsController.updateSortedName(SortedTime.firstTime);
-                      }
-                    });
-                  },
-                ),
+              IconButton(
+                visualDensity: const VisualDensity(horizontal: -4),
+                // note: 버튼 클릭 시, 오름차순, 내림차순 정렬하기
+                icon: const Icon(Icons.low_priority, size: 32),
+                onPressed: () {
+                  setState(() {
+                    if (settingsController.sortedTime.value == SortedTime.firstTime) {
+                      settingsController.updateSortedName(SortedTime.lastTime);
+                    } else {
+                      settingsController.updateSortedName(SortedTime.firstTime);
+                    }
+                  });
+                },
               ),
             ],
           ),
@@ -222,26 +216,26 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                         Container(
                                           height: 200,
                                           decoration: currentContact.imagePath != null
-                                          // 이미지 있는 경우: 이미지만 처리
+                                              // 이미지 있는 경우: 이미지만 처리
                                               ? BoxDecoration(
-                                            image: DecorationImage(
-                                              image: FileImage(File(currentContact.imagePath!)),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          )
-                                          // 이미지 없는 경우: 그라데이션 처리
+                                                  image: DecorationImage(
+                                                    image: FileImage(File(currentContact.imagePath!)),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                )
+                                              // 이미지 없는 경우: 그라데이션 처리
                                               : BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: settingsController.isThemeMode.value == false
-                                                  ? [Colors.white.withOpacity(0.5), Colors.transparent]
-                                                  : [Colors.black.withOpacity(0.5), Colors.transparent],
-                                            ),
-                                          ),
+                                                  gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: settingsController.isThemeMode.value == false
+                                                        ? [Colors.white.withOpacity(0.5), Colors.transparent]
+                                                        : [Colors.black.withOpacity(0.5), Colors.transparent],
+                                                  ),
+                                                ),
                                         ),
                                         if (currentContact.imagePath != null)
-                                        // 이미지 있는 경우: 전체 블러 효과
+                                          // 이미지 있는 경우: 전체 블러 효과
                                           Positioned(
                                             child: Container(
                                               height: 200,
@@ -263,7 +257,6 @@ class _TrashCanPageState extends State<TrashCanPage> {
                                               ),
                                             ),
                                           ),
-
                                         ListTile(
                                           titleAlignment: ListTileTitleAlignment.titleHeight,
                                           contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
