@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/controller/settings_controller.dart';
+import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
@@ -30,6 +31,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
   final ScrollController _scrollController = ScrollController();
   final settingsController = Get.find<SettingsController>();
   final memoController = Get.find<MemoController>();
+  final trashCanMemoController = Get.find<TrashCanMemoController>();
 
   late DateTime time;
   late String title;
@@ -237,11 +239,13 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                       ),
                                     ),
                                     child: Center(
-                                      child: TextButton(child: const Text('대표 이미지 확대 또는 축소'), onPressed: () {
-                                        if(pickedImage == null) {
-                                          Get.snackbar('하단 이미지 생성 버튼을 눌러\n 대표 이미지를 지정 해주세요.', '');
-                                        }
-                                      }),
+                                      child: TextButton(
+                                          child: const Text('대표 이미지 확대 또는 축소'),
+                                          onPressed: () {
+                                            if (pickedImage == null) {
+                                              Get.snackbar('하단 이미지 생성 버튼을 눌러\n 대표 이미지를 지정 해주세요.', '');
+                                            }
+                                          }),
                                     ),
                                   ),
 
@@ -391,6 +395,43 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                               Navigator.of(context).pop();
                             }
                           },
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: ElevatedButton(
+                          child: const Text('삭제', style: TextStyle(color: Colors.red)),
+                          onPressed: () => showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('메모장을 삭제 하시겠습니까?'),
+                              actions: <Widget>[
+                                // 예: 누르면, 메모장 삭제한다.
+                                TextButton(
+                                  onPressed: () {
+                                    // note: 메모장에서 삭제하고 휴지통에 담기
+                                    trashCanMemoController.addCtr(
+                                      createdAt: widget.sortedCard.createdAt,
+                                      title: widget.sortedCard.title,
+                                      mainText: widget.sortedCard.mainText,
+                                      selectedCategory: _dropdownValue,
+                                      isFavoriteMemo: false,
+                                      imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
+                                    );
+                                    memoController.deleteCtr(index: widget.index);
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('삭제', style: TextStyle(color: Colors.red)),
+                                ),
+                                // 아니오: 누르면, 메모장으로 빠져나간다.
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'OK'),
+                                  child: const Text('취소'),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 15),

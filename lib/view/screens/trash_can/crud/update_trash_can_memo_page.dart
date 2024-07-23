@@ -321,6 +321,33 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                           const SizedBox(width: 10),
                           Expanded(
                             child: ElevatedButton(
+                              child: const Text('삭제', style: TextStyle(color: Colors.red)),
+                              onPressed: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('완전히 삭제 하시겠습니까?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        trashCanMemoController.deleteCtr(index: widget.index);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('삭제', style: TextStyle(color: Colors.red)),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, 'OK'),
+                                      child: const Text('메모장 돌아가기'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: ElevatedButton(
                               child: const Text('취소'),
                               onPressed: () => showDialog<String>(
                                 context: context,
