@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_note/const/colors.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/repository/local_data_source/category_repository.dart';
@@ -72,6 +73,10 @@ class _CategoryPageState extends State<CategoryPage> {
                         ),
                       ),
                       Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: getRandomNeonColor(), width: 2),
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
                           child: ListTile(
                               title: Row(
                         children: [
@@ -80,6 +85,10 @@ class _CategoryPageState extends State<CategoryPage> {
                         ],
                       ))),
                       Card(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: getRandomNeonColor(), width: 2),
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
                           child: ListTile(
                               title: Row(
                         children: [
@@ -165,6 +174,10 @@ class _CategoryPageState extends State<CategoryPage> {
                               }
                             },
                             child: Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: getRandomNeonColor(), width: 2),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
                               key: ValueKey(index),
                               child: ListTile(
                                 onTap: () {
@@ -182,36 +195,33 @@ class _CategoryPageState extends State<CategoryPage> {
                                         style: const TextStyle(color: Colors.redAccent)),
                                   ],
                                 ),
-                                trailing: Semantics(
-                                  label: '범주 수정 및 삭제',
-                                  child: Column(
-                                    children: [
-                                      PopupMenuButton<CategoriesItem>(
-                                        initialValue: categoriesItem,
-                                        itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
-                                          PopupMenuItem<CategoriesItem>(
-                                            onTap: () => showUpdatePopupDialog(context, index, box.getAt(index)!),
-                                            value: CategoriesItem.update,
-                                            child: const Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                              children: [Text('수정'), Icon(Icons.create_outlined)],
-                                            ),
+                                trailing: Column(
+                                  children: [
+                                    PopupMenuButton<CategoriesItem>(
+                                      initialValue: categoriesItem,
+                                      itemBuilder: (BuildContext context) => <PopupMenuEntry<CategoriesItem>>[
+                                        PopupMenuItem<CategoriesItem>(
+                                          onTap: () => showUpdatePopupDialog(context, index, box.getAt(index)!),
+                                          value: CategoriesItem.update,
+                                          child: const Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [Text('수정'), Icon(Icons.create_outlined)],
                                           ),
-                                          PopupMenuItem<CategoriesItem>(
-                                            onTap: () => showDeletePopupDialog(context, index),
-                                            value: CategoriesItem.delete,
-                                            child: const Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Text('삭제', style: TextStyle(color: Colors.red)),
-                                                Icon(Icons.delete_outline, color: Colors.red)
-                                              ],
-                                            ),
+                                        ),
+                                        PopupMenuItem<CategoriesItem>(
+                                          onTap: () => showDeletePopupDialog(context, index),
+                                          value: CategoriesItem.delete,
+                                          child: const Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text('삭제', style: TextStyle(color: Colors.red)),
+                                              Icon(Icons.delete_outline, color: Colors.red)
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

@@ -299,6 +299,8 @@ class _CalendarPageState extends State<CalendarPage> {
                           ),
                         ),
                       ),
+
+                      // note: 달력 이하 todo메모 이하 ListTile
                       SizedBox(
                         height: 220,
                         child: ListView.builder(
@@ -308,6 +310,10 @@ class _CalendarPageState extends State<CalendarPage> {
                             MemoModel? currentContact = sameSelectedDayMemo[index];
 
                             return Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: getRandomNeonColor(), width: 2),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
                               child: ListTile(
                                 title: currentContact.isCheckedTodo == true
                                     ? Text(
