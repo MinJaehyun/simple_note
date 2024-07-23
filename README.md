@@ -16,6 +16,20 @@
 - 이미지 확대 축소 기능 구현 (add_memo, update_memo): 추후 중복 코드 리펙토링 하기
 - ai 퀴즈 기능 구현 미정
 - setting controller -> repo 리펙토링 하기
+- 파일명 분류하기 (s_, v_, d_, 등등)
+- 삭제하면 삭제된 순서대로 들어가게 기본적으로 만들기 (정렬 기능 누르면, 삭제 순서대로 표시하기 목록 만들기)
+### Bug Fixes
+
+
+## 2024-07-23
+### Features
+- ~~update_memo, update_trash_memo: 메모장 내부에 삭제 버튼 추가~~
+- 
+
+
+## 2024-07-22
+### Features
+- ~~불필요한 Semantics() 코드 삭제~~
 ### Bug Fixes
 
 
@@ -23,6 +37,7 @@
 ### Features
 - ~~"model": "gpt-3.5-turbo" -> "model": "gpt-4o-mini" 변경(성능 높아지고, 토큰 가격 낮아졌다)~~
 - ~~메모장 높이 디바이스에 따라 알맞게 동적으로 설정~~
+- ~~add const~~
 
 
 ## 2024-07-19
