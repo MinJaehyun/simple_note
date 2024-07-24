@@ -8,7 +8,7 @@ import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
+import 'package:simple_note/view/screens/public_memo/update_memo_page.dart';
 import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 
 class MemoCardWidget extends StatefulWidget {
@@ -124,14 +124,12 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                   filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
                                   child: Container(
                                     // 상단 투명 조정
-                                    color: settingsController.isThemeMode.value == false
-                                      ? Colors.black.withOpacity(0.3)
-                                      : Colors.white.withOpacity(0.3),
+                                    color:
+                                        settingsController.isThemeMode.value == false ? Colors.black.withOpacity(0.3) : Colors.white.withOpacity(0.3),
                                   ),
                                 ),
                               ),
                             ),
-
                           ListTile(
                             titleAlignment: ListTileTitleAlignment.titleHeight,
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),

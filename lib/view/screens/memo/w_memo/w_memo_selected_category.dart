@@ -8,7 +8,7 @@ import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
+import 'package:simple_note/view/screens/public_memo/update_memo_page.dart';
 import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
@@ -105,26 +105,26 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                           Container(
                             height: 200,
                             decoration: currentContact.imagePath != null
-                            // 이미지 있는 경우: 이미지만 처리
+                                // 이미지 있는 경우: 이미지만 처리
                                 ? BoxDecoration(
-                              image: DecorationImage(
-                                image: FileImage(File(currentContact.imagePath!)),
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                            // 이미지 없는 경우: 그라데이션 처리
+                                    image: DecorationImage(
+                                      image: FileImage(File(currentContact.imagePath!)),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                // 이미지 없는 경우: 그라데이션 처리
                                 : BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: settingsController.isThemeMode.value == false
-                                    ? [Colors.white.withOpacity(0.5), Colors.transparent]
-                                    : [Colors.black.withOpacity(0.5), Colors.transparent],
-                              ),
-                            ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: settingsController.isThemeMode.value == false
+                                          ? [Colors.white.withOpacity(0.5), Colors.transparent]
+                                          : [Colors.black.withOpacity(0.5), Colors.transparent],
+                                    ),
+                                  ),
                           ),
                           if (currentContact.imagePath != null)
-                          // 이미지 있는 경우: 전체 블러 효과
+                            // 이미지 있는 경우: 전체 블러 효과
                             Positioned(
                               child: Container(
                                 height: 200,
@@ -139,14 +139,12 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                   filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
                                   child: Container(
                                     // 상단 투명 조정
-                                    color: settingsController.isThemeMode.value == false
-                                        ? Colors.black.withOpacity(0.3)
-                                        : Colors.white.withOpacity(0.3),
+                                    color:
+                                        settingsController.isThemeMode.value == false ? Colors.black.withOpacity(0.3) : Colors.white.withOpacity(0.3),
                                   ),
                                 ),
                               ),
                             ),
-
                           ListTile(
                             titleAlignment: ListTileTitleAlignment.titleHeight,
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),

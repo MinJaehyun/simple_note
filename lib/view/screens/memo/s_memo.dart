@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_note/view/screens/memo/f_memo_content.dart';
 import 'package:simple_note/view/screens/memo/w_abb_bar/w_app_bar_sort.dart';
-import 'package:simple_note/view/screens/public_crud_memo_calendar/add_memo_page.dart';
+import 'package:simple_note/view/screens/public_memo/add_memo_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 
 class MemoPage extends StatefulWidget {

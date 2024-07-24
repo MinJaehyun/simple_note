@@ -11,8 +11,8 @@ import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/public_crud_memo_calendar/add_memo_page.dart';
-import 'package:simple_note/view/screens/public_crud_memo_calendar/update_memo_page.dart';
+import 'package:simple_note/view/screens/public_memo/add_memo_page.dart';
+import 'package:simple_note/view/screens/public_memo/update_memo_page.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -187,7 +187,6 @@ class _CalendarPageState extends State<CalendarPage> {
                     style: const TextStyle(fontSize: 30),
                   );
                 },
-
               ),
 
               // note: 이하 style이며, 위 headerTitleBuilder 와 아래 headerStyle을 함께 적용할 수 있다.
