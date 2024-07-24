@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
-import 'package:simple_note/helper/grid_painter.dart';
+import 'package:simple_note/view/screens/public/w_grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
 import 'package:simple_note/view/screens/trash_can/s_update_trash_can_memo.dart';

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/const/colors.dart';
 import 'package:simple_note/controller/memo_controller.dart';
-import 'package:simple_note/helper/banner_ad_widget.dart';
+import 'package:simple_note/view/screens/public/w_banner_ad.dart';
 import 'package:simple_note/repository/local_data_source/category_repository.dart';
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/model/category.dart';
