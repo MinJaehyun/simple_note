@@ -10,7 +10,7 @@ import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/view/screens/category/w_category/w_add_category.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:simple_note/view/widgets/public/memo_ai_search_widget.dart';
+import 'package:simple_note/view/widgets/public/w_memo_ai_search.dart';
 
 class AddMemoPage extends StatefulWidget {
   const AddMemoPage({super.key});

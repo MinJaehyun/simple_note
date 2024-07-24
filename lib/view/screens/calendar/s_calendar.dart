@@ -11,10 +11,10 @@ import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/public_memo/add_memo_page.dart';
-import 'package:simple_note/view/screens/public_memo/update_memo_page.dart';
-import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
-import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
+import 'package:simple_note/view/screens/public_memo/s_add_memo.dart';
+import 'package:simple_note/view/screens/public_memo/s_update_memo.dart';
+import 'package:simple_note/view/widgets/public/w_footer_navigation_bar.dart';
+import 'package:simple_note/view/widgets/public/w_memo_calendar_popup_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 

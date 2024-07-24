@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:simple_note/view/screens/calendar/s_calendar.dart';
 import 'package:simple_note/view/screens/category/s_category.dart';
 import 'package:simple_note/view/screens/memo/s_memo.dart';
-import 'package:simple_note/view/screens/settings/settings_page.dart';
+import 'package:simple_note/view/screens/settings/s_settings.dart';
 import 'package:simple_note/view/screens/trash_can/trash_can_page.dart';
 
 // const pages = [CalendarPage(), CategoryPage(), MemoPage(), TrashCanPage(), Settings()];

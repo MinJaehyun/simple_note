@@ -11,7 +11,7 @@ import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/view/screens/category/w_category/w_add_category.dart';
 import 'package:simple_note/view/screens/category/w_category/w_delete_category.dart';
 import 'package:simple_note/view/screens/category/w_category/w_update_category.dart';
-import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
+import 'package:simple_note/view/widgets/public/w_footer_navigation_bar.dart';
 
 enum CategoriesItem { update, delete }
 

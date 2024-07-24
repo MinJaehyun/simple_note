@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_note/view/screens/memo/f_memo_content.dart';
 import 'package:simple_note/view/screens/memo/w_abb_bar/w_app_bar_sort.dart';
-import 'package:simple_note/view/screens/public_memo/add_memo_page.dart';
-import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
+import 'package:simple_note/view/screens/public_memo/s_add_memo.dart';
+import 'package:simple_note/view/widgets/public/w_footer_navigation_bar.dart';
 
 class MemoPage extends StatefulWidget {
   const MemoPage({super.key});

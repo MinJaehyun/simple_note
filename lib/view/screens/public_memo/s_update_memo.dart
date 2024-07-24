@@ -14,7 +14,7 @@ import 'package:simple_note/repository/local_data_source/category_repository.dar
 import 'package:simple_note/view/screens/category/w_category/w_add_category.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:simple_note/view/widgets/public/memo_ai_search_widget.dart';
+import 'package:simple_note/view/widgets/public/w_memo_ai_search.dart';
 
 class UpdateMemoPage extends StatefulWidget {
   const UpdateMemoPage({required this.index, required this.sortedCard, super.key});

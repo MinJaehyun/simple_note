@@ -8,8 +8,8 @@ import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/public_memo/update_memo_page.dart';
-import 'package:simple_note/view/widgets/public/memo_calendar_popup_button_widget.dart';
+import 'package:simple_note/view/screens/public_memo/s_update_memo.dart';
+import 'package:simple_note/view/widgets/public/w_memo_calendar_popup_button.dart';
 
 class MemoCardWidget extends StatefulWidget {
   const MemoCardWidget({super.key});
