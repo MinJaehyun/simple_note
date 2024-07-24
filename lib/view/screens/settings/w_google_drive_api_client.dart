@@ -6,8 +6,8 @@
 // import 'package:path/path.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 //
-// const yourClientId = '731330359183-rsr2drhcapen3fh2lbiberrrd2f8ccua.apps.googleusercontent.com';
-// const yourClientSecret = 'FF:36:23:22:6E:E2:9C:75:6B:82:7D:85:E1:84:8A:16:AB:09:9F:D9';
+// const yourClientId = '노출된 id이므로 앱 삭제함';
+// const yourClientSecret = '노출된 sha-1이므로 앱 삭제함';
 //
 // // GoogleSignIn 객체 초기화
 // final GoogleSignIn googleSignIn = GoogleSignIn(
