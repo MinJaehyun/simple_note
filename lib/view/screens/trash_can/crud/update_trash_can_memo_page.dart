@@ -10,7 +10,7 @@ import 'package:simple_note/helper/banner_ad_widget.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/widgets/category/add_category_widget.dart';
+import 'package:simple_note/view/screens/calendar/w_add_category.dart';
 
 class UpdateTrashCanMemoPage extends StatefulWidget {
   const UpdateTrashCanMemoPage({required this.index, required this.currentContact, super.key});
