@@ -30,6 +30,8 @@
 ## 2024-07-25
 ### Features
 - screens: s, widget: w, dialog&bottomSheet: d 로 파일 분류
+- 휴지통의 검색한 메모의 popup btn 기능 개선
+- 중복 코드 개선: PopupMenuButton()
 
 
 ## 2024-07-24

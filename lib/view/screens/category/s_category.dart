@@ -234,7 +234,7 @@ class _CategoryPageState extends State<CategoryPage> {
             ],
           ),
         ),
-        // note: public_footer/navigation_bar
+        // note: public/w_footer_navigation_bar
         bottomNavigationBar: const FooterNavigationBarWidget(1),
       ),
     );

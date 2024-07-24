@@ -49,6 +49,7 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) {
+                // todo: 다른 점
                 return UpdateTrashCanMemoPage(index: widget.index, currentContact: widget.currentContact);
               },
             ));
@@ -106,7 +107,6 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text('복원', style: TextStyle(color: Colors.green)),
-              // Spacer(),
               SizedBox(width: 8),
               Icon(Icons.restore_from_trash_outlined, color: Colors.green)
             ],
@@ -122,7 +122,6 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                   actions: [
                     TextButton.icon(
                       onPressed: () {
-                        // 완전히 삭제
                         trashCanMemoController.deleteCtr(index: widget.index);
                         Navigator.pop(context);
                         Get.offAll(const TrashCanPage());

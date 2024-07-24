@@ -3,15 +3,17 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/view/screens/public/w_grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
+import 'package:simple_note/view/screens/trash_can/s_trash_can.dart';
 import 'package:simple_note/view/screens/trash_can/s_update_trash_can_memo.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
-enum SampleItem { updateMemo, deleteMemo }
+enum SampleItem { updateMemo, deleteMemo, restoreMemo }
 
 class TrashSearch extends StatefulWidget {
   const TrashSearch(this.searchControllerText, {super.key});
@@ -24,9 +26,19 @@ class TrashSearch extends StatefulWidget {
 
 class _TrashSearchState extends State<TrashSearch> {
   SampleItem? selectedItem;
+  late String _dropdownValue;
   late List<TrashCanModel> boxSearchTitleAndMainText;
   final trashCanMemoController = Get.find<TrashCanMemoController>();
   late final settingsController = Get.find<SettingsController>();
+  final memoController = Get.find<MemoController>();
+
+  File? pickedImage;
+
+  @override
+  void initState() {
+    _dropdownValue = '미분류';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,18 +174,102 @@ class _TrashSearchState extends State<TrashSearch> {
                                             onTap: () {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
+                                                  // todo: 다른 점
                                                   builder: (context) => UpdateTrashCanMemoPage(index: index, currentContact: currentContact),
                                                 ),
                                               );
                                             },
                                             value: SampleItem.updateMemo,
-                                            child: const Text('수정'),
+                                            child: const Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('수정'),
+                                                SizedBox(width: 8),
+                                                Icon(Icons.create_outlined),
+                                              ],
+                                            ),
                                           ),
+
                                           PopupMenuItem<SampleItem>(
-                                            onTap: () => trashCanMemoController.deleteCtr(index: index),
-                                            value: SampleItem.deleteMemo,
-                                            child: const Text('삭제'),
+                                            value: SampleItem.restoreMemo,
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text("메모를 복원 하시겠습니까?"),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          memoController.addCtr(
+                                                            createdAt: currentContact.createdAt,
+                                                            title: currentContact.title,
+                                                            mainText: currentContact.mainText,
+                                                            selectedCategory: _dropdownValue,
+                                                            isFavoriteMemo: false,
+                                                            imagePath: File(currentContact.imagePath!),
+                                                          );
+                                                          trashCanMemoController.deleteCtr(index: index);
+                                                          Navigator.pop(context);
+                                                          Get.offAll(const TrashCanPage());
+                                                        },
+                                                        child: const Text('복원'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: const Text('취소'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: const Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('복원', style: TextStyle(color: Colors.green)),
+                                                SizedBox(width: 8),
+                                                Icon(Icons.restore_from_trash_outlined, color: Colors.green)
+                                              ],
+                                            ),
                                           ),
+
+                                          PopupMenuItem<SampleItem>(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text("메모를 완전히 삭제 하시겠습니까?"),
+                                                    actions: [
+                                                      TextButton.icon(
+                                                        onPressed: () {
+                                                          trashCanMemoController.deleteCtr(index: index);
+                                                          Navigator.pop(context);
+                                                          Get.offAll(const TrashCanPage());
+                                                        },
+                                                        icon: const Icon(Icons.delete_outline, color: Colors.red),
+                                                        label: const Text('완전히 삭제', style: TextStyle(color: Colors.red)),
+                                                      ),
+                                                      TextButton.icon(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close), label: const Text('취소')),
+                                                    ],
+                                                    elevation: 24.0,
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            value: SampleItem.deleteMemo,
+                                            child: const Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('완전히 삭제', style: TextStyle(color: Colors.red)),
+                                                Icon(Icons.delete_outline, color: Colors.red),
+                                              ],
+                                            ),
+                                          ),
+
                                         ],
                                       ),
                                     ],
