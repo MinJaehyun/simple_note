@@ -8,9 +8,9 @@ import 'package:simple_note/repository/local_data_source/category_repository.dar
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/calendar/w_add_category.dart';
-import 'package:simple_note/view/screens/calendar/w_delete_category.dart';
-import 'package:simple_note/view/screens/calendar/w_update_category.dart';
+import 'package:simple_note/view/screens/category/w_add_category.dart';
+import 'package:simple_note/view/screens/category/w_delete_category.dart';
+import 'package:simple_note/view/screens/category/w_update_category.dart';
 import 'package:simple_note/view/widgets/public/footer_navigation_bar_widget.dart';
 
 enum CategoriesItem { update, delete }

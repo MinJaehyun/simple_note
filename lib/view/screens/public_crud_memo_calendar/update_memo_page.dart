@@ -11,7 +11,7 @@ import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
 import 'package:simple_note/repository/local_data_source/category_repository.dart';
-import 'package:simple_note/view/screens/calendar/w_add_category.dart';
+import 'package:simple_note/view/screens/category/w_add_category.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:simple_note/view/widgets/public/memo_ai_search_widget.dart';
