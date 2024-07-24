@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/view/widgets/memo/body_header/memo_top_widget.dart';
-import 'package:simple_note/view/widgets/memo/memo_body_footer_control_statements_widget.dart';
+import 'package:simple_note/view/screens/memo/w_memo_header/w_memo_header.dart';
+import 'package:simple_note/view/screens/memo/w_memo/w_memo_footer_control_statements.dart';
 
-class MemoBody extends StatefulWidget {
-  const MemoBody({super.key});
+class MemoContent extends StatefulWidget {
+  const MemoContent({super.key});
 
   @override
-  State<MemoBody> createState() => _MemoBodyState();
+  State<MemoContent> createState() => _MemoContentState();
 }
 
-class _MemoBodyState extends State<MemoBody> {
+class _MemoContentState extends State<MemoContent> {
   String? selectedCategory;
   String? searchControllerText;
 
@@ -32,7 +32,7 @@ class _MemoBodyState extends State<MemoBody> {
       child: Column(
         children: [
           // body_top: 범주
-          MemoTopWidget(
+          MemoHeader(
             selectedCategory,
             searchControllerText,
             selectedCategoryFunc,
@@ -45,7 +45,7 @@ class _MemoBodyState extends State<MemoBody> {
             // height: 500,
             // height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight*5,
             child: SingleChildScrollView(
-              child: MemoBodyFooterControlStatementsWidget(selectedCategory, searchControllerText),
+              child: MemoFooterControlStatements(selectedCategory, searchControllerText),
             ),
           ),
         ],

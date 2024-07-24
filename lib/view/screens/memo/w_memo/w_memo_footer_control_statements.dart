@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/view/widgets/memo/body_footer/memo_card_widget.dart';
-import 'package:simple_note/view/widgets/memo/body_footer/memo_search_card_widget.dart';
-import 'package:simple_note/view/widgets/memo/body_footer/memo_selected_category_widget.dart';
+import 'package:simple_note/view/screens/memo/w_memo/w_memo_card.dart';
+import 'package:simple_note/view/screens/memo/w_memo/w_memo_search_card.dart';
+import 'package:simple_note/view/screens/memo/w_memo/w_memo_selected_category.dart';
 
-class MemoBodyFooterControlStatementsWidget extends StatefulWidget {
-  const MemoBodyFooterControlStatementsWidget(this.selectedCategory, this.searchControllerText, {super.key});
+class MemoFooterControlStatements extends StatefulWidget {
+  const MemoFooterControlStatements(this.selectedCategory, this.searchControllerText, {super.key});
 
   final String? selectedCategory;
   final String? searchControllerText;
 
   @override
-  State<MemoBodyFooterControlStatementsWidget> createState() => _MemoBodyFooterControlStatementsWidgetState();
+  State<MemoFooterControlStatements> createState() => _MemoFooterControlStatementsState();
 }
 
-class _MemoBodyFooterControlStatementsWidgetState extends State<MemoBodyFooterControlStatementsWidget> {
+class _MemoFooterControlStatementsState extends State<MemoFooterControlStatements> {
   @override
   Widget build(BuildContext context) {
     // note: 3가지 조건: 검색, 범주 선택, 범주 미선택

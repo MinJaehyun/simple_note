@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 
-class MemoTopWidget extends StatefulWidget {
-  const MemoTopWidget(this.selectedCategory, this.searchControllerText, this.selectedCategoryFunc, this.searchControllerTextFunc, {super.key});
+class MemoHeader extends StatefulWidget {
+  const MemoHeader(this.selectedCategory, this.searchControllerText, this.selectedCategoryFunc, this.searchControllerTextFunc, {super.key});
 
   final String? selectedCategory;
   final String? searchControllerText;
@@ -12,10 +12,10 @@ class MemoTopWidget extends StatefulWidget {
   final Function(String?) searchControllerTextFunc;
 
   @override
-  State<MemoTopWidget> createState() => _MemoTopWidgetState();
+  State<MemoHeader> createState() => _MemoHeaderState();
 }
 
-class _MemoTopWidgetState extends State<MemoTopWidget> {
+class _MemoHeaderState extends State<MemoHeader> {
   final TextEditingController _textController = TextEditingController();
   final categoryController = Get.find<CategoryController>();
   final settingsController = Get.find<SettingsController>();
