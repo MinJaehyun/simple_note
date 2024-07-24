@@ -10,8 +10,8 @@ import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/popup_trash_can_button_widget.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/trash_can/crud/update_trash_can_memo_page.dart';
-import 'package:simple_note/view/widgets/public/w_footer_navigation_bar.dart';
+import 'package:simple_note/view/screens/public/w_footer_navigation_bar.dart';
+import 'package:simple_note/view/screens/trash_can/s_update_trash_can_memo.dart';
 import 'package:simple_note/view/widgets/trash/trash_search.dart';
 
 // 생성한 순서가 아닌, 삭제한 순서대로 휴지통에 들어가며 정렬된다

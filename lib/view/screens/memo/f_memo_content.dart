@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/view/screens/memo/w_memo_header/w_memo_header.dart';
-import 'package:simple_note/view/screens/memo/w_memo/w_memo_footer_control_statements.dart';
+import 'package:simple_note/view/screens/memo/memo_header/w_memo_header.dart';
+import 'package:simple_note/view/screens/memo/f_memo_footer_control_statements.dart';
 
 class MemoContent extends StatefulWidget {
   const MemoContent({super.key});

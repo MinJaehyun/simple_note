@@ -11,10 +11,10 @@ import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/screens/public/w_footer_navigation_bar.dart';
+import 'package:simple_note/view/screens/public_memo/w_memo_popup.dart';
 import 'package:simple_note/view/screens/public_memo/s_add_memo.dart';
 import 'package:simple_note/view/screens/public_memo/s_update_memo.dart';
-import 'package:simple_note/view/widgets/public/w_footer_navigation_bar.dart';
-import 'package:simple_note/view/widgets/public/w_memo_calendar_popup_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 
@@ -341,7 +341,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                           updateMemo(index, currentContact, isCheckedTodo: true);
                                         },
                                       ),
-                                trailing: MemoCalendarPopupButtonWidget(
+                                trailing: MemoPopupWidget(
                                   sortedMemoList.indexOf(sameSelectedDayMemo[index]),
                                   currentContact,
                                 ),

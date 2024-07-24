@@ -8,8 +8,8 @@ import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/screens/public_memo/w_memo_popup.dart';
 import 'package:simple_note/view/screens/public_memo/s_update_memo.dart';
-import 'package:simple_note/view/widgets/public/w_memo_calendar_popup_button.dart';
 
 class MemoCardWidget extends StatefulWidget {
   const MemoCardWidget({super.key});
@@ -143,7 +143,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
                                       child: Text(currentContact.title, overflow: TextOverflow.ellipsis, style: style),
                                     ),
                                     // note: card() 내 수정, 삭제 버튼
-                                    MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
+                                    MemoPopupWidget(sortedIndex, currentContact),
                                   ],
                                 ),
                                 // fix: 디바이스마다 크기가 다르므로, 동적으로 사잇 공간 넓히기 위해 Space() 처리함

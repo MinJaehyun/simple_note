@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/view/screens/memo/w_memo/w_memo_card.dart';
-import 'package:simple_note/view/screens/memo/w_memo/w_memo_search_card.dart';
-import 'package:simple_note/view/screens/memo/w_memo/w_memo_selected_category.dart';
+import 'package:simple_note/view/screens/memo/memo/w_memo_card.dart';
+import 'package:simple_note/view/screens/memo/memo/w_memo_search_card.dart';
+import 'package:simple_note/view/screens/memo/memo/w_memo_selected_category.dart';
 
 class MemoFooterControlStatements extends StatefulWidget {
   const MemoFooterControlStatements(this.selectedCategory, this.searchControllerText, {super.key});

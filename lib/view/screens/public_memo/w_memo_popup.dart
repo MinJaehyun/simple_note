@@ -10,17 +10,17 @@ import 'package:simple_note/view/screens/public_memo/s_update_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 
-class MemoCalendarPopupButtonWidget extends StatefulWidget {
-  const MemoCalendarPopupButtonWidget(this.index, this.sortedCard, {super.key});
+class MemoPopupWidget extends StatefulWidget {
+  const MemoPopupWidget(this.index, this.sortedCard, {super.key});
 
   final int index;
   final MemoModel sortedCard;
 
   @override
-  State<MemoCalendarPopupButtonWidget> createState() => _MemoCalendarPopupButtonWidgetState();
+  State<MemoPopupWidget> createState() => _MemoPopupWidgetState();
 }
 
-class _MemoCalendarPopupButtonWidgetState extends State<MemoCalendarPopupButtonWidget> {
+class _MemoPopupWidgetState extends State<MemoPopupWidget> {
   SampleItem? selectedItem;
   late String _dropdownValue;
   final trashCanMemoController = Get.find<TrashCanMemoController>();

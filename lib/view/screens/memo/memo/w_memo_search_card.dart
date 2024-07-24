@@ -8,64 +8,72 @@ import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/helper/grid_painter.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/view/screens/public_memo/w_memo_popup.dart';
 import 'package:simple_note/view/screens/public_memo/s_update_memo.dart';
-import 'package:simple_note/view/widgets/public/w_memo_calendar_popup_button.dart';
+import 'package:substring_highlight/substring_highlight.dart';
 
-enum SampleItem { updateMemo, deleteMemo }
+class MemoSearchCardWidget extends StatefulWidget {
+  const MemoSearchCardWidget(this.searchControllerText, {super.key});
 
-// note: 메모 상단에 사용자가 선택한 범주를 내려받고 있다
-class MemoSelectedCategoryWidget extends StatefulWidget {
-  const MemoSelectedCategoryWidget(this.selectedCategory, {super.key});
-
-  final String? selectedCategory;
+  final String? searchControllerText;
 
   @override
-  State<MemoSelectedCategoryWidget> createState() => _MemoSelectedCategoryWidgetState();
+  State<MemoSearchCardWidget> createState() => _MemoSearchCardWidgetState();
 }
 
-class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget> {
+class _MemoSearchCardWidgetState extends State<MemoSearchCardWidget> {
   final memoController = Get.find<MemoController>();
   final settingsController = Get.find<SettingsController>();
+  List<MemoModel> sortedMemoList = [];
+  List<MemoModel> reverseSortedMemoList = [];
+  List<MemoModel> searchList = [];
+  List<MemoModel> searchAndFavoriteList = [];
 
-  void updateMemo(
-    sortedIndex,
-    currentContact, {
+  @override
+  void initState() {
+    super.initState();
+    updateSortedLists();
+  }
+
+  void updateSortedLists() {
+    sortedMemoList = List.from(memoController.memoList)..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    reverseSortedMemoList = List.from(memoController.memoList)..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
+  void updateMemoFunc(
+    index,
+    sortedCard, {
     final bool? isFavoriteMemo,
     final bool? isCheckedTodo,
     final File? imagePath,
   }) {
     memoController.updateCtr(
-      index: sortedIndex,
-      createdAt: currentContact.createdAt,
-      title: currentContact.title,
-      mainText: currentContact.mainText,
-      selectedCategory: currentContact.selectedCategory,
+      index: settingsController.sortedTime.value == SortedTime.firstTime ? index : memoController.memoList.length - index - 1,
+      createdAt: sortedCard.createdAt,
+      title: sortedCard.title,
+      mainText: sortedCard.mainText,
+      selectedCategory: sortedCard.selectedCategory,
       isFavoriteMemo: isFavoriteMemo ?? false,
       isCheckedTodo: isCheckedTodo ?? false,
-      // imagePath: File(currentContact.imagePath!),
-      imagePath: currentContact.imagePath != null ? File(currentContact.imagePath) : null,
+      imagePath: sortedCard.imagePath != null ? File(sortedCard.imagePath!) : null,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary);
-
     return Obx(
       () {
         if (memoController.memoList.isEmpty) return const Center(child: Text('우측 하단 버튼을 클릭하여 메모를 생성해 주세요'));
-        // note: 메모 상단에 사용자가 선택한 범주와 메모장에 범주가 같은 것만 나타내기
-        List<MemoModel> sameCategoryMemo = memoController.memoList.where((item) {
-          return item.selectedCategory == widget.selectedCategory;
+
+        List<MemoModel> selectedMemoList = settingsController.sortedTime.value == SortedTime.firstTime ? sortedMemoList : reverseSortedMemoList;
+        List<MemoModel> favoriteMemoList = selectedMemoList.where((item) => item.isFavoriteMemo == true).toList();
+
+        searchList = memoController.memoList.where((item) {
+          return item.title.contains(widget.searchControllerText!) || item.mainText!.contains(widget.searchControllerText!);
         }).toList();
 
-        // note: 선택한 범주'만' 정렬하여 나타내기
-        List<MemoModel> sortedSelectedCategoryMemo = List.from(sameCategoryMemo)..sort((a, b) => a.createdAt.compareTo(b.createdAt));
-        List<MemoModel> reversedSelectedCategoryMemo = List.from(sameCategoryMemo)..sort((a, b) => b.createdAt.compareTo(a.createdAt));
-        List<MemoModel> selectedMemoList =
-            settingsController.sortedTime.value == SortedTime.firstTime ? sortedSelectedCategoryMemo : reversedSelectedCategoryMemo;
-        List<MemoModel> favoriteMemoList = selectedMemoList.where((item) {
-          return item.isFavoriteMemo == true;
+        searchAndFavoriteList = favoriteMemoList.where((item) {
+          return item.title.contains(widget.searchControllerText!) || item.mainText!.contains(widget.searchControllerText!);
         }).toList();
 
         return SizedBox(
@@ -73,7 +81,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
           height: MediaQuery.of(context).size.height - (kBottomNavigationBarHeight * 5),
           child: GridView.builder(
             shrinkWrap: true,
-            itemCount: settingsController.isAppbarFavoriteMemo.value == true ? favoriteMemoList.length : sameCategoryMemo.length,
+            itemCount: settingsController.isAppbarFavoriteMemo.value == true ? searchAndFavoriteList.length : searchList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1 / 1,
@@ -81,8 +89,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
               crossAxisSpacing: 0,
             ),
             itemBuilder: (BuildContext context, int index) {
-              // MemoModel? currentContact = selectedMemoList[index];
-              MemoModel? currentContact = settingsController.isAppbarFavoriteMemo.value == true ? favoriteMemoList[index] : selectedMemoList[index];
+              MemoModel? currentContact = settingsController.isAppbarFavoriteMemo.value == true ? searchAndFavoriteList[index] : searchList[index];
               int sortedIndex = memoController.memoList.indexOf(currentContact);
 
               return Card(
@@ -91,7 +98,7 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                     color: Colors.grey,
                     width: 0.1,
                   ),
-                  borderRadius: BorderRadius.circular(4.0),
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: CustomPaint(
@@ -151,12 +158,34 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    const SizedBox(width: 10.0),
-                                    Expanded(child: Text(currentContact.title, overflow: TextOverflow.ellipsis, style: style)),
-                                    MemoCalendarPopupButtonWidget(sortedIndex, currentContact),
-                                  ],
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(width: 10.0),
+                                      Expanded(
+                                        child: SubstringHighlight(
+                                          text: currentContact.title,
+                                          // 검색한 내용 가져오기
+                                          term: widget.searchControllerText,
+                                          // non-highlight style
+                                          textStyle: const TextStyle(
+                                            color: Colors.grey,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          // highlight style
+                                          textStyleHighlight: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 24.0,
+                                            color: Colors.black,
+                                            backgroundColor: Colors.yellow,
+                                            // decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ),
+                                      // note: card() 내 수정, 삭제 버튼
+                                      MemoPopupWidget(sortedIndex, currentContact),
+                                    ],
+                                  ),
                                 ),
                                 const Spacer(),
                                 Row(
@@ -165,32 +194,33 @@ class _MemoSelectedCategoryWidgetState extends State<MemoSelectedCategoryWidget>
                                     Expanded(
                                       child: Text(
                                         FormatDate().formatSimpleTimeKor(currentContact.createdAt),
+                                        // style: TextStyle(color: Colors.grey.withOpacity(0.9)),
                                         style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.9)),
                                       ),
                                     ),
-                                    // 체크 todolist
+                                    // 체크 버튼
                                     IconButton(
                                       padding: EdgeInsets.zero,
                                       constraints: const BoxConstraints(),
                                       visualDensity: const VisualDensity(horizontal: -4.0),
+                                      icon: currentContact.isCheckedTodo == false
+                                          ? const Icon(Icons.check_box_outline_blank, size: 32)
+                                          : const Icon(Icons.check_box, color: Colors.red, size: 32),
                                       onPressed: () {
-                                        updateMemo(
-                                          sortedIndex,
+                                        updateMemoFunc(
+                                          index,
                                           currentContact,
                                           isFavoriteMemo: currentContact.isFavoriteMemo!,
                                           isCheckedTodo: !currentContact.isCheckedTodo!,
                                           imagePath: currentContact.imagePath != null ? File(currentContact.imagePath!) : null,
                                         );
                                       },
-                                      icon: currentContact.isCheckedTodo == false
-                                          ? const Icon(Icons.check_box_outline_blank, color: null, size: 32)
-                                          : const Icon(Icons.check_box, color: Colors.red, size: 32),
                                     ),
                                     // 즐겨 찾기
                                     IconButton(
                                       onPressed: () {
-                                        updateMemo(
-                                          sortedIndex,
+                                        updateMemoFunc(
+                                          index,
                                           currentContact,
                                           isFavoriteMemo: !currentContact.isFavoriteMemo!,
                                           isCheckedTodo: currentContact.isCheckedTodo!,
