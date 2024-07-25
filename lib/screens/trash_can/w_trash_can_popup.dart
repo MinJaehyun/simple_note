@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/trash_can/s_update_trash_can_memo.dart';
-import 'package:simple_note/view/screens/trash_can/s_trash_can.dart';
+import 'package:simple_note/screens/trash_can/s_trash_can.dart';
+import 'package:simple_note/screens/trash_can/s_update_trash_can_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo, restoreMemo }
 

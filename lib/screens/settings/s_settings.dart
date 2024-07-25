@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/settings_controller.dart';
-import 'package:simple_note/view/screens/public/w_banner_ad.dart';
-import 'package:simple_note/view/screens/public/w_footer_navigation_bar.dart';
-import 'package:simple_note/view/screens/settings/s_timeline_status.dart';
+import 'package:simple_note/screens/public/w_banner_ad.dart';
+import 'package:simple_note/screens/public/w_footer_navigation_bar.dart';
+import 'package:simple_note/screens/settings/s_timeline_status.dart';
+import 'package:simple_note/screens/settings/w_send_mail.dart';
 // import 'package:simple_note/view/widgets/settings/w_google_drive_api_client.dart';
-import 'package:simple_note/view/screens/settings/w_send_mail.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});

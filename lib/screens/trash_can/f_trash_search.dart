@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
-import 'package:simple_note/view/screens/public/w_grid_painter.dart';
+import 'package:simple_note/screens/public/w_grid_painter.dart';
+import 'package:simple_note/screens/trash_can/s_trash_can.dart';
+import 'package:simple_note/screens/trash_can/s_update_trash_can_memo.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/trash_can.dart';
-import 'package:simple_note/view/screens/trash_can/s_trash_can.dart';
-import 'package:simple_note/view/screens/trash_can/s_update_trash_can_memo.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
 enum SampleItem { updateMemo, deleteMemo, restoreMemo }

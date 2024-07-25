@@ -6,7 +6,7 @@ import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 import 'package:simple_note/controller/trash_can_memo_controller.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/public_memo/s_update_memo.dart';
+import 'package:simple_note/screens/public_memo/s_update_memo.dart';
 
 enum SampleItem { updateMemo, deleteMemo }
 

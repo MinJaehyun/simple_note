@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_note/view/screens/memo/memo_header/w_memo_header.dart';
-import 'package:simple_note/view/screens/memo/f_memo_footer_control_statements.dart';
+import 'package:simple_note/screens/memo/f_memo_footer_control_statements.dart';
+import 'package:simple_note/screens/memo/memo_header/w_memo_header.dart';
 
 class MemoContent extends StatefulWidget {
   const MemoContent({super.key});
@@ -31,7 +31,7 @@ class _MemoContentState extends State<MemoContent> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Column(
         children: [
-          // body_top: 범주
+          // 범주
           MemoHeader(
             selectedCategory,
             searchControllerText,

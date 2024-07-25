@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
-import 'package:simple_note/view/screens/public/w_grid_painter.dart';
+import 'package:simple_note/screens/public/w_grid_painter.dart';
+import 'package:simple_note/screens/public_memo/s_update_memo.dart';
+import 'package:simple_note/screens/public_memo/w_memo_popup.dart';
 import 'package:simple_note/helper/string_util.dart';
 import 'package:simple_note/model/memo.dart';
-import 'package:simple_note/view/screens/public_memo/w_memo_popup.dart';
-import 'package:simple_note/view/screens/public_memo/s_update_memo.dart';
 
 class MemoCardWidget extends StatefulWidget {
   const MemoCardWidget({super.key});

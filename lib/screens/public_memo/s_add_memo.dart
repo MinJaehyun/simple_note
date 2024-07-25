@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/controller/settings_controller.dart';
-import 'package:simple_note/view/screens/public/w_banner_ad.dart';
-import 'package:simple_note/view/screens/public/w_grid_painter.dart';
+import 'package:simple_note/screens/category/w_category/w_add_category.dart';
+import 'package:simple_note/screens/public/w_banner_ad.dart';
+import 'package:simple_note/screens/public/w_grid_painter.dart';
+import 'package:simple_note/screens/public_memo/w_memo_ai_search.dart';
 import 'package:simple_note/helper/string_util.dart';
-import 'package:simple_note/view/screens/category/w_category/w_add_category.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:simple_note/view/screens/public_memo/w_memo_ai_search.dart';
 
 class AddMemoPage extends StatefulWidget {
   const AddMemoPage({super.key});

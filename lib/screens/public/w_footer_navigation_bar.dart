@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:get/get.dart';
-import 'package:simple_note/view/screens/calendar/s_calendar.dart';
-import 'package:simple_note/view/screens/category/s_category.dart';
-import 'package:simple_note/view/screens/s_memo.dart';
-import 'package:simple_note/view/screens/settings/s_settings.dart';
-import 'package:simple_note/view/screens/trash_can/s_trash_can.dart';
+import 'package:simple_note/screens/calendar/s_calendar.dart';
+import 'package:simple_note/screens/category/s_category.dart';
+import 'package:simple_note/screens/s_memo.dart';
+import 'package:simple_note/screens/settings/s_settings.dart';
+import 'package:simple_note/screens/trash_can/s_trash_can.dart';
 
 // const pages = [CalendarPage(), CategoryPage(), MemoPage(), TrashCanPage(), Settings()];
 

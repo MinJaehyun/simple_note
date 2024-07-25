@@ -13,7 +13,7 @@ import 'package:simple_note/model/trash_can.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:simple_note/repository/local_data_source/trash_can_memo_repository.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:simple_note/view/screens/s_memo.dart';
+import 'package:simple_note/screens/s_memo.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

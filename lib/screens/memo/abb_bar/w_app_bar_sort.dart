@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_note/controller/memo_controller.dart';
-import 'package:simple_note/view/screens/public/w_banner_ad.dart';
+import 'package:simple_note/screens/public/w_banner_ad.dart';
 import 'package:simple_note/controller/settings_controller.dart';
 
 //ignore: must_be_immutable
