@@ -12,6 +12,7 @@ import 'package:simple_note/repository/local_data_source/category_repository.dar
 import 'package:simple_note/repository/local_data_source/memo_repository.dart';
 import 'package:simple_note/model/category.dart';
 import 'package:simple_note/model/memo.dart';
+import 'package:simple_note/screens/s_memo.dart';
 
 enum CategoriesItem { update, delete }
 
@@ -78,24 +79,67 @@ class _CategoryPageState extends State<CategoryPage> {
                             borderRadius: BorderRadius.circular(4.0),
                           ),
                           child: ListTile(
-                              title: Row(
-                        children: [
-                          Text('모든 ', style: style),
-                          Text('(${memoController.memoList.length})', style: const TextStyle(color: Colors.redAccent)),
-                        ],
-                      ))),
+                            title: Row(
+                              children: [
+                                Text('모든 ', style: style),
+                                Text('(${memoController.memoList.length})', style: const TextStyle(color: Colors.redAccent)),
+                              ],
+                            ),
+                            onTap: () {
+                              // "모든"  클릭 시, 메모장 페이지에 "모든"   범주의 메모를 나타낸다.
+                              Get.dialog(
+                                AlertDialog(
+                                  // title
+                                  title: const Text("모든 범주의 메모장으로 이동 하시겠습니까?"),
+                                  actions: [
+                                    TextButton(
+                                      // 인자 유무에 따른 설정
+                                      onPressed: () => Get.offAll(MemoPage("모든")),
+                                      child: const Text("이동"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Get.back(),
+                                      child: const Text("취소"),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          )),
                       Card(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: getRandomNeonColor(), width: 2),
-                            borderRadius: BorderRadius.circular(4.0),
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: getRandomNeonColor(), width: 2),
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        child: ListTile(
+                          title: Row(
+                            children: [
+                              Text('미분류 ', style: style),
+                              Text('(${unclassifiedMemo.length})', style: const TextStyle(color: Colors.redAccent)),
+                            ],
                           ),
-                          child: ListTile(
-                              title: Row(
-                        children: [
-                          Text('미분류 ', style: style),
-                          Text('(${unclassifiedMemo.length})', style: const TextStyle(color: Colors.redAccent)),
-                        ],
-                      ))),
+                          onTap: () {
+                            // "미분류" 클릭 시, 메모장 페이지에 "미분류" 범주의 메모를 나타낸다
+                            Get.dialog(
+                              AlertDialog(
+                                // title
+                                title: const Text("미분류 범주의 메모장으로 이동 하시겠습니까?"),
+                                actions: [
+                                  TextButton(
+                                    // 인자 유무에 따른 설정
+                                    onPressed: () => Get.offAll(MemoPage("미분류")),
+                                    child: const Text("이동"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Get.back(),
+                                    child: const Text("취소"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   );
                 },
@@ -181,6 +225,32 @@ class _CategoryPageState extends State<CategoryPage> {
                               key: ValueKey(index),
                               child: ListTile(
                                 onTap: () {
+                                  // "임의 범주" 클릭 시, 메모장 페이지에 선탁한 범주의 메모를 나타낸다
+                                  Get.dialog(
+                                    AlertDialog(
+                                      // title
+                                      title: const Text("선택한 범주의 메모장으로 이동 하시겠습니까?"),
+                                      actions: [
+                                        TextButton(
+                                          // 인자 유무에 따른 설정
+                                          onPressed: () {
+                                            // note: 클릭한 card 의 listtile 의 범주를 알아내려면??
+                                            selectedCategory = box.getAt(index)?.categories;
+                                            if (selectedCategory != null) {
+                                              Get.offAll(MemoPage(selectedCategory!));
+                                            }
+                                            Get.back();
+                                          },
+                                          child: const Text("이동"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => Get.back(),
+                                          child: const Text("취소"),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+
                                   if (selectedCategory != null) {
                                     selectedCategory = box.getAt(index)!.categories!;
                                   }

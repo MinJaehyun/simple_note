@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.dark,
             ),
           ),
-          home: const MemoPage(),
+          home: const MemoPage("모든"),
         );
       },
     );

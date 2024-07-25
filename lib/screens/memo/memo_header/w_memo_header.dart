@@ -118,21 +118,20 @@ class _MemoHeaderState extends State<MemoHeader> {
                               side: const BorderSide(color: Colors.grey, width: 0.5),
                               borderRadius: BorderRadius.circular(4.0),
                             ),
-                            // note: 선택한 범주가 '모든(null)' 이면 빨강 박스로
-                            color: widget.selectedCategory == null ? Colors.green : null,
+                            // note: 선택한 범주가 '모든(null)' 이면 색상 박스로
+                            color: widget.selectedCategory == "모든" ? Colors.green : null,
                             child: TextButton(
                               onPressed: () {
                                 setState(() {
-                                  widget.selectedCategoryFunc(null);
-                                  widget.searchControllerTextFunc(null);
+                                  widget.selectedCategoryFunc("모든");
+                                  widget.searchControllerTextFunc("모든");
                                   _textController.clear();
                                 });
                               },
                               child: Text(
                                 '모든',
-                                // note: 선택한 범주가 '모든(null)' 이면 ...
-                                style: TextStyle(color: widget.selectedCategory == null ? Colors.white : Colors.grey),
-
+                                // note: 선택한 범주가 '모든(null)' 이면 글자색 흰색으로.
+                                style: TextStyle(color: widget.selectedCategory == "모든" ? Colors.white : Colors.grey),
                               ),
                             ),
                           ),

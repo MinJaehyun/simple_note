@@ -51,7 +51,7 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
         // note: 범주
         buildIconButton(context, tooltip: "범주", icon: const Icon(Icons.category), index: 1, route: const CategoryPage()),
         // note: 모든 메모
-        buildIconButton(context, tooltip: "메모장", icon: const Icon(Icons.edit_note), index: 2, route: const MemoPage()),
+        buildIconButton(context, tooltip: "메모장", icon: const Icon(Icons.edit_note), index: 2, route: const MemoPage("모든")),
         // note: 휴지통
         buildIconButton(context, tooltip: "휴지통", icon: const Icon(Icons.delete), index: 3, route: const TrashCanPage()),
         // note: 설정

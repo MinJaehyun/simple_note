@@ -3,15 +3,22 @@ import 'package:simple_note/screens/memo/f_memo_footer_control_statements.dart';
 import 'package:simple_note/screens/memo/memo_header/w_memo_header.dart';
 
 class MemoContent extends StatefulWidget {
-  const MemoContent({super.key});
+  const MemoContent(String this.category, {super.key});
+  final String category;
 
   @override
   State<MemoContent> createState() => _MemoContentState();
 }
 
 class _MemoContentState extends State<MemoContent> {
-  String? selectedCategory;
+  late String? selectedCategory;
   String? searchControllerText;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCategory = widget.category;
+  }
 
   void selectedCategoryFunc(String? category) {
     setState(() {
