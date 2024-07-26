@@ -21,7 +21,7 @@ class MemoController extends GetxController {
   void loadMemoCtr() async {
     _isLoading(true);
     try {
-      var memos = await _memoRepository.getAllMemoRepo();
+      List<MemoModel> memos = await _memoRepository.getAllMemoRepo();
       // fix: memoList(memos);
       // assignAll: 기존의 리스트를 새로운 리스트로 완전히 교체
       // addAll: 기존 리스트에 새로운 요소를 추가
