@@ -22,7 +22,11 @@ class MemoController extends GetxController {
     isLoading(true);
     try {
       var memos = await _memoRepository.getAllMemoRepo();
-      memoList(memos);
+      // fix: memoList(memos);
+      // assignAll: 기존의 리스트를 새로운 리스트로 완전히 교체
+      // addAll: 기존 리스트에 새로운 요소를 추가
+      // note: assignAll 사용하여 기존의 리스트인 memoList를 완전히 교체함
+      memoList.assignAll(memos);
     } catch (e) {
       errorMessage('Failed to load memos: $e');
     } finally {
@@ -86,7 +90,9 @@ class MemoController extends GetxController {
       );
       await _memoRepository.addMemoRepo(memo);
       // 메모 추가 후 다시 로드하여 목록 업데이트
-      loadMemoCtr();
+      // fix: loadMemoCtr();
+      // note: 메모를 추가한 후 리스트에 직접 추가하여 불필요한 데이터 로딩을 피함 (메모가 많아지면 아래 방식이 효율적)
+      memoList.add(memo);
     } catch (e) {
       errorMessage('Failed to add memo: $e');
     } finally {
@@ -118,7 +124,8 @@ class MemoController extends GetxController {
         imagePath: imagePath != null ? imagePath.path : null,
       );
       await _memoRepository.updateRepo(index, memo);
-      loadMemoCtr();
+      // fix: loadMemoCtr();
+      memoList[index] = memo;
     } catch (e) {
       errorMessage('Failed to update memo: $e');
     } finally {
@@ -131,7 +138,8 @@ class MemoController extends GetxController {
     isLoading(true);
     try {
       await _memoRepository.deleteRepo(index);
-      loadMemoCtr(); // 메모 삭제 후 다시 로드하여 목록 업데이트
+      // fix: loadMemoCtr();
+      memoList.removeAt(index);
     } catch (e) {
       errorMessage('Failed to delete memo: $e');
     } finally {
