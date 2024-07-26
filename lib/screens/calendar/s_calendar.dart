@@ -240,7 +240,8 @@ class _CalendarPageState extends State<CalendarPage> {
                   bool? isCheckedTodo,
                 }) {
                   memoController.updateCtr(
-                    index: sortedMemoList.indexOf(sameSelectedDayMemo[index]),
+                    // fix: index: sortedMemoList.indexOf(sameSelectedDayMemo[index]),
+                    index: memoController.memoList.indexOf(currentContact),
                     createdAt: currentContact.createdAt,
                     title: currentContact.title,
                     selectedCategory: currentContact.selectedCategory,
@@ -301,7 +302,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
                       // note: 달력 이하 todo메모 이하 ListTile
                       SizedBox(
-                        height: 220,
+                        height: 263,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: sameSelectedDayMemo.length,
