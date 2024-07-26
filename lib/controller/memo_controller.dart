@@ -8,8 +8,8 @@ class MemoController extends GetxController {
   late MemoRepository _memoRepository;
 
   RxList<MemoModel> memoList = <MemoModel>[].obs;
-  RxBool isLoading = false.obs;
-  RxString errorMessage = ''.obs;
+  RxBool _isLoading = false.obs;
+  RxString _errorMessage = ''.obs;
 
   @override
   void onInit() {
@@ -19,7 +19,7 @@ class MemoController extends GetxController {
   }
 
   void loadMemoCtr() async {
-    isLoading(true);
+    _isLoading(true);
     try {
       var memos = await _memoRepository.getAllMemoRepo();
       // fix: memoList(memos);
@@ -28,9 +28,9 @@ class MemoController extends GetxController {
       // note: assignAll 사용하여 기존의 리스트인 memoList를 완전히 교체함
       memoList.assignAll(memos);
     } catch (e) {
-      errorMessage('Failed to load memos: $e');
+      _errorMessage('Failed to load memos: $e');
     } finally {
-      isLoading(false);
+      _isLoading(false);
     }
   }
 
@@ -76,7 +76,7 @@ class MemoController extends GetxController {
     // fix: note: Hive는 File 객체 자체를 저장할 수 없으므로 String으로 저장해야 한다
     File? imagePath,
   }) async {
-    isLoading(true);
+    _isLoading(true);
     try {
       final memo = MemoModel(
         createdAt: createdAt,
@@ -94,9 +94,9 @@ class MemoController extends GetxController {
       // note: 메모를 추가한 후 리스트에 직접 추가하여 불필요한 데이터 로딩을 피함 (메모가 많아지면 아래 방식이 효율적)
       memoList.add(memo);
     } catch (e) {
-      errorMessage('Failed to add memo: $e');
+      _errorMessage('Failed to add memo: $e');
     } finally {
-      isLoading(false);
+      _isLoading(false);
     }
   }
 
@@ -111,7 +111,7 @@ class MemoController extends GetxController {
     bool isCheckedTodo = false,
     File? imagePath,
   }) async {
-    isLoading(true);
+    _isLoading(true);
     try {
       final memo = MemoModel(
         createdAt: createdAt,
@@ -127,23 +127,23 @@ class MemoController extends GetxController {
       // fix: loadMemoCtr();
       memoList[index] = memo;
     } catch (e) {
-      errorMessage('Failed to update memo: $e');
+      _errorMessage('Failed to update memo: $e');
     } finally {
-      isLoading(false);
+      _isLoading(false);
     }
   }
 
   // delete
   void deleteCtr({required int index}) async {
-    isLoading(true);
+    _isLoading(true);
     try {
       await _memoRepository.deleteRepo(index);
       // fix: loadMemoCtr();
       memoList.removeAt(index);
     } catch (e) {
-      errorMessage('Failed to delete memo: $e');
+      _errorMessage('Failed to delete memo: $e');
     } finally {
-      isLoading(false);
+      _isLoading(false);
     }
   }
 }
