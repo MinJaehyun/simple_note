@@ -14,112 +14,45 @@ class MemoRepository {
 
   Box<MemoModel>? memoBox;
 
+  // note: main에서 즉시 호출함
   Future openBox() async {
     memoBox = await Hive.openBox<MemoModel>(MemoBox);
   }
 
-  // note: CRUD ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-  // 미사용
+  // note: CRUD
+  // read
   Future<List<MemoModel>> getAllMemoRepo() async {
     return memoBox!.values.toList();
   }
 
-  // todo: 추후, 즐찾 페이지에 사용하기
-  // Future<List<MemoModel>> readFavoriteMemo ({bool? isFavorite}) async {
-  //   if (isFavorite == null) {
-  //     return memoBox!.values.toList();
-  //   } else {
-  //     return memoBox!.values.where((memo) => memo.isFavorite == isFavorite).toList();
-  //   }
-  // }
-
-  // 변경 전
-  // Future addMemo({
-  //   required DateTime createdAt,
-  //   required String title,
-  //   String? mainText,
-  //   String? selectedCategory,
-  //   bool isFavoriteMemo = false,
-  // }) async {
-  //   if (memoBox == null) {
-  //     await openBox();
-  //   }
-  //   final memo = MemoModel(
-  //     createdAt: createdAt,
-  //     title: title,
-  //     mainText: mainText,
-  //     selectedCategory: selectedCategory,
-  //     isFavoriteMemo: isFavoriteMemo,
-  //   );
-  //   return memoBox!.add(memo);
-  // }
-
-  // 변경 후
-  // MemoRepository는 데이터 접근 및 저장만을 담당하도록 설계함.
+  // note: MemoRepository는 데이터 접근 및 저장만을 담당하도록 설계함.
+  // add
   Future<void> addMemoRepo(MemoModel memo) async {
     if (memoBox == null) {
       await openBox();
     }
-    await memoBox!.add(memo);
+    try {
+      await memoBox!.add(memo);
+    } catch (e) {
+      print(e);
+    }
   }
 
-  // 변경 전: updataeMemo
-  // Future updateMemo({
-  //   required int index,
-  //   required DateTime createdAt,
-  //   required String title,
-  //   String? selectedCategory,
-  //   String? mainText,
-  //   bool isFavoriteMemo = false,
-  // }) async {
-  //   if (memoBox == null) {
-  //     await openBox();
-  //   }
-  //   memoBox!.putAt(
-  //     index,
-  //     MemoModel(
-  //       createdAt: createdAt,
-  //       title: title,
-  //       mainText: mainText,
-  //       selectedCategory: selectedCategory,
-  //       isFavoriteMemo: isFavoriteMemo,
-  //     ),
-  //   );
-  // }
-
-  // ========================================================
-  // 변경 후
-  // Future updateMemo({
-  //   required int index,
-  //   required DateTime createdAt,
-  //   required String title,
-  //   String? selectedCategory,
-  //   String? mainText,
-  //   bool isFavoriteMemo = false,
-  // }) async {
-  //   if (memoBox == null) {
-  //     await openBox();
-  //   }
-  //   memoBox!.putAt(
-  //     index,
-  //     MemoModel(
-  //       createdAt: createdAt,
-  //       title: title,
-  //       mainText: mainText,
-  //       selectedCategory: selectedCategory,
-  //       isFavoriteMemo: isFavoriteMemo,
-  //     ),
-  //   );
-  // }
-
-  // 변경 후
+  // update
   Future<void> updateRepo(int index, MemoModel memo) async {
+    if (memoBox == null) {
+      await openBox();
+    }
     await memoBox!.putAt(index, memo);
   }
 
   // delete
   Future deleteRepo(int index) async {
     await memoBox!.deleteAt(index);
+  }
+
+  // close box: 앱 종료 시 closeBox 호출: 미사용
+  Future closeBox() async {
+    await memoBox?.close();
   }
 }
