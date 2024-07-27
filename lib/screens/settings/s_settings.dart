@@ -178,14 +178,14 @@ class _SettingsState extends State<Settings> {
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('일반', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue)),
+                      child: Text('백업 및 복원', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue)),
                     ),
                     Card(
                       child: Column(
                         children: [
                           ListTile(
                             leading: const Icon(Icons.backup),
-                            title: const Text('백업 설정'),
+                            title: const Text('백업 / 복원'),
                             onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange)
                             // todo: testing...
                             // onTap: () {
