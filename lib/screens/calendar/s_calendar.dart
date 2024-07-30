@@ -255,6 +255,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     // note: currentContact.imagePath != null ? 와 currentContact.imagePath ? 의 차이
                     imagePath: currentContact.imagePath != null ? File(currentContact.imagePath) : null,
                   );
+                  // 상태 업데이트를 위해 setState 호출
+                  setState(() {});
                 }
 
                 return Padding(
