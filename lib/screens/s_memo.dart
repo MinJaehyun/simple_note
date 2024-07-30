@@ -38,7 +38,7 @@ class _MemoPageState extends State<MemoPage> {
           return const AddMemoPage();
         }));
       },
-      label: const Text('+ 메모'),
+      label: Icon(Icons.edit_note_outlined),
     );
   }
 }

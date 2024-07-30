@@ -84,7 +84,7 @@ class _CalendarPageState extends State<CalendarPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => Get.to(const AddMemoPage()),
-          label: const Text('+ 메모'),
+          label: const Icon(Icons.edit_note_outlined),
         ),
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(100),

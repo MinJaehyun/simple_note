@@ -48,7 +48,7 @@ class _CategoryPageState extends State<CategoryPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => showAddPopupDialog(context),
-          label: const Text('+ 범주'),
+          label: const Icon(Icons.edit_note_outlined),
         ),
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(100),
@@ -193,7 +193,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.of(context).pop(true),
-                                        child: const Text("삭제"),
+                                        child: const Text("삭제",style: TextStyle(color: Colors.red)),
                                       ),
                                       TextButton(
                                         onPressed: () => Navigator.of(context).pop(false),
