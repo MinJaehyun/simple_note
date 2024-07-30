@@ -303,10 +303,8 @@ class _UpdateTrashCanMemoPageState extends State<UpdateTrashCanMemoPage> {
                                         );
                                         // todo: 정렬된 인덱스 내려주는게 아닌 휴지통의 리스트의 인덱스를 내려줘야 한다?
                                         trashCanMemoController.deleteCtr(index: widget.index);
-                                        setState(() {
-                                          Navigator.of(context).pop();
-                                          Navigator.of(context).pop();
-                                        });
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
                                       },
                                     ),
                                     TextButton(
