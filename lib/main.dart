@@ -46,7 +46,8 @@ void main() async {
   // note: Get.put은 즉시 컨트롤러를 생성하는 반면, Get.lazyPut은 실제로 필요할 때까지 컨트롤러를 생성하지 않습니다
   Get.lazyPut<SettingsController>(() => SettingsController());
   Get.lazyPut<MemoController>(() => MemoController());
-  Get.lazyPut<TrashCanMemoController>(() => TrashCanMemoController());
+  // fix: Get.lazyPut<TrashCanMemoController>(() => TrashCanMemoController());
+  Get.put(TrashCanMemoController());
   Get.lazyPut<CategoryController>(() => CategoryController());
   runApp(MyApp());
 }
