@@ -47,13 +47,13 @@ class _FooterNavigationBarWidgetState extends State<FooterNavigationBarWidget> {
       },
       items: [
         // note: 달력
-        buildIconButton(context, tooltip: "달력", icon: const Icon(Icons.calendar_month), index: 0, route: const CalendarPage()),
+        buildIconButton(context, tooltip: "달력", icon: const Icon(Icons.calendar_month_outlined), index: 0, route: const CalendarPage()),
         // note: 범주
-        buildIconButton(context, tooltip: "범주", icon: const Icon(Icons.category), index: 1, route: const CategoryPage()),
+        buildIconButton(context, tooltip: "범주", icon: const Icon(Icons.category_outlined), index: 1, route: const CategoryPage()),
         // note: 모든 메모
         buildIconButton(context, tooltip: "메모장", icon: const Icon(Icons.edit_note_outlined), index: 2, route: const MemoPage("모든")),
         // note: 휴지통
-        buildIconButton(context, tooltip: "휴지통", icon: const Icon(Icons.delete), index: 3, route: const TrashCanPage()),
+        buildIconButton(context, tooltip: "휴지통", icon: const Icon(Icons.delete_outline), index: 3, route: const TrashCanPage()),
         // note: 설정
         buildIconButton(context, tooltip: "설정", icon: const Icon(Icons.settings), index: 4, route: const Settings()),
       ],

@@ -48,7 +48,7 @@ class _CategoryPageState extends State<CategoryPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => showAddPopupDialog(context),
-          label: const Icon(Icons.edit_note_outlined),
+          label: const Icon(Icons.category_outlined),
         ),
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(100),
