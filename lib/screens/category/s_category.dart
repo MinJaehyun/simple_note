@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_note/const/colors.dart';
+import 'package:simple_note/controller/category_controller.dart';
 import 'package:simple_note/controller/memo_controller.dart';
 import 'package:simple_note/screens/category/w_category/w_add_category.dart';
 import 'package:simple_note/screens/category/w_category/w_delete_category.dart';
@@ -25,6 +26,7 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   final memoController = Get.find<MemoController>();
+  final categoryController = Get.find<CategoryController>();
   late List<MemoModel> classifiedMemo = [];
   CategoriesItem? categoriesItem; // note: enum은 정한 상태가 아니므로 ? 처리
   String? selectedCategory;
@@ -170,6 +172,8 @@ class _CategoryPageState extends State<CategoryPage> {
                         newList.insert(newIndex, movedItem);
                         await box.clear();
                         await box.addAll(newList);
+                        // note: 범주 위,아래 이동 후, 범주의 인덱스를 바꾼 순서대로 정렬하도록 함.
+                        categoryController.loadCategories();
                       },
                       children: [
                         for (int index = 0; index < box.values.length; index++)
