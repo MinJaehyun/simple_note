@@ -85,6 +85,8 @@ class _PopupTrashCanButtonWidgetState extends State<PopupTrashCanButtonWidget> {
                           isFavoriteMemo: false,
                           imagePath: pickedImage,
                         );
+                        // note: 정렬 함수 호출하여 휴지통에서 복원한 메모의 인덱스가 뒤엉키지 않게 설정함.
+                        memoController.sortByCreatedAt();
                         trashCanMemoController.deleteCtr(index: widget.index);
                         Navigator.pop(context);
                         // fix: 복원 후 리로드

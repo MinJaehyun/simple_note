@@ -64,6 +64,10 @@ class MemoController extends GetxController {
   //   loadMemo(); // 메모 추가 후 다시 로드하여 목록 업데이트
   // }
 
+  void sortByCreatedAt() {
+    memoList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+  }
+
   // 변경 후 4. add
   // MemoController가 MemoRepository를 직접 호출하여 데이터 작업을 수행하도록 한다.
   void addCtr({
@@ -89,10 +93,10 @@ class MemoController extends GetxController {
         imagePath: imagePath?.path,
       );
       await _memoRepository.addMemoRepo(memo);
-      // 메모 추가 후 다시 로드하여 목록 업데이트
       // fix: loadMemoCtr();
       // note: 메모를 추가한 후 리스트에 직접 추가하여 불필요한 데이터 로딩을 피함 (메모가 많아지면 아래 방식이 효율적)
       memoList.add(memo);
+      sortByCreatedAt(); // 추가 후 정렬
     } catch (e) {
       _errorMessage('Failed to add memo: $e');
     } finally {
