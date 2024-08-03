@@ -54,10 +54,7 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
         List<MemoModel> favoriteMemoList = selectedMemoList.where((item) => item.isFavoriteMemo == true).toList();
 
         return SizedBox(
-          // fix: height: MediaQuery.of(context).size.height - 270,
-          // todo:
           height: MediaQuery.of(context).size.height - (kBottomNavigationBarHeight * 5),
-
           child: GridView.builder(
             shrinkWrap: true,
             // note: *** 앱바 클릭 상태 유무에 따라, 즐겨찾기 또는 전체 메모의 개수만큼 내려준다 ***
@@ -71,6 +68,8 @@ class _MemoCardWidgetState extends State<MemoCardWidget> {
             itemBuilder: (BuildContext context, int index) {
               MemoModel? currentContact = settingsController.isAppbarFavoriteMemo.value == true ? favoriteMemoList[index] : selectedMemoList[index];
               int sortedIndex = memoController.memoList.indexOf(currentContact);
+              // final sortedIndex = memoController.memoList.indexWhere((m) => m.id == currentContact.id);
+              // print(sortedIndex);
 
               return Card(
                 shape: RoundedRectangleBorder(
