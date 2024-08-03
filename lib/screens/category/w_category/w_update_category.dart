@@ -83,7 +83,7 @@ class _UpdatePopupDialogState extends State<UpdatePopupDialog> {
                     selectedCategory: category,
                     isFavoriteMemo: memo.isFavoriteMemo ?? false,
                     isCheckedTodo: memo.isCheckedTodo ?? false,
-                    imagePath: File(memo.imagePath!),
+                    imagePath: memo.imagePath != null ? File(memo.imagePath!) : null,
                   );
                 }
               }
