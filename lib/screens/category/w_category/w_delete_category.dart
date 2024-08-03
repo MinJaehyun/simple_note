@@ -50,7 +50,7 @@ class _DeleteCategoryWidgetState extends State<DeleteCategoryWidget> {
         selectedCategory: '미분류',
         isFavoriteMemo: memo.isFavoriteMemo ?? false,
         isCheckedTodo: memo.isCheckedTodo ?? false,
-        imagePath: File(memo.imagePath!),
+        imagePath: memo.imagePath != null ? File(memo.imagePath!) : null,
       );
     }
     _categoryController.deleteCtr(index: widget.index);
