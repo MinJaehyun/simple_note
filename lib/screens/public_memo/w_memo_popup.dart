@@ -22,16 +22,9 @@ class MemoPopupWidget extends StatefulWidget {
 
 class _MemoPopupWidgetState extends State<MemoPopupWidget> {
   SampleItem? selectedItem;
-  late String _dropdownValue;
   final trashCanMemoController = Get.find<TrashCanMemoController>();
   final memoController = Get.find<MemoController>();
   final settingsController = Get.find<SettingsController>();
-
-  @override
-  void initState() {
-    super.initState();
-    _dropdownValue = '미분류';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +32,6 @@ class _MemoPopupWidgetState extends State<MemoPopupWidget> {
       initialValue: selectedItem,
       onSelected: (SampleItem item) async {
         setState(() => selectedItem = item);
-
         switch (item) {
           case SampleItem.updateMemo:
             Navigator.of(context).push(
@@ -64,17 +56,15 @@ class _MemoPopupWidgetState extends State<MemoPopupWidget> {
                           onPressed: () {
                             // 일반 메모장에서 삭제하기
                             memoController.deleteCtr(index: widget.index);
-
                             // 휴지통에 담기
                             trashCanMemoController.addCtr(
                               createdAt: widget.sortedCard.createdAt,
                               title: widget.sortedCard.title,
                               mainText: widget.sortedCard.mainText,
-                              selectedCategory: _dropdownValue,
+                              selectedCategory: '미분류',
                               isFavoriteMemo: false,
                               imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
                             );
-
                             Navigator.pop(context, true); // 삭제 확인
                           },
                         ),
@@ -88,7 +78,6 @@ class _MemoPopupWidgetState extends State<MemoPopupWidget> {
                 );
               },
             );
-
             if (result == true) {
               // UI 업데이트 로직을 추가할 수 있습니다.
               setState(() {});

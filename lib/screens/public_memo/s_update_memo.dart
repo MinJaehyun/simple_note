@@ -414,7 +414,7 @@ class _UpdateMemoPageState extends State<UpdateMemoPage> {
                                       createdAt: widget.sortedCard.createdAt,
                                       title: widget.sortedCard.title,
                                       mainText: widget.sortedCard.mainText,
-                                      selectedCategory: _dropdownValue,
+                                      selectedCategory: "미분류",
                                       isFavoriteMemo: false,
                                       imagePath: widget.sortedCard.imagePath != null ? File(widget.sortedCard.imagePath!) : null,
                                     );
