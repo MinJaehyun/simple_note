@@ -186,8 +186,7 @@ class _SettingsState extends State<Settings> {
                           ListTile(
                             leading: const Icon(Icons.backup),
                             title: const Text('백업 / 복원'),
-                            onTap: () => Get.snackbar('기능을 준비 중 입니다.', '', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange)
-                            // todo: testing...
+                            onTap: () => Get.snackbar('앱을 삭제해도 재설치 시에 기존 데이터를 그대로 가져오고 있습니다.', '백업 및 복원 기능을 준비 중에 있습니다.', snackPosition: SnackPosition.BOTTOM, colorText: Colors.orange)
                             // onTap: () {
                             //   DriveApiClient().getDriveApi(context);
                             //   // DriveApiClient.uploadFile();
