@@ -97,7 +97,9 @@ class _CalendarPageState extends State<CalendarPage> {
               firstDay: DateTime.utc(2010, 10, 16),
               // todo: 내년에는 2031년으로 갱신하기
               lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
+              // note: 이전 월의 날짜를 클릭할 때 현재 월로 자동으로 이동하지 않고 클릭한 월을 유지하기위해, focusedDay 값을 사용하지 않고, 대신 클릭한 날짜에 해당하는 월로 포커스를 유지하도록 설정해야 합니다.
+              // fix: focusedDay: DateTime.now(),
+              focusedDay: _focusedDay,
               calendarFormat: _calendarFormat,
               onFormatChanged: (format) {
                 if (_calendarFormat != format) {
@@ -114,11 +116,12 @@ class _CalendarPageState extends State<CalendarPage> {
                 if (!isSameDay(_selectedDay, selectedDay)) {
                   setState(() {
                     _selectedDay = selectedDay;
-                    _focusedDay = focusedDay;
+                    _focusedDay = focusedDay; // *
                   });
                   getEventForDay(selectedDay);
                 }
               },
+
               onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
               },
